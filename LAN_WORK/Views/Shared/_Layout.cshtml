@@ -14,7 +14,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,11 +26,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>*@
-                    @*<li>@Html.ActionLink("JIRA", "Index", "JIRA")</li>*@
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
-                    @*@if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)*@
                     @if (System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"] != null
                         && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != null
                         && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != "")
@@ -45,7 +42,7 @@
             </div>
 
         </div>
-    </div>
+    </div>*@
     <div class="container body-content" style="margin-left:0px; margin-right:0px">
         @RenderBody()
         <!--hr />
