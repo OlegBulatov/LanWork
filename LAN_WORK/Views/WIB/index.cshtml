@@ -302,8 +302,9 @@
             $('.frame-button')
                 .attr("ondragstart", "return dragStart(event)");
             $('.frame-button')
-                .click(function (e) {
+                .contextmenu(function (e) {
                     //console.log(e);
+                    e.preventDefault();
                     renameButton(e.currentTarget.id, e.currentTarget.innerText);
             });
                 //.attr("onclick", "renameButton(buttonId, exCaption)");
