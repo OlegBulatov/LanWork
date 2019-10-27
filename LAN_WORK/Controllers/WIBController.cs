@@ -147,9 +147,14 @@ namespace LanitWork.Controllers
         {
             if (htmlButtons == null)
                 return;
-            if(targetNodeId != null)
+            if (targetNodeId != "")
             {
                 MTreeNode.AddNode(treeCopy, nodeId, targetNodeId, "screen", "State");
+            }
+            else
+            {
+                MTreeNode N = MTreeNode.GetNode(treeCopy, nodeId);
+                targetNodeId = N.parent_id;
             }
             HtmlButton[] res = HtmlButton.Add(htmlButtons, nodeId, caption, left, top, targetNodeId);
             if (res != null)//добавили узел на верхний уровень

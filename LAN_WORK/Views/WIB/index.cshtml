@@ -123,7 +123,8 @@
     </div>
     <div id="tools" style="position:fixed;left:1620px;top:0">
         <button onclick="designButtons()">Design</button>
-        <button onclick="addButton()">Add button</button>
+        <button onclick="addButton()">FB</button>
+        <button onclick="addButton(true)">BB</button>
         <button onclick="saveAll()">Save all</button>
     </div>
     <div id="designer"  ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" 
@@ -253,22 +254,6 @@
             pp.style.marginLeft = pictMarginLeft + 'px';
         }
 
-        //function createImage(source) {
-        //    var pastedImage = new Image();
-        //    pastedImage.onload = function () {
-        //        document.body.appendChild(pastedImage);
-        //    }
-        //    pastedImage.src = source;
-        //}
-
-        //function clearImageInTree() {
-        //    if (confirm('Удалить изображение в дереве?')) {
-        //        var instance = $("#dersa").jstree(true);
-        //        sel = instance.get_selected()[0];
-        //        instance.get_node(sel).data = null;
-        //    }
-        //}
-
         function saveImage() {
             var pp = document.getElementById('pasted_pict');
             var instance = $("#dersa").jstree(true);
@@ -338,9 +323,10 @@
             }
         }
 
-        function addButton() {
+        function addButton(toParentNode) {
             var formAddButton = new FormData();
-            var buttonCaption = prompt('название:', '');
+            var hint = toParentNode ? "back" : "forward";
+            var buttonCaption = prompt('название (' + hint + '):', '');
             if (buttonCaption) {
                 var buttonLeft = prompt('отступ слева:', '');
                 var buttonTop = prompt('отступ сверху:', '');
@@ -350,7 +336,9 @@
                 formAddButton.append('caption', buttonCaption);
                 formAddButton.append('left', buttonLeft);
                 formAddButton.append('top', buttonTop);
-                var newNodeId = InsertNode(instance, instance.get_node(sel), 'screen');
+                var newNodeId = '';
+                if(!toParentNode)
+                    newNodeId = InsertNode(instance, instance.get_node(sel), 'screen');
                 formAddButton.append('targetNodeId', newNodeId);
                 xhr = new XMLHttpRequest();
                 xhr.open('POST', '/WIB/AddButton', false);

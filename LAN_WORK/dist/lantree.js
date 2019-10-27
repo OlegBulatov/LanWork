@@ -113,3 +113,4 @@ function CreateNodeAtServer(obj) {
     xhr.open('POST', '/WIB/AddNode', false);
     xhr.send(formCreateNode);
 }
+
