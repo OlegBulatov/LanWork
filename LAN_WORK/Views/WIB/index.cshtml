@@ -67,7 +67,7 @@
                         btns.style.marginTop = p.style.marginTop;
                         p.style.backgroundImage = "url('" + selected.data.src + "')";
                         p.style.backgroundRepeat = "no-repeat";
-                        p.style.height = "150%";
+                        p.style.height = "100%";
                         p.style.width = "100%";
                         p.innerHTML = GetHtml(selected.id);
                         //if (selected.data.html)
@@ -108,7 +108,7 @@
     <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
     <div id="dersa" style="position:absolute;left:0px;overflow-x:hidden"></div>
 
-    <div id="presenter" style="position:absolute;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;">
+    <div id="presenter" style="position:fixed;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;">
         <div id="frame-html">
             @*<div style="position:relative;left:850px;top:75px;"><button onclick="alert('!!')">Обновить</button></div>*@
         </div>
@@ -263,7 +263,7 @@
             sel = instance.get_selected()[0];
             var dataObj = new Object();
             dataObj.src = pp.src;
-            dataObj.style = "margin-top:25px;margin-left:" + pictMarginLeft + "px;";
+            dataObj.style = "margin-top:0px;margin-left:" + pictMarginLeft + "px;";
             instance.get_node(sel).data = dataObj;
             //var formNodeData = new FormData();
             //formNodeData.append('nodeId', sel);
