@@ -156,6 +156,17 @@ namespace LanitWork.Controllers
                 htmlButtons = res;
         }
 
+        public void RenameButton(string buttonId, string caption)
+        {
+            HtmlButton.Rename(htmlButtons, buttonId, caption);
+        }
+
+        public void RemoveButton(string buttonId)
+        {
+            HtmlButton[] res = HtmlButton.Remove(htmlButtons, buttonId);
+            htmlButtons = res;
+        }
+
         public void SetButtonCoords(string id, int left, int top)
         {
             HtmlButton B = HtmlButton.GetButton(htmlButtons, id);

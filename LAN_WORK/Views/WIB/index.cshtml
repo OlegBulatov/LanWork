@@ -139,6 +139,10 @@
         </div>
 
     </div>
+    <div id="recycle_bin"   ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" 
+         style="position:absolute;left:0px;top:0px;width:20px;height:20px">
+
+    </div>
     <script>
         function dragStart(ev) {
             ev.dataTransfer.effectAllowed = 'move';
@@ -155,8 +159,17 @@
         }
         function dragDrop(ev) {
             var buttonId = ev.dataTransfer.getData("Text");
+            if (ev.pageX < 20 && ev.pageY < 20) {
+                if (confirm('Удалить кнопку?')) {
+                    var formRemoveButton = new FormData();
+                    formRemoveButton.append('buttonId', buttonId.replace('_dsgn', ''));
+                    xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/WIB/RemoveButton', false);
+                    xhr.send(formRemoveButton);
+                }
+                return;
+            }
             //console.log(ev.x);
-            console.log(pictMarginLeft);
             var draggedButton = document.getElementById(buttonId);
             //if (ev.offsetX)
             draggedButton.style.left = (ev.pageX - 20) + 'px';
@@ -298,15 +311,31 @@
             dPict.src = p.style.backgroundImage.replace('url("', '').replace('")', '');
             var dHtml = document.getElementById("designed_html");
             dHtml.innerHTML = GetHtml(sel, "_dsgn");
-            //dHtml.innerHTML = p.innerHTML;
             dHtml.style.marginLeft = p.style.marginLeft;
             $('.frame-button')
                 .attr("draggable", "true");
             $('.frame-button')
                 .attr("ondragstart", "return dragStart(event)");
-                //.css({ border: '3px red solid' });
+            $('.frame-button')
+                .click(function (e) {
+                    //console.log(e);
+                    renameButton(e.currentTarget.id, e.currentTarget.innerText);
+            });
+                //.attr("onclick", "renameButton(buttonId, exCaption)");
             $('#presenter').hide();
             $('#designer').show();
+        }
+
+        function renameButton(buttonId, exCaption) {
+            var buttonCaption = prompt('Новое название кнопки:', exCaption);
+            if (buttonCaption) {
+                var formRenameButton = new FormData();
+                formRenameButton.append('buttonId', buttonId.replace('_dsgn', ''));
+                formRenameButton.append('caption', buttonCaption);
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', '/WIB/RenameButton', false);
+                xhr.send(formRenameButton);
+            }
         }
 
         function addButton() {

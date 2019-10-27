@@ -102,6 +102,26 @@ namespace LanitWork.Models
             return null;
         }
 
+        public static void Rename(HtmlButton[] buttons, string buttonId, string caption)
+        {
+            var modifiedButtons = from HtmlButton B in buttons
+                                  where B.Id == buttonId
+                                  select B;
+            if(modifiedButtons.Count<HtmlButton>() > 0)
+            {
+                HtmlButton B = modifiedButtons.ToArray<HtmlButton>()[0];
+                B.Caption = caption;
+            }
+        }
+
+        public static HtmlButton[] Remove(HtmlButton[] buttons, string buttonId)
+        {
+            var modifiedButtons = from HtmlButton B in buttons
+                                  where B.Id != buttonId
+                                   select B;
+            return modifiedButtons.ToArray<HtmlButton>();
+        }
+
         public static HtmlButton[] Add(HtmlButton[] buttons, string nodeId, string caption, int left, int top, string targetNodeId = "")
         {
             HtmlButton newButton = new HtmlButton();
