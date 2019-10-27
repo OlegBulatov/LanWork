@@ -45,6 +45,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DbManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DbManager.dll</HintPath>
+    </Reference>
+    <Reference Include="DbServerAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DbServerAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="Dersa.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Dersa.Common.dll</HintPath>
@@ -57,16 +65,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\DIOS.BusinessBase.dll</HintPath>
     </Reference>
-    <Reference Include="Dios.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Dios.Common, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Dios.Common.dll</HintPath>
+      <HintPath>bin\Dios.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Dios.Interfaces">
-      <HintPath>..\bin\Dios.Interfaces.dll</HintPath>
+    <Reference Include="Dios.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Dios.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Dios.SqlManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Dios.SqlManager.dll</HintPath>
+      <HintPath>bin\Dios.SqlManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
