@@ -105,14 +105,14 @@
         
     </style>
     <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
-    <div id="dersa" style="position:absolute;left:0px;overflow-x:hidden"></div>
+    <div id="dersa" style="position:absolute;left:0px;top:80px;overflow-x:hidden"></div>
 
-    <div id="presenter" style="position:fixed;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;">
+    <div id="presenter" style="position:fixed;left:300px;top:60px;overflow-x:hidden;height:100%;width:100%;">
         <div id="frame-html">
             @*<div style="position:relative;left:850px;top:75px;"><button onclick="alert('!!')">Обновить</button></div>*@
         </div>
     </div>
-    <div id="loader" style="position:absolute;left:300px;top:0px;overflow-x:hidden;display:none">
+    <div id="loader" style="position:absolute;left:300px;top:60px;overflow-x:hidden;display:none">
         <button id="bnSave" onclick='saveImage()' style="display:none">Save</button>
         <button id="bnClear" onclick='clearImage()' style="display:none">Clear</button>
         <button id="bnLeft" onclick="imageToLeft()" style="display:none">&lt;</button>
@@ -121,13 +121,13 @@
         <div id="paste_catcher" contenteditable="" style="display:none"></div>
         <img id="pasted_pict" src="" style="margin-top:0px">
     </div>
-    <div id="tools" style="position:absolute;left:100px;top:0">
+    <div id="tools" style="position:fixed;left:1620px;top:0">
         <button onclick="designButtons()">Design</button>
         <button onclick="addButton()">Add button</button>
         <button onclick="saveAll()">Save all</button>
     </div>
     <div id="designer"  ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" 
-         style="position:absolute;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;display:none">
+         style="position:absolute;left:300px;top:60px;overflow-x:hidden;height:100%;width:100%;display:none">
         <div style="position:absolute;left:0px;top:0px;">
             <img id="designed_pict" src="/user_resources/lanitadmin/9bbb621f-a17b-4d9c-b850-442334ccfe86.png" style="margin-top:0px;-webkit-filter:contrast(20%) brightness(120%)">
         </div>
