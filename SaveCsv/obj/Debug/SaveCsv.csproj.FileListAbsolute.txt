@@ -1,0 +1,35 @@
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\SaveCsv.exe.config
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\SaveCsv.exe
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\SaveCsv.pdb
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.csprojAssemblyReference.cache
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.MainForm.resources
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.Properties.Resources.resources
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.GenerateResource.cache
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.CoreCompileInputs.cache
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.exe
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.pdb
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\DbManager.dll
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\Dios.SqlManager.dll
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.CopyComplete
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\DbServerAdapter.dll
+D:\Seafile\Seafile\Моя библиотека\VSP\SaveCsv\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.csprojAssemblyReference.cache
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.MainForm.resources
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.Properties.Resources.resources
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.GenerateResource.cache
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.CoreCompileInputs.cache
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.exe
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.pdb
+C:\VSP\SaveCsv\bin\Debug\SaveCsv.exe.config
+C:\VSP\SaveCsv\bin\Debug\SaveCsv.exe
+C:\VSP\SaveCsv\bin\Debug\SaveCsv.pdb
+C:\VSP\SaveCsv\bin\Debug\Dios.Interfaces.dll
+C:\VSP\SaveCsv\bin\Debug\DbServerAdapter.dll
+C:\VSP\SaveCsv\bin\Debug\Dios.Common.dll
+C:\VSP\SaveCsv\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\VSP\SaveCsv\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\VSP\SaveCsv\bin\Debug\Newtonsoft.Json.dll
+C:\VSP\SaveCsv\obj\Debug\SaveCsv.csproj.CopyComplete
+C:\VSP\SaveCsv\bin\Debug\DbManager.pdb
+C:\VSP\SaveCsv\bin\Debug\Dios.SqlManager.pdb
+C:\VSP\SaveCsv\bin\Debug\DbServerAdapter.pdb

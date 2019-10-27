@@ -9,7 +9,7 @@ using System.Web.Security;
 using System.Security.Principal;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dersa.Models
+namespace LanitWork.Models
 {
     public class RegistrationInfo
     {
@@ -102,8 +102,8 @@ namespace Dersa.Models
             {
                 IParameterCollection Params = new ParameterCollection();
                 Params.Add("@login", login);
-                SqlManager M = new Dersa.Common.DersaAnonimousSqlManager();
-                int checkresult = M.ExecuteSPWithResult("DERSA_USER$Exists", false, Params);
+                SqlManager M = new SqlManager();
+                int checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
                 return checkresult > 0;
             }
             catch

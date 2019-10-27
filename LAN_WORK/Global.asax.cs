@@ -7,11 +7,11 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Optimization;
 
-namespace Dersa
+namespace LanitWork
 {
     // Примечание: Инструкции по включению классического режима IIS6 или IIS7 
     // см. по ссылке http://go.microsoft.com/?LinkId=9394801
-    public class DersaApplication : System.Web.HttpApplication
+    public class LanWorkApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
@@ -20,6 +20,11 @@ namespace Dersa
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_BeginRequest()
+        {
+            LanWork.WCF.QueryService.RequestUrl = Request.Url.Host + ":" + Request.Url.Port;
         }
     }
 }

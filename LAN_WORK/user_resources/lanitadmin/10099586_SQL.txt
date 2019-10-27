@@ -1,0 +1,169 @@
+  PROCEDURE p_issuer_inf_add (
+    o_T036_ID                 OUT T036_ISSUERS_INF.T036_ID%TYPE,
+    i_T036_FULL_NAME       IN     T036_ISSUERS_INF.T036_FULL_NAME%TYPE,
+    i_T036_ISBANK          IN     T036_ISSUERS_INF.T036_ISBANK%TYPE,
+    i_T036_INCLUDE         IN     T036_ISSUERS_INF.T036_INCLUDE%TYPE,
+    i_T036_TICKER_SKRIN    IN     T036_ISSUERS_INF.T036_TICKER_SKRIN%TYPE,
+    i_T036_MAIL_ADDRESS    IN     T036_ISSUERS_INF.T036_MAIL_ADDRESS%TYPE,
+    i_T036_REG_NUMBER      IN     T036_ISSUERS_INF.T036_REG_NUMBER%TYPE,
+    i_T036_COMPANY_HEAD    IN     T036_ISSUERS_INF.T036_COMPANY_HEAD%TYPE,
+    i_T036_CR_ID           IN     T036_ISSUERS_INF.T036_CR_ID%TYPE,
+    i_T036_NOT_FP          IN     T036_ISSUERS_INF.T036_NOT_FP%TYPE,
+    i_T028_ID              IN     T036_ISSUERS_INF.T028_ID%TYPE,
+    i_T036_KPP             IN     T036_ISSUERS_INF.T036_KPP%TYPE,
+    i_T036_OKFS            IN     T036_ISSUERS_INF.T036_OKFS%TYPE,
+    i_T036_OKOGU           IN     T036_ISSUERS_INF.T036_OKOGU%TYPE,
+    i_T036_SPARK_COMMENT   IN     T036_ISSUERS_INF.T036_SPARK_COMMENT%TYPE,
+    i_T036_SPARK_ID        IN     T036_ISSUERS_INF.T036_SPARK_ID%TYPE,
+    i_T036_OKPO            IN     T036_ISSUERS_INF.T036_OKPO%TYPE,
+    i_T036_OKATO           IN     T036_ISSUERS_INF.T036_OKATO%TYPE,
+    i_T036_IS_MC           IN     T036_ISSUERS_INF.T036_IS_MC%TYPE,
+    i_T036_IS_RSN          IN     T036_ISSUERS_INF.T036_IS_RSN%TYPE,
+    i_T036_COMMENTS        IN     T036_ISSUERS_INF.T036_COMMENTS%TYPE
+  ) AS
+    v_T028_ID_MAIN T028_ISSUERS.T028_ID%TYPE;
+    v_T028_SHOT_NAME T028_ISSUERS.T028_SHOT_NAME%TYPE;
+    v_count   NUMBER;
+  BEGIN
+    --RAISE_APPLICATION_ERROR(-20101, TO_CHAR(i_T028_ID));
+    
+    -- ищем главного эмитента для i_T028_ID
+    v_T028_ID_MAIN := NULL;
+    begin
+      SELECT T028_PARENT_ID
+      INTO   v_T028_ID_MAIN
+      FROM   T028_ISSUERS
+      WHERE  T028_ID = i_T028_ID;
+    exception
+      when NO_DATA_FOUND THEN
+        v_T028_ID_MAIN := NULL;
+    end;        
+
+    -- если не нашли, делаем копию эмиетнта, делаем ее главной и привязываем эмитента к ней
+    IF v_T028_ID_MAIN IS NULL THEN
+      -- создаем копию эмитента если ее нет:
+      v_T028_ID_MAIN := f_copy_issuer(i_T028_ID);
+      
+      SELECT T028_SHOT_NAME INTO v_T028_SHOT_NAME
+      FROM   T028_ISSUERS
+      WHERE  T028_ID = v_T028_ID_MAIN;
+      
+      -- добавляем ee в T047_ISSUERS_MAIN
+      INSERT INTO T047_ISSUERS_MAIN (
+        T028_ID
+        )
+      VALUES (
+        v_T028_ID_MAIN
+        );
+           
+      -- делаем копию главной
+      UPDATE T028_ISSUERS SET
+        T028_PARENT_ID = v_T028_ID_MAIN,
+        T028_COMMENT = 'Pk_405_Issuers.p_issuer_inf_add_1',
+        T028_LAST_UPDATE = SYSDATE,
+        T028_UPDATE_USER = USER
+      WHERE  T028_ID = v_T028_ID_MAIN;
+      
+      -- убираем C_DUMMY_HEADER из названия, если он есть
+      IF INSTR(v_T028_SHOT_NAME, C_DUMMY_HEAD) = 1 THEN
+        UPDATE T028_ISSUERS
+        SET    T028_SHOT_NAME = SUBSTR(T028_SHOT_NAME, 1 + LENGTH(C_DUMMY_HEAD)),
+        T028_COMMENT = 'Pk_405_Issuers.p_issuer_inf_add_2',
+        T028_LAST_UPDATE = SYSDATE,
+        T028_UPDATE_USER = USER
+        WHERE  T028_ID = v_T028_ID_MAIN;
+      END IF;
+        
+      -- связываем эмитента  с копией    
+      UPDATE T028_ISSUERS SET
+        T028_PARENT_ID = v_T028_ID_MAIN,
+        T028_COMMENT = 'Pk_405_Issuers.p_issuer_inf_add_3',
+        T028_LAST_UPDATE = SYSDATE,
+        T028_UPDATE_USER = USER
+      WHERE  T028_ID = i_T028_ID;
+    END IF;
+    
+    -- ищем ID записи информации об эмитенте
+    begin
+      o_T036_ID := NULL;
+      SELECT T036_ID INTO o_T036_ID  
+      FROM T036_ISSUERS_INF
+      WHERE T028_ID = v_T028_ID_MAIN;
+    exception
+      WHEN NO_DATA_FOUND THEN
+        o_T036_ID := NULL;
+    end;
+    
+    -- если не нашли - создаем      
+    IF o_T036_ID IS NULL THEN  
+      -- добавляем информацию об эмитенте
+      INSERT INTO T036_ISSUERS_INF (
+        T036_FULL_NAME,
+        T036_ISBANK,
+        T036_INCLUDE,
+        T036_TICKER_SKRIN,
+        T036_MAIL_ADDRESS,
+        T036_REG_NUMBER,
+        T036_COMPANY_HEAD,
+        T036_CR_ID,
+        T036_NOT_FP,
+        T028_ID,
+        T036_KPP,
+        T036_OKFS,
+        T036_OKOGU,
+        T036_SPARK_COMMENT,
+        T036_SPARK_ID,
+        T036_OKPO,
+        T036_OKATO,
+        T036_IS_MC,
+        T036_IS_RSN,
+        T036_COMMENTS
+        )
+      VALUES (
+        i_T036_FULL_NAME,
+        i_T036_ISBANK,
+        i_T036_INCLUDE,
+        i_T036_TICKER_SKRIN,
+        i_T036_MAIL_ADDRESS,
+        i_T036_REG_NUMBER,
+        i_T036_COMPANY_HEAD,
+        i_T036_CR_ID,
+        i_T036_NOT_FP,
+        v_T028_ID_MAIN,
+        i_T036_KPP,
+        i_T036_OKFS,
+        i_T036_OKOGU,
+        i_T036_SPARK_COMMENT,
+        i_T036_SPARK_ID,
+        i_T036_OKPO,
+        i_T036_OKATO,
+        i_T036_IS_MC,
+        i_T036_IS_RSN,
+        i_T036_COMMENTS
+        )
+      RETURNING T036_ID INTO o_T036_ID;
+    ELSE
+      -- изменяем информацию об эмитенте
+      UPDATE T036_ISSUERS_INF SET
+        T036_FULL_NAME = i_T036_FULL_NAME,
+        T036_ISBANK = i_T036_ISBANK,
+        T036_INCLUDE = i_T036_INCLUDE,
+        T036_TICKER_SKRIN = i_T036_TICKER_SKRIN,
+        T036_MAIL_ADDRESS = i_T036_MAIL_ADDRESS,
+        T036_REG_NUMBER = i_T036_REG_NUMBER,
+        T036_COMPANY_HEAD = i_T036_COMPANY_HEAD,
+        T036_CR_ID = i_T036_CR_ID,
+        T036_NOT_FP = i_T036_NOT_FP,
+        T036_KPP = i_T036_KPP,
+        T036_OKFS = i_T036_OKFS,
+        T036_OKOGU = i_T036_OKOGU,
+        T036_SPARK_COMMENT = i_T036_SPARK_COMMENT,
+        T036_SPARK_ID = i_T036_SPARK_ID,
+        T036_OKPO = i_T036_OKPO,
+        T036_OKATO = i_T036_OKATO,
+        T036_IS_MC = i_T036_IS_MC,
+        T036_IS_RSN = i_T036_IS_RSN,
+        T036_COMMENTS = i_T036_COMMENTS
+      WHERE T036_ID = o_T036_ID;
+    END IF;    
+  END p_issuer_inf_add;

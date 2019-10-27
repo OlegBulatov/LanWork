@@ -6,12 +6,11 @@ using System.Linq;
 using System.Web;
 using DIOS.Common;
 using DIOS.Common.Interfaces;
-using Dersa.Common;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Net;
 
-namespace Dersa.Models
+namespace LanitWork.Models
 {
 
     public class ActivateStruct
@@ -26,10 +25,18 @@ namespace Dersa.Models
     }
     public class AccountControllerAdapter
     {
+        internal static string GetCurrentUserName()
+        {
+            HttpCookie usernameCookie = HttpContext.Current.Request.Cookies["UserNameCookie"];
+            if (usernameCookie == null)
+                return null;
+            return usernameCookie.Value;
+        }
+
         public string Info(string login)
         {
-            DersaSqlManager DM = new DersaSqlManager();
-            System.Data.DataTable T = DM.ExecuteSPWithParams("DERSA_USER$GetInfo", new object[] { login });
+            SqlManager DM = new SqlManager();
+            System.Data.DataTable T = DM.ExecuteSPWithParams("LANIT_USER$GetInfo", new object[] { login });
             T.Rows[0]["email"] = Cryptor.Decrypt(T.Rows[0]["email"].ToString(), Util.GetDefaultPassword());
             return JsonConvert.SerializeObject(T);
         }
@@ -38,7 +45,7 @@ namespace Dersa.Models
             try
             {
                 IParameterCollection Params = Util.DeserializeParams(json_params);
-                DersaSqlManager DM = new DersaSqlManager();
+                SqlManager DM = new SqlManager();
                 string userName = HttpContext.Current.User.Identity.Name;
                 foreach (IParameter Param in Params)
                 {
@@ -66,7 +73,7 @@ namespace Dersa.Models
         {
             try
             {
-                DersaSqlManager DM = new DersaSqlManager();
+                SqlManager DM = new SqlManager();
                 string userName = HttpContext.Current.User.Identity.Name;
                 System.Data.DataTable T = DM.ExecuteSPWithParams("USER_SETTING$List", new object[] { userName, Util.GetPassword(userName) });
                 int i = 1;
@@ -96,18 +103,18 @@ namespace Dersa.Models
                 return "Не заполнено имя пользователя";
             IParameterCollection Params = new ParameterCollection();
             Params.Add("@login", login);
-            SqlManager M = new DersaAnonimousSqlManager();
-            int checkresult = M.ExecuteSPWithResult("DERSA_USER$Exists", false, Params);
+            SqlManager M = new SqlManager(); //LanitWorkAnonimousSqlManager();
+            int checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
             if (checkresult > 0)
                 return "Пользователь с таким логином уже зарегистрирован";
             Params.Add("@email", Cryptor.Encrypt(email, Util.GetDefaultPassword()));
-            checkresult = M.ExecuteSPWithResult("DERSA_USER$Exists", false, Params);
+            checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
             if (checkresult > 0)
                 return "Пользователь с таким email уже зарегистрирован";
             try
             {
                 Token(login, email);
-                System.Data.DataTable T = M.ExecuteSPWithParams("DERSA_USER$Register", new object[] { login, password, Cryptor.Encrypt(email, Util.GetDefaultPassword()), name });
+                System.Data.DataTable T = M.ExecuteSPWithParams("LANIT_USER$Register", new object[] { login, password, Cryptor.Encrypt(email, Util.GetDefaultPassword()), name });
                 return "";
             }
             catch(Exception exc) 
@@ -125,16 +132,16 @@ namespace Dersa.Models
             Smtp.Credentials = new NetworkCredential("u483752", "5b218ad92ui");
             MailMessage Message = new MailMessage();
             Message.From = new MailAddress("info@dersa.ru");
-            DersaAnonimousSqlManager DM = new DersaAnonimousSqlManager();
-            System.Data.DataTable T = DM.ExecuteSPWithParams("DERSA_USER$GetInfo", new object[] { login });
+            SqlManager DM = new SqlManager(); //LanitWorkAnonimousSqlManager();
+            System.Data.DataTable T = DM.ExecuteSPWithParams("LANIT_USER$GetInfo", new object[] { login });
             if(email == "")
             if (T.Rows.Count > 0)
                 email = Cryptor.Decrypt(T.Rows[0]["email"].ToString(), Util.GetDefaultPassword());
             if (email == "")
                 return "Undefined email";
             Message.To.Add(new MailAddress(email));
-            Message.Subject = "регистрация в проекте DERSA";
-            Message.Body = string.Format("Вы успешно зарегистрировались в проекте DERSA. Для активации вашего аккаунта пройдите по ссылке: http://{0}/account/activate?token={1}", HttpContext.Current.Request.Url.Authority, token);
+            Message.Subject = "регистрация в проекте LANIT";
+            Message.Body = string.Format("Вы успешно зарегистрировались в проекте LANIT. Для активации вашего аккаунта пройдите по ссылке: http://{0}/account/activate?token={1}", HttpContext.Current.Request.Url.Authority, token);
 
             try
             {
@@ -157,22 +164,26 @@ namespace Dersa.Models
             Params.Add("@id", S.userid);
             Params.Add("@login", S.username);
             Params.Add("@password", Util.GetPassword(S.username));
-            SqlManager M = new DersaAnonimousSqlManager();
+            SqlManager M = new SqlManager(); //LanitWorkAnonimousSqlManager();
             
-            int checkresult = M.ExecuteSPWithResult("DERSA_USER$Activate", false, Params);
+            int checkresult = M.ExecuteSPWithResult("LANIT_USER$Activate", false, Params);
             return S.username;
         }
         public static string AuthorizeUser(string user_name = "", string password = "")
         {
+            if(Dios.WCF.WcfUtil.VerifyUser(Dios.WCF.WcfUtil.GetToken(user_name, password)))
+                return "";
+            //HttpContext.Current.Response.Cookies["wcftoken"].Value = user_name;
+            //HttpContext.Current.Request.Cookies.Add(new HttpCookie("wcftoken", user_name));
             string result = "Unknown user name or password.";
             //try
             //{
             //    IParameterCollection Params = new ParameterCollection();
             //    Params.Add("@login", user_name);
             //    Params.Add("@password", password);
-            //    SqlManager M = new DersaAnonimousSqlManager();
-            //    int checkresult = M.ExecuteSPWithResult("DERSA_USER$CanAuthorize", false, Params);
-            //    if (checkresult == (int)DersaUserStatus.active)
+            //    SqlManager M = new LanitWorkAnonimousSqlManager();
+            //    int checkresult = M.ExecuteSPWithResult("LANIT_USER$CanAuthorize", false, Params);
+            //    if (checkresult == (int)LanitWorkUserStatus.active)
             //    {
             //        IAuthenticationManager authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
             //        authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
@@ -183,7 +194,7 @@ namespace Dersa.Models
             //    }
             //    switch (checkresult)
             //    {
-            //        case (int)DersaUserStatus.registered:
+            //        case (int)LanitWorkUserStatus.registered:
             //            result = "Your registration is not completed.";
             //            break;
 
@@ -196,7 +207,9 @@ namespace Dersa.Models
 
         public string Logout()
         {
-            System.Web.HttpContext.Current.GetOwinContext().Authentication.SignOut();
+            HttpContext.Current.Response.Cookies["TokenCookie"].Value = null;
+            HttpContext.Current.Response.Cookies["UserNameCookie"].Value = null;
+            //System.Web.HttpContext.Current.GetOwinContext().Authentication.SignOut();
             return "Успешно вышли из системы";
         }
 

@@ -1,0 +1,5 @@
+﻿[
+{Caption:"Информация",Left:"1230",Top:"194",ownerNodeId:"10",targetNodeId:"j1_113"},
+{Caption:"Обновить",Left:"850",Top:"75",ownerNodeId:"10",targetNodeId:"j1_110"},
+{Caption:"Закрыть",Left:"1170",Top:"425",ownerNodeId:"j1_113",targetNodeId:"10"}
+]

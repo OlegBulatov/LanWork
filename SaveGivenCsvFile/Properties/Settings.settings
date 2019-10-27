@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SaveGivenCsvFile.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Temp</Value>
+    </Setting>
+    <Setting Name="ShowCount" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="CounterStep" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="ConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=DRPO-DPB-1)(PORT=1521)))(CONNECT_DATA=(SERVER=dedicated)(SERVICE_NAME=DPBMATRIX)));User Id=DPB_405_BOSS;Password=PWD_405_BOSS;</Value>
+    </Setting>
+    <Setting Name="UseWcf" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WcfServiceUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Command" Type="System.String" Scope="User">
+      <Value Profile="(Default)">excel.exe</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(DersaApplication.Startup))]
-namespace DersaApplication
+[assembly: OwinStartupAttribute(typeof(LanitWork.Startup))]
+namespace LanitWork
 {
     public partial class Startup {
         public void Configuration(IAppBuilder app) {

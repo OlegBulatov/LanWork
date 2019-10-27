@@ -1,0 +1,13 @@
+C:\VSP\GitManager\obj\Debug\GitManager.csprojAssemblyReference.cache
+C:\VSP\GitManager\obj\Debug\GitManager.Properties.Resources.resources
+C:\VSP\GitManager\obj\Debug\GitManager.csproj.GenerateResource.cache
+C:\VSP\GitManager\obj\Debug\GitManager.csproj.CoreCompileInputs.cache
+C:\VSP\GitManager\bin\Debug\GitManager.exe.config
+C:\VSP\GitManager\bin\Debug\GitManager.exe
+C:\VSP\GitManager\bin\Debug\GitManager.pdb
+C:\VSP\GitManager\bin\Debug\System.Management.Automation.dll
+C:\VSP\GitManager\obj\Debug\GitManager.csproj.CopyComplete
+C:\VSP\GitManager\obj\Debug\GitManager.exe
+C:\VSP\GitManager\obj\Debug\GitManager.pdb
+C:\VSP\GitManager\obj\Debug\GitManager.MainForm.resources
+C:\VSP\GitManager\obj\Debug\GitManager.fmSettings.resources

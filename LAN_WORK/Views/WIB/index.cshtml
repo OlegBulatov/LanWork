@@ -1,0 +1,340 @@
+﻿@*@Layout = null;*@
+@using System.Web.Optimization;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    @*<link rel="stylesheet" type="text/css" href="app-cshtml5/libs/cshtml5.css?2019681146" />
+    <link rel="stylesheet" type="text/css" href="app-cshtml5/libs/flatpickr.css" />
+    <script type="application/javascript" src="app-cshtml5/libs/cshtml5.js?2019681146"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/fastclick.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/getStackTrace.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/velocity.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/flatpickr.js"></script>
+    <script type="application/javascript">jsilConfig["libraryRoot"] = "app-cshtml5/libs/";</script>
+    <script type="application/javascript">jsilConfig["manifests"] = ["app-cshtml5/app/index"];</script>
+    <script type="application/javascript" src="app-cshtml5/libs/JSIL.js?2019681146"></script>
+    <script type="application/javascript" src="app-cshtml5\res\GridOrganizer\app.config.g.js"></script>*@
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+</head>
+<body onload="InitModuleTree()">
+    <script>
+
+        function InitModuleTree() {
+            var $tree = $('#dersa');
+
+            $tree.jstree({
+                'core': {
+                    "check_callback": true,
+                    'data': {
+                        'multiple': false,
+                        "url": "/WIB/ModuleTree",
+                        "dataType": "json",
+                        "data": function (node) {
+                            return { "id": node.id };
+                        }
+                    }
+                },
+                'plugins': ["state", "contextmenu"]
+            });
+
+            $tree.on("changed.jstree", function (e, data) {
+                if (data.selected.length) {
+                    selected = data.instance.get_node(data.selected[0]);
+                    //var p = document.getElementById('pict');
+                    var p = document.getElementById('frame-html');
+                    var pict = document.getElementById('designed_pict');
+                    var btns = document.getElementById('designed_html');
+                    if (selected.data) {
+                        $('#presenter').show();
+                        $('#loader').hide();
+                        $('#designer').hide();
+                        p.style = selected.data.style;
+                        if (p.style)
+                            pictMarginLeft = +(p.style.marginLeft.replace('px', ''));
+                        pict.style.marginLeft = p.style.marginLeft;
+                        btns.style.marginLeft = p.style.marginLeft;
+                        pict.style.marginTop = p.style.marginTop;
+                        btns.style.marginTop = p.style.marginTop;
+                        p.style.backgroundImage = "url('" + selected.data.src + "')";
+                        p.style.backgroundRepeat = "no-repeat";
+                        p.style.height = "150%";
+                        p.style.width = "100%";
+                        p.innerHTML = GetHtml(selected.id);
+                        //if (selected.data.html)
+                        //    p.innerHTML = selected.data.html;
+                        //else
+                        //    p.innerHTML = "";
+                        //p.src = selected.data.src;
+                        //p.style = selected.data.style;
+                    }
+                    else {
+                        //p.src = "";
+                        p.style.backgroundImage = "linear-gradient(white, gray)";
+                        p.innerHTML = "";
+                        if (selected.children.length) {
+                            $('#presenter').show();
+                            $('#loader').hide();
+                        }
+                        else {
+                            clearImage();
+                            $('#presenter').hide();
+                            $('#loader').show();
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+
+    <style type="text/css">
+        .basic-frame {
+            height: 100%;
+            width: 100%;
+            margin-left: -300px;
+        }
+        
+    </style>
+    <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
+    <div id="dersa" style="position:absolute;left:0px;overflow-x:hidden"></div>
+
+    <div id="presenter" style="position:absolute;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;">
+        <div id="frame-html">
+            @*<div style="position:relative;left:850px;top:75px;"><button onclick="alert('!!')">Обновить</button></div>*@
+        </div>
+    </div>
+    <div id="loader" style="position:absolute;left:300px;top:0px;overflow-x:hidden;display:none">
+        <button id="bnSave" onclick='saveImage()' style="display:none">Save</button>
+        <button id="bnClear" onclick='clearImage()' style="display:none">Clear</button>
+        <button id="bnLeft" onclick="imageToLeft()" style="display:none">&lt;</button>
+        <button id="bnRight" onclick="imageToRight()" style="display:none">&gt;</button>
+        <br>
+        <div id="paste_catcher" contenteditable="" style="display:none"></div>
+        <img id="pasted_pict" src="" style="margin-top:0px">
+    </div>
+    <div id="tools" style="position:absolute;left:100px;top:0">
+        <button onclick="designButtons()">Design</button>
+        <button onclick="addButton()">Add button</button>
+        <button onclick="saveAll()">Save all</button>
+    </div>
+    <div id="designer"  ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" 
+         style="position:absolute;left:300px;top:0px;overflow-x:hidden;height:100%;width:100%;display:none">
+        <div style="position:absolute;left:0px;top:0px;">
+            <img id="designed_pict" src="/user_resources/lanitadmin/9bbb621f-a17b-4d9c-b850-442334ccfe86.png" style="margin-top:0px;-webkit-filter:contrast(20%) brightness(120%)">
+        </div>
+        <div id="designed_html" style="position:absolute;left:0px;top:0px;">
+            <div id="button1" draggable="true" ondragstart="return dragStart(event)" style="position:absolute;left:1170px;top:425px;-webkit-filter:contrast(120%)"><button onclick="selectNode('10')">Закрыть</button></div>
+        </div>
+
+        <div>
+        </div>
+
+    </div>
+    <script>
+        function dragStart(ev) {
+            ev.dataTransfer.effectAllowed = 'move';
+            ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
+            ev.dataTransfer.setDragImage(ev.target, 20, 10);
+            return true;
+        }
+        function dragEnter(ev) {
+            event.preventDefault();
+            return true;
+        }
+        function dragOver(ev) {
+            event.preventDefault();
+        }
+        function dragDrop(ev) {
+            var buttonId = ev.dataTransfer.getData("Text");
+            //console.log(ev.x);
+            console.log(pictMarginLeft);
+            var draggedButton = document.getElementById(buttonId);
+            //if (ev.offsetX)
+            draggedButton.style.left = (ev.pageX - 20) + 'px';
+            //if (ev.offsetY)
+            draggedButton.style.top = (ev.pageY - 10) + 'px';
+
+            buttonId = buttonId.replace('_dsgn', '');
+            var formSetCoords = new FormData();
+            formSetCoords.append('id', buttonId);
+            formSetCoords.append('left', ev.pageX - 20);
+            formSetCoords.append('top', ev.pageY - 10);
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', '/WIB/SetButtonCoords', false);
+            xhr.send(formSetCoords);
+
+            ev.stopPropagation();
+            return false;
+        }
+    </script>
+    <script>
+        var pasteCatcher = document.getElementById("paste_catcher");
+
+        document.addEventListener("click", function () { pasteCatcher.focus(); });
+        window.addEventListener("paste", pasteHandler);
+
+        function pasteHandler(e) {
+            $('#bnSave').show();
+            $('#bnClear').show();
+            $('#bnLeft').show();
+            $('#bnRight').show();
+            if (e.clipboardData) {
+                var items = e.clipboardData.items;
+                if (items) {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].type.indexOf("text") !== -1) {
+                            pasteCatcher.innerHTML = items[i].getAsString();
+                        }
+                        else if (items[i].type.indexOf("image") !== -1) {
+                            var blob = items[i].getAsFile();
+                            var URLObj = window.URL || window.webkitURL;
+                            var source = URLObj.createObjectURL(blob);
+                            var formDataFile = new FormData();
+                            var longPath = window.location.href;
+                            var shortPath = longPath.replace(new RegExp('/WIB', 'g'), '');
+                            formDataFile.append('fileUpload', blob, source.replace(new RegExp(shortPath, 'g'), '').substring(6) + '.png');
+                            //formDataFile.append('entityId', 11);
+                            xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/WIB/UploadFile', false);
+                            xhr.send(formDataFile);
+                            var pp = document.getElementById('pasted_pict');
+                            pp.src = xhr.responseText;//source;
+                        }
+                    }
+                }
+            }
+        }
+
+        function selectNode(nodeId) {
+            var instance = $('#dersa').jstree(true);
+            instance.deselect_all();
+            instance.select_node(nodeId);
+        }
+
+        function clearImage() {
+            var pp = document.getElementById('pasted_pict');
+            pp.src = "";
+        }
+
+        var pictMarginLeft = 0;
+        var pictMarginTop = 0;
+
+        function imageToLeft() {
+            var pp = document.getElementById('pasted_pict');
+            pictMarginLeft -= 10;
+            pp.style.marginLeft = pictMarginLeft + 'px';
+        }
+
+        function imageToRight() {
+            var pp = document.getElementById('pasted_pict');
+            pictMarginLeft += 10;
+            pp.style.marginLeft = pictMarginLeft + 'px';
+        }
+
+        //function createImage(source) {
+        //    var pastedImage = new Image();
+        //    pastedImage.onload = function () {
+        //        document.body.appendChild(pastedImage);
+        //    }
+        //    pastedImage.src = source;
+        //}
+
+        //function clearImageInTree() {
+        //    if (confirm('Удалить изображение в дереве?')) {
+        //        var instance = $("#dersa").jstree(true);
+        //        sel = instance.get_selected()[0];
+        //        instance.get_node(sel).data = null;
+        //    }
+        //}
+
+        function saveImage() {
+            var pp = document.getElementById('pasted_pict');
+            var instance = $("#dersa").jstree(true);
+            sel = instance.get_selected()[0];
+            var dataObj = new Object();
+            dataObj.src = pp.src;
+            dataObj.style = "margin-top:25px;margin-left:" + pictMarginLeft + "px;";
+            instance.get_node(sel).data = dataObj;
+            //var formNodeData = new FormData();
+            //formNodeData.append('nodeId', sel);
+            //formNodeData.append('nodeData', JSON.stringify(dataObj));
+            var body = new Object();
+            body.nodeId = sel;
+            body.nodeData = JSON.stringify(dataObj);
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', '/WIB/SetNodeData', false);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(body));
+
+            var pp = document.getElementById('pasted_pict');
+            pp.src = "";
+        }
+
+        function saveAll() {
+            var formSaveFile = new FormData();
+            var fileName = prompt('название файла:', 'saved_tree.json');
+            if (fileName) {
+                formSaveFile.append('fileName', fileName);
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', '/WIB/SaveToFile', false);
+                xhr.send(formSaveFile);
+            }
+        }
+
+        function designButtons() {
+            var instance = $("#dersa").jstree(true);
+            sel = instance.get_selected()[0];
+            var dPict = document.getElementById("designed_pict");
+            var p = document.getElementById('frame-html');
+            dPict.src = p.style.backgroundImage.replace('url("', '').replace('")', '');
+            var dHtml = document.getElementById("designed_html");
+            dHtml.innerHTML = GetHtml(sel, "_dsgn");
+            //dHtml.innerHTML = p.innerHTML;
+            dHtml.style.marginLeft = p.style.marginLeft;
+            $('.frame-button')
+                .attr("draggable", "true");
+            $('.frame-button')
+                .attr("ondragstart", "return dragStart(event)");
+                //.css({ border: '3px red solid' });
+            $('#presenter').hide();
+            $('#designer').show();
+        }
+
+        function addButton() {
+            var formAddButton = new FormData();
+            var buttonCaption = prompt('название:', '');
+            if (buttonCaption) {
+                var buttonLeft = prompt('отступ слева:', '');
+                var buttonTop = prompt('отступ сверху:', '');
+                var instance = $("#dersa").jstree(true);
+                sel = instance.get_selected()[0];
+                formAddButton.append('nodeId', sel);
+                formAddButton.append('caption', buttonCaption);
+                formAddButton.append('left', buttonLeft);
+                formAddButton.append('top', buttonTop);
+                var newNodeId = InsertNode(instance, instance.get_node(sel), 'screen');
+                formAddButton.append('targetNodeId', newNodeId);
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', '/WIB/AddButton', false);
+                xhr.send(formAddButton);
+            }
+        }
+    </script>
+
+    @section Scripts {
+        @Scripts.Render("~/dist/jstree.js")
+        @Scripts.Render("~/dist/lantree.js")
+    }
+
+</body>
+</html>

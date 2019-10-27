@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("Dersa")]
+[assembly: AssemblyTitle("LanitWork")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Dersa")]
+[assembly: AssemblyProduct("LanitWork")]
 [assembly: AssemblyCopyright("© Microsoft, 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

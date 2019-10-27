@@ -1,0 +1,1 @@
+SaveGivenCsvFile.exe x select[[]]*[[]]from[[]]OBJECT_TYPE{{{}}}t1.csv

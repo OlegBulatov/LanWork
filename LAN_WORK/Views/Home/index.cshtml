@@ -1,534 +1,171 @@
 ﻿@using System.Web.Optimization;
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>ЛАНИТ</title>
-    <!--link rel="stylesheet" href="dist/themes/default/style.css" />-->
-    <!--link rel="stylesheet" href="css/wordpress.css" type="text/css" media="screen" /-->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!--style-- type="text/css" media="screen">
-        #page {
-            background: url("images/draw/drawbg.jpg") repeat-y top;
-            border: none;
-        }
-    </style-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    @*<link rel="stylesheet" type="text/css" href="app-cshtml5/libs/cshtml5.css?2019681146" />
+    <link rel="stylesheet" type="text/css" href="app-cshtml5/libs/flatpickr.css" />
+    <script type="application/javascript" src="app-cshtml5/libs/cshtml5.js?2019681146"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/fastclick.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/getStackTrace.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/velocity.js"></script>
+    <script type="application/javascript" src="app-cshtml5/libs/flatpickr.js"></script>
+    <script type="application/javascript">jsilConfig["libraryRoot"] = "app-cshtml5/libs/";</script>
+    <script type="application/javascript">jsilConfig["manifests"] = ["app-cshtml5/app/index"];</script>
+    <script type="application/javascript" src="app-cshtml5/libs/JSIL.js?2019681146"></script>
+    <script type="application/javascript" src="app-cshtml5\res\GridOrganizer\app.config.g.js"></script>*@
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
 </head>
-<body>
-
-    <div style="float:left;width:200px;margin-top:-20px"><h1>DERSA modeler</h1></div>
-    <div style="float:left;width:160px;margin-left:300px;margin-top:20px"><input id="tbSearch" type="text"></div>
-    <div style="float:left;width:200px;margin-top:20px;">
-        <input id="bnSearch" onclick="S=document.getElementById('tbSearch');V=S.value;if(isNaN(+V)||+V<10000){var form=new mxForm('find');var xhr=new XMLHttpRequest();args='srchval='+V;xhr.open('GET', 'Entity/Find?' + args, false);xhr.send();var attrs = JSON.parse(xhr.responseText);var Props=CreateProperties(form, attrs, '');var wnd=new mxWindow('find',Props,100,100,800,400,false,true);form.window = wnd;wnd.setVisible(true);return;}GoToNode(V)" type="button">
-    </div>
-    <div style="float:right;width:200px;margin-top:10px">
-        <p align="right">
-            <a href="#Settings" id="bnSettings"><strong><span style="color: green;">@ViewBag.Login</span></strong></a>
-        </p>
-        @*&ensp;<button id="bnSet">Settings</button>*@
-        &ensp;<input type="text" id="tbOptions" hidden><input type="checkbox" id="bnEdit" hidden><label id="laEdit"></label>
-        <input id="displaytext" type="hidden" />
-        <input id="DiagramId" type="hidden" />
-    </div>
-    <br><br><p>&copy; @DateTime.Now.Year</p>
-
-    <hr size="2" color="black">
-    <br>
-
-    <div id="dersa" class="block1">
-    </div>
-    <!--button id="bnTest">Test</button-->
-
+<body onload="InitModuleTree()">
     <script>
-        //var npath;
-        //function load_path() {
-        //    if(npath.length == 1)
-        //    {
-        //        $('#dersa').jstree(true).load_node(npath[0]);
-        //        $('#dersa').jstree(true).select_node(npath[0]);
-        //    }
-        //    else
-        //    {
-        //        var lnode = npath[0];
-        //        console.log($('#dersa').jstree(true).get_node(lnode));
-        //        npath.shift();
-        //        $('#dersa').jstree(true).load_node(lnode, load_path);
-        //    }
-        //}
 
-        //bnTest = document.getElementById("bnTest");
-        //bnTest.addEventListener("click", function () {
-        //    console.log(Editor.graph);
-        //    //Editor.execute('exportSvg');
-        //    mxUtils.show(Editor.graph, null, 10, 10);
-        //});
-        bnSettings = document.getElementById("bnSettings");
-        bnSettings.addEventListener("click", function () {
-            var form = new mxForm('settings');
+        function InitModuleTree() {
+            var $tree = $('#dersa');
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', "Account/JsSettings", false);
-            xhr.send();
-            var attrs = JSON.parse(xhr.responseText);
+            $tree.jstree({
+                'core': {
+                    "check_callback": true,
+                    'data': {
+                        'multiple': false,
+                        "url": "/demotree.json",
+                        "dataType": "json",
+                        "data": function (node) {
+                            return { "id": node.id };
+                        }
+                    }
+                },
+                'plugins': ["state", "contextmenu"]
+            });
 
-            var Props = CreateProperties(form, attrs, "Account/SetUserSettings");
-            var wnd = new mxWindow('settings',
-                Props, 100, 100, 400, 400, false, true);
-            form.window = wnd;
-            wnd.setVisible(true);
-        });
-        //var n = 5;
-        //function on_load_node(node, status) {
-        //    console.log(node);
-        //    if (node.children.length && n > 0) {
-        //        $('#dersa').jstree(true).load_node(node.children[0], on_load_node);
-        //        //n--;
-        //    }
-        //    else {
-        //        $('#dersa').jstree(true).select_node('602250');
-        //    }
-        //}
+            $tree.on("changed.jstree", function (e, data) {
+                if (data.selected.length) {
+                    selected = data.instance.get_node(data.selected[0]);
+                    console.log(selected);
+                    var p = document.getElementById('pict');
+                    if (selected.data) {
+                        $('#presenter').show();
+                        $('#loader').hide();
+                        p.src = selected.data.src;
+                        p.style = selected.data.style;
+                    }
+                    else {
+                        p.src = "";
+                        if (selected.children.length) {
+                            $('#presenter').show();
+                            $('#loader').hide();
+                        }
+                        else {
+                            clearImage();
+                            $('#presenter').hide();
+                            $('#loader').show();
+                        }
+                    }
+                }
+            });
+        }
 
     </script>
-    <div id="infoboard" class="block2">
+
+
+    <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
+    <div id="dersa" style="position:absolute;left:0px;overflow-x:hidden"></div>
+    <div id="presenter" style="position:absolute;left:300px;top:0px;overflow-x:hidden">
+        <img id="pict" src="">
+    </div>
+    <div id="loader" style="position:absolute;left:300px;top:0px;overflow-x:hidden;display:none">
+        <button id="bnSave" onclick='saveImage()' style="display:none">Save</button>
+        <button id="bnClear" onclick='clearImage()' style="display:none">Clear</button>
+        <button id="bnLeft" onclick="imageToLeft()" style="display:none">&lt;</button>
+        <button id="bnRight" onclick="imageToRight()" style="display:none">&gt;</button>
+        <br>
+        <div id="paste_catcher" contenteditable="" style="display:none"></div>
+        <img id="pasted_pict" src="" style="margin-top:100px">
     </div>
 
     <script>
-        var Editor = null;
-        infoControl = document.getElementById("infoboard");
-        chEdit = document.getElementById("bnEdit");
-        laEdit = document.getElementById("laEdit");
-        chEdit.addEventListener("click", function () {
-            if (!chEdit.checked) {
-                infoControl.innerHTML = "";
-                CancelEditDiagram();
+        var pasteCatcher = document.getElementById("paste_catcher");
+
+        document.addEventListener("click", function () { pasteCatcher.focus(); });
+        window.addEventListener("paste", pasteHandler);
+
+        function pasteHandler(e) {
+            $('#bnSave').show();
+            $('#bnClear').show();
+            $('#bnLeft').show();
+            $('#bnRight').show();
+            if (e.clipboardData) {
+                var items = e.clipboardData.items;
+                if (items) {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].type.indexOf("text") !== -1) {
+                            pasteCatcher.innerHTML = items[i].getAsString();
+                        }
+                        else if (items[i].type.indexOf("image") !== -1) {
+                            var blob = items[i].getAsFile();
+
+                            var URLObj = window.URL || window.webkitURL;
+                            var source = URLObj.createObjectURL(blob);
+                            var pp = document.getElementById('pasted_pict');
+                            pp.src = source;
+                        }
+                    }
+                }
             }
-        });
+        }
+
+        function clearImage() {
+            var pp = document.getElementById('pasted_pict');
+            pp.src = "";
+        }
+
+        var pictMarginLeft = 0;
+
+        function imageToLeft() {
+            var pp = document.getElementById('pasted_pict');
+            pictMarginLeft -= 10;
+            pp.style.marginLeft = pictMarginLeft + 'px';
+        }
+
+        function imageToRight() {
+            var pp = document.getElementById('pasted_pict');
+            pictMarginLeft += 10;
+            pp.style.marginLeft = pictMarginLeft + 'px';
+        }
+
+        //function createImage(source) {
+        //    var pastedImage = new Image();
+        //    pastedImage.onload = function () {
+        //        document.body.appendChild(pastedImage);
+        //    }
+        //    pastedImage.src = source;
+        //}
+
+        function saveImage() {
+            var pp = document.getElementById('pasted_pict');
+            var instance = $("#dersa").jstree(true);
+            sel = instance.get_selected()[0];
+            var dataObj = new Object();
+            dataObj.src = pp.src;
+            dataObj.style = "margin-top:100px;margin-left:" + pictMarginLeft + "px;";
+            instance.get_node(sel).data = dataObj;
+            pp.src = "";
+        }
+
     </script>
 
     @section Scripts {
-        @Scripts.Render("~/bundles/jstree")
-        @Scripts.Render("~/dist/dersatree.js")
-        @Scripts.Render("~/js/mxClient.js")
+        @Scripts.Render("~/dist/jstree.js")
+        @Scripts.Render("~/dist/lantree.js")
     }
-    <script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript">
-        // Program starts here. The document.onLoad executes the
-        // createEditor function with a given configuration.
-        // In the config file, the mxEditor.onInit method is
-        // overridden to invoke this global function as the
-        // last step in the editor constructor.
-        function onInit(editor) {
-            Editor = editor;
-            // Enables rotation handle
-            mxVertexHandler.prototype.rotationEnabled = true;
 
-            // Enables guides
-            mxGraphHandler.prototype.guidesEnabled = true;
-
-            // Alt disables guides
-            mxGuide.prototype.isEnabledForEvent = function (evt) {
-                return !mxEvent.isAltDown(evt);
-            };
-
-            // Enables snapping waypoints to terminals
-            mxEdgeHandler.prototype.snapToTerminals = true;
-
-            // Defines an icon for creating new connections in the connection handler.
-            // This will automatically disable the highlighting of the source vertex.
-            mxConnectionHandler.prototype.connectImage = new mxImage('images/connector.gif', 16, 16);
-
-            // Enables connections in the graph and disables
-            // reset of zoom and translate on root change
-            // (ie. switch between XML and graphical mode).
-            editor.graph.setConnectable(true);
-
-            //******LABELS!!!!!!!!*******
-            editor.graph.getLabel = function (cell) {
-                return cell.value.label ? cell.value.label : cell.value;
-            };
-
-
-            editor.createProperties = function (cell) {
-                var model = this.graph.getModel();
-                var value = model.getValue(cell);
-                //console.log(value);
-
-                if (/*mxUtils.isNode(value) ||*/ value.entity) {
-                    // Creates a form for the user object inside
-                    // the cell
-                    var form = new mxForm('properties');
-
-                    // Adds a readonly field for the cell id
-                    var id = form.addText('ID', value.entity/*cell.getId()*/);
-                    id.setAttribute('readonly', 'true');
-
-                    var geo = null;
-                    var yField = null;
-                    var xField = null;
-                    var widthField = null;
-                    var heightField = null;
-
-                    // Adds fields for the location and size
-                    //if (model.isVertex(cell))
-                    //{
-                    //    geo = model.getGeometry(cell);
-
-                    //    if (geo != null)
-                    //    {
-                    //        yField = form.addText('top', geo.y);
-                    //        xField = form.addText('left', geo.x);
-                    //        widthField = form.addText('width', geo.width);
-                    //        heightField = form.addText('height', geo.height);
-                    //    }
-                    //}
-
-                    var xhr = new XMLHttpRequest();
-                    args = "id=" + value.entity;//cell.getId();
-                    xhr.open('GET', "node/properties?" + args, false);
-                    xhr.send();
-                    var attrs = JSON.parse(xhr.responseText);
-                    var texts = [];
-
-                    //// Creates textareas for each attribute of the
-                    //// user object within the cell
-                    //var attrs = value.attributes;
-                    //var texts = [];
-
-                    for (var i = 0; i < attrs.length; i++) {
-                        // Creates a textarea with more lines for
-                        // the cell label
-                        var val = attrs[i].Value;
-                        texts[i] = form.addText(attrs[i].Name, val, 2);
-                        //texts[i] = form.addTextarea(attrs[i].nodeName, val, 2);
-                        //(attrs[i].nodeName == 'label') ? 4 : 2);
-                    }
-
-                    // Adds an OK and Cancel button to the dialog
-                    // contents and implements the respective
-                    // actions below
-
-                    // Defines the function to be executed when the
-                    // OK button is pressed in the dialog
-                    var okFunction = mxUtils.bind(this, function () {
-                        // Hides the dialog
-                        this.hideProperties();
-
-                        // Supports undo for the changes on the underlying
-                        // XML structure / XML node attribute changes.
-                        model.beginUpdate();
-                        try {
-                            //if (geo != null)
-                            //{
-                            //    geo = geo.clone();
-
-                            //    geo.x = parseFloat(xField.value);
-                            //    geo.y = parseFloat(yField.value);
-                            //    geo.width = parseFloat(widthField.value);
-                            //    geo.height = parseFloat(heightField.value);
-
-                            //    model.setGeometry(cell, geo);
-                            //}
-
-                            // Creates an undoable change for each
-                            // attribute and executes it using the
-                            // model, which will also make the change
-                            // part of the current transaction
-                            for (var i = 0; i < attrs.length; i++) {
-                                var edit = new mxCellAttributeChange(
-                                    cell, attrs[i].nodeName,
-                                    texts[i].value);
-                                model.execute(edit);
-                            }
-
-                            // Checks if the graph wants cells to
-                            // be automatically sized and updates
-                            // the size as an undoable step if
-                            // the feature is enabled
-                            if (this.graph.isAutoSizeCell(cell)) {
-                                this.graph.updateCellSize(cell);
-                            }
-                        }
-                        finally {
-                            model.endUpdate();
-                        }
-                    });
-                    // Defines the function to be executed when the
-                    // Cancel button is pressed in the dialog
-                    var cancelFunction = mxUtils.bind(this, function () {
-                        // Hides the dialog
-                        this.hideProperties();
-                    });
-
-                    form.addButtons(okFunction, cancelFunction);
-
-                    return form.table;
-                }
-
-                return null;
-            };
-
-
-            //// Clones the source if new connection has no target
-            //editor.graph.connectionHandler.setCreateTarget(true);
-
-            // Updates the title if the root changes
-            var title = document.getElementById('title');
-
-            if (title != null) {
-                var f = function (sender) {
-                    title.innerHTML = 'mxDraw - ' + sender.getTitle();
-                };
-
-                editor.addListener(mxEvent.ROOT, f);
-                f(editor);
-            }
-
-            //// Changes the zoom on mouseWheel events
-            //mxEvent.addMouseWheelListener(function (evt, up) {
-            //    if (!mxEvent.isConsumed(evt)) {
-            //        if (up) {
-            //            editor.execute('zoomIn');
-            //        }
-            //        else {
-            //            editor.execute('zoomOut');
-            //        }
-
-            //        mxEvent.consume(evt);
-            //    }
-            //});
-
-            // Defines a new action to switch between
-            // XML and graphical display
-            var textNode = document.getElementById('xml');
-            var graphNode = editor.graph.container;
-            var sourceInput = document.getElementById('source');
-            sourceInput.checked = false;
-
-            var showSaved = function (editor, diaghtml) {
-                //Editor.execute("clearDiagram");
-                dID = document.getElementById("DiagramId");
-                diagramXml = GetText(dID.value, "DiagramXml");
-                drawGraph(diagramXml);
-
-                var diagNode = document.getElementById('diagram');
-                var diagText = graphNode.innerHTML;
-                var newText = diagText.replace(new RegExp("c3d9ff-1-white", 'g'), "c3d9ff-1-black").replace(new RegExp("cdeb8b-1-white", 'g'), "cdeb8b-1-black")
-
-                if (newText == "")
-                    newText = diaghtml;
-                diagNode.innerHTML = newText;//diaghtml;
-                //console.log(diagNode);
-                //var child_nodes = diagNode.childNodes;
-                //child_nodes[1].removeChild(child_nodes[1].childNodes[2]);
-                //child_nodes[1].removeChild(child_nodes[1].childNodes[1]);
-                //console.log(diagNode);
-                //console.log(child_nodes[1].childNodes[1]);
-                //gradientNode = document.getElementById("mx-gradient-c3d9ff-1-black-1-s-0");
-                //gradientNode.parentNode.removeChild(gradientNode);
-                //console.log(gradientNode.parentNode);
-
-                diagNode.style.display = '';
-                graphNode.style.display = 'none';
-            }
-
-            editor.addAction('showSavedDiagram', showSaved);
-
-            var clearDiag = function (editor) {
-                //console.log('clearDiag');
-                var diagNode = document.getElementById('diagram');
-                //diagNode.innerHTML = "";
-                diagNode.style.display = 'none';
-                graphNode.style.display = '';
-
-                if (textNode.value != textNode.originalValue) {
-                    var doc = mxUtils.parseXml("<mxGraphModel><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/></root></mxGraphModel>");
-                    var dec = new mxCodec(doc);
-                    dec.decode(doc.documentElement, editor.graph.getModel());
-                }
-
-                textNode.originalValue = null;
-
-                // Makes sure nothing is selected in IE
-                if (mxClient.IS_IE) {
-                    mxUtils.clearSelection();
-                }
-
-                textNode.style.display = 'none';
-
-                // Moves the focus back to the graph
-                editor.graph.container.focus();
-            }
-
-            editor.addAction('clearDiagram', clearDiag);
-
-            var funct = function (editor) {
-                if (sourceInput.checked) {
-                    graphNode.style.display = 'none';
-                    textNode.style.display = 'inline';
-
-                    var enc = new mxCodec();
-                    var node = enc.encode(editor.graph.getModel());
-
-                    textNode.value = mxUtils.getPrettyXml(node);
-                    textNode.originalValue = textNode.value;
-                    textNode.focus();
-                }
-                else {
-                    graphNode.style.display = '';
-
-                    if (textNode.value != textNode.originalValue) {
-                        var doc = mxUtils.parseXml(textNode.value);
-                        var dec = new mxCodec(doc);
-                        dec.decode(doc.documentElement, editor.graph.getModel());
-                    }
-
-                    textNode.originalValue = null;
-
-                    // Makes sure nothing is selected in IE
-                    if (mxClient.IS_IE) {
-                        mxUtils.clearSelection();
-                    }
-
-                    textNode.style.display = 'none';
-
-                    // Moves the focus back to the graph
-                    editor.graph.container.focus();
-                }
-            };
-
-            editor.addAction('switchView', funct);
-
-            // Defines a new action to switch between
-            // XML and graphical display
-            mxEvent.addListener(sourceInput, 'click', function () {
-                editor.execute('switchView');
-            });
-
-            var insNode = function (editor, id, text, x, y) {
-                editor.graph.getModel().beginUpdate();
-                try {
-                    var vObj = new Object();
-                    vObj.entity = id;
-                    vObj.label = text;
-                    var v1 = editor.graph.insertVertex(null, null/*id*/, vObj, x, y, 120, 25);
-                    //v1.label = text;
-                    //var template = editor.templates['rectangle'];
-                    //var clone = editor.graph.model.cloneCell(template);
-                    //clone.geometry.x = x;
-                    //clone.geometry.y = y;
-                    //clone.setAttribute("label", text);
-                    //editor.graph.addCell(clone);
-                }
-                finally {
-                    editor.graph.getModel().endUpdate();
-                }
-            }
-
-            editor.addAction('insertNode', insNode);
-
-            var initGraph = function (editor, xml) {
-                editor.graph.getModel().beginUpdate();
-                try {
-                    var doc = mxUtils.parseXml(xml);
-                    var codec = new mxCodec(doc);
-                    codec.decode(doc.documentElement, editor.graph.getModel());
-                }
-                finally {
-                    editor.graph.getModel().endUpdate();
-                }
-            }
-
-            editor.addAction('initG', initGraph);
-
-            // Create select actions in page
-            //var node = document.getElementById('mainActions');
-            //var buttons = ['group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show'];
-
-
-            //for (var i = 0; i < buttons.length; i++) {
-            //    var button = document.createElement('button');
-            //    mxUtils.write(button, mxResources.get(buttons[i]));
-
-            //    var factory = function (name) {
-            //        return function () {
-            //            editor.execute(name);
-            //        };
-            //    };
-
-            //    mxEvent.addListener(button, 'click', factory(buttons[i]));
-            //    node.appendChild(button);
-            //}
-
-            //// Create select actions in page
-            //var node = document.getElementById('selectActions');
-            //mxUtils.write(node, 'Select: ');
-            //mxUtils.linkAction(node, 'All', editor, 'selectAll');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'None', editor, 'selectNone');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'Vertices', editor, 'selectVertices');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'Edges', editor, 'selectEdges');
-
-            //// Create select actions in page
-            //var node = document.getElementById('zoomActions');
-            //mxUtils.write(node, 'Zoom: ');
-            //mxUtils.linkAction(node, 'In', editor, 'zoomIn');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'Out', editor, 'zoomOut');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'Actual', editor, 'actualSize');
-            //mxUtils.write(node, ', ');
-            //mxUtils.linkAction(node, 'Fit', editor, 'fit');
-        }
-
-            //window.onbeforeunload = function () { return mxResources.get('changesLost'); };
-    </script>
-
-    <div id="page" class="block2">
-        <!--div-- id="header">
-            <div id="headerimg" style="overflow:hidden;">
-                <h1 id="title">mxDraw</h1>
-            </div>
-        </div-->
-        <!--div-- id="mainActions"
-             style="width:100%;padding-top:8px;padding-left:24px;padding-bottom:8px;">
-        </div-->
-        <!--div-- id="selectActions" style="width:100%;padding-left:54px;padding-bottom:4px;">
-        </div-->
-        <table border="0" width="730px">
-            <tr>
-                <td id="toolbar" style="width:16px;padding-left:0px;" valign="top">
-                    <!-- Toolbar Here -->
-                </td>
-                <td valign="top" style="border-width:1px;border-style:solid;border-color:black;">
-                    <div id="graph" tabindex="-1" style="position:relative;height:480px;width:684px;overflow:hidden;cursor:default;">
-                    </div>
-                    <div id="diagram" tabindex="-1" style="position:relative;height:800px;width:684px;display:none;overflow:hidden;cursor:default;">
-                    </div>
-                    <textarea id="xml" style="height:480px;width:684px;display:none;border-style:none;"></textarea>
-                </td>
-            </tr>
-        </table>
-        <span style="float:right;padding-right:36px;">
-            <input id="source" type="checkbox" />Source
-            @*<input id="add_xml" type="checkbox" />Additional*@
-        </span>
-        <div id="diagram_xml">
-            <input id="diag_xml_main" type="hidden" />
-            @*<input id="diag_xml_add" type="hidden" />*@
-        </div>
-        <div id="zoomActions" style="width:100%;padding-left:54px;padding-top:4px;">
-        </div>
-        <!--div-- id="footer">
-            <p id="status">
-                Loading...
-            </p>
-            <br />
-        </div-->
-    </div>
 </body>
 </html>
-

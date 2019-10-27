@@ -1,0 +1,13 @@
+﻿[
+{"id":"1","text":"Администрирование","children":
+	[
+	{"id":"3","text":"Объекты","children":false,"icon":"BrowseForm","data":{"src":"/user_resources/lanitadmin/867872f5-8caa-428c-9172-2a08ef185ab3.png","style":"margin-left: -300px; margin-top: 0px;"}},
+	{"id":"4","text":"Модули","children":false,"icon":"BrowseForm","rank":0},
+	{"id":"5","text":"Формы","children":false,"icon":"BrowseForm","data":{"src":"/user_resources/lanitadmin/Tz001_TABS_frame.png","style":"margin-left:0px; margin-top: 100px;"}}
+	],"icon":"Package","rank":0},
+{"id":"2","text":"Модули","children":
+	[
+	{"id":"6","text":"Серверы","children":false,"icon":"BrowseForm","data":{"src":"/user_resources/lanitadmin/Tfrm38_NewReports.png","style":"margin-left:0px; margin-top: 100px;"}}
+	],"icon":"Package"}
+]
+

@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Dersa.DersaApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="LanitWork.LanWorkApplication" Language="C#" %>

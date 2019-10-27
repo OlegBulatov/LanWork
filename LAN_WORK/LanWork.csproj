@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dersa</RootNamespace>
-    <AssemblyName>Dersa</AssemblyName>
+    <RootNamespace>LanWork</RootNamespace>
+    <AssemblyName>LanWork</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -49,6 +49,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Dersa.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Dios, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Dios.dll</HintPath>
+    </Reference>
+    <Reference Include="DIOS.BusinessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DIOS.BusinessBase.dll</HintPath>
+    </Reference>
     <Reference Include="Dios.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Dios.Common.dll</HintPath>
@@ -58,7 +66,7 @@
     </Reference>
     <Reference Include="Dios.SqlManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DIOS\DIOS.Server\common\Dios.SqlManager.dll</HintPath>
+      <HintPath>..\..\bin\Dios.SqlManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,7 +96,6 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -164,15 +171,28 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\WIBController.cs" />
+    <Compile Include="Controllers\JIRAController.cs" />
+    <Compile Include="Models\WIBControllerAdapter.cs" />
+    <Compile Include="Models\JiraIssueComment.cs" />
+    <Compile Include="Models\JiraIssueType.cs" />
+    <Compile Include="Models\JIRA_issue.cs" />
+    <Compile Include="WCF\IQueryService.cs" />
+    <Compile Include="WCF\QueryService.svc.cs">
+      <DependentUpon>QueryService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="WCF\Util.cs" />
     <Content Include="app_code\Startup.Auth.cs" />
     <Content Include="app_code\Startup.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountControllerAdapter.cs" />
+    <Compile Include="Models\AESEncryption.cs" />
     <Compile Include="Models\DersaUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -229,6 +249,7 @@
     <Content Include="dist\dersatree.js" />
     <Content Include="dist\jstree.js" />
     <Content Include="dist\jstree.min.js" />
+    <Content Include="dist\lantree.js" />
     <Content Include="dist\libs\hubs.js" />
     <Content Include="demo\basic\Handler.ashx" />
     <Content Include="demo\basic\root.json" />
@@ -445,8 +466,10 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\WIB\index.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\HelpPage.html" />
+    <Content Include="WCF\QueryService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -462,6 +485,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
+    <Content Include="Views\JIRA\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

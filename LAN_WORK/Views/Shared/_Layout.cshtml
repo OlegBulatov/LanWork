@@ -22,14 +22,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ЛАНИТ ДРПО", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("WIB", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("JIRA", "Index", "JIRA")</li>*@
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
-                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                    @*@if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)*@
+                    @if (System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"] != null
+                        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != null
+                        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != "")
                     {
                         <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
                     }

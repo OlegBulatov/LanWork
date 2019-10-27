@@ -1,0 +1,74 @@
+  PROCEDURE p_do_after_load_spark IS
+    vCount    NUMBER;
+    vResult   NUMBER;
+    vID       T111_EMIT_LOAD.T111_ID%TYPE;
+
+    -- задвоения по Названию и ИНН
+    CURSOR c_name IS
+      SELECT   T111_FIRM_NAME,
+               T111_FIRM_INN,
+               MAX (T111_SPARK_ID) AS T111_SPARK_ID
+      FROM     T111_EMIT_LOAD
+      GROUP BY T111_FIRM_NAME,
+               T111_FIRM_INN
+      HAVING   COUNT (*) > 1;
+
+    CURSOR c_inn IS
+      SELECT   T111_FIRM_INN,
+               MAX (T111_SPARK_ID) AS T111_SPARK_ID
+      FROM     T111_EMIT_LOAD
+      GROUP BY T111_FIRM_INN
+      HAVING   COUNT (*) > 1;
+
+    CURSOR c_id IS
+--      SELECT   T028_ID,
+--               MAX (T111_SPARK_ID) AS T111_SPARK_ID
+--      FROM     T111_EMIT_LOAD
+--      GROUP BY T028_ID
+--      HAVING   COUNT (*) > 1;
+      SELECT   V1.T028_ID,
+               NVL(
+                   MAX (CASE WHEN V1.T111_SPARK_ID = V2.T036_SPARK_ID THEN V2.T036_SPARK_ID END),
+                   MAX (V1.T111_SPARK_ID)
+               ) AS T111_SPARK_ID
+      FROM     T111_EMIT_LOAD V1,
+               T036_ISSUERS_INF V2
+      WHERE    V1.T028_ID = V2.T028_ID(+)               
+      GROUP BY v1.T028_ID
+      HAVING   COUNT (v1.T028_ID) > 1;
+  BEGIN
+    -- однозначно задвоенные по Наименованию и ИНН
+    -- оставляем одного с MAX T111_SPARK_ID
+    FOR r1 IN c_name LOOP
+      UPDATE T111_EMIT_LOAD V1
+      SET    V1.T111_IS_INN_DOUBLE = 'Y',
+             V1.T111_REG_COUNT = 0,
+             V1.T111_IND_COUNT = 0
+      WHERE  V1.T111_FIRM_INN = r1.T111_FIRM_INN
+      AND    V1.T111_FIRM_NAME = r1.T111_FIRM_NAME
+      AND    V1.T111_SPARK_ID <> r1.T111_SPARK_ID;
+    END LOOP;
+
+    -- однозначно задвоенные по ИНН
+    -- оставляем одного с MAX T111_SPARK_ID
+    FOR r1 IN c_inn LOOP
+      UPDATE T111_EMIT_LOAD V1
+      SET    V1.T111_IS_INN_DOUBLE = 'Y',
+             V1.T111_REG_COUNT = 0,
+             V1.T111_IND_COUNT = 0
+      WHERE  V1.T111_FIRM_INN = r1.T111_FIRM_INN
+      AND    V1.T111_SPARK_ID <> r1.T111_SPARK_ID;
+    END LOOP;
+
+    -- если две записи СПАРК ссылаются на один T028_ID
+    -- то выбираем ту где код СПАРК максимальный
+    FOR r1 IN c_id LOOP
+      UPDATE T111_EMIT_LOAD V1
+      SET    V1.T111_IS_INN_DOUBLE = 'Y',
+             V1.T111_REG_COUNT = 0,
+             V1.T111_IND_COUNT = 0,
+             V1.T028_ID = NULL
+      WHERE  V1.T028_ID = r1.T028_ID
+      AND    V1.T111_SPARK_ID <> r1.T111_SPARK_ID;
+    END LOOP;
+  END p_do_after_load_spark;

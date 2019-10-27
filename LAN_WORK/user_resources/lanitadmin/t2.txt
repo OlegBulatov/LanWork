@@ -1,0 +1,43 @@
+
+*******
+object BtnBack: TButton
+        Left = 14
+        Top = 7
+        Width = 75
+        Height = 23
+        Action = actBack
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+      end
+*******
+
+*******
+object BtnNext: TButton
+        Left = 90
+        Top = 7
+        Width = 75
+        Height = 23
+        Action = actNext
+        Cancel = True
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+*******
+
+*******
+object BtnFinish: TButton
+        Left = 167
+        Top = 7
+        Width = 75
+        Height = 23
+        Action = actFinish
+        Cancel = True
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+      end
+*******
+
+*******

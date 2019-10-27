@@ -1,0 +1,70 @@
+C:\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe.config
+C:\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe
+C:\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.pdb
+C:\VSP\SaveGivenCsvFile\bin\Debug\Dios.Interfaces.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\Dios.Common.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\DbManager.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\DbServerAdapter.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\Newtonsoft.Json.dll
+C:\VSP\SaveGivenCsvFile\bin\Debug\Dios.Interfaces.pdb
+C:\VSP\SaveGivenCsvFile\bin\Debug\Dios.SqlManager.pdb
+C:\VSP\SaveGivenCsvFile\bin\Debug\DbManager.pdb
+C:\VSP\SaveGivenCsvFile\bin\Debug\DbServerAdapter.pdb
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.Properties.Resources.resources
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.GenerateResource.cache
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CoreCompileInputs.cache
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CopyComplete
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.exe
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.pdb
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.SettingsForm.resources
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.DisplayCountForm.resources
+C:\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csprojAssemblyReference.cache
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe.config
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\DbManager.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Dios.Common.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\DbServerAdapter.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Newtonsoft.Json.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\netstandard.dll
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\DbManager.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Dios.Interfaces.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Dios.SqlManager.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\DbServerAdapter.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csprojAssemblyReference.cache
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.DisplayCountForm.resources
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.Properties.Resources.resources
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.SettingsForm.resources
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.GenerateResource.cache
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CoreCompileInputs.cache
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CopyComplete
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.exe
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.pdb
+D:\Seafile\Моя библиотека\VSP\SaveGivenCsvFile\bin\Debug\Dios.Common.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe.config
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.exe
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\SaveGivenCsvFile.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Dios.Common.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Newtonsoft.Json.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\DbServerAdapter.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\netstandard.dll
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\DbManager.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Dios.Common.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Dios.Interfaces.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\Dios.SqlManager.pdb
+D:\gitlanit\master\SaveGivenCsvFile\bin\Debug\DbServerAdapter.pdb
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csprojAssemblyReference.cache
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.DisplayCountForm.resources
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.Properties.Resources.resources
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.SettingsForm.resources
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.GenerateResource.cache
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CoreCompileInputs.cache
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CopyComplete
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.exe
+D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.pdb

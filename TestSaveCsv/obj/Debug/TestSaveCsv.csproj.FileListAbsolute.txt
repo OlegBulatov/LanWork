@@ -1,0 +1,10 @@
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\bin\Debug\TestSaveCsv.exe.config
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\bin\Debug\TestSaveCsv.exe
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\bin\Debug\TestSaveCsv.pdb
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.csprojAssemblyReference.cache
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.MainForm.resources
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.Properties.Resources.resources
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.csproj.GenerateResource.cache
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.csproj.CoreCompileInputs.cache
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.exe
+D:\Seafile\Моя библиотека\VSP\TestSaveCsv\obj\Debug\TestSaveCsv.pdb

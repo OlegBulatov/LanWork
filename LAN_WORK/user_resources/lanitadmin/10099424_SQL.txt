@@ -1,0 +1,149 @@
+  PROCEDURE p_fill_record (
+    i_report_date IN     DATE, 
+    i_data        IN     V_F405_DATA%ROWTYPE,
+    o_rec         IN OUT T001_SUM%ROWTYPE
+  ) IS
+    v_pay      T006_PAY%ROWTYPE;
+    v_oper     T011_OPERATION_TYPE%ROWTYPE;
+    v_n3       V_F405_DATA.N3%TYPE;
+    v_c10      V_F405_DATA.C10%TYPE;
+    v_c11      V_F405_DATA.C11%TYPE;
+    v_c12      V_F405_DATA.C12%TYPE;
+    v_c2       V_F405_DATA.C2%TYPE;
+  BEGIN
+    -- обнуляем переменные
+    v_pay      := NULL;
+    v_oper     := NULL;
+    v_n3       := NULL;
+    v_c10      := NULL;
+    v_c11      := NULL;
+    v_c12      := NULL;
+    v_c2       := NULL;
+
+    o_rec.T001_PART_ID := f_get_part_id (i_data.N_GR, i_report_date);
+    -- номер раздела
+    o_rec.T001_ROW_PREFIX := TO_NUMBER (SUBSTR (i_data.C1, 1, INSTR (i_data.C1, '.') - 1)); -- до первой точки
+    -- номер раздела/подраздела
+    o_rec.T001_ROW_PRFX := SUBSTR(i_data.C1, 1, INSTR (i_data.C1, '.', -1) - 1); -- до последней точки
+    -- номер строки
+    o_rec.T001_ROW_NUM := TO_NUMBER (SUBSTR (i_data.C1, INSTR (i_data.C1, '.', -1) + 1, LENGTH (i_data.C1))); -- с последней точки
+    -- если не указан номер строки вставляем -1
+    o_rec.T001_ROW_NUM := NVL (o_rec.T001_ROW_NUM, -1);
+    -- дата операции
+    o_rec.T001_DATE_OP := TO_DATE (i_data.C2, 'YYYYMMDD');
+    -- признак МЕНА (до 01.04.2018)
+    o_rec.T001_N8 := i_data.N8;
+    -- признак РАССРОЧКА
+    o_rec.T001_N9 := i_data.N9;
+    -- признак ПАКЕТ
+    o_rec.T001_10 := i_data.N10;
+    -- признак собственных операций
+    o_rec.T001_OWN_OPER := i_data.N11;
+
+    -- с 05.07.2006 добавились 7 полей
+    -- контрагент - название банка нерезидента
+    o_rec.T001_C11 := i_data.C11;
+    -- контрагент - код страны банка нерезидента
+    o_rec.T001_C12 := i_data.C12;
+    -- контрагент - название нерезидента
+    o_rec.T001_C16 := i_data.C16;
+    -- контрагент - код страны нерезидента
+    o_rec.T001_C17 := i_data.C17;
+    -- БИК уполномоченного банка (до 01.04.2018)
+    o_rec.T001_C18 := i_data.C18;
+    -- код SWIFT банка нерезидента (до 01.04.2018)
+    o_rec.T001_C19 := i_data.C19;
+    -- код страны банка нерезидента (до 01.04.2018)
+    o_rec.T001_C20 := i_data.C20;
+    -- c 01.01.2016 добавилось поле "Дата РЕПО"
+    o_rec.T001_REPO_DATE := TO_DATE (i_data.C21, 'YYYYMMDD');
+
+    -- до 01.08.2005 в колонке N11 признак БРОКЕР
+    IF i_report_date < TO_DATE('01.08.2005', 'dd.mm.yyyy') THEN
+      o_rec.T001_11 := i_data.N11;
+    -- до 01.04.2018 в колонке N11 признак ИМУЩЕСТВО
+    ELSIF i_report_date < TO_DATE('01.04.2018', 'dd.mm.yyyy') THEN
+      o_rec.T001_N99 := i_data.N11;
+      -- с 01.12.2018 в колонке N11 признак собственных операций     
+    ELSIF i_report_date > TO_DATE('01.01.2019', 'dd.mm.yyyy') THEN 
+      o_rec.T001_OWN_OPER := i_data.N11;
+    END IF;
+    
+    -- c  01.10.2005 в колонке C10 отображается примечание а не эмитент
+    IF o_rec.T001_DATE_OP >= TO_DATE ('01.10.2004', 'DD.MM.YYYY') THEN
+      -- примечание
+      o_rec.T001_COMMENT := i_data.C10;
+      -- получаем описание из пакета
+      p_find_package (i_report_date, i_data.ID, i_data.IDENTIFIER, i_data.C1, v_n3, v_c10, v_c11, v_c12, v_c2);
+      -- c 01.04.2018 - дата операции возврата сумм
+      o_rec.T001_DATE_OP_BACK := TO_DATE(v_c2, 'YYYYMMDD');
+    ELSE
+      -- данные о ценной бумаге
+      v_n3  := i_data.N3;
+      v_c10 := i_data.C10;
+      v_c11 := i_data.C11;
+      v_c12 := i_data.C12;
+    END IF;
+
+    -- ищем эмиссию в справочнике эмиссий (по рег№ (С12), название эмитента (С10), ИНН эмиента (С11), рез/нерез (N3) и типу ц.б. (С3), ISIN = NULL
+    o_rec.T030_ID := f_get_emission (
+                       i_sec_regn    => v_c12,
+                       i_issuer_name => v_c10,
+                       i_issuer_code => v_c11,
+                       i_issuer_type => v_n3,
+                       i_sec_type    => i_data.C3,
+                       i_isin        => '-'
+                     );
+      
+    -- ищем код операции в справочнике кодов операций
+    v_oper.T011_TYPE_ID := i_data.N4;
+
+    IF NOT Pk_Hand_Correct_405.f_get_oper (v_oper) THEN
+      Pk_Hand_Correct_405.p_insert_oper (v_oper);
+    END IF;
+
+    o_rec.T001_OP_ID := v_oper.T011_ID;
+
+    -- ищем код направления платежа в справочнике направлений платежей
+    v_pay.T006_NAME := i_data.C4;
+
+    IF NOT Pk_Hand_Correct_405.f_get_pay (v_pay) THEN
+      Pk_Hand_Correct_405.p_insert_pay (v_pay);
+    END IF;
+
+    o_rec.T001_OP_PAY_ID := v_pay.T006_ID;
+      
+    -- к-во бумаг, шт.
+    o_rec.T001_OP_COUNT := i_data.N5;
+    -- код валюты платежа
+    o_rec.T001_OP_CR_ID := i_data.C5;
+    -- сумма платежа операции, всего
+    o_rec.T001_OP_SUM := i_data.N6;
+    -- сумма платежв - проценты
+    o_rec.T001_OP_PROC := i_data.N7;
+    -- дата регистрации ц.б.
+    o_rec.T001_DATE_ON := TO_DATE (i_data.C13, 'YYYYMMDD');
+    -- дата погашения
+    o_rec.T001_DATE_OFF := TO_DATE (i_data.C14, 'YYYYMMDD');
+    -- код валюты ц.б.
+    o_rec.T001_CR_ID := i_data.C15;
+    -- c 01.03.2017 добавляется поле N12 (доля)
+    o_rec.T001_PERCENT := i_data.N12;
+
+    -- ищем резидента в справочнике (по названию (С6), ИНН (С7) и типу (N1))
+    o_rec.T012_ID := f_get_rez_id (i_data.C6, i_data.C7, i_data.N1);
+
+    -- ищем нерезидента в справочнике (по названию (С8), стране (С9) и типу (N2))
+    o_rec.T013_ID := f_get_nrez_id (i_data.C8, i_data.C9, i_data.N2);
+
+    -- код вида валютной операции с 24.10.2016
+    o_rec.T105_ID := f_get_C22_id(i_data.C22);
+      
+    -- источник данных 405 форма
+    o_rec.T001_DATA_SOURCE := 1;
+    
+--  EXCEPTION
+--    WHEN OTHERS THEN
+--      raise_application_error(-20001, 'ID=' || TO_CHAR(i_data.ID) || ', Строка=' || i_data.C1 || ', ' || SQLERRM);  
+      
+  END p_fill_record;
