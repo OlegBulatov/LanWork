@@ -135,16 +135,25 @@
         <div id="designed_html" style="position:absolute;left:0px;top:0px;">
             <div id="button1" draggable="true" ondragstart="return dragStart(event)" style="position:absolute;left:1170px;top:425px;-webkit-filter:contrast(120%)"><button onclick="selectNode('10')">Закрыть</button></div>
         </div>
-
-        <div>
-        </div>
-
     </div>
     <div id="recycle_bin"   ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" 
          style="position:absolute;left:0px;top:0px;width:20px;height:20px">
-
+    </div>
+    <div id="cmenu" style="position:absolute;display:none">
+        <ul>
+            <li><a id="cmitemRename" href="#">Переименовать</a></li>
+            <li><a id="cmitemChangeTarget" href="#">Назначить экран</a></li>
+        </ul>
     </div>
     <script>
+        cmitemRename.onclick = function (e) {
+            renameButton($('#cmenu').attr("btn_id"), $('#cmenu').attr("caption"));
+            $('#cmenu').hide();
+        };
+        cmitemChangeTarget.onclick = function (e) {
+            alert('это еще не реализовано');
+            $('#cmenu').hide();
+        };
         function dragStart(ev) {
             ev.dataTransfer.effectAllowed = 'move';
             ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
@@ -305,7 +314,12 @@
                 .contextmenu(function (e) {
                     //console.log(e);
                     e.preventDefault();
-                    renameButton(e.currentTarget.id, e.currentTarget.innerText);
+                    $('#cmenu').css("left", e.pageX);
+                    $('#cmenu').css("top", e.pageY);
+                    $('#cmenu').attr("btn_id", e.currentTarget.id);
+                    $('#cmenu').attr("caption", e.currentTarget.innerText);
+                    $('#cmenu').show();
+                    //renameButton(e.currentTarget.id, e.currentTarget.innerText);
             });
                 //.attr("onclick", "renameButton(buttonId, exCaption)");
             $('#presenter').hide();
