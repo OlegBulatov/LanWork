@@ -46,7 +46,15 @@
                 "icon": false,
                 "separator_after": false,
                 "label": "Insert",
-                "_disabled": o.icon != "Package" && o.icon != "",
+                "_disabled": function (data) {
+                    var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                    if (!obj.icon)
+                        return false;
+                    if (obj.icon === true)
+                        return false;
+                    return obj.icon != "Package";
+                },                //o.icon != "Package" && !!o.icon,
                 "action": function (data) {
                     var inst = $.jstree.reference(data.reference),
                         obj = inst.get_node(data.reference);
