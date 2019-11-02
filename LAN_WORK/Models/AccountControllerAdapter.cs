@@ -27,10 +27,11 @@ namespace LanitWork.Models
     {
         internal static string GetCurrentUserName()
         {
-            HttpCookie usernameCookie = HttpContext.Current.Request.Cookies["UserNameCookie"];
-            if (usernameCookie == null)
-                return null;
-            return usernameCookie.Value;
+            return HttpContext.Current.User.Identity.Name; 
+            //HttpCookie usernameCookie = HttpContext.Current.Request.Cookies["UserNameCookie"];
+            //if (usernameCookie == null)
+            //    return null;
+            //return usernameCookie.Value;
         }
 
         public string Info(string login)
@@ -207,9 +208,9 @@ namespace LanitWork.Models
 
         public string Logout()
         {
-            HttpContext.Current.Response.Cookies["TokenCookie"].Value = null;
-            HttpContext.Current.Response.Cookies["UserNameCookie"].Value = null;
-            //System.Web.HttpContext.Current.GetOwinContext().Authentication.SignOut();
+            //HttpContext.Current.Response.Cookies["TokenCookie"].Value = null;
+            //HttpContext.Current.Response.Cookies["UserNameCookie"].Value = null;
+            System.Web.HttpContext.Current.GetOwinContext().Authentication.SignOut();
             return "Успешно вышли из системы";
         }
 

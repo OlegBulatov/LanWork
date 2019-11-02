@@ -28,15 +28,16 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
-                    @if (System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"] != null
-                        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != null
-                        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != "")
+                    @*@if (System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"] != null
+        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != null
+        && System.Web.HttpContext.Current.Request.Cookies["UserNameCookie"].Value != "")*@
+                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
+                    <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                    <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
                     }
                 </ul>
             </div>

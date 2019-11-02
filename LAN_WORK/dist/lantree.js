@@ -55,10 +55,31 @@
                         return false;
                     return obj.icon != "Package";
                 },                //o.icon != "Package" && !!o.icon,
-                "action": function (data) {
-                    var inst = $.jstree.reference(data.reference),
-                        obj = inst.get_node(data.reference);
-                    InsertNode(inst, obj);
+                "submenu":
+                {
+                    "insert_package": {
+                        "separator_before": false,
+                        "icon": false,
+                        "separator_after": false,
+                        "label": "Package",
+                        "action": function (data) {
+                            var inst = $.jstree.reference(data.reference),
+                                obj = inst.get_node(data.reference);
+                            InsertNode(inst, obj, "", "Package");
+                        }
+                    },
+                    "insert_form": {
+                        "separator_before": false,
+                        "icon": false,
+                        "separator_after": false,
+                        "label": "Form",
+                        "action": function (data) {
+                            var inst = $.jstree.reference(data.reference),
+                                obj = inst.get_node(data.reference);
+                            InsertNode(inst, obj, "", "BrowseForm");
+                        }
+                    }
+
                 }
             }
         }
@@ -101,10 +122,10 @@ function EditNode(obj, obj_text) {
     instance.edit(obj, obj_text, function (obj, tmp, nv, cancel) { return obj });
 }
 
-function InsertNode(inst, obj, nodeText) {
+function InsertNode(inst, obj, nodeText, icon) {
     var new_id = inst.create_node(obj, null, 'last');
     var new_node = inst.get_node(new_id);
-    inst.set_icon(new_id, "BrowseForm");
+    inst.set_icon(new_id, icon);
     if (nodeText)
         inst.set_text(nodeText);
     else
@@ -117,6 +138,7 @@ function CreateNodeAtServer(obj) {
     formCreateNode.append('parentId', obj.parent);
     formCreateNode.append('nodeId', obj.id);
     formCreateNode.append('text', obj.text);
+    formCreateNode.append('icon', obj.icon);
     xhr = new XMLHttpRequest();
     xhr.open('POST', '/WIB/AddNode', false);
     xhr.send(formCreateNode);

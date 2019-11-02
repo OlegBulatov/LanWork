@@ -66,7 +66,7 @@ namespace LanitWork.Models
                 + Left.ToString() 
                 + "px;top:" 
                 + Top.ToString() 
-                + "px;\"><button onclick=\"selectNode('" 
+                + "px;\"><button class=\"frame-the-button\" onclick=\"selectNode('"
                 + targetNodeId 
                 + "')\">" 
                 + Caption 

@@ -24,12 +24,17 @@ namespace LanitWork.Controllers
             //if(userNameCookie != null)
             //    userName = userNameCookie.Value;// M.UserName;
             //            if (!string.IsNullOrEmpty(userName))
-            HttpCookie tokenCookie = Request.Cookies["TokenCookie"];
-            if (tokenCookie != null && !string.IsNullOrEmpty(tokenCookie.Value))
+            //HttpCookie tokenCookie = Request.Cookies["TokenCookie"];
+            //if (tokenCookie != null && !string.IsNullOrEmpty(tokenCookie.Value))
+            //{
+            //    ViewBag.UserToken = tokenCookie.Value;// Dios.WCF.WcfUtil.GetToken(userName, "tiger");
+            //    return View();
+            //}
+            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                ViewBag.UserToken = tokenCookie.Value;// Dios.WCF.WcfUtil.GetToken(userName, "tiger");
                 return View();
             }
+
             //if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             //{
             //    if (!LanitWork.Models.User.Exists(System.Web.HttpContext.Current.User.Identity.Name))
@@ -182,11 +187,11 @@ namespace LanitWork.Controllers
             }
         }
 
-        public void AddNode(string parentId, string nodeId, string text)
+        public void AddNode(string parentId, string nodeId, string text, string icon)
         {
             if (treeCopy == null)
                 return;
-            MTreeNode[] res = MTreeNode.AddNode(treeCopy, parentId, nodeId, text);
+            MTreeNode[] res = MTreeNode.AddNode(treeCopy, parentId, nodeId, text, icon);
             if (res != null)//добавили узел на верхний уровень
                 treeCopy = res;
         }

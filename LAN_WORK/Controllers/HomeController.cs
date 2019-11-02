@@ -29,20 +29,21 @@ namespace LanitWork.Controllers
             //if(userNameCookie != null)
             //    userName = userNameCookie.Value;// M.UserName;
             //            if (!string.IsNullOrEmpty(userName))
-            HttpCookie tokenCookie = Request.Cookies["TokenCookie"];
-            if (tokenCookie != null && !string.IsNullOrEmpty(tokenCookie.Value))
+            //HttpCookie tokenCookie = Request.Cookies["TokenCookie"];
+            //if (tokenCookie != null && !string.IsNullOrEmpty(tokenCookie.Value))
+            //{
+            //    return RedirectToAction("Index", "WIB");
+            //    //ViewBag.UserToken = tokenCookie.Value;// Dios.WCF.WcfUtil.GetToken(userName, "tiger");
+            //    //return View();
+            //}
+            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "WIB");
-                //ViewBag.UserToken = tokenCookie.Value;// Dios.WCF.WcfUtil.GetToken(userName, "tiger");
+                //if (!LanitWork.Models.User.Exists(System.Web.HttpContext.Current.User.Identity.Name))
+                //    return RedirectToAction("Login", "Account");
+                //ViewBag.Login = System.Web.HttpContext.Current.User.Identity.Name;
                 //return View();
             }
-            //if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
-            //{
-            //    if (!LanitWork.Models.User.Exists(System.Web.HttpContext.Current.User.Identity.Name))
-            //        return RedirectToAction("Login", "Account");
-            //    ViewBag.Login = System.Web.HttpContext.Current.User.Identity.Name;
-            //    return View();
-            //}
             else
                 return RedirectToAction("Login", "Account");
 

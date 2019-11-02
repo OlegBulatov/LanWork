@@ -278,6 +278,7 @@ namespace DIOS.Lanit
             //var query = from dynamic i in (IList)issueArr
             //            select new { desc = i.key };
             ObjectFactory F = GetFactory();
+
             //            Logger.LogStatic(JsonConvert.SerializeObject(Params));
             IObjectCollection result = new ObjectCollection(F.GetObjectProperties(), F.ObjectType, F.FactoryClassName);
             foreach (dynamic i in (IList)issueArr)
