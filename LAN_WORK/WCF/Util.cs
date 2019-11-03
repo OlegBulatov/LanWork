@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using System.Security.Principal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,8 +56,16 @@ namespace Dios.WCF
                 {
                     if (HttpContext.Current != null)
                     {
-                        HttpContext.Current.Response.Cookies.Add(ObjectMethods.GetCookie("UserNameCookie", U.Name, U.ExpirationTime));
-                        HttpContext.Current.Response.Cookies.Add(ObjectMethods.GetCookie("TokenCookie", token, U.ExpirationTime)); 
+                        //HttpContext.Current.Response.Cookies.Add(ObjectMethods.GetCookie("UserNameCookie", U.Name, U.ExpirationTime));
+                        //HttpContext.Current.Response.Cookies.Add(ObjectMethods.GetCookie("TokenCookie", token, U.ExpirationTime)); 
+                        IAuthenticationManager authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+                        authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                        //var User = new UserProvider(user_name);
+                        var UsrId = new UserIndentity();
+                        UsrId.User = U;
+                        System.Security.Claims.ClaimsIdentity identity = new System.Security.Claims.ClaimsIdentity(UsrId, null, "ApplicationCookie", null, null);
+                        authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
+
                     }
                     return true;
                 }
@@ -139,6 +150,48 @@ namespace Dios.WCF
         {
             Name = name;
             ExpirationTime = expirationTime;
+        }
+    }
+
+    public class UserIndentity : IIdentity
+    {
+        public User User { get; set; }
+
+        public string AuthenticationType
+        {
+            get
+            {
+                return typeof(User).ToString();
+            }
+        }
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return User != null;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (User != null)
+                {
+                    return User.Name;
+                }
+                //иначе аноним
+                return "anonym";
+            }
+        }
+
+        public void Init(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                User = new User(name);
+            }
         }
     }
 
