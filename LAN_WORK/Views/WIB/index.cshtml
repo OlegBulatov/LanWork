@@ -53,11 +53,11 @@
                     var p = document.getElementById('frame-html');
                     var pict = document.getElementById('designed_pict');
                     var btns = document.getElementById('designed_html');
-                    if (selected.data) {
-                        if (selected.data.href) {
-                            window.open(selected.data.href);
-                        }
-                        else {
+                    if (selected.data && (selected.data.src || selected.data.html)) {
+                        //if (selected.data.href) {
+                        //    window.open(selected.data.href);
+                        //}
+                        //else {
                             $('#presenter').show();
                             $('#loader').hide();
                             $('#designer').hide();
@@ -72,8 +72,11 @@
                             p.style.backgroundRepeat = "no-repeat";
                             p.style.height = "100%";
                             p.style.width = "100%";
-                            p.innerHTML = GetHtml(selected.id);
-                        }
+                            p.innerHTML = "";
+                            if (selected.data.html)
+                                p.innerHTML += selected.data.html;
+                            p.innerHTML += GetHtml(selected.id);
+                        //}
                         //if (selected.data.html)
                         //    p.innerHTML = selected.data.html;
                         //else
@@ -144,17 +147,18 @@
             @*<div style="position:relative;left:850px;top:75px;"><button onclick="alert('!!')">Обновить</button></div>*@
         </div>
     </div>
-    <div id="loader" style="position:absolute;left:300px;top:60px;overflow-x:hidden;display:none">
+    <div id="loader" style="position:absolute;left:300px;top:60px;width:100%;height:100%;overflow-x:hidden;display:none">
         <button id="bnSave" onclick='saveImage()' style="display:none">Save</button>
         <button id="bnClear" onclick='clearImage()' style="display:none">Clear</button>
         <button id="bnLeft" onclick="imageToLeft()" style="display:none">&lt;</button>
         <button id="bnRight" onclick="imageToRight()" style="display:none">&gt;</button>
         <br>
-        <div id="paste_catcher" contenteditable="" style="display:none"></div>
+        <div id="paste_catcher" contenteditable="" style="display:none;position:absolute;width:100%;height:100%"></div>
         <img id="pasted_pict" src="" style="margin-top:0px">
     </div>
     <div id="tools" style="position:fixed;left:80%;top:0">
         <button onclick="designButtons()">Design</button>
+        <button onclick="editHtml()">Edit</button>
         <button onclick="addButton()">FB</button>
         <button onclick="addButton(true)">BB</button>
         <button onclick="saveAll()">Save all</button>
@@ -233,8 +237,18 @@
     </script>
     <script>
         var pasteCatcher = document.getElementById("paste_catcher");
-
-        document.addEventListener("click", function () { pasteCatcher.focus(); });
+        document.addEventListener("click",
+            function (ev) {
+                pasteCatcher.focus();
+                if (ev.clientY > 85 && ev.clientX > 300) {
+                    pasteCatcher.style.top = (ev.clientY - 60) + "px";
+                    pasteCatcher.style.left = (ev.clientX - 300) + "px";
+                }
+                //if ($("#loader").is(":visible"))
+                //    pasteCatcher.style.display = "block";
+                //else
+                //    pasteCatcher.style.display = "none";
+            });
         window.addEventListener("paste", pasteHandler);
 
         function pasteHandler(e) {
@@ -243,17 +257,20 @@
             $('#bnLeft').show();
             $('#bnRight').show();
             if (e.clipboardData) {
+                clearImage();
                 var items = e.clipboardData.items;
                 if (items) {
                     for (var i = 0; i < items.length; i++) {
                         if (items[i].type.indexOf("text") !== -1) {
-                            pasteCatcher.innerHTML = items[i].getAsString();
+                            items[i].getAsString(function (s) {
+                                pasteCatcher.innerHTML = s;
+                            });
+                            pasteCatcher.style.display = "block";
                         }
                         else if (items[i].type.indexOf("image") !== -1) {
                             var blob = items[i].getAsFile();
                             var URLObj = window.URL || window.webkitURL;
                             var source = URLObj.createObjectURL(blob);
-                            console.log(source);
                             var formDataFile = new FormData();
                             var longPath = window.location.href;
                             var shortPath = longPath.replace(new RegExp('/WIB', 'g'), '');
@@ -279,6 +296,9 @@
         function clearImage() {
             var pp = document.getElementById('pasted_pict');
             pp.src = "";
+            var pasteCatcher = document.getElementById("paste_catcher");
+            pasteCatcher.innerHTML = "";
+            pasteCatcher.style.display = "none";
         }
 
         var pictMarginLeft = 0;
@@ -303,6 +323,21 @@
             var dataObj = new Object();
             dataObj.src = pp.src;
             dataObj.style = "margin-top:0px;margin-left:" + pictMarginLeft + "px;";
+            var pasteCatcher = document.getElementById("paste_catcher");
+            //dataObj.html = pasteCatcher.outerHTML.replace("paste_catcher", "");
+            if (pasteCatcher.innerHTML) {
+                var newDiv = document.createElement('div');
+                newDiv.id = "html_holder";
+                newDiv.innerHTML = pasteCatcher.innerHTML;
+                newDiv.style.top = pasteCatcher.style.top;
+                newDiv.style.left = pasteCatcher.style.left;
+                newDiv.style.position = "absolute";
+                dataObj.html = newDiv.outerHTML;
+            }
+            else {
+                dataObj.html = "";
+            }
+
             instance.get_node(sel).data = dataObj;
             //var formNodeData = new FormData();
             //formNodeData.append('nodeId', sel);
@@ -328,6 +363,27 @@
                 xhr.open('POST', '/WIB/SaveToFile', false);
                 xhr.send(formSaveFile);
             }
+        }
+
+        function editHtml() {
+            var pasteCatcher = document.getElementById("paste_catcher");
+            var htmlHolder = document.getElementById("html_holder");
+            if (htmlHolder) {
+                pasteCatcher.style.left = htmlHolder.style.left;
+                pasteCatcher.style.top = htmlHolder.style.top;
+                pasteCatcher.innerHTML = htmlHolder.innerHTML;
+            }
+            else {
+                var newDiv = document.createElement('div');
+                newDiv.id = "html_holder";
+                pasteCatcher.innerHTML = "";
+            }
+            pasteCatcher.style.display = "block";
+            $('#presenter').hide();
+            $('#loader').show();
+            $('#bnSave').show();
+            $('#bnClear').show();
+
         }
 
         function designButtons() {

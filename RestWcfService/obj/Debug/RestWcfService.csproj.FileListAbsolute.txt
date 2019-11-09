@@ -81,3 +81,8 @@ D:\gitlanit\master\RestWcfService\obj\Debug\RestWcfService.csproj.CoreCompileInp
 D:\gitlanit\master\RestWcfService\obj\Debug\RestWcfService.csproj.CopyComplete
 D:\gitlanit\master\RestWcfService\obj\Debug\RestWcfService.exe
 D:\gitlanit\master\RestWcfService\obj\Debug\RestWcfService.pdb
+D:\gitlan\lanitwork\RestWcfService\obj\Debug\RestWcfService.csprojAssemblyReference.cache
+D:\gitlan\lanitwork\RestWcfService\obj\Debug\RestWcfService.MainForm.resources
+D:\gitlan\lanitwork\RestWcfService\obj\Debug\RestWcfService.Properties.Resources.resources
+D:\gitlan\lanitwork\RestWcfService\obj\Debug\RestWcfService.csproj.GenerateResource.cache
+D:\gitlan\lanitwork\RestWcfService\obj\Debug\RestWcfService.csproj.CoreCompileInputs.cache

@@ -214,8 +214,9 @@ namespace LanitWork.Controllers
             string hostUrl = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "");
             string src = dataObj.src;
             src = src.Replace(hostUrl, "");
-            string style = dataObj.style; 
-            MTreeNode.SetNodeData(treeCopy, nodeId, new { src = src, style = style });
+            string style = dataObj.style;
+            string html = dataObj.html;
+            MTreeNode.SetNodeData(treeCopy, nodeId, new { src, style, html  });
         }
 
         public string GetHtml(string nodeId, string idPostfix = "")
