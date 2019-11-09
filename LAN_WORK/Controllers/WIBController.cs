@@ -187,6 +187,15 @@ namespace LanitWork.Controllers
             }
         }
 
+        public void SetButtonTargetId(string buttonId, string targetId)
+        {
+            HtmlButton B = HtmlButton.GetButton(htmlButtons, buttonId);
+            if (B != null)
+            {
+                B.targetNodeId = targetId;
+            }
+        }
+
         public void AddNode(string parentId, string nodeId, string text, string icon)
         {
             if (treeCopy == null)

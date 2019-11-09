@@ -49,6 +49,7 @@
             $tree.on("changed.jstree", function (e, data) {
                 if (data.selected.length) {
                     selected = data.instance.get_node(data.selected[0]);
+                    $("#nodeIdDisplay").val(data.selected[0]);
                     //var p = document.getElementById('pict');
                     var p = document.getElementById('frame-html');
                     var pict = document.getElementById('designed_pict');
@@ -157,6 +158,7 @@
         <img id="pasted_pict" src="" style="margin-top:0px">
     </div>
     <div id="tools" style="position:fixed;left:80%;top:0">
+        <input id="nodeIdDisplay" style="width:60px" />
         <button onclick="designButtons()">Design</button>
         <button onclick="editHtml()">Edit</button>
         <button onclick="addButton()">FB</button>
@@ -177,19 +179,14 @@
     </div>
     <div id="cmenu" style="position:absolute;display:none">
         <ul>
-            <li><a id="cmitemRename" href="#">Переименовать</a></li>
-            <li><a id="cmitemChangeTarget" href="#">Назначить экран</a></li>
+            <li><a id="cmitemRename" >Переименовать</a></li>
+            <li><a id="cmitemChangeTarget" >Назначить экран</a></li>
         </ul>
     </div>
     <script>
-        cmitemRename.onclick = function (e) {
-            renameButton($('#cmenu').attr("btn_id"), $('#cmenu').attr("caption"));
-            $('#cmenu').hide();
-        };
-        cmitemChangeTarget.onclick = function (e) {
-            alert('это еще не реализовано');
-            $('#cmenu').hide();
-        };
+        cmitemRename.href = "javascript: {renameButton($('#cmenu').attr('btn_id'), $('#cmenu').attr('caption'));$('#cmenu').hide();}";
+        cmitemChangeTarget.href = "javascript: {setButtonTargetId($('#cmenu').attr('btn_id'), 0);$('#cmenu').hide();}";
+        
         function dragStart(ev) {
             ev.dataTransfer.effectAllowed = 'move';
             ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
@@ -239,6 +236,7 @@
         var pasteCatcher = document.getElementById("paste_catcher");
         document.addEventListener("click",
             function (ev) {
+                $('#cmenu').hide();
                 pasteCatcher.focus();
                 if (ev.clientY > 85 && ev.clientX > 300) {
                     pasteCatcher.style.top = (ev.clientY - 60) + "px";
@@ -413,6 +411,19 @@
                 //.attr("onclick", "renameButton(buttonId, exCaption)");
             $('#presenter').hide();
             $('#designer').show();
+        }
+
+        function setButtonTargetId(buttonId, exTargetId) {
+            console.log(buttonId);
+            var buttonTargetId = prompt('Переход на узел:', exTargetId);
+            if (buttonTargetId) {
+                var formSetButtonTarget = new FormData();
+                formSetButtonTarget.append('buttonId', buttonId.replace('_dsgn', ''));
+                formSetButtonTarget.append('targetId', buttonTargetId);
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', '/WIB/SetButtonTargetId', false);
+                xhr.send(formSetButtonTarget);
+            }
         }
 
         function renameButton(buttonId, exCaption) {
