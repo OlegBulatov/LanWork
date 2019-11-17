@@ -24,7 +24,7 @@ namespace LanitWork
 
         protected void Application_BeginRequest()
         {
-            LanWork.WCF.QueryService.RequestUrl = Request.Url.Host + ":" + Request.Url.Port;
+            //LanWork.WCF.QueryService.RequestUrl = Request.Url.Host + ":" + Request.Url.Port;
         }
     }
 }

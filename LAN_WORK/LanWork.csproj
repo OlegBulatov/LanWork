@@ -77,6 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Dios.SqlManager.dll</HintPath>
     </Reference>
+    <Reference Include="DIOS.WCF.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DIOS.WCF.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -186,11 +190,6 @@
     <Compile Include="Models\JiraIssueComment.cs" />
     <Compile Include="Models\JiraIssueType.cs" />
     <Compile Include="Models\JIRA_issue.cs" />
-    <Compile Include="WCF\IQueryService.cs" />
-    <Compile Include="WCF\QueryService.svc.cs">
-      <DependentUpon>QueryService.svc</DependentUpon>
-    </Compile>
-    <Compile Include="WCF\Util.cs" />
     <Content Include="app_code\Startup.Auth.cs" />
     <Content Include="app_code\Startup.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -471,6 +470,7 @@
     <Content Include="dist\themes\default\View.gif" />
     <Content Include="dist\themes\default\ViewAttribute.gif" />
     <Content Include="Global.asax" />
+    <Content Include="ObjectWcfService.svc" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -478,7 +478,6 @@
     <Content Include="Views\WIB\index.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\HelpPage.html" />
-    <Content Include="WCF\QueryService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -9,7 +9,7 @@ using System.IO;
 using System;
 using DIOS.BusinessBase;
 using System.Data.OleDb;
-using LanWork.WCF;
+//using LanWork.WCF;
 
 namespace LanitWork.Controllers
 {
@@ -119,63 +119,63 @@ namespace LanitWork.Controllers
             return View("Table", T);
         }
 
-        public void DownloadReport(string class_name, string parameters)
-        {
-            class_name = class_name.Replace(".xlsx", "");
-            IParameterCollection Params = Util.DeserializeParams(parameters);
-            string Where = Params == null? "" : " where " + Params.GetWhere();
-            string query = "select * from " + class_name + Where;
-            string fileName = "report_" + class_name + ".csv";
-            MakeDownloadResponse(query, null, fileName);
-        }
+        //public void DownloadReport(string class_name, string parameters)
+        //{
+        //    class_name = class_name.Replace(".xlsx", "");
+        //    IParameterCollection Params = Util.DeserializeParams(parameters);
+        //    string Where = Params == null? "" : " where " + Params.GetWhere();
+        //    string query = "select * from " + class_name + Where;
+        //    string fileName = "report_" + class_name + ".csv";
+        //    MakeDownloadResponse(query, null, fileName);
+        //}
 
-        [HttpGet]
-        public void DownloadReportById(string id, string fileName)
-        {
-            id = id.Replace(".xlsx", "");
-            object qObj = QueryService.QTable[id];
-            if (qObj != null && qObj is Tuple<string, string>)
-            {
-                Tuple<string, string> queryParams = qObj as Tuple<string, string>;
-                string query = queryParams.Item1.ToString();
-                if (fileName == null)
-                    fileName = id + ".csv";
-                MakeDownloadResponse(query, queryParams.Item2, fileName);
-            }
-        }
+        //[HttpGet]
+        //public void DownloadReportById(string id, string fileName)
+        //{
+        //    id = id.Replace(".xlsx", "");
+        //    object qObj = QueryService.QTable[id];
+        //    if (qObj != null && qObj is Tuple<string, string>)
+        //    {
+        //        Tuple<string, string> queryParams = qObj as Tuple<string, string>;
+        //        string query = queryParams.Item1.ToString();
+        //        if (fileName == null)
+        //            fileName = id + ".csv";
+        //        MakeDownloadResponse(query, queryParams.Item2, fileName);
+        //    }
+        //}
 
-        private void MakeDownloadResponse(string query, string connectionString, string fileName)
-        {
-            try
-            {
-                Response.ContentType = "application/force-download; charset =windows-1251";
-                string Header = "Filename=" + fileName;  //Attachment; 
-                Response.AppendHeader("Content-Disposition", Header);
+        //private void MakeDownloadResponse(string query, string connectionString, string fileName)
+        //{
+        //    try
+        //    {
+        //        Response.ContentType = "application/force-download; charset =windows-1251";
+        //        string Header = "Filename=" + fileName;  //Attachment; 
+        //        Response.AppendHeader("Content-Disposition", Header);
 
-                SqlManager M = new WcfAnonimousSqlManager();
-                if(connectionString != null)
-                    M = new SqlManager(connectionString);
-                StreamWriter SW = null;
-                //MemoryStream S = new MemoryStream();
-                //SW = new StreamWriter(S);
-                SW = new StreamWriter(Response.OutputStream, System.Text.Encoding.Default);
-                M.ExecSqlToStream(query, SW, null);
-                SW.Close();
-                //string result = System.Text.Encoding.UTF8.GetString(S.ToArray());
-                //byte[] btres = System.Text.Encoding.Default.GetBytes(result);
-                //Response.AppendHeader("Content-Length", btres.Length.ToString());
-                //Response.OutputStream.Write(btres, 0, btres.Length);
-                Response.End();
-            }
-            catch (Exception exc)
-            {
-                Response.OutputStream.Flush();
-                Response.OutputStream.Close();
-                Response.ContentType = "TEXT/HTML";
-                Response.ClearHeaders();
-                Response.Write(exc.Message);
-            }
-        }
+        //        SqlManager M = new WcfAnonimousSqlManager();
+        //        if(connectionString != null)
+        //            M = new SqlManager(connectionString);
+        //        StreamWriter SW = null;
+        //        //MemoryStream S = new MemoryStream();
+        //        //SW = new StreamWriter(S);
+        //        SW = new StreamWriter(Response.OutputStream, System.Text.Encoding.Default);
+        //        M.ExecSqlToStream(query, SW, null);
+        //        SW.Close();
+        //        //string result = System.Text.Encoding.UTF8.GetString(S.ToArray());
+        //        //byte[] btres = System.Text.Encoding.Default.GetBytes(result);
+        //        //Response.AppendHeader("Content-Length", btres.Length.ToString());
+        //        //Response.OutputStream.Write(btres, 0, btres.Length);
+        //        Response.End();
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        Response.OutputStream.Flush();
+        //        Response.OutputStream.Close();
+        //        Response.ContentType = "TEXT/HTML";
+        //        Response.ClearHeaders();
+        //        Response.Write(exc.Message);
+        //    }
+        //}
 
         public ActionResult Report(string proc_name, string parameters)
         {

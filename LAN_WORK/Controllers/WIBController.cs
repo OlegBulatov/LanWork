@@ -220,7 +220,7 @@ namespace LanitWork.Controllers
         public void SetNodeData(string nodeId, string nodeData)
         {
             dynamic dataObj = JsonConvert.DeserializeObject(nodeData);
-            string hostUrl = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "");
+            string hostUrl = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "");//Request.Url.Host + ":" + Request.Url.Port
             string src = dataObj.src;
             src = src.Replace(hostUrl, "");
             string style = dataObj.style;

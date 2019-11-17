@@ -172,7 +172,7 @@ namespace LanitWork.Models
         }
         public static string AuthorizeUser(string user_name = "", string password = "")
         {
-            if(Dios.WCF.WcfUtil.VerifyUser(Dios.WCF.WcfUtil.GetToken(user_name, password)))
+            if(DIOS.WCF.Core.WcfCoreUtil.VerifyUser(DIOS.WCF.Core.WcfCoreUtil.GetToken(user_name, password)) != null)
                 return "";
             //HttpContext.Current.Response.Cookies["wcftoken"].Value = user_name;
             //HttpContext.Current.Request.Cookies.Add(new HttpCookie("wcftoken", user_name));

@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Dios.WCF.ObjectWcfService" CodeBehind="ObjectWcfService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="DIOS.WCF.ObjectWcfService" CodeBehind="ObjectWcfService.svc.cs" %>
