@@ -238,7 +238,7 @@
             function (ev) {
                 $('#cmenu').hide();
                 pasteCatcher.focus();
-                if (ev.clientY > 85 && ev.clientX > 300) {
+                if (ev.clientY > 85 && ev.clientX > 300 && ev.ctrlKey) {
                     pasteCatcher.style.top = (ev.clientY - 60) + "px";
                     pasteCatcher.style.left = (ev.clientX - 300) + "px";
                 }
@@ -297,6 +297,9 @@
             var pasteCatcher = document.getElementById("paste_catcher");
             pasteCatcher.innerHTML = "";
             pasteCatcher.style.display = "none";
+            //var htmlHolder = document.getElementById("html_holder");
+            //htmlHolder.innerHTML = "";
+            //frame-html
         }
 
         var pictMarginLeft = 0;
