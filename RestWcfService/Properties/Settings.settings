@@ -32,5 +32,8 @@
     <Setting Name="WordDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">d:\Temp</Value>
     </Setting>
+    <Setting Name="QueryExecuteProcedure" Type="System.String" Scope="User">
+      <Value Profile="(Default)">QUERY_AUDIT$OnQuery</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

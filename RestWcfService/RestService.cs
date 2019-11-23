@@ -8,6 +8,7 @@ using System.Data;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using DIOS.Common.Interfaces;
 
 namespace RestWcfService
 {
@@ -89,7 +90,9 @@ namespace RestWcfService
             {
                 _userToken = sClient.GetUserToken(_userName, "*************");
             }
-            string encodedQuery = sClient.GetText(queryId, _userToken);
+            string queryStruct = sClient.GetText(queryId, _userToken);
+            dynamic queryStructDecoded = JsonConvert.DeserializeObject(queryStruct);
+            string encodedQuery = queryStructDecoded.query_text;
             if (encodedQuery == null)
                 return "Запрос не получен. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri;
                 
@@ -100,7 +103,16 @@ namespace RestWcfService
                     DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.MSSqlServer;
                 DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
                 if(dMethod != null)
-                    dMethod("executed query #" + QueryNumber++.ToString(), query);
+                    dMethod("execute query #" + QueryNumber++.ToString(), query);
+                if (Properties.Settings.Default.QueryExecuteProcedure != "")
+                {
+                    IParameterCollection Params = new DIOS.Common.ParameterCollection();
+                    Params.Add("changer", "some user");
+                    Params.Add("object_name", "ENTITY_VIEW");
+                    Params.Add("object_type", "VIEW");
+                    Params.Add("new_ddl", query);
+                    M.ExecuteSPWithResult(Properties.Settings.Default.QueryExecuteProcedure, false, Params);
+                }
                 return M.ExecMultiPartSql(query); // "ExecuteQuery " + query;
             }
             catch(Exception exc)

@@ -142,5 +142,17 @@ namespace RestWcfService.Properties {
                 this["WordDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("QUERY_AUDIT$OnQuery")]
+        public string QueryExecuteProcedure {
+            get {
+                return ((string)(this["QueryExecuteProcedure"]));
+            }
+            set {
+                this["QueryExecuteProcedure"] = value;
+            }
+        }
     }
 }

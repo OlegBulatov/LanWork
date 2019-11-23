@@ -51,6 +51,8 @@
             this.chDeleteAfterEdit = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tbAfterSaveCommand = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbQueryExecProc = new System.Windows.Forms.TextBox();
             this.stStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +80,7 @@
             this.stStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.stStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stLabel});
-            this.stStatus.Location = new System.Drawing.Point(0, 401);
+            this.stStatus.Location = new System.Drawing.Point(0, 453);
             this.stStatus.Name = "stStatus";
             this.stStatus.ShowItemToolTips = true;
             this.stStatus.Size = new System.Drawing.Size(560, 22);
@@ -107,10 +109,10 @@
             this.tbError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbError.Location = new System.Drawing.Point(12, 292);
+            this.tbError.Location = new System.Drawing.Point(12, 330);
             this.tbError.Multiline = true;
             this.tbError.Name = "tbError";
-            this.tbError.Size = new System.Drawing.Size(532, 106);
+            this.tbError.Size = new System.Drawing.Size(532, 120);
             this.tbError.TabIndex = 4;
             this.tbError.TextChanged += new System.EventHandler(this.tbError_TextChanged);
             // 
@@ -271,11 +273,31 @@
             this.tbAfterSaveCommand.Size = new System.Drawing.Size(313, 20);
             this.tbAfterSaveCommand.TabIndex = 20;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 288);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(127, 13);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "Query execute procedure";
+            // 
+            // tbQueryExecProc
+            // 
+            this.tbQueryExecProc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQueryExecProc.Location = new System.Drawing.Point(12, 304);
+            this.tbQueryExecProc.Name = "tbQueryExecProc";
+            this.tbQueryExecProc.Size = new System.Drawing.Size(313, 20);
+            this.tbQueryExecProc.TabIndex = 22;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 423);
+            this.ClientSize = new System.Drawing.Size(560, 475);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.tbQueryExecProc);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.tbAfterSaveCommand);
             this.Controls.Add(this.chDeleteAfterEdit);
@@ -332,6 +354,8 @@
         private System.Windows.Forms.CheckBox chDeleteAfterEdit;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbAfterSaveCommand;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbQueryExecProc;
     }
 }
 

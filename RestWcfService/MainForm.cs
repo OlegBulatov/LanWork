@@ -36,6 +36,7 @@ namespace RestWcfService
             tbAfterSaveCommand.Text = Properties.Settings.Default.AfterSaveCommand;
             tbEditCommand.Text = Properties.Settings.Default.EditTextCommand;
             tbWordDir.Text = Properties.Settings.Default.WordDir;
+            tbQueryExecProc.Text = Properties.Settings.Default.QueryExecuteProcedure;
             chUniqueNames.Checked = Properties.Settings.Default.UseUniqueFileNames;
             chDeleteAfterEdit.Checked = Properties.Settings.Default.DeleteFileAfterSaveOnServer;
             RestService.ServerURL = tbServerURL.Text = Properties.Settings.Default.ServerWebServiceUrl;
@@ -94,6 +95,7 @@ namespace RestWcfService
                 Properties.Settings.Default.AfterSaveCommand = tbAfterSaveCommand.Text;
                 Properties.Settings.Default.EditTextCommand = tbEditCommand.Text;
                 Properties.Settings.Default.WordDir = tbWordDir.Text;
+                Properties.Settings.Default.QueryExecuteProcedure = tbQueryExecProc.Text;
                 Properties.Settings.Default.UseUniqueFileNames = chUniqueNames.Checked;
                 Properties.Settings.Default.DeleteFileAfterSaveOnServer = chDeleteAfterEdit.Checked;
                 Properties.Settings.Default.Save();
