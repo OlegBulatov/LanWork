@@ -91,14 +91,16 @@ namespace RestWcfService
                 _userToken = sClient.GetUserToken(_userName, "*************");
             }
             string queryStruct = sClient.GetText(queryId, _userToken);
-            dynamic queryStructDecoded = JsonConvert.DeserializeObject(queryStruct);
-            string encodedQuery = queryStructDecoded.query_text;
-            if (encodedQuery == null)
+            if (queryStruct == null)
                 return "Запрос не получен. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri;
                 
             try
             {
-                string query = Decrypt(encodedQuery, _userToken);
+                dynamic queryStructDecoded = JsonConvert.DeserializeObject(Decrypt(queryStruct, _userToken));
+                string query = queryStructDecoded.query_text;
+                int dersaEntity = Convert.ToInt32(queryStructDecoded.dersa_entity);
+                string objectName = queryStructDecoded.object_name;
+                string objectType = queryStructDecoded.object_type;
                 if (ConnectionString.Contains("Initial Catalog"))
                     DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.MSSqlServer;
                 DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
@@ -107,9 +109,10 @@ namespace RestWcfService
                 if (Properties.Settings.Default.QueryExecuteProcedure != "")
                 {
                     IParameterCollection Params = new DIOS.Common.ParameterCollection();
-                    Params.Add("changer", "some user");
-                    Params.Add("object_name", "ENTITY_VIEW");
-                    Params.Add("object_type", "VIEW");
+                    Params.Add("dersa_entity", dersaEntity);
+                    Params.Add("changer", _userName);
+                    Params.Add("object_name", objectName);
+                    Params.Add("object_type", objectType);
                     Params.Add("new_ddl", query);
                     M.ExecuteSPWithResult(Properties.Settings.Default.QueryExecuteProcedure, false, Params);
                 }
