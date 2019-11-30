@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using DIOS.BusinessBase;
+using DIOS.Common;
+using DIOS.Common.Interfaces;
+using DIOS.ObjectLib;
+
+namespace LanWork.Models
+{
+    public class ObjectControllerAdapter
+    {
+        private string _className = "";
+        private string _methodName = "";
+        private int _objectid = -1;
+        private int _status = -1;
+        private string _json_object = null;
+        private string _json_params = null;
+        private string _order = "";
+        private int _limit = 1000;
+        private int _offset = 0;
+        private int _row_count = -1;
+
+        public string List(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
+        {
+            _className = class_name;
+            _json_params = filter;
+            _order = order;
+            _limit = limit;
+            _offset = offset;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForList), new RowCountHandler(getRowCount));
+            return M.MakeResponse();
+        }
+
+        private string doTrueResponseForList()
+        {
+            DiosSqlManager M = new DiosSqlManager();
+            ObjectFactory F = null;
+            try
+            {
+                F = M.GetFactory(_className);
+            }
+            catch
+            {
+                throw new Exception("Object type " + _className + " not found");
+            }
+            IParameterCollection Params = Util.DeserializeParams(_json_params);
+            string result = F.ListJson(Params, _order, _limit, _offset);
+            _row_count = F.RowCount;
+            return result;
+        }
+
+        private int getRowCount()
+        {
+            return _row_count;
+        }
+    }
+}
