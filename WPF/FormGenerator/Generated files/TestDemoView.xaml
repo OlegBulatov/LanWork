@@ -1,0 +1,550 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:l="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WpfLib;assembly=WpfLib" xmlns:dx="clr-namespace:DevExpress.Xpf.Core;assembly=DevExpress.Xpf.Core.v18.1" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" mc:Ignorable="d" dx:ThemeManager.ThemeName="Office2010Silver" Title="Форма просмотра данных" Height="500" Width="1000">
+  <Window.Resources>
+    <local:MultiValueTextConverter x:Key="MultiValueTextConverter" />
+    <local:MultiValueObjectConverter x:Key="MultiValueObjectConverter" />
+    <!--local:ColorSetter x:Key = "ColorSetter" /-->
+  </Window.Resources>
+  <Grid>
+    <GridControlEx xmlns="clr-namespace:INV.Styles.Controls;assembly=INV.Styles" x:Name="gData" AutoGenerateColumns="None" ItemsSource="{ l:Binding DemoData}" Margin="0,0,0,0">
+      <dxg:GridControl.Bands>
+        <dxg:GridControlBand Header="№ раз." HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column1" ReadOnly="True" Width="46">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Стр." HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column2" ReadOnly="True" Width="43">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Дата операции" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column3" ReadOnly="True" Width="59">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Параметры расче... " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridControlBand.Bands>
+            <dxg:GridControlBand Header=" Код опер." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column4" ReadOnly="True" Width="38">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Код н. пл." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column5" ReadOnly="True" Width="41">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Кол" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="во бумаг" FieldName="Column6" ReadOnly="True" Width="87">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Доля" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column7" ReadOnly="True" Width="48">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Код вал. плат." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column8" ReadOnly="True" Width="41">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Сумма платежа " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Всего" FieldName="Column9" ReadOnly="True" Width="89">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Проценты" FieldName="Column10" ReadOnly="True" Width="76">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Всего ($)" FieldName="Column11" ReadOnly="True" Width="74">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Проценты ($)" FieldName="Column12" ReadOnly="True" Width="69">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Резидент " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Наименование" FieldName="Column13" ReadOnly="True" Width="121">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" ИНН" FieldName="Column14" ReadOnly="True" Width="72">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Тип" FieldName="Column15" ReadOnly="True" Width="62">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Фиктивный" FieldName="Column16" ReadOnly="True" Width="49">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Нерезидент " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Наименование" FieldName="Column17" ReadOnly="True" Width="114">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Страна" FieldName="Column18" ReadOnly="True" Width="81">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Тип" FieldName="Column19" ReadOnly="True" Width="54">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Фиктивный" FieldName="Column20" ReadOnly="True" Width="40">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+          </dxg:GridControlBand.Bands>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Характеристика ... " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridControlBand.Bands>
+            <dxg:GridControlBand Header=" Эмитент " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Наименование" FieldName="Column21" ReadOnly="True" Width="124">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Код" FieldName="Column22" ReadOnly="True" Width="49">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Тип" FieldName="Column23" ReadOnly="True" Width="61">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Регистр. номер" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column24" ReadOnly="True" Width="70">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Код типа ц.б." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column25" ReadOnly="True" Width="60">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Дата регистр." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column26" ReadOnly="True" Width="61">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Дата погашения" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column27" ReadOnly="True" Width="50">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Код валюты ц.б." HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header="    " FieldName="Column28" ReadOnly="True" Width="48">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+          </dxg:GridControlBand.Bands>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="МЕНА" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column29" ReadOnly="True" Width="22">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="РАССРОЧКА" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column30" ReadOnly="True" Width="22">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="ПАКЕТ" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column31" ReadOnly="True" Width="21">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="БРОКЕР" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column32" ReadOnly="True" Width="17">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="ИМУЩЕСТВО" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column33" ReadOnly="True" Width="19">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Комментарий" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column34" ReadOnly="True" Width="95">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Выкуп эмитентом" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column35" ReadOnly="True" Width="73">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Отчетный период" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column36" ReadOnly="True" Width="115">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Рег. номер КО" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column37" ReadOnly="True" Width="59">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Наименование КО" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column38" ReadOnly="True" Width="259">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Год" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column39" ReadOnly="True" Width="39">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Месяц" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column40" ReadOnly="True" Width="51">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Фиктив." HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column41" ReadOnly="True" Width="154">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Цена (в $)" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column42" ReadOnly="True" Width="87">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Цена (в руб.)" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column43" ReadOnly="True" Width="79">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Направление" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column44" ReadOnly="True" Width="78">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Сумма платежа (в млн. $)" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column45" ReadOnly="True" Width="89">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Контрагент " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridControlBand.Bands>
+            <dxg:GridControlBand Header=" Банк" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridControlBand.Bands>
+                <dxg:GridControlBand Header="нерезидент... " HorizontalHeaderContentAlignment="Center">
+                  <dxg:GridColumn Header=" Наименование" FieldName="Column46" ReadOnly="True" Width="120">
+                    <dxg:GridColumn.HeaderTemplate>
+                      <l:DataTemplate>
+                        <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                      </l:DataTemplate>
+                    </dxg:GridColumn.HeaderTemplate>
+                  </dxg:GridColumn>
+                  <dxg:GridColumn Header=" Код страны" FieldName="Column47" ReadOnly="True" Width="71">
+                    <dxg:GridColumn.HeaderTemplate>
+                      <l:DataTemplate>
+                        <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                      </l:DataTemplate>
+                    </dxg:GridColumn.HeaderTemplate>
+                  </dxg:GridColumn>
+                </dxg:GridControlBand>
+              </dxg:GridControlBand.Bands>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Нерезидент " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Наименование" FieldName="Column48" ReadOnly="True" Width="122">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Код страны" FieldName="Column49" ReadOnly="True" Width="69">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+          </dxg:GridControlBand.Bands>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="BIC уполномоченного банка" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column50" ReadOnly="True" Width="120">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="SWIFT банка" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="нерезидента" FieldName="Column51" ReadOnly="True" Width="167">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" Background="Yellow" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Цифр. код страны банка" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="нерезидента" FieldName="Column52" ReadOnly="True" Width="120">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" Background="Yellow" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Тип инвестирования" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column53" ReadOnly="True" Width="116">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="К учёту (Участие нерез.)" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column54" ReadOnly="True" Width="55">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Дата РЕПО" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column55" ReadOnly="True" Width="114">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Комментарий ДПБ" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column56" ReadOnly="True" Width="147">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Код" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column57" ReadOnly="True" Width="99">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Вид валютной операции" HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header="    " FieldName="Column58" ReadOnly="True" Width="255">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock TextWrapping="Wrap" l:Text="{l:Binding}" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+      </dxg:GridControl.Bands>
+      <dxg:GridControl.View>
+        <dxg:TableView ShowTotalSummary="True" />
+      </dxg:GridControl.View>
+    </GridControlEx>
+    <!--l:CheckBox 
+		Name="chColor" 
+		Margin="900,10,0,0" 
+                IsChecked="{l:Binding Path=ColorIsOn}" 
+		HorizontalAlignment = "Left" 
+		VerticalAlignment = "Top" /-->
+    <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Height="23" Margin="133,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600" />
+    <Button x:Name="bnFilter" Content="Фильтр" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" />
+    <TextBox Name="tbCurrentColumnState" Height="30" Margin="800,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <TextBox.Text>
+        <MultiBinding Converter="{ StaticResource MultiValueTextConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Text>
+      <TextBox.Tag>
+        <MultiBinding Converter="{ StaticResource MultiValueObjectConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Tag>
+    </TextBox>
+  </Grid>
+</Window>

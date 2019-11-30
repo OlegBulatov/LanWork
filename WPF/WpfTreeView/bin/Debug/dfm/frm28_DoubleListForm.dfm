@@ -1,0 +1,499 @@
+inherited frm28_DoubleList: Tfrm28_DoubleList
+  Left = 174
+  Top = 207
+  Caption = 'Название формы'
+  ClientHeight = 334
+  ClientWidth = 499
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 301
+    Width = 499
+    inherited Panel3: TPanel
+      Left = 334
+      inherited CancelBtn: TButton [0]
+      end
+      inherited OKBtn: TButton [1]
+        Left = 85
+      end
+    end
+  end
+  object paCenter: TPanel [1]
+    Left = 231
+    Top = 0
+    Width = 36
+    Height = 301
+    Align = alLeft
+    BevelOuter = bvNone
+    TabOrder = 1
+    object paButtons: TPanel
+      Left = 1
+      Top = 80
+      Width = 34
+      Height = 153
+      BevelOuter = bvNone
+      TabOrder = 0
+      object SpeedButton1: TSpeedButton
+        Left = 6
+        Top = 24
+        Width = 23
+        Height = 22
+        Action = actMoveToRight
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000000000000000FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000BFBF00000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF000000000000000000000000000000000000000000BFBF0000BFBF
+          000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF000000000000000000000000000000000000000000BFBF0000BFBF
+          000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000BFBF00000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000000000000000FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 6
+        Top = 56
+        Width = 23
+        Height = 22
+        Action = actMoveAllToRight
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00FF0000000000FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00000000000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000BFBF00000000000000000000BFBF
+          000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000
+          000000000000000000000000000000000000BFBF0000BFBF000000000000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000
+          0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF00000000
+          0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+          0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          000000000000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF000000
+          0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF00000000
+          0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+          000000000000000000000000000000000000BFBF0000BFBF000000000000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000BFBF00000000000000000000BFBF
+          000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00000000000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00FF0000000000FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object SpeedButton3: TSpeedButton
+        Left = 6
+        Top = 88
+        Width = 23
+        Height = 22
+        Action = actMoveAllToLeft
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00FF000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00000000000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF0000000000BFBF00000000000000000000BFBF00000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF000000000000BFBF0000BFBF00000000
+          000000000000000000000000000000000000FF00FF00FF00FF00FF00FF00FF00
+          FF0000000000BFBF0000BFBF000000000000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF000000
+          0000BFBF0000BFBF000000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00
+          FF0000000000BFBF0000BFBF000000000000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF0000BFBF0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF000000000000BFBF0000BFBF00000000
+          000000000000000000000000000000000000FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF0000000000BFBF00000000000000000000BFBF00000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00000000000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00FF000000
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object SpeedButton4: TSpeedButton
+        Left = 6
+        Top = 120
+        Width = 23
+        Height = 22
+        Action = actMoveToLeft
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000BFBF000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF0000000000BFBF0000BFBF000000000000000000000000
+          00000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000000000BFBF0000BFBF0000BFBF0000BFBF0000BFBF0000BFBF
+          0000BFBF000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF0000000000BFBF0000BFBF000000000000000000000000
+          00000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF0000000000BFBF000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        ParentShowHint = False
+        ShowHint = True
+      end
+    end
+  end
+  object paLeft: TPanel [2]
+    Left = 0
+    Top = 0
+    Width = 231
+    Height = 301
+    Align = alLeft
+    BevelOuter = bvNone
+    Caption = 'paLeft'
+    TabOrder = 2
+    object pnLeftCaption: TPanel
+      Left = 0
+      Top = 0
+      Width = 231
+      Height = 21
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 5
+        Top = 5
+        Width = 127
+        Height = 13
+        Caption = 'Название левого списка'
+      end
+    end
+    inline fmSeachLeft: TfmSeachFrame1
+      Top = 21
+      Width = 231
+      Align = alTop
+      TabOrder = 1
+      inherited paLeft02: TPanel
+        Width = 188
+        inherited edSearchText: TEdit
+          Width = 188
+        end
+      end
+    end
+    object grLeft: TxxxDBGrid
+      Left = 0
+      Top = 42
+      Width = 231
+      Height = 259
+      Align = alClient
+      DataSource = dsLeft
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      ParentShowHint = False
+      PopupMenu = pmLeft
+      ShowHint = True
+      TabOrder = 2
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnCellClick = grLeftCellClick
+      AdvSettings.Guid = '{48F3959E-7D73-4DD7-9C4A-D126489BFD01}'
+      AdvSettings.AutoFilter = False
+      AdvSettings.Enabled = True
+      AdvSettings.DesignMode = False
+      AdvSettings.Indexes = <>
+      AdvSettings.HeadersLines = <>
+      AdvSettings.ColumnsAutoSize = False
+      AdvSettings.LookUpField.Strings = (
+        'Введите имена полей в формате KeyFieldName=ListFieldName')
+      DragRows = False
+    end
+  end
+  object paRight: TPanel [3]
+    Left = 268
+    Top = 0
+    Width = 231
+    Height = 301
+    Align = alRight
+    BevelOuter = bvNone
+    Caption = 'paRight'
+    TabOrder = 3
+    object pnRightCaption: TPanel
+      Left = 0
+      Top = 0
+      Width = 231
+      Height = 21
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 5
+        Top = 5
+        Width = 133
+        Height = 13
+        Caption = 'Название правого списка'
+      end
+    end
+    inline fmSeachRight: TfmSeachFrame1
+      Top = 21
+      Width = 231
+      Align = alTop
+      TabOrder = 1
+      inherited paLeft02: TPanel
+        Width = 188
+        inherited edSearchText: TEdit
+          Width = 188
+        end
+      end
+    end
+    object grRight: TxxxDBGrid
+      Left = 0
+      Top = 42
+      Width = 231
+      Height = 259
+      Align = alClient
+      DataSource = dsRight
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      ParentShowHint = False
+      PopupMenu = pmRight
+      ShowHint = True
+      TabOrder = 2
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnCellClick = grRightCellClick
+      AdvSettings.Guid = '{5D422BD7-FAC1-414A-9D23-D0EBF414C91A}'
+      AdvSettings.AutoFilter = False
+      AdvSettings.Enabled = True
+      AdvSettings.DesignMode = False
+      AdvSettings.Indexes = <>
+      AdvSettings.HeadersLines = <>
+      AdvSettings.ColumnsAutoSize = False
+      AdvSettings.LookUpField.Strings = (
+        'Введите имена полей в формате KeyFieldName=ListFieldName')
+      DragRows = False
+    end
+  end
+  inherited ActionList: TActionList
+    Left = 40
+    Top = 192
+    inherited actSave: TAction
+      Caption = 'Закрыть'
+    end
+    inherited actCancel: TAction
+      Enabled = False
+      Visible = False
+    end
+    object actMoveToRight: TAction
+      Hint = 'Переместить элемент левого списка в правый список'
+      ImageIndex = 7
+      OnExecute = actMoveToRightExecute
+      OnUpdate = actMoveToRightUpdate
+    end
+    object actMoveAllToRight: TAction
+      Hint = 'Переместить все элементы левого списка в правый список'
+      ImageIndex = 6
+      OnExecute = actMoveAllToRightExecute
+      OnUpdate = actMoveToRightUpdate
+    end
+    object actMoveAllToLeft: TAction
+      Hint = 'Переместить все элементы правого списка в левый список'
+      ImageIndex = 8
+      OnExecute = actMoveAllToLeftExecute
+      OnUpdate = actMoveAllToLeftUpdate
+    end
+    object actMoveToLeft: TAction
+      Hint = 'Переместить элемент правого списка в левый список'
+      ImageIndex = 9
+      OnExecute = actMoveToLeftExecute
+      OnUpdate = actMoveAllToLeftUpdate
+    end
+  end
+  object dsLeft: TDataSource
+    DataSet = quLeft
+    Left = 104
+    Top = 72
+  end
+  object dsRight: TDataSource
+    DataSet = quRight
+    Left = 360
+    Top = 72
+  end
+  object pmLeft: TPopupMenu
+    Left = 136
+    Top = 72
+    object miLeft: TMenuItem
+      Caption = 'Будет вызывать поиск'
+    end
+  end
+  object pmRight: TPopupMenu
+    Left = 396
+    Top = 72
+    object miRight: TMenuItem
+      Caption = 'Будет вызывать поиск'
+    end
+  end
+  object quRight: TOracleDataSet
+    ReadBuffer = 25
+    Optimize = True
+    Debug = False
+    StringFieldsOnly = False
+    SequenceField.ApplyMoment = amOnPost
+    OracleDictionary.EnforceConstraints = False
+    OracleDictionary.UseMessageTable = False
+    OracleDictionary.DefaultValues = False
+    OracleDictionary.DynamicDefaults = False
+    OracleDictionary.FieldKinds = False
+    OracleDictionary.DisplayFormats = False
+    OracleDictionary.RangeValues = False
+    OracleDictionary.RequiredFields = True
+    QBEDefinition.SaveQBEValues = True
+    QBEDefinition.AllowFileWildCards = True
+    QBEDefinition.QBEFontColor = clNone
+    QBEDefinition.QBEBackgroundColor = clNone
+    Cursor = crDefault
+    ReadOnly = False
+    LockingMode = lmCheckImmediate
+    QueryAllRecords = True
+    CountAllRecords = False
+    RefreshOptions = []
+    CommitOnPost = True
+    CachedUpdates = False
+    QBEMode = False
+    Session = dmMain.OracleSession
+    DesignActivation = False
+    Active = False
+    Left = 324
+    Top = 72
+  end
+  object quLeft: TOracleDataSet
+    ReadBuffer = 25
+    Optimize = True
+    Debug = False
+    StringFieldsOnly = False
+    SequenceField.ApplyMoment = amOnPost
+    OracleDictionary.EnforceConstraints = False
+    OracleDictionary.UseMessageTable = False
+    OracleDictionary.DefaultValues = False
+    OracleDictionary.DynamicDefaults = False
+    OracleDictionary.FieldKinds = False
+    OracleDictionary.DisplayFormats = False
+    OracleDictionary.RangeValues = False
+    OracleDictionary.RequiredFields = True
+    QBEDefinition.SaveQBEValues = True
+    QBEDefinition.AllowFileWildCards = True
+    QBEDefinition.QBEFontColor = clNone
+    QBEDefinition.QBEBackgroundColor = clNone
+    Cursor = crDefault
+    ReadOnly = False
+    LockingMode = lmCheckImmediate
+    QueryAllRecords = True
+    CountAllRecords = False
+    RefreshOptions = []
+    CommitOnPost = True
+    CachedUpdates = False
+    QBEMode = False
+    Session = dmMain.OracleSession
+    DesignActivation = False
+    Active = False
+    Left = 72
+    Top = 72
+  end
+  object oqToLeft: TOracleQuery
+    Session = dmMain.OracleSession
+    ReadBuffer = 25
+    Optimize = True
+    Debug = False
+    Cursor = crDefault
+    StringFieldsOnly = False
+    Threaded = False
+    ThreadSynchronized = True
+    Left = 72
+    Top = 192
+  end
+  object oqToRight: TOracleQuery
+    Session = dmMain.OracleSession
+    ReadBuffer = 25
+    Optimize = True
+    Debug = False
+    Cursor = crDefault
+    StringFieldsOnly = False
+    Threaded = False
+    ThreadSynchronized = True
+    Left = 104
+    Top = 192
+  end
+end

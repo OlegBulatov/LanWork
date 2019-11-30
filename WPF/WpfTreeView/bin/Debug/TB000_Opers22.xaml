@@ -1,0 +1,329 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:l="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WpfLib;assembly=WpfLib" xmlns:dx="clr-namespace:DevExpress.Xpf.Core;assembly=DevExpress.Xpf.Core.v18.1" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" mc:Ignorable="d" dx:ThemeManager.ThemeName="Office2010Silver" Title="Форма просмотра данных" Height="500" Width="1000">
+  <Window.Resources>
+    <local:MultiValueTextConverter x:Key="MultiValueTextConverter" />
+    <local:MultiValueObjectConverter x:Key="MultiValueObjectConverter" />
+    <!--local:ColorSetter x:Key = "ColorSetter" /-->
+  </Window.Resources>
+  <Grid>
+    <GridControlEx xmlns="clr-namespace:INV.Styles.Controls;assembly=INV.Styles" x:Name="gData" AutoGenerateColumns="None" ItemsSource="{ l:Binding DemoData}" Margin="0,0,0,0">
+      <dxg:GridControl.Bands>
+        <dxg:GridControlBand Header="Главная эмиссия " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Распознана" FieldName="IS_MAIN" ReadOnly="True" Width="40">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Векселедатель" FieldName="T028_SHOT_NAME_MAIN" ReadOnly="True" Width="110">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ИНН" FieldName="T028_INN_MAIN" ReadOnly="True" Width="55">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код страны" FieldName="T028_COUNTRY_ID_MAIN" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Тип ц.б." FieldName="T027_SEC_TYPE_MAIN" ReadOnly="True" Width="31">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Номер векселя" FieldName="T026_SEC_REGN_MAIN" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Исходная эмиссия " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Векселедатель" FieldName="T028_SHOT_NAME" ReadOnly="True" Width="110">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ИНН" FieldName="T028_INN" ReadOnly="True" Width="54">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код страны" FieldName="T028_COUNTRY_ID" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Тип ц.б." FieldName="T027_SEC_TYPE" ReadOnly="True" Width="31">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Номер векселя" FieldName="T026_SEC_REGN" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Вексель " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridControlBand.Bands>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Серия" FieldName="T201_VEKSSERIAL" ReadOnly="True" Width="50">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Номер бланка" FieldName="T201_VEKSBLANK" ReadOnly="True" Width="81">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Дата составления" FieldName="T201_VEKSDTSOST" ReadOnly="True" Width="86">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header=" Срок и условия погашения " HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Условия погашения" FieldName="T201_SROKPOGASH" ReadOnly="True" Width="86">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Дата 1" FieldName="T201_DATE_1" ReadOnly="True" Width="86">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Дата 2" FieldName="T201_DATE_2" ReadOnly="True" Width="86">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Ставка, % годовых" FieldName="T201_VEKSRATE" ReadOnly="True" Width="60">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+              <dxg:GridColumn Header=" Сумма вал.ном." FieldName="T201_VEKSSUM" ReadOnly="True" Width="80">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Сумма в $" FieldName="T201_VEKSSUM_USD" ReadOnly="True" Width="85">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Валюта ном." FieldName="T201_VEKSCODVAL" ReadOnly="True" Width="45">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+            <dxg:GridControlBand Header="" HorizontalHeaderContentAlignment="Center">
+              <dxg:GridColumn Header=" Стоимость реализации, вал. ном" FieldName="T201_REALSTOIM_NOM" ReadOnly="True" Width="70">
+                <dxg:GridColumn.HeaderTemplate>
+                  <l:DataTemplate>
+                    <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+                  </l:DataTemplate>
+                </dxg:GridColumn.HeaderTemplate>
+              </dxg:GridColumn>
+            </dxg:GridControlBand>
+          </dxg:GridControlBand.Bands>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Первый векселедержатель " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Наименование" FieldName="T201_VEKSDERJ_1" ReadOnly="True" Width="120">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ИНН" FieldName="T201_INNDERJ_1" ReadOnly="True" Width="54">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ОГРН" FieldName="T201_OGRNDERJ_1" ReadOnly="True" Width="60">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код страны" FieldName="T201_COUNTR_DR1" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header=" " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Номер бал. счета второго порядка" FieldName="T201_BALUCHETA" ReadOnly="True" Width="100">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Состояние векселя" FieldName="T201_VEKSSOST" ReadOnly="True" Width="110">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Дата факт. погашения" FieldName="T201_DTFAKTPOG" ReadOnly="True" Width="86">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Векселедержатель (собственник) " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Наименование" FieldName="T201_VEKSDERJ" ReadOnly="True" Width="110">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ИНН" FieldName="T201_INNDERJ" ReadOnly="True" Width="54">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ОГРН" FieldName="T201_OGRNDERJKO" ReadOnly="True" Width="60">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код страны" FieldName="T201_COUNTR_DR" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header=" " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Примечание" FieldName="T201_COMMENT_22" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Рег. номер КО" FieldName="T051_BANK_CODE" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Период" FieldName="T051_NUMB_IN_YEA_DESC" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код периода." FieldName="T055_ID" ReadOnly="True" Width="528">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+      </dxg:GridControl.Bands>
+      <dxg:GridControl.View>
+        <dxg:TableView ShowTotalSummary="True" />
+      </dxg:GridControl.View>
+    </GridControlEx>
+    <!--l:CheckBox 
+		Name="chColor" 
+		Margin="900,10,0,0" 
+                IsChecked="{l:Binding Path=ColorIsOn}" 
+		HorizontalAlignment = "Left" 
+		VerticalAlignment = "Top" /-->
+    <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Height="23" Margin="170,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600" />
+    <Button x:Name="bnPrev" Content="&lt;" HorizontalAlignment="Left" Margin="2,10,0,0" VerticalAlignment="Top" Width="30" />
+    <Button x:Name="bnNext" Content="&gt;" HorizontalAlignment="Left" Margin="32,10,0,0" VerticalAlignment="Top" Width="30" />
+    <Button x:Name="bnFilter" Content="Фильтр" HorizontalAlignment="Left" Margin="70,10,0,0" VerticalAlignment="Top" Width="75" />
+    <TextBox Name="tbCurrentColumnState" Height="30" Margin="800,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <TextBox.Text>
+        <MultiBinding Converter="{ StaticResource MultiValueTextConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Text>
+      <TextBox.Tag>
+        <MultiBinding Converter="{ StaticResource MultiValueObjectConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Tag>
+    </TextBox>
+  </Grid>
+</Window>

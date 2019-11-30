@@ -1,0 +1,214 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:l="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WpfLib;assembly=WpfLib" xmlns:dx="clr-namespace:DevExpress.Xpf.Core;assembly=DevExpress.Xpf.Core.v18.1" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" mc:Ignorable="d" dx:ThemeManager.ThemeName="Office2010Silver" Title="Форма просмотра данных" Height="500" Width="1000">
+  <Window.Resources>
+    <local:MultiValueTextConverter x:Key="MultiValueTextConverter" />
+    <local:MultiValueObjectConverter x:Key="MultiValueObjectConverter" />
+    <!--local:ColorSetter x:Key = "ColorSetter" /-->
+  </Window.Resources>
+  <Grid>
+    <GridControlEx xmlns="clr-namespace:INV.Styles.Controls;assembly=INV.Styles" x:Name="gData" AutoGenerateColumns="None" ItemsSource="{ l:Binding DemoData}" Margin="0,0,0,0">
+      <dxg:GridControl.Bands>
+        <dxg:GridControlBand Header="Эмитент " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Наименование" FieldName="T028_SHOT_NAME" ReadOnly="True" Width="100">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Вид" FieldName="T037_SHOT_NAME" ReadOnly="True" Width="30">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код" FieldName="T028_CODE" ReadOnly="True" Width="75">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header=" " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Резидент" FieldName="T012_NAME" ReadOnly="True" Width="100">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" ИНН" FieldName="T012_CODE" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Нерезидент" FieldName="T013_NAME" ReadOnly="True" Width="100">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Страна" FieldName="T013_CODE" ReadOnly="True" Width="50">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Направление" FieldName="T006_DIRECTION_DESC" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код операции" FieldName="T011_TYPE_ID" ReadOnly="True" Width="27">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Комментарий" FieldName="T001_COMMENT" ReadOnly="True" Width="100">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header="Основной долг $ " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Кол. ц.б." FieldName="T001_OP_COUNT" ReadOnly="True" Width="58">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Доля" FieldName="T001_PERCENT" ReadOnly="True" Width="40">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Неразобранные" FieldName="SUM_NOCOUNT" ReadOnly="True" Width="85">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Портфельные" FieldName="SUM_CASE" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Прямые" FieldName="SUM_STRAIGHT" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Обратные прямые" FieldName="SUM_BACK_STRAIGHT" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Сестринские" FieldName="SUM_SISTER" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Прочие участие" FieldName="SUM_OTH_YCH" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Не учит." FieldName="SUM_OTHER" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+        <dxg:GridControlBand Header=" " HorizontalHeaderContentAlignment="Center">
+          <dxg:GridColumn Header=" Код временного периода" FieldName="T055_ID" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код типа ценной бумаги" FieldName="T027_ID" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код эмитента" FieldName="T028_ID" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код направления платежа" FieldName="T006_ID" ReadOnly="True" Width="80">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+          <dxg:GridColumn Header=" Код группы эмиссий" FieldName="T042_ID" ReadOnly="True" Width="1056">
+            <dxg:GridColumn.HeaderTemplate>
+              <l:DataTemplate>
+                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
+              </l:DataTemplate>
+            </dxg:GridColumn.HeaderTemplate>
+          </dxg:GridColumn>
+        </dxg:GridControlBand>
+      </dxg:GridControl.Bands>
+      <dxg:GridControl.View>
+        <dxg:TableView ShowTotalSummary="True" />
+      </dxg:GridControl.View>
+    </GridControlEx>
+    <!--l:CheckBox 
+		Name="chColor" 
+		Margin="900,10,0,0" 
+                IsChecked="{l:Binding Path=ColorIsOn}" 
+		HorizontalAlignment = "Left" 
+		VerticalAlignment = "Top" /-->
+    <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Height="23" Margin="133,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600" />
+    <Button x:Name="bnFilter" Content="Фильтр" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" />
+    <TextBox Name="tbCurrentColumnState" Height="30" Margin="800,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <TextBox.Text>
+        <MultiBinding Converter="{ StaticResource MultiValueTextConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Text>
+      <TextBox.Tag>
+        <MultiBinding Converter="{ StaticResource MultiValueObjectConverter}">
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.FieldName" />
+          <Binding ElementName="gData" Mode="OneWay" Path="CurrentColumn.ActualWidth" />
+        </MultiBinding>
+      </TextBox.Tag>
+    </TextBox>
+  </Grid>
+</Window>

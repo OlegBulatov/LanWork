@@ -1,0 +1,20 @@
+﻿<Page  
+    x:Name="MainPage" 
+    x:Class="GridOrganizer.ModuleFilterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dios="using:DIOS.Web.XamlExtensions">
+
+    <Grid>
+        <TextBox Name="tbForm" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="90,10,0,0" Width="240" IsEnabled="{Binding ElementName=chForm, Path=IsChecked}" >
+            <TextBox.Tag>
+                <dios:DCController Name="cntrForm" DataField="form" Predicate="=" 
+                         FilterControllerValue="{Binding ElementName=tbForm, Path=Text}" 
+                         FilterIsEnabled="{Binding ElementName=tbForm, Path=IsEnabled}"
+                         DataContext="{Binding ElementName=tbForm, Path=DataContext}"/>
+            </TextBox.Tag>
+        </TextBox>
+        <CheckBox Name="chForm" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Width="70" Content="форма" />
+
+    </Grid>
+</Page>

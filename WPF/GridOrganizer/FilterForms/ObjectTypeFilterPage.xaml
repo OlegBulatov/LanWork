@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="GridOrganizer.ObjectTypeFilterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dios="using:DIOS.Web.XamlExtensions">
+    <!--<Page.Resources>
+        <dios:Controller x:Key="cntrObjectType" Name="cntrObjectType" DataField="object_type" Predicate="=" 
+                         FilterControllerValue="{Binding ElementName=cbObjectType, Path=SelectedValue}" 
+                         FilterIsEnabled="{Binding ElementName=cbObjectType, Path=IsEnabled}"/>
+        <dios:Controller x:Key="cntrClassName" Name="cntrClassName" DataField="table_name" Predicate="like" 
+                         FilterControllerValue="{Binding ElementName=tbClassName, Path=Text}" 
+                         FilterIsEnabled="{Binding ElementName=tbClassName, Path=IsEnabled}"/>
+    </Page.Resources>-->
+    <Grid>
+        <TextBox Name="tbName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="410,16,0,0" Width="240" IsEnabled="{Binding ElementName=chName, Path=IsChecked}">
+            <TextBox.Tag>
+                <dios:DCController Name="cntrName" DataField="name" Predicate="like" 
+                         FilterControllerValue="{Binding ElementName=tbName, Path=Text}" 
+                         FilterIsEnabled="{Binding ElementName=tbName, Path=IsEnabled}"
+                         DataContext="{Binding ElementName=tbName, Path=DataContext}"/>
+            </TextBox.Tag>
+        </TextBox>
+        <TextBox Name="tbClassName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="90,50,0,0" Width="240" IsEnabled="{Binding ElementName=chClassName, Path=IsChecked}">
+            <TextBox.Tag>
+                <dios:DCController Name="cntrClassName" DataField="class_name" Predicate="like" 
+                         FilterControllerValue="{Binding ElementName=tbClassName, Path=Text}" 
+                         FilterIsEnabled="{Binding ElementName=tbClassName, Path=IsEnabled}"
+                         DataContext="{Binding ElementName=tbClassName, Path=DataContext}"/>
+            </TextBox.Tag>
+        </TextBox>
+        <TextBox Name="tbAssemblyName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="90,16,0,0" Width="240" IsEnabled="{Binding ElementName=chAssemblyName, Path=IsChecked}">
+            <TextBox.Tag>
+                <dios:DCController Name="cntrAssemblyName" DataField="assembly_name" Predicate="like" 
+                         FilterControllerValue="{Binding ElementName=tbAssemblyName, Path=Text}" 
+                         FilterIsEnabled="{Binding ElementName=tbAssemblyName, Path=IsEnabled}"
+                         DataContext="{Binding ElementName=tbAssemblyName, Path=DataContext}"/>
+            </TextBox.Tag>
+        </TextBox>
+        <CheckBox Name="chName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="340,16,0,0" Width="60" Content="название" />
+        <CheckBox Name="chClassName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,50,0,0" Width="70" Content="класс" />
+        <CheckBox Name="chAssemblyName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,16,0,0" Width="70" Content="сборка" />
+        <CheckBox Name="chObjectType" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="640,50,0,0" Width="60" Content="тип" />
+        <dios:ComboBoxEx x:Name="cbObjectType"
+                    VerticalAlignment="Top" HorizontalAlignment="Left" Margin="700, 50, 0, 0" Width="300" 
+                    IsEnabled="{Binding ElementName=chObjectType, Path=IsChecked}"
+                    ListClassName="GridOrganizer.OBJECT_TYPE"
+                    DisplayMemberPath="type_name"
+                    SelectedValuePath="object_type">
+            <dios:ComboBoxEx.Tag>
+                <dios:DCController Name="cntrObjectType" DataField="object_type" Predicate="=" 
+                         FilterControllerValue="{Binding ElementName=cbObjectType, Path=SelectedValue}" 
+                         FilterIsEnabled="{Binding ElementName=cbObjectType, Path=IsEnabled}"
+                         DataContext="{Binding ElementName=cbObjectType, Path=DataContext}"/>
+            </dios:ComboBoxEx.Tag>
+        </dios:ComboBoxEx>
+        <!--<dios:NestedController x:Name="ObjectTypeController" 
+                          FilterControllerValue="{Binding ElementName=cbObjectType, Path=SelectedValue}" 
+                          FilterIsEnabled="{Binding ElementName=cbObjectType, Path=IsEnabled}"
+                         DataField="object_type"
+                         Predicate="="
+                         Width="0"
+                          ></dios:NestedController>-->
+        <!--<dios:DataContextProvider Width="0"></dios:DataContextProvider>-->
+    </Grid>
+</Page>

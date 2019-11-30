@@ -1,0 +1,96 @@
+Рег. номер	
+Входящий остаток | Выпуск, млн.шт.	
+Входящий остаток | Котировки | BLOOMBERG | Цена ($)	
+Входящий остаток | Котировки | BLOOMBERG | Дата	
+Входящий остаток | Котировки | ММВБ | Цена ($)	
+Входящий остаток | Котировки | ММВБ | Дата	
+Входящий остаток | Котировки | REUTERS | Цена ($)	
+Входящий остаток | Котировки | REUTERS | Дата	
+Входящий остаток | Котировки | Форма 405 | Цена ($)	
+Входящий остаток | Котировки | Форма 405 | Дата	
+Входящий остаток | Котировки | Форма 405 | Кол-во котировок	
+Входящий остаток | Котировки | Форма 417 | Цена ($)	
+Входящий остаток | Котировки | Форма 417 | Дата	
+Входящий остаток | Котировки | Форма 417 | Кол-во котировок	
+Входящий остаток | Котировки | MOEX Board | Цена ($)	
+Входящий остаток | Котировки | MOEX Board | Дата	
+Входящий остаток | Котировки | Форма 711 | Цена ($)	
+Входящий остаток | Котировки | Форма 711 | Дата	
+Входящий остаток | Котировки | Форма 711 | Кол-во котировок	
+Входящий остаток | Котировки | Форма 415 | Цена ($)	
+Входящий остаток | Котировки | Форма 415 | Дата	
+Входящий остаток | Котировки | Форма 415 | Кол-во котировок	
+Входящий остаток | Котировки | Ручн. | Цена ($)	
+Входящий остаток | Цена,$	
+Входящий остаток | Форма 711 | 711 млн.шт.	
+Входящий остаток | Форма 711 | 711 млн.$	
+Входящий остаток | Форма 711 | % от вып. 	
+Входящий остаток | Небанк.деп. | НБ млн.шт.	
+Входящий остаток | Небанк.деп. | НБ млн.$	
+Входящий остаток | 711 + НД | млн.шт.	
+Входящий остаток | 711 + НД | млн.$	
+Входящий остаток | МИП | млн.шт.	
+Входящий остаток | МИП | млн.$	
+Входящий остаток | МИП | % от вып. 	
+Входящий остаток | Резиденты | 711 | млн.шт.	
+Входящий остаток | Резиденты | 415 | млн.шт.	
+Входящий остаток | Доля всей 711+415 к эмиссии (%)	
+Входящий остаток | Доля прямых инвестиций | На дату расчета	
+Входящий остаток | Доля прямых инвестиций | Источник данных	
+Входящий остаток | Доля прямых инвестиций | Актуальн.	
+Входящий остаток | Доля портфельн. инвестиций (%)	
+Входящий остаток | Доля резидентов | На дату расчета	
+Входящий остаток | Доля резидентов | Источник данных	
+Операции | Цена,$
+
+
+
+
+"Рег. номер",
+"Входящий остаток | Выпуск, млн.шт.",
+"Входящий остаток | Котировки | BLOOMBERG | Цена ($)",
+"Входящий остаток | Котировки | BLOOMBERG | Дата",
+"Входящий остаток | Котировки | ММВБ | Цена ($)",
+"Входящий остаток | Котировки | ММВБ | Дата",
+"Входящий остаток | Котировки | REUTERS | Цена ($)",
+"Входящий остаток | Котировки | REUTERS | Дата",
+"Входящий остаток | Котировки | Форма 405 | Цена ($)",
+"Входящий остаток | Котировки | Форма 405 | Дата",
+"Входящий остаток | Котировки | Форма 405 | Кол-во котировок",
+"Входящий остаток | Котировки | Форма 417 | Цена ($)",
+"Входящий остаток | Котировки | Форма 417 | Дата",
+"Входящий остаток | Котировки | Форма 417 | Кол-во котировок",
+"Входящий остаток | Котировки | MOEX Board | Цена ($)",
+"Входящий остаток | Котировки | MOEX Board | Дата",
+"Входящий остаток | Котировки | Форма 711 | Цена ($)",
+"Входящий остаток | Котировки | Форма 711 | Дата",
+"Входящий остаток | Котировки | Форма 711 | Кол-во котировок",
+"Входящий остаток | Котировки | Форма 415 | Цена ($)",
+"Входящий остаток | Котировки | Форма 415 | Дата",
+"Входящий остаток | Котировки | Форма 415 | Кол-во котировок",
+"Входящий остаток | Котировки | Ручн. | Цена ($)",
+"Входящий остаток | Цена,$",
+"Входящий остаток | Форма 711 | 711 млн.шт.",
+"Входящий остаток | Форма 711 | 711 млн.$",
+"Входящий остаток | Форма 711 | % от вып. ",
+"Входящий остаток | Небанк.деп. | НБ млн.шт.",
+"Входящий остаток | Небанк.деп. | НБ млн.$",
+"Входящий остаток | 711 + НД | млн.шт.",
+"Входящий остаток | 711 + НД | млн.$",
+"Входящий остаток | МИП | млн.шт.",
+"Входящий остаток | МИП | млн.$",
+"Входящий остаток | МИП | % от вып. ",
+"Входящий остаток | Резиденты | 711 | млн.шт.",
+"Входящий остаток | Резиденты | 415 | млн.шт.",
+"Входящий остаток | Доля всей 711+415 к эмиссии (%)",
+"Входящий остаток | Доля прямых инвестиций | На дату расчета",
+"Входящий остаток | Доля прямых инвестиций | Источник данных",
+"Входящий остаток | Доля прямых инвестиций | Актуальн.",
+"Входящий остаток | Доля портфельн. инвестиций (%)",
+"Входящий остаток | Доля резидентов | На дату расчета",
+"Входящий остаток | Доля резидентов | Источник данных",
+"	Операции | Цена,$",
+
+
+
+<dxg:GridControlBand Header="Рег. номер" /><dxg:GridControlBand Header="Входящий остаток "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Выпуск, млн.шт." /><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" BLOOMBERG "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" BLOOMBERG "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" ММВБ "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" ММВБ "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" REUTERS "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" REUTERS "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 405 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 405 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 405 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Кол-во котировок" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 417 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 417 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 417 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Кол-во котировок" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" MOEX Board "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" MOEX Board "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Кол-во котировок" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 415 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 415 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Дата" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Форма 415 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Кол-во котировок" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Котировки "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Ручн. "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена ($)" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Цена,$" /><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" 711 млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" 711 млн.$" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Форма 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" % от вып. " /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Небанк.деп. "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" НБ млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Небанк.деп. "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" НБ млн.$" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" 711 + НД "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" 711 + НД "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.$" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" МИП "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" МИП "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.$" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" МИП "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" % от вып. " /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Резиденты "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" 711 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Резиденты "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" 415 "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" млн.шт." /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Доля всей 711+415 к эмиссии (%)" /><dxg:GridControlBand Header=" Доля прямых инвестиций "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" На дату расчета" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Доля прямых инвестиций "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Источник данных" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Доля прямых инвестиций "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Актуальн." /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Доля портфельн. инвестиций (%)" /><dxg:GridControlBand Header=" Доля резидентов "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" На дату расчета" /></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header=" Доля резидентов "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Источник данных" /></dxg:GridControlBand.Bands></dxg:GridControlBand></dxg:GridControlBand.Bands></dxg:GridControlBand><dxg:GridControlBand Header="	Операции "><dxg:GridControlBand.Bands><dxg:GridControlBand Header=" Цена,$" /></dxg:GridControlBand.Bands></dxg:GridControlBand>

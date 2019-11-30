@@ -1,0 +1,13 @@
+﻿<Page
+    x:Class="GridOrganizer.HtmlFilterPage"
+    x:Name="PageWithHtmlFilter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GridOrganizer.FilterForms"
+    xmlns:controlns="using:GridOrganizer">
+
+    <Grid>
+        <controlns:HtmlFilter x:Name="HtmlFilter1" Value="100" Margin="10,0,0,0" Width="200" VerticalAlignment="Top"/>
+        <Button Click="Button_Click" HorizontalAlignment="Left" VerticalAlignment="Top" >Test</Button>
+    </Grid>
+</Page>

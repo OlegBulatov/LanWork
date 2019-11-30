@@ -1,0 +1,17 @@
+﻿<Page
+    x:Class="GridOrganizer.ModulePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GridOrganizer">
+    
+    <Grid>
+        <DataGrid HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Stretch" AutoGenerateColumns="False" ItemsSource="{Binding XObjects}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=title}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Форма" Binding="{Binding Path=form}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

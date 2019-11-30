@@ -1,0 +1,2 @@
+inherited fmComposite: TfmComposite
+end

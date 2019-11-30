@@ -1,0 +1,39 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WpfLib;assembly=WpfLib" mc:Ignorable="d" Height="169" Width="520">
+  <Window.Resources>
+    <local:FilterController x:Key="FilterController" />
+  </Window.Resources>
+  <Grid Name="filterGrid">
+    <CheckBox Name="chDates" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0" Width="120" Content="Остатки на даты с" />
+    <CheckBox Name="chOrganization" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40,0,0" Width="120" Content="Кред. организация" />
+    <ComboBox Name="cbDateFrom" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,15,0,0" Width="150" IsEnabled="{Binding ElementName=chDates, Path=IsChecked}" IsEditable="True">
+      <ComboBox.IsReadOnly>
+        <MultiBinding Converter="{StaticResource FilterController}">
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Text" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="IsEnabled" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="DataContext" />
+        </MultiBinding>
+      </ComboBox.IsReadOnly>
+    </ComboBox>
+    <ComboBox Name="cbDateTo" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="360,15,0,0" Width="150" IsEnabled="{Binding ElementName=chDates, Path=IsChecked}" IsEditable="True">
+      <ComboBox.IsReadOnly>
+        <MultiBinding Converter="{StaticResource FilterController}">
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Text" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="IsEnabled" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="DataContext" />
+        </MultiBinding>
+      </ComboBox.IsReadOnly>
+    </ComboBox>
+    <ComboBox Name="cbOrganization" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,40,0,0" Width="350" IsEnabled="{Binding ElementName=chOrganization, Path=IsChecked}">
+      <ComboBox.IsReadOnly>
+        <MultiBinding Converter="{StaticResource FilterController}">
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Text" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="IsEnabled" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="DataContext" />
+        </MultiBinding>
+      </ComboBox.IsReadOnly>
+    </ComboBox>
+  </Grid>
+</Window>

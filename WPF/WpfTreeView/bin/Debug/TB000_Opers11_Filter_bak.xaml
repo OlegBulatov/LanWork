@@ -1,0 +1,28 @@
+﻿<Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr -namespace:WpfDemoApp.Views"
+        mc:Ignorable="d" Title="Фильтр 1.2" Height="169" Width="520">
+    <Grid >
+        <ComboBox VerticalAlignment = "Top" HorizontalAlignment = "Left" Margin="176,9,0,0" Width="304" Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}"/>
+        <ComboBox 
+                 SelectedIndex="0"
+                 VerticalAlignment = "Top" 
+                 HorizontalAlignment = "Left" 
+                 Margin="176,34,0,0" 
+                 Width="304" 
+                 IsEnabled="{Binding ElementName=cbSecurityType, Path=IsChecked}" 
+                 Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}">
+            <ComboBoxItem Content="все"/>
+            <ComboBoxItem Content="DR"/>
+            <ComboBoxItem Content="OTHER"/>
+	</ComboBox>
+        <ComboBox VerticalAlignment = "Top" HorizontalAlignment = "Left" Margin="176,59,0,0" Width="304" Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}"/>
+        <CheckBox VerticalAlignment = "Top" HorizontalAlignment = "Left" Margin="27,9,0,0" Content = "Кред. организация" Width="130" Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}"/>
+        <CheckBox Name = "cbSecurityType" VerticalAlignment = "Top" HorizontalAlignment = "Left" Margin="27,34,0,0" Content = "Тип ценной бумаги" Width="130" Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}"/>
+        <CheckBox VerticalAlignment = "Top" HorizontalAlignment = "Left" Margin="27,59,0,0" Content = "Вид счета" Width="130" Tag="{}{DataField:&quot;&quot;,Predicate:&quot;=&quot;,DataType:&quot;string&quot;}"/>
+        <!--Button x:Name="bnApply" Content="Apply" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Width="75" /-->
+    </Grid>
+</Window>

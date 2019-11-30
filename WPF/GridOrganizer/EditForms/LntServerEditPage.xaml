@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="GridOrganizer.LntServerEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dios="using:DIOS.Web.XamlExtensions"
+    xmlns:local="using:GridOrganizer">
+    <Grid x:Name="editGrid">
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 10, 0, 0">name</TextBlock>
+        <TextBox Width="180" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80, 10, 0, 0" Text="{Binding Path=SelectedObject._name, Mode=TwoWay}"></TextBox>
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 30, 0, 0">IP</TextBlock>
+        <TextBox Width="180" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80, 30, 0, 0" Text="{Binding Path=SelectedObject.ip_address, Mode=TwoWay}"></TextBox>
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 50, 0, 0">описание</TextBlock>
+        <TextBox Width="180" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80, 50, 0, 0" Text="{Binding Path=SelectedObject.description, Mode=TwoWay}"></TextBox>
+    </Grid>
+</Page>

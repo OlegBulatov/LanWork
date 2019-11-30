@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="GridOrganizer.FormPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dios="using:DIOS.Web.XamlExtensions"
+    xmlns:local="using:GridOrganizer">
+    
+    <Grid>
+        <DataGrid x:Name="FormGrid" HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Stretch" AutoGenerateColumns="False" 
+                  ItemsSource="{Binding XObjects}" >
+            <DataGrid.Tag>
+                <dios:DCController Name="cntrObjectType" DataField="object_type" Predicate="=" 
+                  FilterIsEnabled="True"
+                  AutoRefresh="True"
+                  DataContext="{Binding ElementName=FormGrid, Path=DataContext}"/>
+            </DataGrid.Tag>
+        </DataGrid>
+    </Grid>
+</Page>

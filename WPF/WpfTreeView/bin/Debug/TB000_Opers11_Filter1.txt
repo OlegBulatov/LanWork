@@ -1,0 +1,56 @@
+﻿<Window 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:local="clr-namespace:WpfLib;assembly=WpfLib"	
+	mc:Ignorable="d" 
+	Height="169" 
+	Width="520">
+  <Window.Resources>
+    <local:FilterController x:Key="FilterController" />
+  </Window.Resources>
+  <Grid Name="filterGrid">
+    <CheckBox Name="chQty" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Width="80" Content="Кол-во &gt;=" />
+    <TextBox Name="tbQty" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,20,0,0" Width="90" IsEnabled="{Binding ElementName=chQty, Path=IsChecked}" Tag="{}{DataField:&quot;KOL_CB&quot;,Predicate:&quot;&gt;=&quot;,DataProperty:&quot;Text&quot;}">
+      <TextBox.IsReadOnly>
+        <MultiBinding Converter="{ StaticResource FilterController}">
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Text" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="IsEnabled" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="DataContext" />
+        </MultiBinding>
+      </TextBox.IsReadOnly>
+    </TextBox>
+
+    <CheckBox Name="chSecurityType" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,45,0,0" Width="80" Content="тип" />
+    <ComboBox Name="cbSecurityType" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,45,0,0" Width="90" IsEnabled="{Binding ElementName=chSecurityType, Path=IsChecked}" IsEditable="True"  Tag="{}{DataField:&quot;T027_SEC_TYPE&quot;,Predicate:&quot;=&quot;,DataProperty:&quot;Text&quot;}">
+      <ComboBoxItem Content="Деп.расп." Tag="DR" />
+      <ComboBoxItem Content="другие" Tag="OTHER" />
+      <ComboBox.IsReadOnly>
+        <MultiBinding Converter="{ StaticResource FilterController}">
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="SelectedItem.Tag" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="IsEnabled" />
+          <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay" Path="DataContext" />
+        </MultiBinding>
+      </ComboBox.IsReadOnly>
+    </ComboBox>
+
+	<ComboBox Name="cmbColors" Visibility="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,45,0,0" Width="90" SelectedItem="{Binding Path=SelectedObject, Mode=OneWayToSource}">
+	      <ComboBoxItem Tag="красный" Content="red"/>
+	      <ComboBoxItem Tag="зеленый" Content="green" />
+        </ComboBox>
+
+	<!--ComboBox Name="cmbColors2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,75,0,0" Width="90" SelectedItem="{Binding Path=SelectedObject, Mode=OneWayToSource}">
+	      <ComboBoxItem Tag="b" Content="blue"/>
+	      <ComboBoxItem Tag="y" Content="yellow" />
+        </ComboBox>
+	<TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,45,0,0" Width="400"> 
+
+	</TextBox-->
+  </Grid>
+</Window>
+
+<!-- Tag="{}{DataField:&quot;T027_SEC_TYPE&quot;,Predicate:&quot;=&quot;,DataProperty:&quot;SelectedItem.Content&quot;}"  -->
+<!--Text="{Binding ElementName=tbQty, Path=Tag}"/-->
