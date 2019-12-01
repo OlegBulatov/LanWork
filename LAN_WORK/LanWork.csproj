@@ -481,6 +481,7 @@
     <Content Include="Views\WIB\index.cshtml" />
     <Content Include="Views\DIOS\index.cshtml" />
     <Content Include="Views\DIOS\index_fancy.cshtml" />
+    <Content Include="Views\DIOS\index_guriddo.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\HelpPage.html" />
     <Content Include="Web.config">
