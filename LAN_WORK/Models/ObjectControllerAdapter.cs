@@ -41,7 +41,7 @@ namespace LanWork.Models
             {
                 F = M.GetFactory(_className);
             }
-            catch
+            catch(Exception exc)
             {
                 throw new Exception("Object type " + _className + " not found");
             }
@@ -55,5 +55,23 @@ namespace LanWork.Models
         {
             return _row_count;
         }
+
+        public string VCList(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
+        {
+            _className = class_name;
+            _json_params = filter;
+            _order = order;
+            _limit = limit;
+            _offset = offset;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForVCList), new RowCountHandler(getRowCount));
+            return M.MakeResponse();
+        }
+
+        private string doTrueResponseForVCList()
+        {
+            IParameterCollection Params = Util.DeserializeParams(_json_params);
+            return ObjectMethods.JsonVirtualClassList(_className, Params, _order, _limit, _offset, out _row_count);
+        }
+
     }
 }

@@ -26,5 +26,12 @@ namespace LanWork.Controllers
             return resultObject.response_body;
         }
 
+        public string VCList(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
+        {
+            HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            string result = (new ObjectControllerAdapter()).VCList(class_name, filter, order, limit, offset);
+            return result;
+
+        }
     }
 }
