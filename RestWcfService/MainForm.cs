@@ -10,13 +10,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace RestWcfService
 {
+    public interface IRestServiceClass
+    {
+        displayMethod dMethod { get; set; }
+        string ServerURL { get; set; }
+        string ConnectionString { get; set; }
+        void SetUserNameExt(string userName);
+        Type serviceType { get; }
+    }
+
     public delegate void displayMethod(string shortStatus, string longStatus);
     public partial class MainForm : Form
     {
-
         private void DisplayStatus(string shortStatus, string longStatus)
         {
             stLabel.Text = shortStatus;
@@ -24,9 +33,20 @@ namespace RestWcfService
             tbError.Text = longStatus;
         }
 
+        public IRestServiceClass RestService = null;
+
         public MainForm()
         {
             InitializeComponent();
+            Assembly svcAssembly = Assembly.Load("RestWcfService");
+            if (svcAssembly == null)
+                throw new Exception("assembly RestWcfService not found");
+            Type dType = svcAssembly.GetType("RestWcfService.DCServiceClass");
+            if (dType == null)
+                throw new Exception("type DCServiceClass not found");
+            RestService = Activator.CreateInstance(dType) as IRestServiceClass;
+            if(RestService == null)
+                throw new Exception("service does not implement IRestServiceClass");
             RestService.dMethod = new displayMethod(DisplayStatus);
             DisplayStatus("please start", "press Start button");
             tbConnectionString.Text = Properties.Settings.Default.DatabaseConnectionString;
@@ -47,7 +67,7 @@ namespace RestWcfService
             try
             {
                 string address = tbUri.Text;
-                ServiceHost host = new MyHost(typeof(RestService), new Uri(address));
+                ServiceHost host = new MyHost(RestService.serviceType, new Uri(address));
                 //host.Description.Behaviors.Add(new HostBehavior());
                 // Добавляем конечную точку службы с заданным интерфейсом, привязкой (создаём новую) и адресом конечной точки
                 //host.Description.Endpoints.Add(new WebScriptEndpoint(ContractDescription.GetContract(typeof(ISqlService))));
@@ -116,6 +136,98 @@ namespace RestWcfService
         protected override ServiceDescription CreateDescription(out IDictionary<string, ContractDescription> implementedContracts)
         {
             return base.CreateDescription(out implementedContracts);
+        }
+    }
+
+    public class Properties_Settings_Default
+    {
+        public static string QueryExecuteProcedure
+        {
+            get
+            {
+                return Properties.Settings.Default.QueryExecuteProcedure;
+            }
+            set
+            {
+                Properties.Settings.Default.QueryExecuteProcedure = value;
+            }
+        }
+        public static string TempDir
+        {
+            get
+            {
+                return Properties.Settings.Default.TempDir;
+            }
+            set
+            {
+                Properties.Settings.Default.TempDir = value;
+            }
+        }
+        public static string CompareProgramPath
+        {
+            get
+            {
+                return Properties.Settings.Default.CompareProgramPath;
+            }
+            set
+            {
+                Properties.Settings.Default.CompareProgramPath = value;
+            }
+        }
+        public static string AfterSaveCommand
+        {
+            get
+            {
+                return Properties.Settings.Default.AfterSaveCommand;
+            }
+            set
+            {
+                Properties.Settings.Default.AfterSaveCommand = value;
+            }
+        }
+        public static string EditTextCommand
+        {
+            get
+            {
+                return Properties.Settings.Default.EditTextCommand;
+            }
+            set
+            {
+                Properties.Settings.Default.EditTextCommand = value;
+            }
+        }
+        public static string WordDir
+        {
+            get
+            {
+                return Properties.Settings.Default.WordDir;
+            }
+            set
+            {
+                Properties.Settings.Default.WordDir = value;
+            }
+        }
+        public static bool DeleteFileAfterSaveOnServer
+        {
+            get
+            {
+                return Properties.Settings.Default.DeleteFileAfterSaveOnServer;
+            }
+            set
+            {
+                Properties.Settings.Default.DeleteFileAfterSaveOnServer = value;
+            }
+        }
+        public static bool UseUniqueFileNames
+        {
+            get
+            {
+                return Properties.Settings.Default.UseUniqueFileNames;
+            }
+            set
+            {
+                Properties.Settings.Default.UseUniqueFileNames = value;
+            }
         }
     }
 }

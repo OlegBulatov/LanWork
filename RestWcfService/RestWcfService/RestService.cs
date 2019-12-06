@@ -106,7 +106,7 @@ namespace RestWcfService
                 DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
                 if(dMethod != null)
                     dMethod("execute query #" + QueryNumber++.ToString(), query);
-                if (Properties.Settings.Default.QueryExecuteProcedure != "")
+                if (Properties_Settings_Default.QueryExecuteProcedure != "")
                 {
                     IParameterCollection Params = new DIOS.Common.ParameterCollection();
                     Params.Add("dersa_entity", dersaEntity);
@@ -114,7 +114,7 @@ namespace RestWcfService
                     Params.Add("object_name", objectName);
                     Params.Add("object_type", objectType);
                     Params.Add("new_ddl", query);
-                    M.ExecuteSPWithResult(Properties.Settings.Default.QueryExecuteProcedure, false, Params);
+                    M.ExecuteSPWithResult(Properties_Settings_Default.QueryExecuteProcedure, false, Params);
                 }
                 return M.ExecMultiPartSql(query); // "ExecuteQuery " + query;
             }
@@ -152,13 +152,13 @@ namespace RestWcfService
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             string attr1 = sClient.GetAttrValue(attr_name, item1, _userName);
             string attr2 = sClient.GetAttrValue(attr_name, item2, _userName);
-            string TempDirPath = Properties.Settings.Default.TempDir;
+            string TempDirPath = Properties_Settings_Default.TempDir;
             string fileName1 = TempDirPath + item1 + "_" + attr_name + ".txt";
             string fileName2 = TempDirPath + item2 + "_" + attr_name + ".txt";
             File.WriteAllText(fileName1, attr1);
             File.WriteAllText(fileName2, attr2);
             Process proc = new Process();
-            proc.StartInfo.FileName = Properties.Settings.Default.CompareProgramPath;
+            proc.StartInfo.FileName = Properties_Settings_Default.CompareProgramPath;
             proc.StartInfo.Arguments = fileName1 + " " + fileName2;
             proc.Start();
         }
@@ -167,7 +167,7 @@ namespace RestWcfService
         {
             var response = WebOperationContext.Current.OutgoingResponse;
             response.Headers.Add("Access-Control-Allow-Origin", "*");
-            string TempDirPath = Properties.Settings.Default.TempDir; //"c:\\Temp\\";
+            string TempDirPath = Properties_Settings_Default.TempDir; //"c:\\Temp\\";
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             if (_userToken == null)
@@ -187,10 +187,10 @@ namespace RestWcfService
                 entityId = textToEditObject.entityId.ToString();
             }
             catch { }
-            bool uniqueName = Properties.Settings.Default.UseUniqueFileNames;
+            bool uniqueName = Properties_Settings_Default.UseUniqueFileNames;
             if (textToEditObject.attrName == "WordText")
             {
-                TempDirPath = Properties.Settings.Default.WordDir;
+                TempDirPath = Properties_Settings_Default.WordDir;
                 uniqueName = true; 
             }
             string fileName = Path.Combine(TempDirPath, (uniqueName ? Guid.NewGuid().ToString() : "entity." + entityId + "." + attrName) + (textToEditObject.attrName == "WordText"? ".html" : ".txt"));
@@ -203,25 +203,25 @@ namespace RestWcfService
                 return "OK";
             }
             Process proc = new Process();
-            proc.StartInfo.FileName = Properties.Settings.Default.EditTextCommand;
+            proc.StartInfo.FileName = Properties_Settings_Default.EditTextCommand;
             proc.StartInfo.Arguments = fileName;
             proc.Start();
             proc.WaitForExit();
             string result = File.ReadAllText(fileName);
-            bool needDelFile = Properties.Settings.Default.DeleteFileAfterSaveOnServer;
+            bool needDelFile = Properties_Settings_Default.DeleteFileAfterSaveOnServer;
             if (result != textToEdit)
             {
                 needDelFile = false;
                 try
                 {
                     result = sClient.SetAttrValue(attrName, entityId, result, _userToken);
-                    needDelFile = Properties.Settings.Default.DeleteFileAfterSaveOnServer; //false;// result == "";
+                    needDelFile = Properties_Settings_Default.DeleteFileAfterSaveOnServer; //false;// result == "";
                     if (result == "")
                         result = "information saved successfully";
-                    if (!string.IsNullOrEmpty(Properties.Settings.Default.AfterSaveCommand))
+                    if (!string.IsNullOrEmpty(Properties_Settings_Default.AfterSaveCommand))
                     {
                         proc = new Process();
-                        proc.StartInfo.FileName = Properties.Settings.Default.AfterSaveCommand;
+                        proc.StartInfo.FileName = Properties_Settings_Default.AfterSaveCommand;
                         proc.Start();
                     }
 
@@ -239,5 +239,53 @@ namespace RestWcfService
             return result;
         }
 
+    }
+
+    public class DCServiceClass : IRestServiceClass
+    {
+        public string ServerURL
+        {
+            get
+            {
+                return RestService.ServerURL;
+            }
+            set
+            {
+                RestService.ServerURL = value;
+            }
+        }
+        public string ConnectionString
+        {
+            get
+            {
+                return RestService.ConnectionString;
+            }
+            set
+            {
+                RestService.ConnectionString = value;
+            }
+        }
+        public displayMethod dMethod
+        {
+            get
+            {
+                return RestService.dMethod;
+            }
+            set
+            {
+                RestService.dMethod = value;
+            }
+        }
+        public void SetUserNameExt(string userName)
+        {
+            RestService.SetUserNameExt(userName);
+        }
+        public Type serviceType
+        {
+            get
+            {
+                return typeof(RestService);
+            }
+        }
     }
 }
