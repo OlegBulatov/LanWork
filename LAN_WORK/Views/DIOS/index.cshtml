@@ -115,9 +115,9 @@
 
 
 
-            //$.jgrid.defaults.width = 780;
-            //$.jgrid.defaults.responsive = true;
-            //$.jgrid.defaults.styleUI = 'Bootstrap';
+            $.jgrid.defaults.width = 780;
+            $.jgrid.defaults.responsive = true;
+            $.jgrid.defaults.styleUI = 'Bootstrap';
 
             //var $tree = $('#dersa');
 
@@ -142,62 +142,62 @@
             //    }
             //});
 
-            //$("#jqGrid").jqGrid({
-            //    url: '/Object/PureList?class_name=MODULE&limit=50&offset=0',//'/guriddo/data.json',
-            //    // we set the changes to be made at client side using predefined word clientArray
-            //    editurl: 'clientArray',
-            //    datatype: "json",
-            //    colModel: [
-            //        {
-            //            label: 'Name',
-            //            name: 'title',
-            //            width: 140,
-            //            editable: true // must set editable to true if you want to make the field editable
-            //        },
-            //        {
-            //            label: 'Type',
-            //            name: 'form_type_name',
-            //            width: 140,
-            //            editable: true
-            //        }
-            //    ],
-            //    sortname: 'title',
-            //    sortorder: 'asc',
-            //    loadonce: true,
-            //    viewrecords: true,
-            //    height: 200,
-            //    rowNum: 10,
-            //    pager: "#jqGridPager"
-            //});
+            $("#jqGrid").jqGrid({
+                url: '/Object/PureList?class_name=MODULE&limit=50&offset=0',//'/guriddo/data.json',
+                // we set the changes to be made at client side using predefined word clientArray
+                editurl: 'clientArray',
+                datatype: "json",
+                colModel: [
+                    {
+                        label: 'Name',
+                        name: 'title',
+                        width: 140,
+                        editable: true // must set editable to true if you want to make the field editable
+                    },
+                    {
+                        label: 'Type',
+                        name: 'form_type_name',
+                        width: 140,
+                        editable: true
+                    }
+                ],
+                sortname: 'title',
+                sortorder: 'asc',
+                loadonce: true,
+                viewrecords: true,
+                height: 200,
+                rowNum: 10,
+                pager: "#jqGridPager"
+            });
 
-            //$('#jqGrid').navGrid('#jqGridPager',
-            //    // the buttons to appear on the toolbar of the grid
-            //    { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
-            //    // options for the Edit Dialog
-            //    {
-            //        editCaption: "The Edit Dialog",
-            //        recreateForm: true,
-            //        checkOnUpdate: true,
-            //        checkOnSubmit: true,
-            //        closeAfterEdit: true,
-            //        errorTextFormat: function (data) {
-            //            return 'Error: ' + data.responseText
-            //        }
-            //    },
-            //    // options for the Add Dialog
-            //    {
-            //        closeAfterAdd: true,
-            //        recreateForm: true,
-            //        errorTextFormat: function (data) {
-            //            return 'Error: ' + data.responseText
-            //        }
-            //    },
-            //    // options for the Delete Dailog
-            //    {
-            //        errorTextFormat: function (data) {
-            //            return 'Error: ' + data.responseText
-            //        }
-            //    });
+            $('#jqGrid').navGrid('#jqGridPager',
+                // the buttons to appear on the toolbar of the grid
+                { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+                // options for the Edit Dialog
+                {
+                    editCaption: "The Edit Dialog",
+                    recreateForm: true,
+                    checkOnUpdate: true,
+                    checkOnSubmit: true,
+                    closeAfterEdit: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                // options for the Add Dialog
+                {
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                // options for the Delete Dailog
+                {
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
 
         }
 
@@ -205,11 +205,8 @@
 
 
     <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
-    <div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>
-    <div style="position:absolute;top:80px; left:300px;margin-left:20px">
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
-    </div>
+    @*<div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>*@
+    
     <div id="jqxLayout">
         <!--The panel content divs can have a flat structure-->
         <!--autoHideGroup-->
@@ -221,7 +218,10 @@
         </div>
         <!--documentGroup-->
         <div data-container="Document1Panel">
-            Document 1 content
+            <div >
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
         </div>
         <div data-container="Document2Panel">
             Document 2 content
