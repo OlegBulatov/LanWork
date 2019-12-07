@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,10 +38,14 @@ namespace RestWcfService
         public MainForm()
         {
             InitializeComponent();
-            Assembly svcAssembly = Assembly.Load("RestWcfService");
-            if (svcAssembly == null)
-                throw new Exception("assembly RestWcfService not found");
-            Type dType = svcAssembly.GetType("RestWcfService.DCServiceClass");
+            Type dType = GetServiceClassType();
+            if (dType == null)
+            {
+                Assembly svcAssembly = Assembly.Load("RestWcfService");
+                if (svcAssembly == null)
+                    throw new Exception("assembly RestWcfService not found");
+                dType = svcAssembly.GetType("RestWcfService.DCServiceClass");
+            }
             if (dType == null)
                 throw new Exception("type DCServiceClass not found");
             RestService = Activator.CreateInstance(dType) as IRestServiceClass;
@@ -62,7 +66,7 @@ namespace RestWcfService
             RestService.ServerURL = tbServerURL.Text = Properties.Settings.Default.ServerWebServiceUrl;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void bnStart_Click(object sender, EventArgs e)
         {
             try
             {
@@ -126,6 +130,65 @@ namespace RestWcfService
         private void tbError_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private Type GetServiceClassType()
+        {
+            try
+            {
+                StreamReader SR = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "RestService.cs");
+                string source = SR.ReadToEnd();//tbCompile.Text;
+                                               //            System.Collections.Specialized.StringCollection additionalReferences = new System.Collections.Specialized.StringCollection();
+                string[] referencedAssemblies = {
+                                          "System.dll",
+                                          "System.IO.dll",
+                                          "System.Core.dll",
+                                          "System.ServiceModel.dll",
+                                          "System.ServiceModel.Web.dll",
+                                          "Microsoft.CSharp.dll",
+                                          AppDomain.CurrentDomain.BaseDirectory + "DersaClientService.exe",
+                                          AppDomain.CurrentDomain.BaseDirectory + "DIOS.WordAdapter.dll",
+                                          AppDomain.CurrentDomain.BaseDirectory + "Newtonsoft.Json.dll",
+                                          AppDomain.CurrentDomain.BaseDirectory + "Dios.Common.dll",
+                                          AppDomain.CurrentDomain.BaseDirectory + "Dios.SqlManager.dll",
+                                          AppDomain.CurrentDomain.BaseDirectory + "Dios.Interfaces.dll"
+
+                            };
+
+                //additionalReferences.AddRange(referencedAssemblies);
+                //if (Using == null)
+                //    Using = new string[0];
+                //additionalReferences.AddRange(Using);
+
+                //referencedAssemblies = new string[additionalReferences.Count];
+                //additionalReferences.CopyTo(referencedAssemblies, 0);
+
+                System.CodeDom.Compiler.CompilerParameters cp = new System.CodeDom.Compiler.CompilerParameters(referencedAssemblies);
+                cp.GenerateInMemory = true;
+
+                cp.OutputAssembly = System.IO.Path.GetTempFileName(); //AppDomain.CurrentDomain.BaseDirectory + "Temp\\RestWcfService.dll";
+
+                System.CodeDom.Compiler.ICodeCompiler codeCompiler = new Microsoft.CSharp.CSharpCodeProvider().CreateCompiler();
+                System.CodeDom.Compiler.CompilerResults results = codeCompiler.CompileAssemblyFromSource(cp, source);
+                if ((results != null) && (results.Output.Count > 0))
+                {
+                    System.Text.StringBuilder errorSb = new System.Text.StringBuilder();
+                    for (int k = 0; k < results.Output.Count; k++)
+                    {
+                        errorSb.Append(results.Output[k] + "\r\n");
+                    }
+                    //Console.WriteLine(source);
+                    tbError.Text = errorSb.ToString();
+                }
+                System.Reflection.Assembly assembly = results.CompiledAssembly;
+                System.Type newObjectType = assembly.GetType("RestWcfService.DCServiceClass");
+                return newObjectType;
+            }
+            catch(Exception exc)
+            {
+                tbError.Text = exc.Message;
+                return null;
+            }
         }
     }
 

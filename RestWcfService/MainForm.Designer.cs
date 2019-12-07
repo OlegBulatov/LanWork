@@ -102,7 +102,7 @@
             this.bnStart.TabIndex = 3;
             this.bnStart.Text = "Start";
             this.bnStart.UseVisualStyleBackColor = true;
-            this.bnStart.Click += new System.EventHandler(this.button1_Click);
+            this.bnStart.Click += new System.EventHandler(this.bnStart_Click);
             // 
             // tbError
             // 

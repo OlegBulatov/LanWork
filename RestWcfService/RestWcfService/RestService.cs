@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Data;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
-using System.Diagnostics;
 using DIOS.Common.Interfaces;
 
 namespace RestWcfService

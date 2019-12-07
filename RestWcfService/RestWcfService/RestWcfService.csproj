@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DbManager">
-      <HintPath>..\..\..\..\gitd\dersa\DIOS\DIOS.Server\common\DbManager.dll</HintPath>
-    </Reference>
-    <Reference Include="DbServerAdapter">
-      <HintPath>..\..\..\..\gitd\dersa\DIOS\DIOS.Server\common\DbServerAdapter.dll</HintPath>
-    </Reference>
     <Reference Include="DersaClientService">
       <HintPath>..\bin\Debug\DersaClientService.exe</HintPath>
     </Reference>
