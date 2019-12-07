@@ -16,111 +16,58 @@
     @Styles.Render("~/jqwidgets/styles/jqx.base.css")
     
 </head>
-<body onload="InitModuleTree(); LoadFancyGrid('MODULE');">
+<body onload="InitModuleTree()">
 
     <script>
         var ColumnModels = new Object();
-        ColumnModels.OBJECT_TYPE = [{
-            index: 'object_type',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'class_name',
-            width: 120,
-            title: 'Class Name',
-        }, {
-            title: 'Type',
-            index: 'type_name',
-            width: 300
-        }];
-        ColumnModels.MODULE = [{
-            index: 'module',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'title',
-            width: 120,
-            title: 'Name',
-        }, {
-            title: 'type',
-            index: 'form_type_name',
-            width: 300
-        }];
+        ColumnModels.OBJECT_TYPE = [
+            {
+                label: 'Name',
+                name: 'class_name',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Table Name',
+                name: 'table_name',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Type',
+                name: 'type_name',
+                width: 140,
+                editable: true
+            }
+        ];
+        ColumnModels.MODULE = [
+            {
+                label: 'Name',
+                name: 'title',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Alias',
+                name: 'alias',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Type',
+                name: 'form_type_name',
+                width: 140,
+                editable: true
+            }
+        ];
 
-        function LoadFancyGrid(className) {
-            $('#grid').empty();
-            $('#form').empty();
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', "/Object/List?class_name=" + className + "&limit=50&offset=0", false);
-            xhr.send();
-            var resp = JSON.parse(xhr.responseText);
-            var data = JSON.parse(resp.response_body);
-            var grid = new FancyGrid({
-                title: className,
-                renderTo: 'grid',
-                width: 500,
-                height: 500,
-                data: data,
-                selModel: 'row',
-                trackOver: true,
-                defaults: {
-                    type: 'string',
-                    width: 100,
-                    sortable: true,
-                    resizable: true,
-                    editable: true,
-                    vtype: 'notempty',
-                    menu: true,
-                    ellipsis: true
-                },
-                events: [{
-                    cellclick: function (grid, o) {
-                        form.set(o.data);
-                    }
-                }],
-                columns: ColumnModels[className]
-            });
-
-
-            var form = new FancyForm({
-                renderTo: 'form',
-                title: 'Module Data',
-                width: 290,
-                height: 500,
-                defaults: {
-                    type: 'string'
-                },
-                items: [{
-                    name: 'module',
-                    type: 'hidden'
-                }, {
-                    label: 'Name',
-                    emptyText: 'Name',
-                    name: 'title'
-                }],
-                buttons: ['side', {
-                    text: 'Clear',
-                    handler: function () {
-                        form.clear();
-                    }
-                }, {
-                        text: 'Save',
-                        handler: function () {
-                            var values = form.get();
-
-                            if (!values.id) {
-                                return;
-                            }
-
-                            grid.getById(values.id).set(values);
-                            grid.update();
-                        }
-                    }]
-            });
-
+        function InitGrid(className, columnModel) {
+            jQuery("#jqGrid").jqGrid('setGridParam', { url: '/Object/PureList?class_name=' + className + '&limit=50&offset=0', datatype: 'json' }); // the last setting is for demo only
+            jQuery("#jqGrid").jqGrid('setGridParam', { colModel: ColumnModels[className], datatype: 'json' }); // the last setting is for demo only
+            jQuery("#jqGrid").jqGrid('setCaption', className);
+            jQuery("#jqGrid").trigger("reloadGrid");
         }
+
         function InitModuleTree() {
 
 
@@ -162,7 +109,7 @@
                                                     $tree.on("changed.jstree", function (e, data) {
                                                         if (data.selected.length) {
                                                             selected = data.instance.get_node(data.selected[0]);
-                                                            LoadFancyGrid(selected.text);
+                                                            InitGrid(selected.text, ColumnModels[selected.text])
                                                         }
                                                     });
 
@@ -214,6 +161,61 @@
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
 
+            $.jgrid.defaults.width = 780;
+            $.jgrid.defaults.responsive = true;
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+
+            $("#jqGrid").jqGrid({
+                url: '/Object/PureList?class_name=MODULE&limit=50&offset=0',//'/guriddo/data.json',
+                // we set the changes to be made at client side using predefined word clientArray
+                editurl: 'clientArray',
+                datatype: "json",
+                colModel: ColumnModels["MODULE"],
+                sortname: 'title',
+                sortorder: 'asc',
+                loadonce: true,
+                viewrecords: true,
+                height: 200,
+                rowNum: 10,
+                onSelectRow: function (rowid, selected) {
+                    //if (rowid != null) {
+                    //    jQuery("#jqGridDetails").jqGrid('setGridParam', { url: rowid + ".json", datatype: 'json' }); // the last setting is for demo only
+                    //    jQuery("#jqGridDetails").jqGrid('setCaption', 'Detail Grid::' + rowid);
+                    //    jQuery("#jqGridDetails").trigger("reloadGrid");
+                    //}
+                }, // use the onSelectRow that is triggered on row click to show a details grid
+                pager: "#jqGridPager"
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager',
+                // the buttons to appear on the toolbar of the grid
+                { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+                // options for the Edit Dialog
+                {
+                    editCaption: "The Edit Dialog",
+                    recreateForm: true,
+                    checkOnUpdate: true,
+                    checkOnSubmit: true,
+                    closeAfterEdit: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                // options for the Add Dialog
+                {
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                // options for the Delete Dailog
+                {
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
             //var $tree = $('#dersa');
 
             //$tree.jstree({
@@ -257,8 +259,10 @@
         </div>
         <!--documentGroup-->
         <div data-container="Document1Panel">
-            <div id="grid" style="width: 500px;"></div>
-            <div id="form" style="position:absolute; left:500px; top: 0px; margin-left: 10px;"></div>
+            <div >
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
         </div>
         <div data-container="Document2Panel">
             Document 2 content
@@ -284,7 +288,8 @@
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
-        @Scripts.Render("~/fancygrid/fancy.min.js")
+        @Scripts.Render("~/guriddo/js/trirand/i18n/grid.locale-en.js")
+        @Scripts.Render("~/guriddo/js/trirand/jquery.jqGrid.min.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
