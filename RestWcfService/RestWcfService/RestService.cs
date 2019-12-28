@@ -147,8 +147,12 @@ namespace RestWcfService
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
-            string attr1 = sClient.GetAttrValue(attr_name, item1, _userName);
-            string attr2 = sClient.GetAttrValue(attr_name, item2, _userName);
+            if (_userToken == null)
+            {
+                _userToken = sClient.GetUserToken(_userName, "*************");
+            }
+            string attr1 = sClient.GetAttrValue(attr_name, item1, _userToken);
+            string attr2 = sClient.GetAttrValue(attr_name, item2, _userToken);
             string TempDirPath = Properties_Settings_Default.TempDir;
             string fileName1 = TempDirPath + item1 + "_" + attr_name + ".txt";
             string fileName2 = TempDirPath + item2 + "_" + attr_name + ".txt";
@@ -169,7 +173,7 @@ namespace RestWcfService
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             if (_userToken == null)
             {
-                _userToken = sClient.GetUserToken(_userName, "*************");
+                _userToken = sClient.GetUserToken(_userName, "*************"); 
             }
             string textToEditJSON = sClient.GetText(textId, _userToken);
             dynamic textToEditObject = JsonConvert.DeserializeObject(textToEditJSON);
