@@ -21,10 +21,10 @@
     <script>
 
         function InitModuleTree() {
-            $.jgrid.defaults.width = 780;
-            $.jgrid.defaults.responsive = true;
-            $.jgrid.defaults.styleUI = 'Bootstrap';
-
+            //$.jgrid.defaults.width = 780;
+            //$.jgrid.defaults.responsive = true;
+            //$.jgrid.defaults.styleUI = 'Bootstrap';
+            console.log('InitModuleTree');
             var $tree = $('#dersa');
 
             $tree.jstree({
@@ -148,14 +148,14 @@
     <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
     <div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>
     <div id='jqxWidget'>
-        <div id="grid"></div>
+        <div id="grid" style="margin-left:300px"></div>
         <div style="margin-top: 30px;">
             <div id="cellbegineditevent"></div>
             <div style="margin-top: 10px;" id="cellendeditevent"></div>
         </div>
         <div id="popupWindow">
             <div>Edit</div>
-            <div style="overflow: hidden;">
+            <div style="overflow: hidden;display:none">
                 <table>
                     <tr>
                         <td align="right">First Name:</td>
@@ -190,7 +190,7 @@
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
-        @Scripts.Render("~/scripts/jquery-1.11.1.min.js")
+        @*@Scripts.Render("~/scripts/jquery-1.11.1.min.js")*@
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxdata.js")
         @Scripts.Render("~/jqwidgets/jqxbuttons.js")
@@ -208,6 +208,8 @@
         @Scripts.Render("~/jqwidgets/generatedata.js")
 
     }
-
+    <script>
+        console.log('EndOfPage');
+    </script>
 </body>
 </html>
