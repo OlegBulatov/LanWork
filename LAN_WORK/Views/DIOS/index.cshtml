@@ -11,134 +11,262 @@
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
-
+    @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+    @Styles.Render("~/guriddo/css/trirand/ui.jqgrid-bootstrap.css")
+    @Styles.Render("~/jqwidgets/styles/jqx.base.css")
+    
 </head>
 <body onload="InitModuleTree()">
 
-    <link rel="stylesheet" href="/jqwidgets/styles/jqx.base.css" type="text/css" />
-    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>*@
-
     <script>
+        var ColumnModels = new Object();
+        ColumnModels.OBJECT_TYPE = [
+            {
+                label: 'Name',
+                name: 'class_name',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Table Name',
+                name: 'table_name',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Type',
+                name: 'type_name',
+                width: 140,
+                editable: true
+            }
+        ];
+        ColumnModels.MODULE = [
+            {
+                label: 'Name',
+                name: 'title',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Alias',
+                name: 'alias',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Type',
+                name: 'form_type_name',
+                width: 140,
+                editable: true
+            }
+        ];
+        ColumnModels.FORM = [
+            {
+                label: 'Id',
+                name: 'form',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Сборка',
+                name: 'assembly_name',
+                width: 140,
+                editable: true // must set editable to true if you want to make the field editable
+            },
+            {
+                label: 'Type',
+                name: 'type_name',
+                width: 140,
+                editable: true
+            }
+        ];
 
-        function InitModuleTree() {
-            //$.jgrid.defaults.width = 780;
-            //$.jgrid.defaults.responsive = true;
-            //$.jgrid.defaults.styleUI = 'Bootstrap';
-            console.log('InitModuleTree');
-            var $tree = $('#dersa');
+        function InitGrid(className) {
+            $('#doc1').empty();
+            $('#doc1').append('<table id="jqGrid"></table>');
+            $('#doc1').append('<div id="jqGridPager"></div>');
 
-            $tree.jstree({
-                'core': {
-                    "check_callback": true,
-                    'data': {
-                        'multiple': false,
-                        "url": "/demotree.json",
-                        "dataType": "json",
-                        "data": function (node) {
-                            return { "id": node.id };
-                        }
+
+            $("#jqGrid").jqGrid({
+                url: '/Object/PureList?class_name=' + className + '&limit=50&offset=0',//'/guriddo/data.json',
+                // we set the changes to be made at client side using predefined word clientArray
+                editurl: 'clientArray',
+                datatype: "json",
+                colModel: ColumnModels[className],
+                sortname: 'title',
+                sortorder: 'asc',
+                loadonce: false,
+                viewrecords: true,
+                height: 200,
+                rowNum: 10,
+                onSelectRow: function (rowid, selected) {
+                    //if (rowid != null) {
+                    //    jQuery("#jqGridDetails").jqGrid('setGridParam', { url: rowid + ".json", datatype: 'json' }); // the last setting is for demo only
+                    //    jQuery("#jqGridDetails").jqGrid('setCaption', 'Detail Grid::' + rowid);
+                    //    jQuery("#jqGridDetails").trigger("reloadGrid");
+                    //}
+                }, // use the onSelectRow that is triggered on row click to show a details grid
+                pager: "#jqGridPager"
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager',
+                // the buttons to appear on the toolbar of the grid
+                { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+                // options for the Edit Dialog
+                {
+                    editCaption: "The Edit Dialog",
+                    recreateForm: true,
+                    checkOnUpdate: true,
+                    checkOnSubmit: true,
+                    closeAfterEdit: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
                     }
                 },
-                'plugins': ["state", "contextmenu"]
-            });
-
-            $tree.on("changed.jstree", function (e, data) {
-                if (data.selected.length) {
-                    selected = data.instance.get_node(data.selected[0]);
-                }
-            });
-
-            var data = generatedata(200);
-            var source =
-            {
-                localdata: data,
-                datatype: "array",
-                datafields:
-                    [
-                        { name: 'firstname', type: 'string' },
-                        { name: 'lastname', type: 'string' },
-                        { name: 'productname', type: 'string' },
-                        { name: 'quantity', type: 'number' },
-                        { name: 'price', type: 'number' }
-                    ],
-                updaterow: function (rowid, rowdata, commit) {
-                    // synchronize with the server - send update command
-                    // call commit with parameter true if the synchronization with the server is successful
-                    // and with parameter false if the synchronization failder.
-                    commit(true);
-                }
-            };
-            // initialize the input fields.
-            $("#firstName").jqxInput({ theme: theme });
-            $("#lastName").jqxInput({ theme: theme });
-            $("#product").jqxInput({ theme: theme });
-
-            $("#firstName").width(150);
-            $("#firstName").height(23);
-            $("#lastName").width(150);
-            $("#lastName").height(23);
-            $("#product").width(150);
-            $("#product").height(23);
-            $("#quantity").jqxNumberInput({ spinMode: 'simple', width: 150, height: 23, min: 0, decimalDigits: 0, spinButtons: true });
-            $("#price").jqxNumberInput({ spinMode: 'simple', symbol: '$', width: 150, min: 0, height: 23, spinButtons: true });
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            var editrow = -1;
-            // initialize jqxGrid
-            $("#grid").jqxGrid(
+                // options for the Add Dialog
                 {
-                    width: getWidth('Grid'),
-                    source: dataAdapter,
-                    pageable: true,
-                    autoheight: true,
-                    columns: [
-                        { text: 'First Name', datafield: 'firstname', width: 200 },
-                        { text: 'Last Name', datafield: 'lastname', width: 200 },
-                        { text: 'Product', datafield: 'productname', width: 190 },
-                        { text: 'Quantity', datafield: 'quantity', width: 90, cellsalign: 'right' },
-                        { text: 'Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2' },
-                        {
-                            text: 'Edit', datafield: 'Edit', columntype: 'button', cellsrenderer: function () {
-                                return "Edit";
-                            }, buttonclick: function (row) {
-                                // open the popup window when the user clicks a button.
-                                editrow = row;
-                                var offset = $("#grid").offset();
-                                $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-                                // get the clicked row's data and initialize the input fields.
-                                var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-                                $("#firstName").val(dataRecord.firstname);
-                                $("#lastName").val(dataRecord.lastname);
-                                $("#product").val(dataRecord.productname);
-                                $("#quantity").jqxNumberInput({ decimal: dataRecord.quantity });
-                                $("#price").jqxNumberInput({ decimal: dataRecord.price });
-                                // show the popup window.
-                                $("#popupWindow").jqxWindow('open');
-                            }
-                        }
-                    ]
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                // options for the Delete Dailog
+                {
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
                 });
-            // initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width: 250, resizable: false, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01
-            });
-            $("#popupWindow").on('open', function () {
-                $("#firstName").jqxInput('selectAll');
-            });
+        }
 
-            $("#Cancel").jqxButton({ theme: theme });
-            $("#Save").jqxButton({ theme: theme });
-            // update the edited row when the user clicks the 'Save' button.
-            $("#Save").click(function () {
-                if (editrow >= 0) {
-                    var row = {
-                        firstname: $("#firstName").val(), lastname: $("#lastName").val(), productname: $("#product").val(),
-                        quantity: parseInt($("#quantity").jqxNumberInput('decimal')), price: parseFloat($("#price").jqxNumberInput('decimal'))
-                    };
-                    var rowID = $('#grid').jqxGrid('getrowid', editrow);
-                    $('#grid').jqxGrid('updaterow', rowID, row);
-                    $("#popupWindow").jqxWindow('hide');
-                }
-            });
+        function LoadGrid(className) {
+            jQuery("#jqGrid").jqGrid('setGridParam', { url: '/Object/PureList?class_name=' + className + '&limit=50&offset=0', datatype: 'json' }); // the last setting is for demo only
+            jQuery("#jqGrid").jqGrid('setGridParam', { colModel: ColumnModels[className] }); // the last setting is for demo only
+            jQuery("#jqGrid").jqGrid('setGridParam', { colNames: ["c1","c2","c3"]}); 
+            jQuery("#jqGrid").jqGrid('setCaption', className);
+            jQuery("#jqGrid").trigger("reloadGrid");
+        }
+
+        function InitModuleTree() {
+
+            var layout =
+                [
+                    {
+                        type: 'layoutGroup',
+                        orientation: 'horizontal',
+                        items:
+                            [
+                                {
+                                    type: 'tabbedGroup',
+                                    width: '20%',
+                                    minWidth: 200,
+                                    items:
+                                        [
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Solution Explorer',
+                                                contentContainer: 'SolutionExplorerPanel',
+                                                initContent: function () {
+                                                    var $tree = $('#solutionExplorerTree');
+
+                                                    $tree.jstree({
+                                                        'core': {
+                                                            "check_callback": true,
+                                                            'data': {
+                                                                'multiple': false,
+                                                                "url": "/demotree.json",
+                                                                "dataType": "json",
+                                                                "data": function (node) {
+                                                                    return { "id": node.id };
+                                                                }
+                                                            }
+                                                        },
+                                                        'plugins': ["state", "contextmenu"]
+                                                    });
+
+                                                    $tree.on("changed.jstree", function (e, data) {
+                                                        if (data.selected.length) {
+                                                            selected = data.instance.get_node(data.selected[0]);
+                                                            InitGrid(selected.data)
+                                                        }
+                                                    });
+
+                                                    //$('#solutionExplorerTree').jqxTree({ source: source, width: 190 });
+                                                }
+                                            },
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Help',
+                                                contentContainer: 'HelpPanel'
+                                            }
+                                        ]
+                                },
+                                {
+                                    type: 'layoutGroup',
+                                    orientation: 'vertical',
+                                    width: '80%',
+                                    items: [{
+                                        type: 'documentGroup',
+                                        height: '50%',
+                                        minHeight: 200,
+                                        items: [{
+                                            type: 'documentPanel',
+                                            title: 'Document 1',
+                                            contentContainer: 'Document1Panel'
+                                        }, {
+                                            type: 'documentPanel',
+                                            title: 'Document 2',
+                                            contentContainer: 'Document2Panel'
+                                        }]
+                                    }, {
+                                        type: 'tabbedGroup',
+                                        height: '50%',
+                                        pinnedHeight: 30,
+                                        items: [{
+                                            type: 'layoutPanel',
+                                            title: 'Error List',
+                                            contentContainer: 'ErrorListPanel'
+                                        }, {
+                                            type: 'layoutPanel',
+                                            title: 'Output',
+                                            contentContainer: 'OutputPanel',
+                                            selected: true
+                                        }]
+                                    }]
+                                }
+                            ]
+                    }
+                ];
+            $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
+
+            $.jgrid.defaults.width = 780;
+            $.jgrid.defaults.responsive = true;
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+
+            InitGrid("OBJECT_TYPE");
+            //var $tree = $('#dersa');
+
+            //$tree.jstree({
+            //    'core': {
+            //        "check_callback": true,
+            //        'data': {
+            //            'multiple': false,
+            //            "url": "/demotree.json",
+            //            "dataType": "json",
+            //            "data": function (node) {
+            //                return { "id": node.id };
+            //            }
+            //        }
+            //    },
+            //    'plugins': ["state", "contextmenu"]
+            //});
+
+            //$tree.on("changed.jstree", function (e, data) {
+            //    if (data.selected.length) {
+            //        selected = data.instance.get_node(data.selected[0]);
+            //    }
+            //});
+
 
         }
 
@@ -146,70 +274,52 @@
 
 
     <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
-    <div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>
-    <div id='jqxWidget'>
-        <div id="grid" style="margin-left:300px"></div>
-        <div style="margin-top: 30px;">
-            <div id="cellbegineditevent"></div>
-            <div style="margin-top: 10px;" id="cellendeditevent"></div>
+    @*<div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>*@
+    
+    <div id="jqxLayout">
+        <!--The panel content divs can have a flat structure-->
+        <!--autoHideGroup-->
+        <div data-container="ToolboxPanel">
+            List of tools
         </div>
-        <div id="popupWindow">
-            <div>Edit</div>
-            <div style="overflow: hidden;display:none">
-                <table>
-                    <tr>
-                        <td align="right">First Name:</td>
-                        <td align="left"><input id="firstName" /></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Last Name:</td>
-                        <td align="left"><input id="lastName" /></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Product:</td>
-                        <td align="left"><input id="product" /></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Quantity:</td>
-                        <td align="left"><div id="quantity"></div></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Price:</td>
-                        <td align="left"><div id="price"></div></td>
-                    </tr>
-                    <tr>
-                        <td align="right"></td>
-                        <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
-                    </tr>
-                </table>
+        <div data-container="HelpPanel">
+            Help topics
+        </div>
+        <!--documentGroup-->
+        <div data-container="Document1Panel">
+            <div id="doc1"></div>
+        </div>
+            <div data-container="Document2Panel">
+                Document 2 content
+            </div>
+            <!--bottom tabbedGroup-->
+            <div data-container="ErrorListPanel">
+                List of errors
+            </div>
+            <div data-container="OutputPanel">
+                Output
+            </div>
+            <!--right tabbedGroup-->
+            <div data-container="SolutionExplorerPanel">
+                <div id="solutionExplorerTree" style="border: none;">
+                </div>
+            </div>
+            <div data-container="PropertiesPanel">
+                List of properties
             </div>
         </div>
-    </div>
 
 
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
-        @*@Scripts.Render("~/scripts/jquery-1.11.1.min.js")*@
+        @Scripts.Render("~/guriddo/js/trirand/i18n/grid.locale-en.js")
+        @Scripts.Render("~/guriddo/js/trirand/jquery.jqGrid.min.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
-        @Scripts.Render("~/jqwidgets/jqxdata.js")
-        @Scripts.Render("~/jqwidgets/jqxbuttons.js")
-        @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
-        @Scripts.Render("~/jqwidgets/jqxmenu.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-        @Scripts.Render("~/jqwidgets/jqxnumberinput.js")
-        @Scripts.Render("~/jqwidgets/jqxwindow.js")
-        @Scripts.Render("~/jqwidgets/jqxlistbox.js")
-        @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
-        @Scripts.Render("~/jqwidgets/jqxinput.js")
-        @Scripts.Render("~/scripts/demos.js")
-        @Scripts.Render("~/jqwidgets/generatedata.js")
+        @Scripts.Render("~/jqwidgets/jqxribbon.js")
+        @Scripts.Render("~/jqwidgets/jqxlayout.js")
 
     }
-    <script>
-        console.log('EndOfPage');
-    </script>
+
 </body>
 </html>
