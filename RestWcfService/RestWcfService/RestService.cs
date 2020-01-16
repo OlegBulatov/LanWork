@@ -189,14 +189,19 @@ namespace RestWcfService
             }
             catch { }
             bool uniqueName = Properties_Settings_Default.UseUniqueFileNames;
-            if (textToEditObject.attrName == "WordText")
+            if (attrName == "WordText")
             {
                 TempDirPath = Properties_Settings_Default.WordDir;
                 uniqueName = true; 
             }
-            string fileName = Path.Combine(TempDirPath, (uniqueName ? Guid.NewGuid().ToString() : "entity." + entityId + "." + attrName) + (textToEditObject.attrName == "WordText"? ".html" : ".txt"));
+            string fileExtension = textToEditObject.fileExtension; //".sql";
+            //if(attrName == "Code" || attrName == "Text")
+            //    fileExtension = ".cs";
+            //else if (attrName == "WordText")
+            //    fileExtension = ".html";
+            string fileName = Path.Combine(TempDirPath, (uniqueName ? Guid.NewGuid().ToString() : "entity." + entityId + "." + attrName) + fileExtension);
             File.WriteAllText(fileName, textToEdit, System.Text.Encoding.UTF8);
-            if (textToEditObject.attrName == "WordText")
+            if (attrName == "WordText")
             {
                 DIOS.WordAdapter.WordDocument doc = new DIOS.WordAdapter.WordDocument();
                 doc.NewDocument(fileName);
@@ -204,8 +209,20 @@ namespace RestWcfService
                 return "OK";
             }
             Process proc = new Process();
-            proc.StartInfo.FileName = Properties_Settings_Default.EditTextCommand;
-            proc.StartInfo.Arguments = fileName;
+            string complexCommand = Properties_Settings_Default.EditTextCommand;
+            string editTextCommand = complexCommand;
+            string commandArgs = fileName;
+            if (complexCommand.Contains(" "))
+            {
+                string[] complexCommandParts = complexCommand.Split(' ');
+                editTextCommand = complexCommandParts[0];
+                for(int i = complexCommandParts.Length - 1; i > 0 ; i--)
+                {
+                    commandArgs = complexCommandParts[i] + " " + commandArgs;
+                }
+            }
+            proc.StartInfo.FileName = editTextCommand;
+            proc.StartInfo.Arguments = commandArgs;
             proc.Start();
             proc.WaitForExit();
             string result = File.ReadAllText(fileName);
