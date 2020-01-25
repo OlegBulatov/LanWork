@@ -2,7 +2,6 @@
 using System.IO;
 using System.Diagnostics;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
@@ -26,10 +25,6 @@ namespace RestWcfService
         [OperationContract]
         string GetUserName();
 
-        [WebInvoke(Method = "GET", UriTemplate = "dersa/{url}")]
-        [OperationContract]
-        Message ServeProxy(string url);
-
         [WebInvoke(Method = "POST", UriTemplate = "username/{name}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         void SetUserName(string name);
@@ -41,6 +36,10 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         string EditText(string textId);
+
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        void AllowEditText(string textId);
     }
 
     public class RestService : IRestService
@@ -77,24 +76,6 @@ namespace RestWcfService
         public void GetOptions(string query)
         {
             string options = "";
-        }
-
-        public Message ServeProxy(string url)
-        {
-            url = "http://dersa.ru/" + url;
-            var request = WebOperationContext.Current.IncomingRequest;
-            System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
-            req.Method = "GET";
-            req.Timeout = 600000;
-            //req.CookieContainer = new System.Net.CookieContainer();
-            //System.Net.Cookie cookie = new System.Net.Cookie(".AspNet.ApplicationCookie", Request.Cookies[".AspNet.ApplicationCookie"].Value, "/", "localhost");
-            //req.CookieContainer.Add(cookie);
-            var resp = req.GetResponse();
-            var respStream = resp.GetResponseStream();
-
-            string contentType = "text/html; charset=utf-8";
-            var response = WebOperationContext.Current.CreateStreamResponse(respStream, contentType);
-            return response;
         }
 
         public string ExecuteQuery(string queryId)
@@ -185,6 +166,15 @@ namespace RestWcfService
             proc.StartInfo.FileName = Properties_Settings_Default.CompareProgramPath;
             proc.StartInfo.Arguments = fileName1 + " " + fileName2;
             proc.Start();
+        }
+
+        public void AllowEditText(string textId)
+        {
+            var response = WebOperationContext.Current.OutgoingResponse;
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Headers", "*");
+            response.Headers.Add("Access-Control-Allow-Method", "*");
+
         }
 
         public string EditText(string textId)
