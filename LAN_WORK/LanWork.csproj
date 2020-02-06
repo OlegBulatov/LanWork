@@ -500,6 +500,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\JIRA\Index.cshtml" />
+    <Content Include="Views\Report\JIRA_ISSUE_INFO.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -15,6 +15,14 @@ namespace LanitWork.Controllers
 {
     public class ReportController : Controller
     {
+        public ActionResult JIRA_ISSUE_INFO(string code, string subject, string description)
+        {
+            ViewBag.code = code;
+            ViewBag.subject = subject;
+            ViewBag.description = description;
+            return View();
+        }
+
         [HttpOptions]
         public void CreateJiraIssue()
         {
