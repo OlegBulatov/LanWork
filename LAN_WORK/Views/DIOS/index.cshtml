@@ -19,6 +19,7 @@
 <body onload="InitModuleTree();/* LoadFancyGrid('MODULE');*/">
 
     <script>
+        var objFilter = null;
         var ColumnModels = new Object();
         ColumnModels.OBJECT_TYPE = [{
             index: 'object_type',
@@ -120,10 +121,10 @@
                     name: 'module',
                     type: 'hidden'
                 }, {
-                        label: 'created_at',
-                        emptyText: '01.01.2020',
-                        type: 'date',
-                        name: 'title'
+                    label: 'created_at',
+                    emptyText: '01.01.2020',
+                    type: 'date',
+                    name: 'title'
                 }, {
                     label: 'Name',
                     emptyText: 'no such field',
@@ -192,6 +193,8 @@
                                                         if (data.selected.length) {
                                                             selected = data.instance.get_node(data.selected[0]);
                                                             LoadFancyGrid(selected.data);
+                                                            if(!objFilter)
+                                                                initFilter();   
                                                         }
                                                     });
 
@@ -211,7 +214,16 @@
                                     width: '80%',
                                     items: [{
                                         type: 'documentGroup',
-                                        height: '50%',
+                                        height: '10%',
+                                        minHeight: 500,
+                                        items: [{
+                                            type: 'documentPanel',
+                                            title: 'Document 0',
+                                            contentContainer: 'Document0Panel'
+                                        }]
+                                    }, {
+                                        type: 'documentGroup',
+                                        height: '60%',
                                         minHeight: 200,
                                         items: [{
                                             type: 'documentPanel',
@@ -224,7 +236,7 @@
                                         }]
                                     }, {
                                         type: 'tabbedGroup',
-                                        height: '50%',
+                                        height: '30%',
                                         pinnedHeight: 30,
                                         items: [{
                                             type: 'layoutPanel',
@@ -233,7 +245,7 @@
                                         }, {
                                             type: 'layoutPanel',
                                             title: 'Details',
-                                                contentContainer: 'DetailsPanel',
+                                            contentContainer: 'DetailsPanel',
                                             selected: true
                                         }]
                                     }]
@@ -272,9 +284,18 @@
     </script>
 
 
-    <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
-    @*<div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>*@
-    
+    <script src="/dist/vue.js"></script>
+
+    <style>
+        .f-form {
+            background: #e8e8e8;
+            width: 600px;
+            height: 100%;
+        }
+    </style>
+
+
+
     <div id="jqxLayout">
         <!--The panel content divs can have a flat structure-->
         <!--autoHideGroup-->
@@ -283,8 +304,25 @@
         </div>
         <div data-container="HelpPanel">
             Help topics
+            <button onclick="alert(objFilter.GetFilter())">Get filter</button>
+            <!--button onclick="var p = document.getElementById('filterContainer').appendChild(document.getElementById('filterForm'))">Go</button-->
+            
         </div>
         <!--documentGroup-->
+        <div data-container="Document0Panel">
+                <div id="filterForm" class="f-form">
+                    <fltdiv v-for="ctrl in ctrls" :key="ctrl.id"
+                            v-bind:caption="ctrl.caption"
+                            v-bind:data_field="ctrl.data_field"
+                            v-bind:filter_value="ctrl.filter_value"
+                            v-bind:left="ctrl.left"
+                            v-bind:top="ctrl.top"
+                            v-bind:width="ctrl.width"
+                            v-bind:height="ctrl.height"
+                            v-bind:id="ctrl.id">
+                    </fltdiv>
+                </div>
+        </div>
         <div data-container="Document1Panel">
             <div id="grid" style="width: 500px;"></div>
         </div>
@@ -308,6 +346,7 @@
         </div>
     </div>
 
+    <script src="/dist/vue_filter.js"></script>
 
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
