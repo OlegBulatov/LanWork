@@ -15,11 +15,12 @@ namespace LanitWork.Controllers
 {
     public class ReportController : Controller
     {
-        public ActionResult JIRA_ISSUE_INFO(string code, string subject, string description)
+        public ActionResult JIRA_ISSUE_INFO(string code, string subject, string description, string solution)
         {
             ViewBag.code = code;
             ViewBag.subject = subject;
             ViewBag.description = description;
+            ViewBag.solution = solution;
             return View();
         }
 
@@ -193,7 +194,7 @@ namespace LanitWork.Controllers
             {
                 proc_name = Params["proc_name"].Value.ToString();
                 Params.Remove("proc_name");
-                System.Data.DataTable T = M.ExecuteSPWithParams(proc_name, Params);
+                System.Data.DataTable T = M.ExecuteMethod("REPORT", proc_name, Params);
                 return View(T);
             }
             else

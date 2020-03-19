@@ -11,6 +11,7 @@ using DIOS.Common;
 using DIOS.Common.Interfaces;
 using Newtonsoft.Json;
 using System.Collections;
+using DIOS.WCF;
 using System.Web;
 
 namespace Dios.WCF
@@ -114,18 +115,18 @@ namespace Dios.WCF
                 Logger.LogStatic(exc.Message);
                 throw;
             }
-            if (exists > 0)
-            {
-                try
-                {
-                    M.CreateOrUpdateUser(login);
-                }
-                catch (Exception exc)
-                {
-                    Logger.LogStatic(exc.Message);
-                    throw;
-                }
-            }
+            //if (exists > 0)
+            //{
+            //    try
+            //    {
+            //        M.CreateOrUpdateUser(login);
+            //    }
+            //    catch (Exception exc)
+            //    {
+            //        Logger.LogStatic(exc.Message);
+            //        throw;
+            //    }
+            //}
             return exists;
         }
 

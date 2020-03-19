@@ -35,23 +35,30 @@ namespace LanWork.Models
 
         private string doTrueResponseForList()
         {
-            DiosSqlManager M = new DiosSqlManager();
-            ObjectFactory F = null;
             try
             {
-                F = M.GetFactory(_className);
+                DiosSqlManager M = new DiosSqlManager();
+                ObjectFactory F = null;
+                try
+                {
+                    F = M.GetFactory(_className);
+                }
+                catch (Exception exc)
+                {
+                    throw new Exception("Object type " + _className + " not found");
+                }
+                IParameterCollection Params = Util.DeserializeParams(_json_params);
+                string result = F.ListJson(Params, _order, _limit, _offset);
+                _row_count = F.RowCount;
+                return result;
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
-                throw new Exception("Object type " + _className + " not found");
+                return exc.Message;
             }
-            IParameterCollection Params = Util.DeserializeParams(_json_params);
-            string result = F.ListJson(Params, _order, _limit, _offset);
-            _row_count = F.RowCount;
-            return result;
         }
 
-        private int getRowCount()
+            private int getRowCount()
         {
             return _row_count;
         }

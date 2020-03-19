@@ -38,7 +38,7 @@ namespace LanitWork.Models
         public string Info(string login)
         {
             SqlManager DM = new SqlManager();
-            System.Data.DataTable T = DM.ExecuteSPWithParams("LANIT_USER$GetInfo", new object[] { login });
+            System.Data.DataTable T = DM.ExecuteMethod("LANIT_USER", "GetInfo", new object[] { login });
             T.Rows[0]["email"] = Cryptor.Decrypt(T.Rows[0]["email"].ToString(), DersaUtil.GetDefaultPassword());
             return JsonConvert.SerializeObject(T);
         }
@@ -53,7 +53,7 @@ namespace LanitWork.Models
                 {
                     try
                     {
-                        System.Data.DataTable T = DM.ExecuteSPWithParams("USER_SETTING$SetValue", new object[] { Param.Name, Param.Value, userName, DersaUtil.GetPassword(userName) });
+                        System.Data.DataTable T = DM.ExecuteMethod("USER_SETTING", "SetValue", new object[] { Param.Name, Param.Value, userName, DersaUtil.GetPassword(userName) });
                         if (T.Rows.Count > 0)
                         {
                             return T.Rows[0][0].ToString();
@@ -77,7 +77,7 @@ namespace LanitWork.Models
             {
                 SqlManager DM = new SqlManager();
                 string userName = HttpContext.Current.User.Identity.Name;
-                System.Data.DataTable T = DM.ExecuteSPWithParams("USER_SETTING$List", new object[] { userName, DersaUtil.GetPassword(userName) });
+                System.Data.DataTable T = DM.ExecuteMethod("USER_SETTING", "List", new object[] { userName, DersaUtil.GetPassword(userName) });
                 int i = 1;
                 var query =
                     from System.Data.DataRow R in T.Rows
@@ -101,28 +101,28 @@ namespace LanitWork.Models
         public string Register(string login, string password, string name, string email)
         {
             return "Регистрация еще не подключена";
-            if(string.IsNullOrEmpty(login))
-                return "Не заполнено имя пользователя";
-            IParameterCollection Params = new ParameterCollection();
-            Params.Add("@login", login);
-            SqlManager M = new SqlManager(); //LanitWorkAnonimousSqlManager();
-            int checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
-            if (checkresult > 0)
-                return "Пользователь с таким логином уже зарегистрирован";
-            Params.Add("@email", Cryptor.Encrypt(email, DersaUtil.GetDefaultPassword()));
-            checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
-            if (checkresult > 0)
-                return "Пользователь с таким email уже зарегистрирован";
-            try
-            {
-                Token(login, email);
-                System.Data.DataTable T = M.ExecuteSPWithParams("LANIT_USER$Register", new object[] { login, password, Cryptor.Encrypt(email, DersaUtil.GetDefaultPassword()), name });
-                return "";
-            }
-            catch(Exception exc) 
-            {
-                return exc.Message;
-            }
+            //if(string.IsNullOrEmpty(login))
+            //    return "Не заполнено имя пользователя";
+            //IParameterCollection Params = new ParameterCollection();
+            //Params.Add("@login", login);
+            //SqlManager M = new SqlManager(); //LanitWorkAnonimousSqlManager();
+            //int checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
+            //if (checkresult > 0)
+            //    return "Пользователь с таким логином уже зарегистрирован";
+            //Params.Add("@email", Cryptor.Encrypt(email, DersaUtil.GetDefaultPassword()));
+            //checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
+            //if (checkresult > 0)
+            //    return "Пользователь с таким email уже зарегистрирован";
+            //try
+            //{
+            //    Token(login, email);
+            //    System.Data.DataTable T = M.ExecuteSPWithParams("LANIT_USER$Register", new object[] { login, password, Cryptor.Encrypt(email, DersaUtil.GetDefaultPassword()), name });
+            //    return "";
+            //}
+            //catch(Exception exc) 
+            //{
+            //    return exc.Message;
+            //}
         }
         public string Token(string login, string email = "")
         {
@@ -135,7 +135,7 @@ namespace LanitWork.Models
             MailMessage Message = new MailMessage();
             Message.From = new MailAddress("info@dersa.ru");
             SqlManager DM = new SqlManager(); //LanitWorkAnonimousSqlManager();
-            System.Data.DataTable T = DM.ExecuteSPWithParams("LANIT_USER$GetInfo", new object[] { login });
+            System.Data.DataTable T = DM.ExecuteMethod("LANIT_USER", "GetInfo", new object[] { login });
             if(email == "")
             if (T.Rows.Count > 0)
                 email = Cryptor.Decrypt(T.Rows[0]["email"].ToString(), DersaUtil.GetDefaultPassword());
@@ -168,7 +168,7 @@ namespace LanitWork.Models
             Params.Add("@password", DersaUtil.GetPassword(S.username));
             SqlManager M = new SqlManager(); //LanitWorkAnonimousSqlManager();
             
-            int checkresult = M.ExecuteSPWithResult("LANIT_USER$Activate", false, Params);
+            int checkresult = M.ExecuteIntMethod("LANIT_USER", "Activate", Params);
             return S.username;
         }
         public static string AuthorizeUser(string user_name = "", string password = "")

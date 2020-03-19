@@ -103,7 +103,7 @@ namespace LanitWork.Models
                 IParameterCollection Params = new ParameterCollection();
                 Params.Add("@login", login);
                 SqlManager M = new SqlManager();
-                int checkresult = M.ExecuteSPWithResult("LANIT_USER$Exists", false, Params);
+                int checkresult = M.ExecuteIntMethod("LANIT_USER", "Exists", Params);
                 return checkresult > 0;
             }
             catch

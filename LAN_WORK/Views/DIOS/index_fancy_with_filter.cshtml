@@ -194,9 +194,9 @@
                                                     $tree.on("changed.jstree", function (e, data) {
                                                         if (data.selected.length) {
                                                             selected = data.instance.get_node(data.selected[0]);
-                                                            //LoadFancyGrid(selected.data);
-                                                            if (!objFilter)
-                                                                initFilter();
+                                                            LoadFancyGrid(selected.data);
+                                                            if(!objFilter)
+                                                                initFilter();   
                                                         }
                                                     });
 
@@ -232,15 +232,15 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                            type: 'documentPanel',
-                                                                            title: 'Document 2',
-                                                                            contentContainer: 'Document2Panel'
-                                                                        }*/]
+                                            type: 'documentPanel',
+                                            title: 'Document 2',
+                                            contentContainer: 'Document2Panel'
+                                        }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '30%',
                                         pinnedHeight: 30,
-                                        allowClose: true,
+                                        allowClose: true, 
                                         items: [{
                                             type: 'layoutPanel',
                                             title: 'Error List',
@@ -257,72 +257,29 @@
                     }
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
-            var source =
-            {
-                datatype: "array",
-                localdata: {},
-                totalrecords: 1000
-            };
-            // load data.
-            var rendergridrows = function (params) {
-                var xhr = new XMLHttpRequest();
-                //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-                xhr.open('GET', "/Object/PureList?class_name=OBJECT_TYPE&limit=50&offset=0", false);
+            //var $tree = $('#dersa');
 
-                xhr.send();
-                var data = JSON.parse(xhr.responseText);
-                return data;
-            }
-            var totalcolumnrenderer = function (row, column, cellvalue) {
-                var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
-                return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
-            }
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#grid").jqxGrid(
-                {
-                    width: getWidth('Grid'),
-                    autoheight: true,
-                    source: dataAdapter,
-                    columnsresize: true,
-                    virtualmode: true,
-                    pageable: true,
-                    rendergridrows: rendergridrows,
-                    columns: [
-                        { text: 'Id', datafield: 'object_type', width: 50 },
-                        { text: 'First Name', datafield: 'name', width: 120 },
-                        { text: 'Last Name', datafield: 'lastname', width: 120 },
-                        { text: 'Product', datafield: 'productname', width: 180 },
-                        { text: 'Quantity', datafield: 'quantity', width: 100, cellsalign: 'right' },
-                        { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                        { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, cellsalign: 'right' }
-                    ]
-                });
-            $("#saveState").jqxButton({ theme: theme });
-            $("#loadState").jqxButton({ theme: theme });
-            var state = null;
-            $("#saveState").click(function () {
-                // save the current state of jqxGrid.
-                state = $("#grid").jqxGrid('savestate');
-            })
-            ;
-            $("#loadState").click(function () {
-                // load the Grid's state.
-                if (state) {
-                    $("#grid").jqxGrid('loadstate', state);
-                }
-                else {
-                    $("#grid").jqxGrid('loadstate');
-                }
-            });
-            $("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
-            $("#modes").on('select', function (event) {
-                if (event.args.index === 0) {
-                    $("#grid").jqxGrid({ pagermode: 'default' });
-                }
-                else {
-                    $("#grid").jqxGrid({ pagermode: 'simple' });
-                }
-            });
+            //$tree.jstree({
+            //    'core': {
+            //        "check_callback": true,
+            //        'data': {
+            //            'multiple': false,
+            //            "url": "/demotree.json",
+            //            "dataType": "json",
+            //            "data": function (node) {
+            //                return { "id": node.id };
+            //            }
+            //        }
+            //    },
+            //    'plugins': ["state", "contextmenu"]
+            //});
+
+            //$tree.on("changed.jstree", function (e, data) {
+            //    if (data.selected.length) {
+            //        selected = data.instance.get_node(data.selected[0]);
+            //    }
+            //});
+
 
         }
 
@@ -350,8 +307,7 @@
         <div data-container="HelpPanel">
             Help topics
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
-            <input type="button" id="saveState" value="Save State" />
-            <input type="button" id="loadState" value="Load State" />
+
             <!--button onclick="var p = document.getElementById('filterContainer').appendChild(document.getElementById('filterForm'))">Go</button-->
 
         </div>
@@ -381,15 +337,15 @@
                         v-bind:id="ctrl.id">
                 </fltsel>
                 <fltdate v-for="ctrl in ctrls" v-if="ctrl.class=='datepick'"
-                         :key="ctrl.id"
-                         v-bind:caption="ctrl.caption"
-                         v-bind:data_field="ctrl.data_field"
-                         v-bind:filter_value="ctrl.filter_value"
-                         v-bind:left="ctrl.left"
-                         v-bind:top="ctrl.top"
-                         v-bind:width="ctrl.width"
-                         v-bind:height="ctrl.height"
-                         v-bind:id="ctrl.id">
+                        :key="ctrl.id"
+                        v-bind:caption="ctrl.caption"
+                        v-bind:data_field="ctrl.data_field"
+                        v-bind:filter_value="ctrl.filter_value"
+                        v-bind:left="ctrl.left"
+                        v-bind:top="ctrl.top"
+                        v-bind:width="ctrl.width"
+                        v-bind:height="ctrl.height"
+                        v-bind:id="ctrl.id">
                 </fltdate>
             </div>
         </div>
@@ -421,26 +377,10 @@
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
+        @Scripts.Render("~/fancygrid/fancy.min.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
-        @Scripts.Render("~/jqwidgets/jqxdata.js")
-        @Scripts.Render("~/jqwidgets/jqxbuttons.js")
-        @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
-        @Scripts.Render("~/jqwidgets/jqxlistbox.js")
-        @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")
-        @Scripts.Render("~/jqwidgets/jqxmenu.js")
-        @Scripts.Render("~/scripts/demos.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")
-        @Scripts.Render("~/jqwidgets/jqxpanel.js")
-        @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
 
     }
 

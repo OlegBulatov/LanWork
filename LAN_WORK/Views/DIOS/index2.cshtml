@@ -14,14 +14,11 @@
     @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
     @Styles.Render("~/guriddo/css/trirand/ui.jqgrid-bootstrap.css")
     @Styles.Render("~/jqwidgets/styles/jqx.base.css")
-    @Styles.Render("~/Content/jquery-ui.css")
     
-
 </head>
-<body onload="InitModuleTree();/* LoadFancyGrid('MODULE');*/">
+<body onload="InitModuleTree(); LoadFancyGrid('MODULE');">
 
     <script>
-        var objFilter = null;
         var ColumnModels = new Object();
         ColumnModels.OBJECT_TYPE = [{
             index: 'object_type',
@@ -49,30 +46,6 @@
         }, {
             title: 'type',
             index: 'form_type_name',
-            width: 300
-        }];
-        ColumnModels.FORM = [{
-            index: 'form',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            title: 'Name',
-            index: 'type_name',
-            width: 300
-        }];
-        ColumnModels.LNT_SERVER = [{
-            index: 'lnt_server',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'name',
-            width: 120,
-            title: 'Name',
-        }, {
-            title: 'IP address',
-            index: 'ip_address',
             width: 300
         }];
 
@@ -114,8 +87,8 @@
             var form = new FancyForm({
                 renderTo: 'form',
                 title: 'Module Data',
-                width: 600,
-                height: 300,
+                width: 290,
+                height: 500,
                 defaults: {
                     type: 'string'
                 },
@@ -123,13 +96,8 @@
                     name: 'module',
                     type: 'hidden'
                 }, {
-                    label: 'created_at',
-                    emptyText: '01.01.2020',
-                    type: 'date',
-                    name: 'title'
-                }, {
                     label: 'Name',
-                    emptyText: 'no such field',
+                    emptyText: 'Name',
                     name: 'title'
                 }],
                 buttons: ['side', {
@@ -153,8 +121,8 @@
             });
 
         }
-
         function InitModuleTree() {
+
 
             var layout =
                 [
@@ -194,9 +162,7 @@
                                                     $tree.on("changed.jstree", function (e, data) {
                                                         if (data.selected.length) {
                                                             selected = data.instance.get_node(data.selected[0]);
-                                                            //LoadFancyGrid(selected.data);
-                                                            if (!objFilter)
-                                                                initFilter();
+                                                            LoadFancyGrid(selected.text);
                                                         }
                                                     });
 
@@ -216,39 +182,29 @@
                                     width: '80%',
                                     items: [{
                                         type: 'documentGroup',
-                                        height: '10%',
-                                        minHeight: 500,
-                                        items: [{
-                                            type: 'documentPanel',
-                                            title: 'Document 0',
-                                            contentContainer: 'Document0Panel'
-                                        }]
-                                    }, {
-                                        type: 'documentGroup',
-                                        height: '60%',
+                                        height: '50%',
                                         minHeight: 200,
                                         items: [{
                                             type: 'documentPanel',
-                                            title: 'Data grid',
+                                            title: 'Document 1',
                                             contentContainer: 'Document1Panel'
-                                        }/*, {
-                                                                            type: 'documentPanel',
-                                                                            title: 'Document 2',
-                                                                            contentContainer: 'Document2Panel'
-                                                                        }*/]
+                                        }, {
+                                            type: 'documentPanel',
+                                            title: 'Document 2',
+                                            contentContainer: 'Document2Panel'
+                                        }]
                                     }, {
                                         type: 'tabbedGroup',
-                                        height: '30%',
+                                        height: '50%',
                                         pinnedHeight: 30,
-                                        allowClose: true,
                                         items: [{
                                             type: 'layoutPanel',
                                             title: 'Error List',
                                             contentContainer: 'ErrorListPanel'
                                         }, {
                                             type: 'layoutPanel',
-                                            title: 'Details',
-                                            contentContainer: 'DetailsPanel',
+                                            title: 'Output',
+                                            contentContainer: 'OutputPanel',
                                             selected: true
                                         }]
                                     }]
@@ -257,90 +213,39 @@
                     }
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
-            var source =
-            {
-                datatype: "array",
-                localdata: {},
-                totalrecords: 1000
-            };
-            // load data.
-            var rendergridrows = function (params) {
-                var xhr = new XMLHttpRequest();
-                //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-                xhr.open('GET', "/Object/PureList?class_name=OBJECT_TYPE&limit=50&offset=0", false);
 
-                xhr.send();
-                var data = JSON.parse(xhr.responseText);
-                return data;
-            }
-            var totalcolumnrenderer = function (row, column, cellvalue) {
-                var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
-                return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
-            }
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#grid").jqxGrid(
-                {
-                    width: getWidth('Grid'),
-                    autoheight: true,
-                    source: dataAdapter,
-                    columnsresize: true,
-                    virtualmode: true,
-                    pageable: true,
-                    rendergridrows: rendergridrows,
-                    columns: [
-                        { text: 'Id', datafield: 'object_type', width: 50 },
-                        { text: 'First Name', datafield: 'name', width: 120 },
-                        { text: 'Last Name', datafield: 'lastname', width: 120 },
-                        { text: 'Product', datafield: 'productname', width: 180 },
-                        { text: 'Quantity', datafield: 'quantity', width: 100, cellsalign: 'right' },
-                        { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                        { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, cellsalign: 'right' }
-                    ]
-                });
-            $("#saveState").jqxButton({ theme: theme });
-            $("#loadState").jqxButton({ theme: theme });
-            var state = null;
-            $("#saveState").click(function () {
-                // save the current state of jqxGrid.
-                state = $("#grid").jqxGrid('savestate');
-            })
-            ;
-            $("#loadState").click(function () {
-                // load the Grid's state.
-                if (state) {
-                    $("#grid").jqxGrid('loadstate', state);
-                }
-                else {
-                    $("#grid").jqxGrid('loadstate');
-                }
-            });
-            $("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
-            $("#modes").on('select', function (event) {
-                if (event.args.index === 0) {
-                    $("#grid").jqxGrid({ pagermode: 'default' });
-                }
-                else {
-                    $("#grid").jqxGrid({ pagermode: 'simple' });
-                }
-            });
+            //var $tree = $('#dersa');
+
+            //$tree.jstree({
+            //    'core': {
+            //        "check_callback": true,
+            //        'data': {
+            //            'multiple': false,
+            //            "url": "/demotree.json",
+            //            "dataType": "json",
+            //            "data": function (node) {
+            //                return { "id": node.id };
+            //            }
+            //        }
+            //    },
+            //    'plugins': ["state", "contextmenu"]
+            //});
+
+            //$tree.on("changed.jstree", function (e, data) {
+            //    if (data.selected.length) {
+            //        selected = data.instance.get_node(data.selected[0]);
+            //    }
+            //});
+
 
         }
 
     </script>
 
 
-    <script src="/dist/vue.js"></script>
-
-    <style>
-        .f-form {
-            background: #e8e8e8;
-            width: 600px;
-            height: 100%;
-        }
-    </style>
-
-
-
+    <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
+    @*<div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>*@
+    
     <div id="jqxLayout">
         <!--The panel content divs can have a flat structure-->
         <!--autoHideGroup-->
@@ -349,52 +254,11 @@
         </div>
         <div data-container="HelpPanel">
             Help topics
-            <button onclick="alert(objFilter.GetFilter())">Get filter</button>
-            <input type="button" id="saveState" value="Save State" />
-            <input type="button" id="loadState" value="Load State" />
-            <!--button onclick="var p = document.getElementById('filterContainer').appendChild(document.getElementById('filterForm'))">Go</button-->
-
         </div>
         <!--documentGroup-->
-        <div data-container="Document0Panel">
-            <div id="filterForm" class="f-form">
-                <fltdiv v-for="ctrl in ctrls" v-if="ctrl.class=='textbox'"
-                        :key="ctrl.id"
-                        v-bind:caption="ctrl.caption"
-                        v-bind:data_field="ctrl.data_field"
-                        v-bind:filter_value="ctrl.filter_value"
-                        v-bind:left="ctrl.left"
-                        v-bind:top="ctrl.top"
-                        v-bind:width="ctrl.width"
-                        v-bind:height="ctrl.height"
-                        v-bind:id="ctrl.id">
-                </fltdiv>
-                <fltsel v-for="ctrl in ctrls" v-if="ctrl.class=='combobox'"
-                        :key="ctrl.id"
-                        v-bind:caption="ctrl.caption"
-                        v-bind:data_field="ctrl.data_field"
-                        v-bind:filter_value="ctrl.filter_value"
-                        v-bind:left="ctrl.left"
-                        v-bind:top="ctrl.top"
-                        v-bind:width="ctrl.width"
-                        v-bind:height="ctrl.height"
-                        v-bind:id="ctrl.id">
-                </fltsel>
-                <fltdate v-for="ctrl in ctrls" v-if="ctrl.class=='datepick'"
-                         :key="ctrl.id"
-                         v-bind:caption="ctrl.caption"
-                         v-bind:data_field="ctrl.data_field"
-                         v-bind:filter_value="ctrl.filter_value"
-                         v-bind:left="ctrl.left"
-                         v-bind:top="ctrl.top"
-                         v-bind:width="ctrl.width"
-                         v-bind:height="ctrl.height"
-                         v-bind:id="ctrl.id">
-                </fltdate>
-            </div>
-        </div>
         <div data-container="Document1Panel">
             <div id="grid" style="width: 500px;"></div>
+            <div id="form" style="position:absolute; left:500px; top: 0px; margin-left: 10px;"></div>
         </div>
         <div data-container="Document2Panel">
             Document 2 content
@@ -403,8 +267,8 @@
         <div data-container="ErrorListPanel">
             List of errors
         </div>
-        <div data-container="DetailsPanel">
-            <div id="form" style="position:absolute; left:0px; top: 0px; margin-left: 10px;"></div>
+        <div data-container="OutputPanel">
+            Output
         </div>
         <!--right tabbedGroup-->
         <div data-container="SolutionExplorerPanel">
@@ -416,31 +280,14 @@
         </div>
     </div>
 
-    <script src="/dist/vue_filter.js"></script>
 
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
+        @Scripts.Render("~/fancygrid/fancy.min.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
-        @Scripts.Render("~/jqwidgets/jqxdata.js")
-        @Scripts.Render("~/jqwidgets/jqxbuttons.js")
-        @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
-        @Scripts.Render("~/jqwidgets/jqxlistbox.js")
-        @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")
-        @Scripts.Render("~/jqwidgets/jqxmenu.js")
-        @Scripts.Render("~/scripts/demos.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")
-        @Scripts.Render("~/jqwidgets/jqxpanel.js")
-        @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
 
     }
 

@@ -1,0 +1,65 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/dist/jquery.json.min.js")
+
+<h2>@ViewBag.code</h2>
+<h3>@Html.Raw(ViewBag.subject)</h3>
+@Html.Raw(ViewBag.description)
+<br>
+<br>
+<div id="solution_display" style="color:darkgreen">
+    @Html.Raw(ViewBag.solution)
+</div>
+<div id="solution_edit" style="color:black;display:none">
+    <textarea id="solution_text" style="width:600;height:100"></textarea>
+</div>
+<div id="sol_template" style="display:none">
+    Пояснение:
+    <BR>Обнаружено [кратко описать ситуацию с ошибкой]
+    <BR>
+    <BR>Способ решения:
+    <BR>В ходе диагностики причин возникновения ошибки из-за которой [кратко описать ситуацию с ошибкой] было установлено, что [техническое описание проведенного анализа по ошибке]
+    <BR>Для устранения ошибки был добавлен|выполнен|изменен [техническое описание проделанных действий]
+</div>
+<br>
+<button id="editbtn" onclick="editSolutionText(document.getElementById('solution_text').value);">Edit</button>
+<button id="postbtn" onclick="soltext = $('#solution_text').html().replace(new RegExp('<br>', 'ig'), '\r\n'); setIssueSolution(soltext);" style="display:none">Post</button>
+<br>
+<br>
+<br>
+<a href="http://jira-app-pc:8080/browse/@ViewBag.code" target="_blank">открыть в браузере</a>
+<script>
+    var issueCode = '@ViewBag.code';
+    function setIssueSolution(stext) {
+        var body = new Object();
+        body.sbody = $.toJSON({code:issueCode,body:{update:{customfield_10421:[{set:stext}]}}});
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/JIRA/SetIssueSolution', false);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send($.toJSON(body));
+        //$('#solution_display').text($('#solution_text').html().replace(new RegExp("<BR>", 'g'), "\r\n"));
+        $('#solution_display').html($('#solution_text').html());
+        //$('#solution_display').text(soltext);
+        $('#solution_display').show();
+        $('#solution_edit').hide();
+        $('#editbtn').show();
+        $('#postbtn').hide();
+    }
+
+    function editSolutionText(soltext) {
+        if ($.trim(soltext) == '') {
+            //$('#solution_text').text($('#sol_template').html().replace(new RegExp("<BR>", 'g'), "\r\n"));
+            $('#solution_text').html($('#sol_template').html());
+        }
+        else {
+            $('#solution_text').html($('#solution_display').html());
+        }
+        $('#solution_display').hide();
+        $('#solution_edit').show();
+        $('#editbtn').hide();
+        $('#postbtn').show();
+    }
+</script>

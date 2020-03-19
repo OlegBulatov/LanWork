@@ -86,6 +86,10 @@
       <HintPath>bin\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\gitd\dersa\DIOS\DIOS.Server\common\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Microsoft.Owin.dll</HintPath>
@@ -261,26 +265,9 @@
     <Content Include="dist\jstree.js" />
     <Content Include="dist\jstree.min.js" />
     <Content Include="dist\lantree.js" />
-    <Content Include="dist\libs\hubs.js" />
     <Content Include="demo\basic\Handler.ashx" />
     <Content Include="demo\basic\root.json" />
     <Content Include="demo\README.md" />
-    <None Include="dist\libs\jquery-1.8.2.intellisense.js" />
-    <Content Include="dist\libs\jquery-1.8.2.js" />
-    <Content Include="dist\libs\jquery-1.8.2.min.js" />
-    <Content Include="dist\libs\jquery-ui-1.8.24.js" />
-    <Content Include="dist\libs\jquery-ui-1.8.24.min.js" />
-    <Content Include="dist\libs\jquery.unobtrusive-ajax.js" />
-    <Content Include="dist\libs\jquery.unobtrusive-ajax.min.js" />
-    <None Include="dist\libs\jquery.validate-vsdoc.js" />
-    <Content Include="dist\libs\jquery.validate.js" />
-    <Content Include="dist\libs\jquery.validate.min.js" />
-    <Content Include="dist\libs\jquery.validate.unobtrusive.js" />
-    <Content Include="dist\libs\jquery.validate.unobtrusive.min.js" />
-    <Content Include="dist\libs\knockout-2.2.0.debug.js" />
-    <Content Include="dist\libs\knockout-2.2.0.js" />
-    <Content Include="dist\libs\modernizr-2.6.2.js" />
-    <None Include="dist\libs\_references.js" />
     <Content Include="dist\mxgraphsrc\css\common.css" />
     <Content Include="dist\mxgraphsrc\css\explorer.css" />
     <Content Include="dist\mxgraphsrc\images\button.gif" />
@@ -474,14 +461,16 @@
     <Content Include="dist\themes\default\ViewAttribute.gif" />
     <Content Include="Global.asax" />
     <Content Include="ObjectWcfService.svc" />
+    <Content Include="Views\DIOS\index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\WIB\index.cshtml" />
-    <Content Include="Views\DIOS\index.cshtml" />
     <Content Include="Views\DIOS\index_fancy.cshtml" />
-    <Content Include="Views\DIOS\index_guriddo.cshtml" />
+    <Content Include="Views\DIOS\index_jqx.cshtml" />
+    <Content Include="Views\DIOS\index_guriddo_wo_layout.cshtml" />
+    <Content Include="Views\DIOS\index_fancy_with_filter.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\HelpPage.html" />
     <Content Include="Web.config">

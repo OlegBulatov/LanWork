@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Optimization;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace LanitWork
 {
@@ -20,6 +22,8 @@ namespace LanitWork
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Configuration configuration = WebConfigurationManager.OpenWebConfiguration("~");
+            new DIOS.Common.SqlManagerConfigProvider(configuration);
         }
 
         protected void Application_BeginRequest()
