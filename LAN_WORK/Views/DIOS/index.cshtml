@@ -22,137 +22,23 @@
 
     <script>
         var objFilter = null;
-        var ColumnModels = new Object();
-        ColumnModels.OBJECT_TYPE = [{
-            index: 'object_type',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'class_name',
-            width: 120,
-            title: 'Class Name',
-        }, {
-            title: 'Type',
-            index: 'type_name',
-            width: 300
-        }];
-        ColumnModels.MODULE = [{
-            index: 'module',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'title',
-            width: 120,
-            title: 'Name',
-        }, {
-            title: 'type',
-            index: 'form_type_name',
-            width: 300
-        }];
-        ColumnModels.FORM = [{
-            index: 'form',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            title: 'Name',
-            index: 'type_name',
-            width: 300
-        }];
-        ColumnModels.LNT_SERVER = [{
-            index: 'lnt_server',
-            width: 40,
-            type: 'number',
-            filter: false
-        }, {
-            index: 'name',
-            width: 120,
-            title: 'Name',
-        }, {
-            title: 'IP address',
-            index: 'ip_address',
-            width: 300
-        }];
+        var currentClass = 'some_class';
+        var gridName = '#grid';
+        var dataAdapter;
+        var rendergridrows = function (params) {
+                var xhr = new XMLHttpRequest();
+                //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
+                xhr.open('GET', '/Object/PureList?class_name=' + currentClass + '&limit=50&offset=0' , false);
 
-        function LoadFancyGrid(className) {
-            $('#grid').empty();
-            $('#form').empty();
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', "/Object/List?class_name=" + className + "&limit=50&offset=0", false);
-            xhr.send();
-            var resp = JSON.parse(xhr.responseText);
-            var data = JSON.parse(resp.response_body);
-            var grid = new FancyGrid({
-                title: className,
-                renderTo: 'grid',
-                width: 500,
-                height: 500,
-                data: data,
-                selModel: 'row',
-                trackOver: true,
-                defaults: {
-                    type: 'string',
-                    width: 100,
-                    sortable: true,
-                    resizable: true,
-                    editable: true,
-                    vtype: 'notempty',
-                    menu: true,
-                    ellipsis: true
-                },
-                events: [{
-                    cellclick: function (grid, o) {
-                        form.set(o.data);
-                    }
-                }],
-                columns: ColumnModels[className]
-            });
-
-
-            var form = new FancyForm({
-                renderTo: 'form',
-                title: 'Module Data',
-                width: 600,
-                height: 300,
-                defaults: {
-                    type: 'string'
-                },
-                items: [{
-                    name: 'module',
-                    type: 'hidden'
-                }, {
-                    label: 'created_at',
-                    emptyText: '01.01.2020',
-                    type: 'date',
-                    name: 'title'
-                }, {
-                    label: 'Name',
-                    emptyText: 'no such field',
-                    name: 'title'
-                }],
-                buttons: ['side', {
-                    text: 'Clear',
-                    handler: function () {
-                        form.clear();
-                    }
-                }, {
-                        text: 'Save',
-                        handler: function () {
-                            var values = form.get();
-
-                            if (!values.id) {
-                                return;
-                            }
-
-                            grid.getById(values.id).set(values);
-                            grid.update();
-                        }
-                    }]
-            });
-
+                xhr.send();
+                var data = JSON.parse(xhr.responseText);
+                return data;
         }
+        var totalcolumnrenderer = function (row, column, cellvalue) {
+                var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
+                return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
+        }
+
 
         function InitModuleTree() {
 
@@ -200,7 +86,6 @@
                                                         }
                                                     });
 
-                                                    //$('#solutionExplorerTree').jqxTree({ source: source, width: 190 });
                                                 }
                                             },
                                             {
@@ -264,21 +149,19 @@
                 totalrecords: 1000
             };
             // load data.
-            var rendergridrows = function (params) {
-                var xhr = new XMLHttpRequest();
-                //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-                xhr.open('GET', "/Object/PureList?class_name=OBJECT_TYPE&limit=50&offset=0", false);
+            dataAdapter = new $.jqx.dataAdapter(source);
 
-                xhr.send();
-                var data = JSON.parse(xhr.responseText);
-                return data;
-            }
-            var totalcolumnrenderer = function (row, column, cellvalue) {
-                var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
-                return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
-            }
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#grid").jqxGrid(
+            loadJqxGrid('OBJECT_TYPE');
+        }
+
+        function loadJqxGrid(className) {
+            currentClass = className;
+            gridName = "#" + className;
+            let gridDiv = document.createElement('div');
+            gridDiv.id = className;
+            document.getElementById('grid_container').appendChild(gridDiv);
+
+            $(gridName).jqxGrid(
                 {
                     width: getWidth('Grid'),
                     autoheight: true,
@@ -302,25 +185,26 @@
             var state = null;
             $("#saveState").click(function () {
                 // save the current state of jqxGrid.
-                state = $("#grid").jqxGrid('savestate');
+                state = $(gridName).jqxGrid('savestate');
             })
             ;
             $("#loadState").click(function () {
                 // load the Grid's state.
                 if (state) {
-                    $("#grid").jqxGrid('loadstate', state);
+                    $(gridName).jqxGrid('loadstate', state);
+                    console.log(state);
                 }
                 else {
-                    $("#grid").jqxGrid('loadstate');
+                    $(gridName).jqxGrid('loadstate');
                 }
             });
             $("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
             $("#modes").on('select', function (event) {
                 if (event.args.index === 0) {
-                    $("#grid").jqxGrid({ pagermode: 'default' });
+                    $(gridName).jqxGrid({ pagermode: 'default' });
                 }
                 else {
-                    $("#grid").jqxGrid({ pagermode: 'simple' });
+                    $(gridName).jqxGrid({ pagermode: 'simple' });
                 }
             });
 
@@ -394,7 +278,7 @@
             </div>
         </div>
         <div data-container="Document1Panel">
-            <div id="grid" style="width: 500px;"></div>
+            <div id="grid_container" style="width: 500px;"></div>
         </div>
         <div data-container="Document2Panel">
             Document 2 content
