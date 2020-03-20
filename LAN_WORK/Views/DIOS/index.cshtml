@@ -28,7 +28,7 @@
         var rendergridrows = function (params) {
                 var xhr = new XMLHttpRequest();
                 //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-                xhr.open('GET', '/Object/PureList?class_name=' + currentClass + '&limit=50&offset=0' , false);
+                xhr.open('GET', '/Object/PureList?class_name=' + currentClass + '&limit=50&offset=' + params.startindex , false);
 
                 xhr.send();
                 var data = JSON.parse(xhr.responseText);
@@ -38,6 +38,28 @@
                 var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
                 return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
         }
+
+                var ColumnModels = new Object();
+        ColumnModels.OBJECT_TYPE = [
+                        { text: 'Id', datafield: 'object_type', width: 40 },
+                        { text: 'Name', datafield: 'name', width: 120 },
+                        { text: 'Type', datafield: 'type_name', width: 120 },
+                        { text: 'Class Name', datafield: 'class_name', width: 180 }
+        ];
+        ColumnModels.MODULE = [
+                        { text: 'Id', datafield: 'module', width: 40 },
+                        { text: 'Name', datafield: 'title', width: 120 },
+                        { text: 'Type', datafield: 'form_type_name', width: 120 }
+        ];
+        ColumnModels.FORM = [
+                        { text: 'Id', datafield: 'form', width: 40 },
+                        { text: 'Name', datafield: 'type_name', width: 120 }
+        ];
+        ColumnModels.LNT_SERVER = [
+                        { text: 'Id', datafield: 'lnt_server', width: 40 },
+                        { text: 'Name', datafield: 'name', width: 120 },
+                        { text: 'IP address', datafield: 'ip_address', width: 120 }
+        ];
 
 
         function InitModuleTree() {
@@ -81,6 +103,7 @@
                                                         if (data.selected.length) {
                                                             selected = data.instance.get_node(data.selected[0]);
                                                             //LoadFancyGrid(selected.data);
+                                                            loadJqxGrid(selected.data);
                                                             if (!objFilter)
                                                                 initFilter();
                                                         }
@@ -157,9 +180,12 @@
         function loadJqxGrid(className) {
             currentClass = className;
             gridName = "#" + className;
+            let gridContainer = document.getElementById('grid_container');
+            if (gridContainer.lastChild)
+                gridContainer.removeChild(gridContainer.lastChild);
             let gridDiv = document.createElement('div');
             gridDiv.id = className;
-            document.getElementById('grid_container').appendChild(gridDiv);
+            gridContainer.appendChild(gridDiv);
 
             $(gridName).jqxGrid(
                 {
@@ -170,15 +196,16 @@
                     virtualmode: true,
                     pageable: true,
                     rendergridrows: rendergridrows,
-                    columns: [
+                    columns: ColumnModels[className]
+                /*    [
                         { text: 'Id', datafield: 'object_type', width: 50 },
                         { text: 'First Name', datafield: 'name', width: 120 },
-                        { text: 'Last Name', datafield: 'lastname', width: 120 },
+                        { text: 'Last Name', datafield: 'type_name', width: 120 },
                         { text: 'Product', datafield: 'productname', width: 180 },
                         { text: 'Quantity', datafield: 'quantity', width: 100, cellsalign: 'right' },
                         { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' },
                         { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, cellsalign: 'right' }
-                    ]
+                    ]*/
                 });
             $("#saveState").jqxButton({ theme: theme });
             $("#loadState").jqxButton({ theme: theme });
@@ -279,6 +306,13 @@
         </div>
         <div data-container="Document1Panel">
             <div id="grid_container" style="width: 500px;"></div>
+            <div style="margin-top: 30px;">
+                <div style="float: left;">
+                    Pager Settings:
+                    <div id="modes">
+                    </div>
+                </div>
+            </div>
         </div>
         <div data-container="Document2Panel">
             Document 2 content
