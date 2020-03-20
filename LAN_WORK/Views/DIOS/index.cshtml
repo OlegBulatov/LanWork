@@ -28,7 +28,7 @@
         var rendergridrows = function (params) {
             var xhr = new XMLHttpRequest();
                 //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&limit=50&offset=' + params.startindex , false);
+            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&limit=10&offset=' + params.startindex , false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
