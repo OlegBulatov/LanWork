@@ -26,9 +26,16 @@
         var gridName = '#grid';
         var dataAdapter;
         var rendergridrows = function (params) {
+            console.log(SortState[currentClass]);
             var xhr = new XMLHttpRequest();
-                //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&limit=10&offset=' + params.startindex , false);
+            //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
+            var sortColumn = currentClass;
+            if (SortState[currentClass]) {
+                sortColumn = SortState[currentClass].sortcolumn;
+                if (SortState[currentClass].sortdirection.descending)
+                    sortColumn += ' desc';
+            }
+            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
@@ -39,7 +46,9 @@
                 return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
         }
 
-                var ColumnModels = new Object();
+        var SortState = new Object();
+        var LoadedState = new Object();
+        var ColumnModels = new Object();
         ColumnModels.OBJECT_TYPE = [
                         { text: 'Id', datafield: 'object_type', width: 40 },
                         { text: 'Name', datafield: 'name', width: 120 },
@@ -166,7 +175,34 @@
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
 
-            loadJqxGrid('OBJECT_TYPE');
+            $("#saveState").jqxButton({ theme: theme });
+            $("#loadState").jqxButton({ theme: theme });
+            var state = null;
+            $("#saveState").click(function () {
+                // save the current state of jqxGrid.
+                state = $(gridName).jqxGrid('savestate');
+            })
+            ;
+            $("#loadState").click(function () {
+                // load the Grid's state.
+                if (state) {
+                    $(gridName).jqxGrid('loadstate', state);
+                }
+                else {
+                    $(gridName).jqxGrid('loadstate');
+                }
+            });
+            //$("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
+            //$("#modes").on('select', function (event) {
+            //    if (event.args.index === 0) {
+            //        $(gridName).jqxGrid({ pagermode: 'default' });
+            //    }
+            //    else {
+            //        $(gridName).jqxGrid({ pagermode: 'simple' });
+            //    }
+            //});
+
+            //loadJqxGrid('OBJECT_TYPE');
         }
 
         function loadJqxGrid(className) {
@@ -193,42 +229,29 @@
             gridContainer.appendChild(gridDiv);
 
             $(gridName).jqxGrid(
-                {
-                    width: getWidth('Grid'),
-                    autoheight: true,
-                    source: new $.jqx.dataAdapter(source),
-                    columnsresize: true,
-                    virtualmode: true,
-                    pageable: true,
-                    rendergridrows: rendergridrows,
-                    columns: ColumnModels[className]
-                });
-            $("#saveState").jqxButton({ theme: theme });
-            $("#loadState").jqxButton({ theme: theme });
-            var state = null;
-            $("#saveState").click(function () {
-                // save the current state of jqxGrid.
-                state = $(gridName).jqxGrid('savestate');
-            })
-            ;
-            $("#loadState").click(function () {
-                // load the Grid's state.
-                if (state) {
-                    $(gridName).jqxGrid('loadstate', state);
-                    console.log(state);
-                }
-                else {
-                    $(gridName).jqxGrid('loadstate');
-                }
+            {
+                width: getWidth('Grid'),
+                autoheight: true,
+                source: new $.jqx.dataAdapter(source),
+                sortable: true,
+                columnsresize: true,
+                columnsreorder: true,
+                virtualmode: true,
+                pageable: true,
+                pagermode: 'default',
+                rendergridrows: rendergridrows,
+                columns: ColumnModels[className]
             });
-            $("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
-            $("#modes").on('select', function (event) {
-                if (event.args.index === 0) {
-                    $(gridName).jqxGrid({ pagermode: 'default' });
-                }
-                else {
-                    $(gridName).jqxGrid({ pagermode: 'simple' });
-                }
+
+            if (!LoadedState[className]) {
+                $(gridName).jqxGrid('loadstate');
+                LoadedState[className] = true;
+            }
+
+            $(gridName).on("sort", function (event) {
+                SortState[className] = event.args.sortinformation; 
+                $(gridName).jqxGrid('gotoprevpage');
+                $(gridName).jqxGrid('gotonextpage');
             });
 
         }
@@ -302,13 +325,13 @@
         </div>
         <div data-container="Document1Panel">
             <div id="grid_container" style="width: 500px;"></div>
-            <div style="margin-top: 30px;">
+            <!--div style="margin-top: 30px;">
                 <div style="float: left;">
                     Pager Settings:
                     <div id="modes">
                     </div>
                 </div>
-            </div>
+            </div-->
         </div>
         <div data-container="Document2Panel">
             Document 2 content
