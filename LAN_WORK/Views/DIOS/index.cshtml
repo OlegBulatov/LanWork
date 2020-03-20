@@ -23,7 +23,6 @@
     <script>
         var objFilter = null;
         var currentClass = 'some_class';
-        var currentRecordsCount = 47;
         var gridName = '#grid';
         var dataAdapter;
         var rendergridrows = function (params) {
@@ -33,7 +32,6 @@
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
-            currentRecordsCount = data.row_count;
             return JSON.parse(data.response_body);
         }
         var totalcolumnrenderer = function (row, column, cellvalue) {
@@ -172,12 +170,17 @@
         }
 
         function loadJqxGrid(className) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
             var source =
             {
                 datatype: "array",
                 localdata: {},
-                totalrecords: currentRecordsCount
+                totalrecords: data.row_count
             };
+            console.log(source);
             // load data.
 
             currentClass = className;
