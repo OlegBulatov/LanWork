@@ -23,16 +23,18 @@
     <script>
         var objFilter = null;
         var currentClass = 'some_class';
+        var currentRecordsCount = 47;
         var gridName = '#grid';
         var dataAdapter;
         var rendergridrows = function (params) {
-                var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest();
                 //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
-                xhr.open('GET', '/Object/PureList?class_name=' + currentClass + '&limit=50&offset=' + params.startindex , false);
+            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&limit=50&offset=' + params.startindex , false);
 
-                xhr.send();
-                var data = JSON.parse(xhr.responseText);
-                return data;
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+            currentRecordsCount = data.row_count;
+            return JSON.parse(data.response_body);
         }
         var totalcolumnrenderer = function (row, column, cellvalue) {
                 var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
@@ -165,19 +167,19 @@
                     }
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
-            var source =
-            {
-                datatype: "array",
-                localdata: {},
-                totalrecords: 1000
-            };
-            // load data.
-            dataAdapter = new $.jqx.dataAdapter(source);
 
             loadJqxGrid('OBJECT_TYPE');
         }
 
         function loadJqxGrid(className) {
+            var source =
+            {
+                datatype: "array",
+                localdata: {},
+                totalrecords: currentRecordsCount
+            };
+            // load data.
+
             currentClass = className;
             gridName = "#" + className;
             let gridContainer = document.getElementById('grid_container');
@@ -191,21 +193,12 @@
                 {
                     width: getWidth('Grid'),
                     autoheight: true,
-                    source: dataAdapter,
+                    source: new $.jqx.dataAdapter(source),
                     columnsresize: true,
                     virtualmode: true,
                     pageable: true,
                     rendergridrows: rendergridrows,
                     columns: ColumnModels[className]
-                /*    [
-                        { text: 'Id', datafield: 'object_type', width: 50 },
-                        { text: 'First Name', datafield: 'name', width: 120 },
-                        { text: 'Last Name', datafield: 'type_name', width: 120 },
-                        { text: 'Product', datafield: 'productname', width: 180 },
-                        { text: 'Quantity', datafield: 'quantity', width: 100, cellsalign: 'right' },
-                        { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                        { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, cellsalign: 'right' }
-                    ]*/
                 });
             $("#saveState").jqxButton({ theme: theme });
             $("#loadState").jqxButton({ theme: theme });
