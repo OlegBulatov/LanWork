@@ -192,6 +192,24 @@
                     $(gridName).jqxGrid('loadstate');
                 }
             });
+
+            var listSource = [
+                { label: 'Name', value: 'name', checked: false },
+                { label: 'Type', value: 'type_name', checked: true },
+                { label: 'form', value: 'form', checked: true },
+                { label: 'module', value: 'module', checked: true },
+                { label: 'Class name', value: 'class_name', checked: true }];
+            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200,  checkboxes: true });
+            $("#jqxlistbox").on('checkChange', function (event) {
+                $(gridName).jqxGrid('beginupdate');
+                if (event.args.checked) {
+                    $(gridName).jqxGrid('showcolumn', event.args.value);
+                }
+                else {
+                    $(gridName).jqxGrid('hidecolumn', event.args.value);
+                }
+                $(gridName).jqxGrid('endupdate');
+            });
             //$("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
             //$("#modes").on('select', function (event) {
             //    if (event.args.index === 0) {
@@ -238,10 +256,11 @@
                 columnsreorder: true,
                 virtualmode: true,
                 pageable: true,
-                pagermode: 'default',
                 rendergridrows: rendergridrows,
                 columns: ColumnModels[className]
             });
+
+            $(gridName).jqxGrid({ pagermode: "simple"});
 
             if (!LoadedState[className]) {
                 $(gridName).jqxGrid('loadstate');
@@ -250,6 +269,7 @@
 
             $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation; 
+                //$(gridName).trigger('pagechanged');
                 $(gridName).jqxGrid('gotoprevpage');
                 $(gridName).jqxGrid('gotonextpage');
             });
@@ -325,13 +345,14 @@
         </div>
         <div data-container="Document1Panel">
             <div id="grid_container" style="width: 500px;"></div>
+            <div style="margin-top: 20px" id="jqxlistbox"></div>
             <!--div style="margin-top: 30px;">
-                <div style="float: left;">
-                    Pager Settings:
-                    <div id="modes">
-                    </div>
-                </div>
-            </div-->
+        <div style="float: left;">
+            Pager Settings:
+            <div id="modes">
+            </div>
+        </div>
+    </div-->
         </div>
         <div data-container="Document2Panel">
             Document 2 content
