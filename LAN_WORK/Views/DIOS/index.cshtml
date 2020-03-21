@@ -275,6 +275,7 @@
                     });
                     // reload grid data.
                     reloadButton.click(function (event) {
+                        $(gridName).jqxGrid('gotopage', 0);
                         $(gridName).jqxGrid({ source: getAdapter() });
                     });
                 },
