@@ -25,8 +25,9 @@
         var currentClass = 'some_class';
         var gridName = '#grid';
         var dataAdapter;
+        var totalRecordsCount;
         var rendergridrows = function (params) {
-            console.log(SortState[currentClass]);
+            //console.log(SortState[currentClass]);
             var xhr = new XMLHttpRequest();
             //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
             var sortColumn = currentClass;
@@ -228,13 +229,13 @@
             xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
             xhr.send();
             var data = JSON.parse(xhr.responseText);
+            totalRecordsCount = data.row_count;
             var source =
             {
                 datatype: "array",
                 localdata: {},
-                totalrecords: data.row_count
+                totalrecords: totalRecordsCount 
             };
-            console.log(source);
             // load data.
 
             currentClass = className;
@@ -257,6 +258,26 @@
                 virtualmode: true,
                 pageable: true,
                 rendergridrows: rendergridrows,
+                showtoolbar: true,
+                rendertoolbar: function (statusbar) {
+                    // appends buttons to the status bar.
+                    var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
+                    var deleteButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
+                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
+                    container.append(deleteButton);
+                    container.append(reloadButton);
+                    statusbar.append(container);
+                    deleteButton.jqxButton({  width: 65, height: 20 });
+                    reloadButton.jqxButton({  width: 65, height: 20 });
+                    // delete selected row.
+                    deleteButton.click(function (event) {
+                        console.log(event);
+                    });
+                    // reload grid data.
+                    reloadButton.click(function (event) {
+                        $(gridName).jqxGrid({ source: getAdapter() });
+                    });
+                },
                 columns: ColumnModels[className]
             });
 
@@ -268,13 +289,52 @@
             }
 
             $(gridName).on("sort", function (event) {
+                console.log(event);
                 SortState[className] = event.args.sortinformation; 
-                //$(gridName).trigger('pagechanged');
-                $(gridName).jqxGrid('gotoprevpage');
-                $(gridName).jqxGrid('gotonextpage');
+                if (event.owner.dataview.pagenum == 0)
+                    $(gridName).jqxGrid({ source: getAdapter() });
+                else {
+                    $(gridName).jqxGrid('gotoprevpage');
+                    $(gridName).jqxGrid('gotonextpage');
+                }
             });
 
         }
+
+            var getAdapter = function () {
+                // prepare the data
+                //var data = generatedata(15);
+                //var source =
+                //{
+                //    localdata: data,
+                //    datatype: "array",
+                //    datafields:
+                //    [
+                //        { name: 'firstname', type: 'string' },
+                //        { name: 'lastname', type: 'string' },
+                //        { name: 'productname', type: 'string' },
+                //        { name: 'quantity', type: 'number' },
+                //        { name: 'price', type: 'number' },
+                //        { name: 'available', type: 'bool' }
+                //    ],
+                //    updaterow: function (rowid, rowdata, commit) {
+                //        // synchronize with the server - send update command
+                //        // call commit with parameter true if the synchronization with the server is successful
+                //        // and with parameter false if the synchronization failed.
+                //        commit(true);
+                //    }
+                //};
+                var source =
+                {
+                    datatype: "array",
+                    localdata: {},
+                    totalrecords: totalRecordsCount
+                };
+
+                var dataAdapter = new $.jqx.dataAdapter(source);
+                return dataAdapter;
+            }
+
 
     </script>
 
@@ -302,6 +362,8 @@
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
             <input type="button" id="saveState" value="Save State" />
             <input type="button" id="loadState" value="Load State" />
+            <div style="margin-top: 20px" id="jqxlistbox"></div>
+
             <!--button onclick="var p = document.getElementById('filterContainer').appendChild(document.getElementById('filterForm'))">Go</button-->
 
         </div>
@@ -345,7 +407,6 @@
         </div>
         <div data-container="Document1Panel">
             <div id="grid_container" style="width: 500px;"></div>
-            <div style="margin-top: 20px" id="jqxlistbox"></div>
             <!--div style="margin-top: 30px;">
         <div style="float: left;">
             Pager Settings:
