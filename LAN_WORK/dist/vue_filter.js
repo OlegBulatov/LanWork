@@ -108,3 +108,48 @@ function initFilter() {
         }
     });
 }
+
+$.fn.filterForm = function () {
+    var fltDiv = $("<fltdiv></fltdiv>");
+    fltDiv.attr("v-for", "ctrl in ctrls");
+    fltDiv.attr("v-if", "ctrl.class=='textbox'");
+    fltDiv.attr(":key", "ctrl.id");
+    fltDiv.attr("v-bind:caption", "ctrl.caption");
+    fltDiv.attr("v-bind:data_field", "ctrl.data_field");
+    fltDiv.attr("v-bind:filter_value", "ctrl.filter_value");
+    fltDiv.attr("v-bind:left", "ctrl.left");
+    fltDiv.attr("v-bind:top", "ctrl.top");
+    fltDiv.attr("v-bind:width", "ctrl.width");
+    fltDiv.attr("v-bind:height", "ctrl.height");
+    fltDiv.attr("v-bind:id", "ctrl.id");
+    this.append(fltDiv);
+
+    var fltSel = $("<fltsel></fltsel>");
+    fltSel.attr("v-for", "ctrl in ctrls");
+    fltSel.attr("v-if", "ctrl.class=='combobox'");
+    fltSel.attr(":key", "ctrl.id");
+    fltSel.attr("v-bind:caption", "ctrl.caption");
+    fltSel.attr("v-bind:data_field", "ctrl.data_field");
+    fltSel.attr("v-bind:filter_value", "ctrl.filter_value");
+    fltSel.attr("v-bind:left", "ctrl.left");
+    fltSel.attr("v-bind:top", "ctrl.top");
+    fltSel.attr("v-bind:width", "ctrl.width");
+    fltSel.attr("v-bind:height", "ctrl.height");
+    fltSel.attr("v-bind:id", "ctrl.id");
+    this.append(fltSel);
+
+    var fltDate = $("<fltdate></fltdate>");
+    fltDate.attr("v-for", "ctrl in ctrls");
+    fltDate.attr("v-if", "ctrl.class=='datepick'");
+    fltDate.attr(":key", "ctrl.id");
+    fltDate.attr("v-bind:caption", "ctrl.caption");
+    fltDate.attr("v-bind:data_field", "ctrl.data_field");
+    fltDate.attr("v-bind:filter_value", "ctrl.filter_value");
+    fltDate.attr("v-bind:left", "ctrl.left");
+    fltDate.attr("v-bind:top", "ctrl.top");
+    fltDate.attr("v-bind:width", "ctrl.width");
+    fltDate.attr("v-bind:height", "ctrl.height");
+    fltDate.attr("v-bind:id", "ctrl.id");
+    this.append(fltDate);
+    
+}

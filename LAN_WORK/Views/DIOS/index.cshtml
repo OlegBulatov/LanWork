@@ -18,7 +18,7 @@
     
 
 </head>
-<body onload="InitModuleTree();/* LoadFancyGrid('MODULE');*/">
+<body onload="InitModuleTree();">
 
     <script>
         var objFilter = null;
@@ -27,9 +27,7 @@
         var dataAdapter;
         var totalRecordsCount;
         var rendergridrows = function (params) {
-            //console.log(SortState[currentClass]);
             var xhr = new XMLHttpRequest();
-            //xhr.open('GET', "/Entity/List?class_name=ENTITY&limit=50&offset=" + params.startindex, false);
             var sortColumn = currentClass;
             if (SortState[currentClass]) {
                 sortColumn = SortState[currentClass].sortcolumn;
@@ -42,37 +40,39 @@
             var data = JSON.parse(xhr.responseText);
             return JSON.parse(data.response_body);
         }
-        var totalcolumnrenderer = function (row, column, cellvalue) {
-                var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
-                return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
-        }
+        //var totalcolumnrenderer = function (row, column, cellvalue) {
+        //        var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
+        //        return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
+        //}
 
         var SortState = new Object();
         var LoadedState = new Object();
         var ColumnModels = new Object();
         ColumnModels.OBJECT_TYPE = [
-                        { text: 'Id', datafield: 'object_type', width: 40 },
-                        { text: 'Name', datafield: 'name', width: 120 },
-                        { text: 'Type', datafield: 'type_name', width: 120 },
-                        { text: 'Class Name', datafield: 'class_name', width: 180 }
+            { text: 'Id', datafield: 'object_type', width: 40 },
+            { text: 'Name', datafield: 'name', width: 120 },
+            { text: 'Type', datafield: 'type_name', width: 120 },
+            { text: 'Class Name', datafield: 'class_name', width: 180 }
         ];
         ColumnModels.MODULE = [
-                        { text: 'Id', datafield: 'module', width: 40 },
-                        { text: 'Name', datafield: 'title', width: 120 },
-                        { text: 'Type', datafield: 'form_type_name', width: 120 }
+            { text: 'Id', datafield: 'module', width: 40 },
+            { text: 'Name', datafield: 'title', width: 120 },
+            { text: 'Type', datafield: 'form_type_name', width: 120 }
         ];
         ColumnModels.FORM = [
-                        { text: 'Id', datafield: 'form', width: 40 },
-                        { text: 'Name', datafield: 'type_name', width: 120 }
+            { text: 'Id', datafield: 'form', width: 40 },
+            { text: 'Name', datafield: 'type_name', width: 120 }
         ];
         ColumnModels.LNT_SERVER = [
-                        { text: 'Id', datafield: 'lnt_server', width: 40 },
-                        { text: 'Name', datafield: 'name', width: 120 },
-                        { text: 'IP address', datafield: 'ip_address', width: 120 }
+            { text: 'Id', datafield: 'lnt_server', width: 40 },
+            { text: 'Name', datafield: 'name', width: 120 },
+            { text: 'IP address', datafield: 'ip_address', width: 120 }
         ];
 
 
         function InitModuleTree() {
+
+            $('#filterForm').filterForm();
 
             var layout =
                 [
@@ -150,10 +150,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                            type: 'documentPanel',
-                                                                            title: 'Document 2',
-                                                                            contentContainer: 'Document2Panel'
-                                                                        }*/]
+                                                                                        type: 'documentPanel',
+                                                                                        title: 'Document 2',
+                                                                                        contentContainer: 'Document2Panel'
+                                                                                    }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '30%',
@@ -183,7 +183,7 @@
                 // save the current state of jqxGrid.
                 state = $(gridName).jqxGrid('savestate');
             })
-            ;
+                ;
             $("#loadState").click(function () {
                 // load the Grid's state.
                 if (state) {
@@ -200,7 +200,7 @@
                 { label: 'form', value: 'form', checked: true },
                 { label: 'module', value: 'module', checked: true },
                 { label: 'Class name', value: 'class_name', checked: true }];
-            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200,  checkboxes: true });
+            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
             $("#jqxlistbox").on('checkChange', function (event) {
                 $(gridName).jqxGrid('beginupdate');
                 if (event.args.checked) {
@@ -220,8 +220,6 @@
             //        $(gridName).jqxGrid({ pagermode: 'simple' });
             //    }
             //});
-
-            //loadJqxGrid('OBJECT_TYPE');
         }
 
         function loadJqxGrid(className) {
@@ -234,7 +232,7 @@
             {
                 datatype: "array",
                 localdata: {},
-                totalrecords: totalRecordsCount 
+                totalrecords: totalRecordsCount
             };
             // load data.
 
@@ -248,41 +246,41 @@
             gridContainer.appendChild(gridDiv);
 
             $(gridName).jqxGrid(
-            {
-                width: getWidth('Grid'),
-                autoheight: true,
-                source: new $.jqx.dataAdapter(source),
-                sortable: true,
-                columnsresize: true,
-                columnsreorder: true,
-                virtualmode: true,
-                pageable: true,
-                rendergridrows: rendergridrows,
-                showtoolbar: true,
-                rendertoolbar: function (statusbar) {
-                    // appends buttons to the status bar.
-                    var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
-                    var deleteButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
-                    var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
-                    container.append(deleteButton);
-                    container.append(reloadButton);
-                    statusbar.append(container);
-                    deleteButton.jqxButton({  width: 65, height: 20 });
-                    reloadButton.jqxButton({  width: 65, height: 20 });
-                    // delete selected row.
-                    deleteButton.click(function (event) {
-                        console.log(event);
-                    });
-                    // reload grid data.
-                    reloadButton.click(function (event) {
-                        $(gridName).jqxGrid('gotopage', 0);
-                        $(gridName).jqxGrid({ source: getAdapter() });
-                    });
-                },
-                columns: ColumnModels[className]
-            });
+                {
+                    width: getWidth('Grid'),
+                    autoheight: true,
+                    source: new $.jqx.dataAdapter(source),
+                    sortable: true,
+                    columnsresize: true,
+                    columnsreorder: true,
+                    virtualmode: true,
+                    pageable: true,
+                    rendergridrows: rendergridrows,
+                    showtoolbar: true,
+                    rendertoolbar: function (statusbar) {
+                        // appends buttons to the status bar.
+                        var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
+                        var deleteButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
+                        var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
+                        container.append(deleteButton);
+                        container.append(reloadButton);
+                        statusbar.append(container);
+                        deleteButton.jqxButton({ width: 65, height: 20 });
+                        reloadButton.jqxButton({ width: 65, height: 20 });
+                        // delete selected row.
+                        deleteButton.click(function (event) {
+                            console.log(event);
+                        });
+                        // reload grid data.
+                        reloadButton.click(function (event) {
+                            $(gridName).jqxGrid('gotopage', 0);
+                            $(gridName).jqxGrid({ source: getAdapter() });
+                        });
+                    },
+                    columns: ColumnModels[className]
+                });
 
-            $(gridName).jqxGrid({ pagermode: "simple"});
+            $(gridName).jqxGrid({ pagermode: "simple" });
 
             if (!LoadedState[className]) {
                 $(gridName).jqxGrid('loadstate');
@@ -291,7 +289,7 @@
 
             $(gridName).on("sort", function (event) {
                 console.log(event);
-                SortState[className] = event.args.sortinformation; 
+                SortState[className] = event.args.sortinformation;
                 if (event.owner.dataview.pagenum == 0)
                     $(gridName).jqxGrid({ source: getAdapter() });
                 else {
@@ -302,39 +300,17 @@
 
         }
 
-            var getAdapter = function () {
-                // prepare the data
-                //var data = generatedata(15);
-                //var source =
-                //{
-                //    localdata: data,
-                //    datatype: "array",
-                //    datafields:
-                //    [
-                //        { name: 'firstname', type: 'string' },
-                //        { name: 'lastname', type: 'string' },
-                //        { name: 'productname', type: 'string' },
-                //        { name: 'quantity', type: 'number' },
-                //        { name: 'price', type: 'number' },
-                //        { name: 'available', type: 'bool' }
-                //    ],
-                //    updaterow: function (rowid, rowdata, commit) {
-                //        // synchronize with the server - send update command
-                //        // call commit with parameter true if the synchronization with the server is successful
-                //        // and with parameter false if the synchronization failed.
-                //        commit(true);
-                //    }
-                //};
-                var source =
-                {
-                    datatype: "array",
-                    localdata: {},
-                    totalrecords: totalRecordsCount
-                };
+        var getAdapter = function () {
+            var source =
+            {
+                datatype: "array",
+                localdata: {},
+                totalrecords: totalRecordsCount
+            };
 
-                var dataAdapter = new $.jqx.dataAdapter(source);
-                return dataAdapter;
-            }
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            return dataAdapter;
+        }
 
 
     </script>
@@ -349,7 +325,6 @@
             height: 100%;
         }
     </style>
-
 
 
     <div id="jqxLayout">
@@ -371,50 +346,17 @@
         <!--documentGroup-->
         <div data-container="Document0Panel">
             <div id="filterForm" class="f-form">
-                <fltdiv v-for="ctrl in ctrls" v-if="ctrl.class=='textbox'"
-                        :key="ctrl.id"
-                        v-bind:caption="ctrl.caption"
-                        v-bind:data_field="ctrl.data_field"
-                        v-bind:filter_value="ctrl.filter_value"
-                        v-bind:left="ctrl.left"
-                        v-bind:top="ctrl.top"
-                        v-bind:width="ctrl.width"
-                        v-bind:height="ctrl.height"
-                        v-bind:id="ctrl.id">
-                </fltdiv>
-                <fltsel v-for="ctrl in ctrls" v-if="ctrl.class=='combobox'"
-                        :key="ctrl.id"
-                        v-bind:caption="ctrl.caption"
-                        v-bind:data_field="ctrl.data_field"
-                        v-bind:filter_value="ctrl.filter_value"
-                        v-bind:left="ctrl.left"
-                        v-bind:top="ctrl.top"
-                        v-bind:width="ctrl.width"
-                        v-bind:height="ctrl.height"
-                        v-bind:id="ctrl.id">
-                </fltsel>
-                <fltdate v-for="ctrl in ctrls" v-if="ctrl.class=='datepick'"
-                         :key="ctrl.id"
-                         v-bind:caption="ctrl.caption"
-                         v-bind:data_field="ctrl.data_field"
-                         v-bind:filter_value="ctrl.filter_value"
-                         v-bind:left="ctrl.left"
-                         v-bind:top="ctrl.top"
-                         v-bind:width="ctrl.width"
-                         v-bind:height="ctrl.height"
-                         v-bind:id="ctrl.id">
-                </fltdate>
             </div>
         </div>
         <div data-container="Document1Panel">
             <div id="grid_container" style="width: 500px;"></div>
             <!--div style="margin-top: 30px;">
-        <div style="float: left;">
-            Pager Settings:
-            <div id="modes">
-            </div>
-        </div>
-    </div-->
+                <div style="float: left;">
+                    Pager Settings:
+                    <div id="modes">
+                    </div>
+                </div>
+            </div-->
         </div>
         <div data-container="Document2Panel">
             Document 2 content
@@ -436,11 +378,11 @@
         </div>
     </div>
 
-    <script src="/dist/vue_filter.js"></script>
 
     @section Scripts {
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
+        @Scripts.Render("~/dist/vue_filter.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
