@@ -176,41 +176,24 @@
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
 
-            $("#saveState").jqxButton({ theme: theme });
-            $("#loadState").jqxButton({ theme: theme });
-            var state = null;
-            $("#saveState").click(function () {
-                // save the current state of jqxGrid.
-                state = $(gridName).jqxGrid('savestate');
-            })
-                ;
-            $("#loadState").click(function () {
-                // load the Grid's state.
-                if (state) {
-                    $(gridName).jqxGrid('loadstate', state);
-                }
-                else {
-                    $(gridName).jqxGrid('loadstate');
-                }
-            });
 
-            var listSource = [
-                { label: 'Name', value: 'name', checked: false },
-                { label: 'Type', value: 'type_name', checked: true },
-                { label: 'form', value: 'form', checked: true },
-                { label: 'module', value: 'module', checked: true },
-                { label: 'Class name', value: 'class_name', checked: true }];
-            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
-            $("#jqxlistbox").on('checkChange', function (event) {
-                $(gridName).jqxGrid('beginupdate');
-                if (event.args.checked) {
-                    $(gridName).jqxGrid('showcolumn', event.args.value);
-                }
-                else {
-                    $(gridName).jqxGrid('hidecolumn', event.args.value);
-                }
-                $(gridName).jqxGrid('endupdate');
-            });
+            //var listSource = [
+            //    { label: 'Name', value: 'name', checked: false },
+            //    { label: 'Type', value: 'type_name', checked: true },
+            //    { label: 'form', value: 'form', checked: true },
+            //    { label: 'module', value: 'module', checked: true },
+            //    { label: 'Class name', value: 'class_name', checked: true }];
+            //$("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+            //$("#jqxlistbox").on('checkChange', function (event) {
+            //    $(gridName).jqxGrid('beginupdate');
+            //    if (event.args.checked) {
+            //        $(gridName).jqxGrid('showcolumn', event.args.value);
+            //    }
+            //    else {
+            //        $(gridName).jqxGrid('hidecolumn', event.args.value);
+            //    }
+            //    $(gridName).jqxGrid('endupdate');
+            //});
             //$("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
             //$("#modes").on('select', function (event) {
             //    if (event.args.index === 0) {
@@ -262,14 +245,20 @@
                         var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
                         var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
                         var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
+                        var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>");
+//                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
                         container.append(tuneButton);
                         container.append(reloadButton);
+                        container.append(saveStateButton);
                         statusbar.append(container);
                         tuneButton.jqxButton({ width: 65, height: 20 });
                         reloadButton.jqxButton({ width: 65, height: 20 });
-                        // delete selected row.
+                        saveStateButton.jqxButton({ theme: theme });
+//                        loadStateButton.jqxButton({ theme: theme });
+
                         var isTuning;
                         var tuneDiv;
+                        var state = null;
                         tuneButton.click(function (event) {
                             if (isTuning) {
                                 isTuning = false;
@@ -324,6 +313,19 @@
                             $(gridName).jqxGrid('gotopage', 0);
                             $(gridName).jqxGrid({ source: getAdapter() });
                         });
+                        saveStateButton.click(function () {
+                        // save the current state of jqxGrid.
+                             state = $(gridName).jqxGrid('savestate');
+                        });
+                        //loadStateButton.click(function () {
+                        //// load the Grid's state.
+                        //    if (state) {
+                        //        $(gridName).jqxGrid('loadstate', state);
+                        //    }
+                        //    else {
+                        //        $(gridName).jqxGrid('loadstate');
+                        //    }
+                        //});
                     },
                     columns: ColumnModels[className]
                 });
