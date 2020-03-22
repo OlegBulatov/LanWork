@@ -260,16 +260,48 @@
                     rendertoolbar: function (statusbar) {
                         // appends buttons to the status bar.
                         var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
-                        var deleteButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
+                        var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
                         var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
-                        container.append(deleteButton);
+                        container.append(tuneButton);
                         container.append(reloadButton);
                         statusbar.append(container);
-                        deleteButton.jqxButton({ width: 65, height: 20 });
+                        tuneButton.jqxButton({ width: 65, height: 20 });
                         reloadButton.jqxButton({ width: 65, height: 20 });
                         // delete selected row.
-                        deleteButton.click(function (event) {
-                            console.log(event);
+                        var isTuning;
+                        var tuneDiv;
+                        tuneButton.click(function (event) {
+                            if (isTuning) {
+                                isTuning = false;
+                                tuneDiv.hide();
+                                return;
+                            }
+                            isTuning = true;
+                            tuneDiv = $("<div>");
+                            tuneDiv.width(200);
+                            tuneDiv.height(400);
+                            tuneDiv.css({
+                                "position": "absolute",
+                                "top": "100px",
+                                "z-index": "25",
+                                "background-color": "white",
+                                "border": "2px solid blue"
+                            });
+                            //var okButton = $("<div style='position: absolute; margin-left: 5px; bottom: 2px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>");
+                            //okButton.jqxButton({ width: 65, height: 20 });
+                            //okButton.click(function (event) {
+                            //    tuneDiv.hide();
+                            //});
+                            //tuneDiv.append(okButton);
+                            var listSource = [
+                                { label: 'Name', value: 'name', checked: false },
+                                { label: 'Type', value: 'type_name', checked: true },
+                                { label: 'form', value: 'form', checked: true },
+                                { label: 'module', value: 'module', checked: true },
+                                { label: 'Class name', value: 'class_name', checked: true }];
+                                tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+
+                            $(gridName).append(tuneDiv);
                         });
                         // reload grid data.
                         reloadButton.click(function (event) {
