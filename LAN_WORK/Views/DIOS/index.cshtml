@@ -150,10 +150,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                                        type: 'documentPanel',
-                                                                                        title: 'Document 2',
-                                                                                        contentContainer: 'Document2Panel'
-                                                                                    }*/]
+                                                                                                type: 'documentPanel',
+                                                                                                title: 'Document 2',
+                                                                                                contentContainer: 'Document2Panel'
+                                                                                            }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '30%',
@@ -188,12 +188,12 @@
             xhr.open('GET', '/Object/ColumnsList?class_name=' + className, false);
             xhr.send();
             data = JSON.parse(xhr.responseText);
-            console.log(data);
             ColumnModels[className] = new Array();
             var columnsInfo = JSON.parse(data.response_body);
+            console.log(columnsInfo);
             if (columnsInfo && columnsInfo.length)
                 columnsInfo.forEach(function (item, i) {
-                    ColumnModels[className][i] = { text: item.DisplayName, datafield: item.Name, width: 40 };
+                    ColumnModels[className][i] = { text: item.DisplayName, datafield: item.Name, width: 40, columntype: item.TypeName == 'DIOS.Common.SqlBoolean' ? 'checkbox' : 'textbox' };
                 });
             //[
             //    { text: 'Id', datafield: 'object_type', width: 40 },
@@ -228,6 +228,8 @@
                     columnsreorder: true,
                     virtualmode: true,
                     pageable: true,
+                    editable: true,
+                    editmode: 'selectedrow',
                     rendergridrows: rendergridrows,
                     showtoolbar: true,
                     rendertoolbar: function (statusbar) {
@@ -236,7 +238,7 @@
                         var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
                         var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
                         var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>");
-//                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
+                        //                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
                         container.append(tuneButton);
                         container.append(reloadButton);
                         container.append(saveStateButton);
@@ -244,7 +246,7 @@
                         tuneButton.jqxButton({ theme: theme });
                         reloadButton.jqxButton({ theme: theme });
                         saveStateButton.jqxButton({ theme: theme });
-//                        loadStateButton.jqxButton({ theme: theme });
+                        //                        loadStateButton.jqxButton({ theme: theme });
 
                         var isTuning;
                         var tuneDiv;
@@ -276,7 +278,7 @@
                             var listSource = new Array();
                             var gridColumns = $(gridName).jqxGrid('columns').records;
                             gridColumns.forEach(function (item, i) {
-                                listSource[i] = {label: item.text, value: item.datafield, checked: !item.hidden};
+                                listSource[i] = { label: item.text, value: item.datafield, checked: !item.hidden };
                             });
                             tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
                             tuneDiv.on('checkChange', function (event) {
@@ -300,8 +302,8 @@
                             $(gridName).jqxGrid({ source: getAdapter() });
                         });
                         saveStateButton.click(function () {
-                        // save the current state of jqxGrid.
-                             $(gridName).jqxGrid('savestate');
+                            // save the current state of jqxGrid.
+                            $(gridName).jqxGrid('savestate');
                         });
                         //loadStateButton.click(function () {
                         //// load the Grid's state.
@@ -319,7 +321,7 @@
             $(gridName).jqxGrid({ pagermode: "simple" });
 
             //if (!LoadedState[className]) {
-                $(gridName).jqxGrid('loadstate');
+            $(gridName).jqxGrid('loadstate');
             //    LoadedState[className] = true;
             //}
 
@@ -429,6 +431,7 @@
         @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
         @Scripts.Render("~/jqwidgets/jqxgrid.js")
         @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
+        @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
         @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
         @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")
         @Scripts.Render("~/jqwidgets/jqxmenu.js")

@@ -49,7 +49,8 @@ namespace LanWork.Models
                             select new
                             {
                                 prop.DisplayName,
-                                prop.Name
+                                prop.Name,
+                                TypeName = prop.PropertyType.FullName
                             };
                 string result = JsonConvert.SerializeObject(query);
                 return result;
