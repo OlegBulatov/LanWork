@@ -241,14 +241,14 @@
                         container.append(reloadButton);
                         container.append(saveStateButton);
                         statusbar.append(container);
-                        tuneButton.jqxButton({ width: 65, height: 20 });
-                        reloadButton.jqxButton({ width: 65, height: 20 });
+                        tuneButton.jqxButton({ theme: theme });
+                        reloadButton.jqxButton({ theme: theme });
                         saveStateButton.jqxButton({ theme: theme });
 //                        loadStateButton.jqxButton({ theme: theme });
 
                         var isTuning;
                         var tuneDiv;
-                        var state = null;
+                        //var state = null;
                         tuneButton.click(function (event) {
                             if (isTuning) {
                                 isTuning = false;
@@ -257,12 +257,13 @@
                             }
                             isTuning = true;
                             tuneDiv = $("<div>");
-                            tuneDiv.width(200);
-                            tuneDiv.height(400);
+                            //tuneDiv.width(200);
+                            //tuneDiv.height(400);
                             tuneDiv.css({
                                 "position": "absolute",
-                                "top": "100px",
-                                "z-index": "25",
+                                "top": statusbar.offset().top + 40,
+                                "left": statusbar.offset().left,
+                                "z-index": "35",
                                 "background-color": "white",
                                 "border": "2px solid blue"
                             });
@@ -272,20 +273,14 @@
                             //    tuneDiv.hide();
                             //});
                             //tuneDiv.append(okButton);
-                            //console.log($(gridName).jqxGrid('columns').records);
                             var listSource = new Array();
                             var gridColumns = $(gridName).jqxGrid('columns').records;
                             gridColumns.forEach(function (item, i) {
                                 listSource[i] = {label: item.text, value: item.datafield, checked: !item.hidden};
                             });
-                                //[
-                                //{ label: 'Name', value: 'name', checked: false },
-                                //{ label: 'Type', value: 'type_name', checked: true },
-                                //{ label: 'form', value: 'form', checked: true },
-                                //{ label: 'module', value: 'module', checked: true },
-                                //{ label: 'Class name', value: 'class_name', checked: true }];
                             tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
                             tuneDiv.on('checkChange', function (event) {
+                                event.stopPropagation();
                                 $(gridName).jqxGrid('beginupdate');
                                 if (event.args.checked) {
                                     $(gridName).jqxGrid('showcolumn', event.args.value);
@@ -296,7 +291,8 @@
                                 $(gridName).jqxGrid('endupdate');
                             });
 
-                            $(gridName).append(tuneDiv);
+                            //$(gridName).append(tuneDiv);
+                            $("body").append(tuneDiv);
                         });
                         // reload grid data.
                         reloadButton.click(function (event) {
@@ -305,7 +301,7 @@
                         });
                         saveStateButton.click(function () {
                         // save the current state of jqxGrid.
-                             state = $(gridName).jqxGrid('savestate');
+                             $(gridName).jqxGrid('savestate');
                         });
                         //loadStateButton.click(function () {
                         //// load the Grid's state.
@@ -322,10 +318,10 @@
 
             $(gridName).jqxGrid({ pagermode: "simple" });
 
-            if (!LoadedState[className]) {
+            //if (!LoadedState[className]) {
                 $(gridName).jqxGrid('loadstate');
-                LoadedState[className] = true;
-            }
+            //    LoadedState[className] = true;
+            //}
 
             $(gridName).on("sort", function (event) {
                 console.log(event);
