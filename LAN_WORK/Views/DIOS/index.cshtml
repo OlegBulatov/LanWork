@@ -48,26 +48,26 @@
         var SortState = new Object();
         var LoadedState = new Object();
         var ColumnModels = new Object();
-        ColumnModels.OBJECT_TYPE = [
-            { text: 'Id', datafield: 'object_type', width: 40 },
-            { text: 'Name', datafield: 'name', width: 120 },
-            { text: 'Type', datafield: 'type_name', width: 120 },
-            { text: 'Class Name', datafield: 'class_name', width: 180 }
-        ];
-        ColumnModels.MODULE = [
-            { text: 'Id', datafield: 'module', width: 40 },
-            { text: 'Name', datafield: 'title', width: 120 },
-            { text: 'Type', datafield: 'form_type_name', width: 120 }
-        ];
-        ColumnModels.FORM = [
-            { text: 'Id', datafield: 'form', width: 40 },
-            { text: 'Name', datafield: 'type_name', width: 120 }
-        ];
-        ColumnModels.LNT_SERVER = [
-            { text: 'Id', datafield: 'lnt_server', width: 40 },
-            { text: 'Name', datafield: 'name', width: 120 },
-            { text: 'IP address', datafield: 'ip_address', width: 120 }
-        ];
+        //ColumnModels.OBJECT_TYPE = [
+        //    { text: 'Id', datafield: 'object_type', width: 40 },
+        //    { text: 'Name', datafield: 'name', width: 120 },
+        //    { text: 'Type', datafield: 'type_name', width: 120 },
+        //    { text: 'Class Name', datafield: 'class_name', width: 180 }
+        //];
+        //ColumnModels.MODULE = [
+        //    { text: 'Id', datafield: 'module', width: 40 },
+        //    { text: 'Name', datafield: 'title', width: 120 },
+        //    { text: 'Type', datafield: 'form_type_name', width: 120 }
+        //];
+        //ColumnModels.FORM = [
+        //    { text: 'Id', datafield: 'form', width: 40 },
+        //    { text: 'Name', datafield: 'type_name', width: 120 }
+        //];
+        //ColumnModels.LNT_SERVER = [
+        //    { text: 'Id', datafield: 'lnt_server', width: 40 },
+        //    { text: 'Name', datafield: 'name', width: 120 },
+        //    { text: 'IP address', datafield: 'ip_address', width: 120 }
+        //];
 
 
         function InitModuleTree() {
@@ -176,33 +176,6 @@
                 ];
             $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
 
-
-            //var listSource = [
-            //    { label: 'Name', value: 'name', checked: false },
-            //    { label: 'Type', value: 'type_name', checked: true },
-            //    { label: 'form', value: 'form', checked: true },
-            //    { label: 'module', value: 'module', checked: true },
-            //    { label: 'Class name', value: 'class_name', checked: true }];
-            //$("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
-            //$("#jqxlistbox").on('checkChange', function (event) {
-            //    $(gridName).jqxGrid('beginupdate');
-            //    if (event.args.checked) {
-            //        $(gridName).jqxGrid('showcolumn', event.args.value);
-            //    }
-            //    else {
-            //        $(gridName).jqxGrid('hidecolumn', event.args.value);
-            //    }
-            //    $(gridName).jqxGrid('endupdate');
-            //});
-            //$("#modes").jqxDropDownList({ width: 150, autoDropDownHeight: true, selectedIndex: 1, height: 25, source: ['Default', 'Simple'] });
-            //$("#modes").on('select', function (event) {
-            //    if (event.args.index === 0) {
-            //        $(gridName).jqxGrid({ pagermode: 'default' });
-            //    }
-            //    else {
-            //        $(gridName).jqxGrid({ pagermode: 'simple' });
-            //    }
-            //});
         }
 
         function loadJqxGrid(className) {
@@ -211,6 +184,23 @@
             xhr.send();
             var data = JSON.parse(xhr.responseText);
             totalRecordsCount = data.row_count;
+            xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/ColumnsList?class_name=' + className, false);
+            xhr.send();
+            data = JSON.parse(xhr.responseText);
+            console.log(data);
+            ColumnModels[className] = new Array();
+            var columnsInfo = JSON.parse(data.response_body);
+            if (columnsInfo && columnsInfo.length)
+                columnsInfo.forEach(function (item, i) {
+                    ColumnModels[className][i] = { text: item.DisplayName, datafield: item.Name, width: 40 };
+                });
+            //[
+            //    { text: 'Id', datafield: 'object_type', width: 40 },
+            //    { text: 'Name', datafield: 'name', width: 120 },
+            //    { text: 'Type', datafield: 'type_name', width: 120 },
+            //    { text: 'Class Name', datafield: 'class_name', width: 180 }
+            //];
             var source =
             {
                 datatype: "array",

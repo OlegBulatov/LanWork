@@ -6,6 +6,8 @@ using DIOS.BusinessBase;
 using DIOS.Common;
 using DIOS.Common.Interfaces;
 using DIOS.ObjectLib;
+using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace LanWork.Models
 {
@@ -21,6 +23,42 @@ namespace LanWork.Models
         private int _limit = 1000;
         private int _offset = 0;
         private int _row_count = -1;
+
+        public string ColumnsList(string class_name)
+        {
+            _className = class_name;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForColumnsList), null);
+            return M.MakeResponse();
+        }
+        private string doTrueResponseForColumnsList()
+        {
+            try
+            {
+                DiosSqlManager M = new DiosSqlManager();
+                ObjectFactory F = null;
+                try
+                {
+                    F = M.GetFactory(_className);
+                }
+                catch (Exception exc)
+                {
+                    throw new Exception("Object type " + _className + " not found");
+                }
+                IndexerPropertyDescriptorCollection props = F.GetObjectProperties();
+                var query = from PropertyDescriptor prop in props
+                            select new
+                            {
+                                prop.DisplayName,
+                                prop.Name
+                            };
+                string result = JsonConvert.SerializeObject(query);
+                return result;
+            }
+            catch (Exception exc)
+            {
+                return exc.Message;
+            }
+        }
 
         public string List(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
         {
