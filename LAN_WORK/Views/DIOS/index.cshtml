@@ -293,13 +293,29 @@
                             //    tuneDiv.hide();
                             //});
                             //tuneDiv.append(okButton);
-                            var listSource = [
-                                { label: 'Name', value: 'name', checked: false },
-                                { label: 'Type', value: 'type_name', checked: true },
-                                { label: 'form', value: 'form', checked: true },
-                                { label: 'module', value: 'module', checked: true },
-                                { label: 'Class name', value: 'class_name', checked: true }];
-                                tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+                            //console.log($(gridName).jqxGrid('columns').records);
+                            var listSource = new Array();
+                            var gridColumns = $(gridName).jqxGrid('columns').records;
+                            gridColumns.forEach(function (item, i) {
+                                listSource[i] = {label: item.text, value: item.datafield, checked: !item.hidden};
+                            });
+                                //[
+                                //{ label: 'Name', value: 'name', checked: false },
+                                //{ label: 'Type', value: 'type_name', checked: true },
+                                //{ label: 'form', value: 'form', checked: true },
+                                //{ label: 'module', value: 'module', checked: true },
+                                //{ label: 'Class name', value: 'class_name', checked: true }];
+                            tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+                            tuneDiv.on('checkChange', function (event) {
+                                $(gridName).jqxGrid('beginupdate');
+                                if (event.args.checked) {
+                                    $(gridName).jqxGrid('showcolumn', event.args.value);
+                                }
+                                else {
+                                    $(gridName).jqxGrid('hidecolumn', event.args.value);
+                                }
+                                $(gridName).jqxGrid('endupdate');
+                            });
 
                             $(gridName).append(tuneDiv);
                         });
