@@ -22,6 +22,7 @@
 
     <script>
         var objFilter = null;
+        var objEdit = null;
         var currentClass = 'some_class';
         var gridName = '#grid';
         var dataAdapter;
@@ -48,31 +49,11 @@
         var SortState = new Object();
         var LoadedState = new Object();
         var ColumnModels = new Object();
-        //ColumnModels.OBJECT_TYPE = [
-        //    { text: 'Id', datafield: 'object_type', width: 40 },
-        //    { text: 'Name', datafield: 'name', width: 120 },
-        //    { text: 'Type', datafield: 'type_name', width: 120 },
-        //    { text: 'Class Name', datafield: 'class_name', width: 180 }
-        //];
-        //ColumnModels.MODULE = [
-        //    { text: 'Id', datafield: 'module', width: 40 },
-        //    { text: 'Name', datafield: 'title', width: 120 },
-        //    { text: 'Type', datafield: 'form_type_name', width: 120 }
-        //];
-        //ColumnModels.FORM = [
-        //    { text: 'Id', datafield: 'form', width: 40 },
-        //    { text: 'Name', datafield: 'type_name', width: 120 }
-        //];
-        //ColumnModels.LNT_SERVER = [
-        //    { text: 'Id', datafield: 'lnt_server', width: 40 },
-        //    { text: 'Name', datafield: 'name', width: 120 },
-        //    { text: 'IP address', datafield: 'ip_address', width: 120 }
-        //];
-
 
         function InitModuleTree() {
 
             $('#filterForm').filterForm();
+            $('#editForm').editForm();
 
             var layout =
                 [
@@ -116,6 +97,8 @@
                                                             loadJqxGrid(selected.data);
                                                             if (!objFilter)
                                                                 initFilter();
+                                                            if (!objEdit)
+                                                                initEdit();
                                                         }
                                                     });
 
@@ -150,10 +133,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                                                type: 'documentPanel',
-                                                                                                title: 'Document 2',
-                                                                                                contentContainer: 'Document2Panel'
-                                                                                            }*/]
+                                                                                                    type: 'documentPanel',
+                                                                                                    title: 'Document 2',
+                                                                                                    contentContainer: 'Document2Panel'
+                                                                                                }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '30%',
@@ -229,7 +212,7 @@
                     virtualmode: true,
                     pageable: true,
                     editable: true,
-                    editmode: 'selectedrow',
+                    editmode: 'dblclick',
                     rendergridrows: rendergridrows,
                     showtoolbar: true,
                     rendertoolbar: function (statusbar) {
@@ -325,8 +308,10 @@
             //    LoadedState[className] = true;
             //}
 
-            $(gridName).on("sort", function (event) {
+            $(gridName).on('cellendedit', function (event) {
                 console.log(event);
+            });
+            $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation;
                 if (event.owner.dataview.pagenum == 0)
                     $(gridName).jqxGrid({ source: getAdapter() });
@@ -343,6 +328,12 @@
             {
                 datatype: "array",
                 localdata: {},
+                updaterow: function (rowid, rowdata, commit) {
+                    // synchronize with the server - send update command
+                    // call commit with parameter true if the synchronization with the server is successful
+                    // and with parameter false if the synchronization failder.
+                    //commit(true);
+                },
                 totalrecords: totalRecordsCount
             };
 
@@ -376,6 +367,7 @@
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
             <input type="button" id="saveState" value="Save State" />
             <input type="button" id="loadState" value="Load State" />
+            <button onclick="objEdit.SetObj({type_name:'MMM', created_at: 'rrg', f3: 't3'})">Test edit</button>
             <div style="margin-top: 20px" id="jqxlistbox"></div>
 
             <!--button onclick="var p = document.getElementById('filterContainer').appendChild(document.getElementById('filterForm'))">Go</button-->
@@ -404,7 +396,10 @@
             List of errors
         </div>
         <div data-container="DetailsPanel">
-            <div id="form" style="position:absolute; left:0px; top: 0px; margin-left: 10px;"></div>
+            <!--div id="form" style="position:absolute; left:0px; top: 0px; margin-left: 10px;"></div-->
+            <div id="editForm" class="f-form">
+            </div>
+
         </div>
         <!--right tabbedGroup-->
         <div data-container="SolutionExplorerPanel">
@@ -421,6 +416,7 @@
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
         @Scripts.Render("~/dist/vue_filter.js")
+        @Scripts.Render("~/dist/vue_edit.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
