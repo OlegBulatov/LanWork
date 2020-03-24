@@ -83,7 +83,7 @@ var initFilterArray =
         { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
         {
             class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true,
-            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the crocodile" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
+            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the croc" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
         }
 ];
 

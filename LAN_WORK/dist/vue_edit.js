@@ -77,19 +77,13 @@ Vue.component('eddate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-var initEditArray = 
-[
-        { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
-        { class: 'textbox', caption: null, data_field: 'wpf_type_name', control_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 350, height: 25, is_selected: false, is_visible: true },
-        {
-            class: 'combobox', caption: 'entity3', data_field: 'form_type', control_value: 't2', id: 'e3', app_index: 2, left: 400, top: 20, width: 160, height: 25, is_selected: false, is_visible: true,
-            options: [{ value: "1", text: "Browse" }, { value: "2", text: "Fiter" }, { value: "3", text: "Edit" }]
-        }
-];
-
-function initEdit() {
-
+function initEdit(initEditArray) {
+    document.getElementById('editForm').innerHTML = "";
+    $('#editForm').editForm();
+    if (objEdit)
+        objEdit.destroy();
     objEdit = new Vue({
+
         el: '#editForm',
         data: {
             selected_index: -1,
@@ -107,6 +101,9 @@ function initEdit() {
                     if (this.communicationObj[f])
                         this.communicationObj[f].control_value = obj[f];
                 }
+            },
+            destroy: function () {
+                this.$destroy();
             }
         },
         created: function () {

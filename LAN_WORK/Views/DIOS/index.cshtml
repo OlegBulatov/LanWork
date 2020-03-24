@@ -21,12 +21,26 @@
 <body onload="InitModuleTree();">
 
     <script>
+
         var objFilter = null;
         var objEdit = null;
         var currentClass = 'some_class';
         var gridName = '#grid';
         var dataAdapter;
         var totalRecordsCount;
+        var editModels = {
+            FORM: [
+                { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
+                { class: 'textbox', caption: null, data_field: 'wpf_type_name', control_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 350, height: 25, is_selected: false, is_visible: true },
+                {
+                    class: 'combobox', caption: 'entity3', data_field: 'form_type', control_value: 't2', id: 'e3', app_index: 2, left: 400, top: 20, width: 160, height: 25, is_selected: false, is_visible: true,
+                    options: [{ value: "1", text: "Browse" }, { value: "2", text: "Fiter" }, { value: "3", text: "Edit" }]
+                }],
+            OBJECT_TYPE: [
+                { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
+                    ]
+        };
+
         var rendergridrows = function (params) {
             var xhr = new XMLHttpRequest();
             var sortColumn = currentClass;
@@ -53,7 +67,6 @@
         function InitModuleTree() {
 
             $('#filterForm').filterForm();
-            $('#editForm').editForm();
 
             var layout =
                 [
@@ -95,10 +108,6 @@
                                                             selected = data.instance.get_node(data.selected[0]);
                                                             //LoadFancyGrid(selected.data);
                                                             loadJqxGrid(selected.data);
-                                                            if (!objFilter)
-                                                                initFilter();
-                                                            if (!objEdit)
-                                                                initEdit();
                                                         }
                                                     });
 
@@ -322,6 +331,13 @@
             $(gridName).on('rowselect', function (event) {
                 objEdit.SetObj(event.args.row);
             });
+
+            if (!objFilter)
+                initFilter();
+
+            //if (!objEdit)
+            initEdit(editModels[className]);
+
         }
 
         var getAdapter = function () {
