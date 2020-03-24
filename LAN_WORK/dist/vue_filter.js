@@ -42,8 +42,8 @@ Vue.component('fltsel', {
             }
         }
     },
-    props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><select  v-bind:style="styleI" v-model="filter_value" name="hero"><option value="t1" selected>Che Burashka</option><option value="t2">Gena the crocodile</option><option value="t3">Chapeauclaque</option><option value="t4">Larissa the rat</option></select ></div>'
+    props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options'],
+    template: '<div v-bind:id="id" v-bind:style="styleD"><select  v-bind:style="styleI" v-model="filter_value" name="hero"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select ></div>'
 });
 
 Vue.component('fltdate', {
@@ -81,7 +81,10 @@ var initFilterArray =
 [
         { class: 'textbox', caption: 'entity1', data_field: 'f1', filter_value: 'v1', id: 'e1', app_index: 0, left: 98, top: 50, width: 100, height: 25, is_selected: false, is_visible: true },
         { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
-        { class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true }
+        {
+            class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true,
+            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the crocodile" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
+        }
 ];
 
 function initFilter() {
@@ -123,6 +126,7 @@ function initFilter() {
         fltDiv.attr("v-bind:width", "ctrl.width");
         fltDiv.attr("v-bind:height", "ctrl.height");
         fltDiv.attr("v-bind:id", "ctrl.id");
+        fltDiv.attr("v-bind:options", "ctrl.options");
         parentObj.append(fltDiv);
     }
     $.fn.filterForm = function () {
