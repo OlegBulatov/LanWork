@@ -173,7 +173,6 @@
             data = JSON.parse(xhr.responseText);
             ColumnModels[className] = new Array();
             var columnsInfo = JSON.parse(data.response_body);
-            console.log(columnsInfo);
             if (columnsInfo && columnsInfo.length)
                 columnsInfo.forEach(function (item, i) {
                     ColumnModels[className][i] = { text: item.DisplayName, datafield: item.Name, width: 40, columntype: item.TypeName == 'DIOS.Common.SqlBoolean' ? 'checkbox' : 'textbox' };
@@ -320,7 +319,9 @@
                     $(gridName).jqxGrid('gotonextpage');
                 }
             });
-
+            $(gridName).on('rowselect', function (event) {
+                objEdit.SetObj(event.args.row);
+            });
         }
 
         var getAdapter = function () {
