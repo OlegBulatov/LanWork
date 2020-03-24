@@ -77,7 +77,7 @@ Vue.component('fltdate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-var initArray = 
+var initFilterArray = 
 [
         { class: 'textbox', caption: 'entity1', data_field: 'f1', filter_value: 'v1', id: 'e1', app_index: 0, left: 98, top: 50, width: 100, height: 25, is_selected: false, is_visible: true },
         { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
@@ -90,7 +90,7 @@ function initFilter() {
         el: '#filterForm',
         data: {
             selected_index: -1,
-            ctrls: initArray
+            ctrls: initFilterArray
         },
         methods: {
             ProcessKey: function (key, altKey, ctrlKey, shiftKey) {

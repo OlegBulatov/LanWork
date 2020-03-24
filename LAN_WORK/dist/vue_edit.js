@@ -77,7 +77,7 @@ Vue.component('fltdate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-var initArray = 
+var initEditArray = 
 [
         { class: 'textbox', caption: 'Type Name', data_field: 'type_name', filter_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
         { class: 'datepick', caption: null, data_field: 'created_at', filter_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 90, height: 25, is_selected: false, is_visible: true },
@@ -90,7 +90,7 @@ function initEdit() {
         el: '#editForm',
         data: {
             selected_index: -1,
-            ctrls: initArray,
+            ctrls: initEditArray,
             communicationObj: new Object()
         },
         methods: {
