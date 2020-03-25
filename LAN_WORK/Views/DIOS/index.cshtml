@@ -38,6 +38,7 @@
                 }],
             OBJECT_TYPE: [
                 { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
+                { class: 'textbox', caption: 'Class Name', data_field: 'class_name', control_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 300, height: 25, is_selected: false, is_visible: true },
                     ]
         };
 
@@ -171,6 +172,15 @@
         }
 
         function loadJqxGrid(className) {
+            function getColumnType(typeName) {
+                switch (typeName) {
+                    case 'DIOS.Common.SqlBoolean':
+                        return 'checkbox';
+                    case 'LongText':
+                        return 'template';
+                    return 'textbox';
+                }
+            }
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
             xhr.send();
@@ -184,7 +194,29 @@
             var columnsInfo = JSON.parse(data.response_body);
             if (columnsInfo && columnsInfo.length)
                 columnsInfo.forEach(function (item, i) {
-                    ColumnModels[className][i] = { text: item.DisplayName, datafield: item.Name, width: 40, columntype: item.TypeName == 'DIOS.Common.SqlBoolean' ? 'checkbox' : 'textbox' };
+                    ColumnModels[className][i] =
+                    {
+                        text: item.DisplayName,
+                        datafield: item.Name,
+                        width: 80,
+                        columntype: getColumnType(item.TypeName),
+                        createeditor: function (row, column, editor) {
+                            // assign a new data source to the combobox.
+                            //editor.jqxDropDownList({ autoDropDownHeight: true, source: ['Stuttgart', 'Rio de Janeiro', 'Strasbourg']});
+                            var btn = $('<div>', {
+                               id: 'editButton'}).jqxButton({ theme: theme, height: 20, width: 20 }).on('click', function () { editor.value = "qwerty"});
+                            btn.appendTo(editor);
+                        },
+                        geteditorvalue: function (row, cellvalue, editor) {
+                           // return the editor's value.
+                            console.log(editor);
+                            return editor.value; //editor.find('input').val();
+                        },
+                        cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
+                            // return the old value, if the new value is empty.
+                            if (newvalue == "") return oldvalue;
+                        }
+                    };
                 });
             //[
             //    { text: 'Id', datafield: 'object_type', width: 40 },
@@ -202,12 +234,16 @@
 
             currentClass = className;
             gridName = "#" + className;
-            let gridContainer = document.getElementById('grid_container');
-            if (gridContainer.lastChild)
-                gridContainer.removeChild(gridContainer.lastChild);
-            let gridDiv = document.createElement('div');
-            gridDiv.id = className;
-            gridContainer.appendChild(gridDiv);
+            let gridContainer = $('#grid_container');//document.getElementById('grid_container');
+            gridContainer.empty()
+            $('<div>', {
+                id: className
+            }).appendTo(gridContainer);
+            //if (gridContainer.lastChild)
+            //    gridContainer.removeChild(gridContainer.lastChild);
+            //let gridDiv = document.createElement('div');
+            //gridDiv.id = className;
+            //gridContainer.appendChild(gridDiv);
 
             $(gridName).jqxGrid(
                 {

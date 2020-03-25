@@ -50,7 +50,7 @@ namespace LanWork.Models
                             {
                                 prop.DisplayName,
                                 prop.Name,
-                                TypeName = prop.PropertyType.FullName
+                                TypeName = prop.Name == "wpf_type_name"? "LongText" : prop.PropertyType.FullName
                             };
                 string result = JsonConvert.SerializeObject(query);
                 return result;
