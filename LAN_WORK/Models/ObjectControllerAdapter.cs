@@ -30,6 +30,16 @@ namespace LanWork.Models
             ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForColumnsList), null);
             return M.MakeResponse();
         }
+
+        private bool PropertyIsLongText(PropertyDescriptor prop)
+        {
+            foreach(Attribute attr in prop.Attributes)
+            {
+                if (attr is DIOS.Common.Interfaces.ObjectPropertyAttribute && (attr as DIOS.Common.Interfaces.ObjectPropertyAttribute).MaxLength > 1000)
+                    return true;
+            }
+            return false;
+        }
         private string doTrueResponseForColumnsList()
         {
             try
@@ -50,7 +60,7 @@ namespace LanWork.Models
                             {
                                 prop.DisplayName,
                                 prop.Name,
-                                TypeName = prop.Name == "wpf_type_name"? "LongText" : prop.PropertyType.FullName
+                                TypeName = PropertyIsLongText(prop)? "LongText" : prop.PropertyType.FullName
                             };
                 string result = JsonConvert.SerializeObject(query);
                 return result;
@@ -118,6 +128,48 @@ namespace LanWork.Models
             IParameterCollection Params = Util.DeserializeParams(_json_params);
             return ObjectMethods.JsonVirtualClassList(_className, Params, _order, _limit, _offset, out _row_count);
         }
+
+        public string Update(string class_name, string json_object, bool overwrite_sync = false)
+        {
+            _className = class_name;
+            _json_object = json_object;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForUpdate));
+            return M.MakeResponse();
+        }
+        private string doTrueResponseForUpdate()
+        {
+            try
+            {
+                DiosSqlManager M = new DiosSqlManager();//null;
+                //if (_anonimous && _amanager != null)
+                //    M = _amanager;
+                //else
+                //    M = new CuksSqlManager();
+                ObjectFactory F = M.GetFactory(_className);
+                IParameterCollection Params = Util.ConvertJsonToParameterCollection(_json_object);
+                string key = "";
+                if (Params.Contains("id"))
+                {
+                    key = Params["id"].Value.ToString();
+                    IObject targetObject = F.GetObject(key);
+                    Params.Remove("id");
+                    Params.Add(ObjectFactory.InformationSourceParamName, DIOS.ObjectLib.InformationSource.web_interface);
+                    targetObject.ApplyParams(Params);
+                }
+                //Params.Clear();
+                //Params.Add("c." + _className.ToLower(), key);
+                //return F.ListJson(Params);
+                _objectid = int.Parse(key);
+                return ""; //doTrueResponseForFullInfo();
+            }
+            catch (LoggedException exc)
+            {
+                //ObjectMethods.LogOperation(string.Format("Exception in object update. Params were {0}, exception was {1}.", _json_object, exc.Message));
+                Logger.LogStatic(string.Format("Exception in object update. Params were {0}, exception was {1}.", _json_object, exc.Message));
+                throw exc;
+            }
+        }
+
 
     }
 }

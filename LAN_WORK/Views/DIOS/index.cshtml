@@ -178,7 +178,7 @@
                         return 'checkbox';
                     case 'LongText':
                         return 'template';
-                        return 'textbox';
+                    return 'textbox';
                 }
             }
             var xhr = new XMLHttpRequest();
@@ -211,7 +211,17 @@
                                     autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false,
                                     initContent: function () {
                                     // create editor.
-                                    $("#editor").jqxEditor({ tools: 'bold italic underline font size', width: '100%', height: '100%' });
+                                        var ed = $('<textarea>');
+                                        ed.attr('id', 'texteditor');
+                                        ed.width('100%');
+                                        ed.height(350);
+                                        ed.click(function (event) {
+                                            console.log(event);
+                                            event.stopPropagation();
+                                        });
+                                        ed.val(cellvalue);
+                                        ed.appendTo($('#editor'));
+                                    //$("#editor").jqxEditor({ tools: 'bold italic underline font size', width: '100%', height: '100%' }).val(cellvalue);
                                 }
                             });
                             //$("#openButton").click(function () {
@@ -219,15 +229,18 @@
                             //});
                         },
                         initeditor: function (row, cellvalue, editor, celltext, pressedChar) {
-                            $("#editor").jqxEditor('val', cellvalue); 
+                            //$("#editor").jqxEditor('val', cellvalue); 
+                            $('#texteditor').val(cellvalue);
                         },
                         geteditorvalue: function (row, cellvalue, editor) {
                             // return the editor's value.
-                            return $("#editor").jqxEditor('val');//editor.value; //editor.find('input').val();
+                            //return $("#editor").jqxEditor('val');//editor.value; //editor.find('input').val();
+                            return document.getElementById("texteditor").value;
                         },
                         cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
                             // return the old value, if the new value is empty.
-                            if (newvalue == "") return oldvalue;
+                            //console.log(newvalue);
+                            //if (newvalue == "") return oldvalue;
                         }
                     };
                 });
@@ -366,7 +379,13 @@
             //}
 
             $(gridName).on('cellendedit', function (event) {
-                console.log(event);
+                var body = new Object();
+                body.class_name = className;
+                body.json_object = JSON.stringify({id: event.args.row.form, content_json: event.args.value});
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/Object/Update', false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(body));
             });
             $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation;

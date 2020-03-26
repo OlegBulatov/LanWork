@@ -38,5 +38,13 @@ namespace LanWork.Controllers
             return result;
 
         }
+
+        [HttpPost]
+        public string Update(string class_name, string json_object, bool overwrite_sync = false)
+        {
+            string result = (new ObjectControllerAdapter()).Update(class_name, json_object, overwrite_sync);
+            return result;
+        }
+
     }
 }
