@@ -404,8 +404,16 @@
                 initFilter();
 
             //if (!objEdit)
-            initEdit(editModels[className]);
+            var editModel = "";
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/GetEditModel?class_name=' + currentClass, false);
 
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+            console.log(JSON.stringify(editModels[className]));
+            editModel = JSON.parse(data.response_body);
+//            initEdit(editModels[className]);
+            initEdit(editModel);
         }
 
         var getAdapter = function () {
