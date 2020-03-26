@@ -181,6 +181,7 @@
                         return 'textbox';
                 }
             }
+            var selectedRecordKey = null;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
             xhr.send();
@@ -203,12 +204,12 @@
                         createeditor: function (row, cellvalue, editor) {
                             // assign a new data source to the combobox.
                             //editor.jqxDropDownList({ autoDropDownHeight: true, source: ['Stuttgart', 'Rio de Janeiro', 'Strasbourg']});
-                            var btn = $('<div>', {
-                                id: 'editButton'
-                            }).jqxButton({ theme: theme, height: 20, width: 20 }).on('click', function () { $('#window').jqxWindow('open'); });
-                            btn.appendTo(editor);
+                            //var btn = $('<div>', {
+                            //    id: 'editButton'
+                            //}).jqxButton({ theme: theme, height: 20, width: 20 }).on('click', function () { $('#window').jqxWindow('open'); });
+                            //btn.appendTo(editor);
                             $('#window').jqxWindow({
-                                autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false,
+                                autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false, isModal: true,
                                 initContent: function () {
                                     // create editor.
                                     //var ed = $('<textarea>');
@@ -224,7 +225,20 @@
                                     //$("#editor").jqxEditor({ tools: 'bold italic underline font size', width: '100%', height: '100%' }).val(cellvalue);
                                     $("#editor").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(cellvalue);
                                     var okButton = $("#okbtn");
-                                    okButton.jqxButton({ theme: theme }).on('click', function () { $('#window').jqxWindow('close'); });
+                                    okButton.jqxButton({ theme: theme }).on('click', function () {
+                                        $(gridName).jqxGrid('beginupdate');
+
+                                        var body = new Object();
+                                        body.class_name = className;
+                                        body.json_object = JSON.stringify({ id: selectedRecordKey, content_json: $('#editor').jqxTextArea('val') });
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', '/Object/Update', false);
+                                        xhr.setRequestHeader('Content-Type', 'application/json');
+                                        xhr.send(JSON.stringify(body));
+
+                                        $(gridName).jqxGrid('endupdate');
+                                        $('#window').jqxWindow('close');
+                                    });
                                 }
                             });
                             //$("#openButton").click(function () {
@@ -235,6 +249,7 @@
                             //$("#editor").jqxEditor('val', cellvalue);
                             //$('#texteditor').val(cellvalue);
                             $('#editor').jqxTextArea('val', cellvalue);
+                            $('#window').jqxWindow('open');
                         },
                         geteditorvalue: function (row, cellvalue, editor) {
                             // return the editor's value.
@@ -363,15 +378,6 @@
                             // save the current state of jqxGrid.
                             $(gridName).jqxGrid('savestate');
                         });
-                        //loadStateButton.click(function () {
-                        //// load the Grid's state.
-                        //    if (state) {
-                        //        $(gridName).jqxGrid('loadstate', state);
-                        //    }
-                        //    else {
-                        //        $(gridName).jqxGrid('loadstate');
-                        //    }
-                        //});
                     },
                     columns: ColumnModels[className]
                 });
@@ -383,15 +389,6 @@
             //    LoadedState[className] = true;
             //}
 
-            $(gridName).on('cellendedit', function (event) {
-                var body = new Object();
-                body.class_name = className;
-                body.json_object = JSON.stringify({ id: event.args.row.form, content_json: event.args.value });
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/Object/Update', false);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(JSON.stringify(body));
-            });
             $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation;
                 if (event.owner.dataview.pagenum == 0)
@@ -402,6 +399,7 @@
                 }
             });
             $(gridName).on('rowselect', function (event) {
+                selectedRecordKey = event.args.row.form;
                 objEdit.SetObj(event.args.row);
             });
 
