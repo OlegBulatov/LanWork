@@ -143,10 +143,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                                                        type: 'documentPanel',
-                                                                                                        title: 'Document 2',
-                                                                                                        contentContainer: 'Document2Panel'
-                                                                                                    }*/]
+                                                                                                            type: 'documentPanel',
+                                                                                                            title: 'Document 2',
+                                                                                                            contentContainer: 'Document2Panel'
+                                                                                                        }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '30%',
@@ -178,7 +178,7 @@
                         return 'checkbox';
                     case 'LongText':
                         return 'template';
-                    return 'textbox';
+                        return 'textbox';
                 }
             }
             var xhr = new XMLHttpRequest();
@@ -208,20 +208,23 @@
                             }).jqxButton({ theme: theme, height: 20, width: 20 }).on('click', function () { $('#window').jqxWindow('open'); });
                             btn.appendTo(editor);
                             $('#window').jqxWindow({
-                                    autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false,
-                                    initContent: function () {
+                                autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false,
+                                initContent: function () {
                                     // create editor.
-                                        var ed = $('<textarea>');
-                                        ed.attr('id', 'texteditor');
-                                        ed.width('100%');
-                                        ed.height(350);
-                                        ed.click(function (event) {
-                                            console.log(event);
-                                            event.stopPropagation();
-                                        });
-                                        ed.val(cellvalue);
-                                        ed.appendTo($('#editor'));
+                                    //var ed = $('<textarea>');
+                                    //ed.attr('id', 'texteditor');
+                                    //ed.width('100%');
+                                    //ed.height(350);
+                                    //ed.click(function (event) {
+                                    //    console.log(event);
+                                    //    event.stopPropagation();
+                                    //});
+                                    //ed.val(cellvalue);
+                                    //ed.appendTo($('#editor'));
                                     //$("#editor").jqxEditor({ tools: 'bold italic underline font size', width: '100%', height: '100%' }).val(cellvalue);
+                                    $("#editor").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(cellvalue);
+                                    var okButton = $("#okbtn");
+                                    okButton.jqxButton({ theme: theme }).on('click', function () { $('#window').jqxWindow('close'); });
                                 }
                             });
                             //$("#openButton").click(function () {
@@ -229,13 +232,15 @@
                             //});
                         },
                         initeditor: function (row, cellvalue, editor, celltext, pressedChar) {
-                            //$("#editor").jqxEditor('val', cellvalue); 
-                            $('#texteditor').val(cellvalue);
+                            //$("#editor").jqxEditor('val', cellvalue);
+                            //$('#texteditor').val(cellvalue);
+                            $('#editor').jqxTextArea('val', cellvalue);
                         },
                         geteditorvalue: function (row, cellvalue, editor) {
                             // return the editor's value.
                             //return $("#editor").jqxEditor('val');//editor.value; //editor.find('input').val();
-                            return document.getElementById("texteditor").value;
+                            //return document.getElementById("texteditor").value;
+                            return $('#editor').jqxTextArea('val');
                         },
                         cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
                             // return the old value, if the new value is empty.
@@ -381,7 +386,7 @@
             $(gridName).on('cellendedit', function (event) {
                 var body = new Object();
                 body.class_name = className;
-                body.json_object = JSON.stringify({id: event.args.row.form, content_json: event.args.value});
+                body.json_object = JSON.stringify({ id: event.args.row.form, content_json: event.args.value });
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/Object/Update', false);
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -410,9 +415,8 @@
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
-            console.log(JSON.stringify(editModels[className]));
             editModel = JSON.parse(data.response_body);
-//            initEdit(editModels[className]);
+            //            initEdit(editModels[className]);
             initEdit(editModel);
         }
 
@@ -492,6 +496,7 @@
                 </div>
                 <div>
                     <div id="editor"></div>
+                    <div id="okbtn" style='float: left; margin-left: 5px; margin-top: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif' /><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>
                 </div>
             </div>
         </div>
@@ -541,6 +546,7 @@
         @Scripts.Render("~/jqwidgets/jqxwindow.js")
         @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
         @Scripts.Render("~/jqwidgets/jqxeditor.js")
+        @Scripts.Render("~/jqwidgets/jqxtextarea.js")
 
     }
 
