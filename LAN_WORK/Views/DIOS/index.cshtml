@@ -25,6 +25,8 @@
         var objFilter = null;
         var objEdit = null;
         var currentClass = 'some_class';
+        var selectedRecordKey = null;
+        var editedObject = new Object();
         var gridName = '#grid';
         var dataAdapter;
         var totalRecordsCount;
@@ -181,8 +183,6 @@
                         return 'textbox';
                 }
             }
-            var selectedRecordKey = null;
-            var editedDataField = null;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
             xhr.send();
@@ -210,7 +210,7 @@
                             //}).jqxButton({ theme: theme, height: 20, width: 20 }).on('click', function () { $('#window').jqxWindow('open'); });
                             //btn.appendTo(editor);
                             $('#window').jqxWindow({
-                                autoOpen: false, width: 500, position: 'bottom, left', height: 400, maxWidth: 800, resizable: false, isModal: true,
+                                autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800, resizable: false, isModal: true,
                                 initContent: function () {
                                     // create editor.
                                     //var ed = $('<textarea>');
@@ -227,13 +227,12 @@
                                     $("#editor").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(cellvalue);
                                     var okButton = $("#okbtn");
                                     okButton.jqxButton({ theme: theme }).on('click', function () {
-                                        console.log(editedDataField);
                                         $(gridName).jqxGrid('beginupdate');
 
                                         var body = new Object();
-                                        body.class_name = className;
+                                        body.class_name = currentClass;
                                         var changedObject = { id: selectedRecordKey };
-                                        changedObject[editedDataField] = $('#editor').jqxTextArea('val'); 
+                                        changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val'); 
                                         body.json_object = JSON.stringify(changedObject);
                                         var xhr = new XMLHttpRequest();
                                         xhr.open('POST', '/Object/Update', false);
@@ -267,7 +266,7 @@
                             //if (newvalue == "") return oldvalue;
                         },
                         cellbeginedit: function (row, datafield, columntype) {
-                            editedDataField = datafield;
+                            editedObject.DataField = datafield;
                             return true;
                         }
                     };
@@ -407,7 +406,7 @@
                 }
             });
             $(gridName).on('rowselect', function (event) {
-                selectedRecordKey = event.args.row.form;
+                selectedRecordKey = event.args.row[currentClass.toLowerCase()];
                 objEdit.SetObj(event.args.row);
             });
 
@@ -496,6 +495,11 @@
         </div>
         <!--bottom tabbedGroup-->
         <div data-container="ErrorListPanel">
+        </div>
+        <div data-container="DetailsPanel">
+            <!--div id="form" style="position:absolute; left:0px; top: 0px; margin-left: 10px;"></div-->
+            <div id="editForm" class="f-form">
+            </div>
             <div id="window">
                 <div>
                     jqxEditor
@@ -504,11 +508,6 @@
                     <div id="editor"></div>
                     <div id="okbtn" style='float: left; margin-left: 5px; margin-top: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif' /><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>
                 </div>
-            </div>
-        </div>
-        <div data-container="DetailsPanel">
-            <!--div id="form" style="position:absolute; left:0px; top: 0px; margin-left: 10px;"></div-->
-            <div id="editForm" class="f-form">
             </div>
 
         </div>
