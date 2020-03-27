@@ -77,23 +77,27 @@ Vue.component('fltdate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-var initFilterArray = 
-[
-        { class: 'textbox', caption: 'entity1', data_field: 'f1', filter_value: 'v1', id: 'e1', app_index: 0, left: 98, top: 50, width: 100, height: 25, is_selected: false, is_visible: true },
-        { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
-        {
-            class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true,
-            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the croc" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
-        }
-];
+//var initFilterModel = {
+//    FORM:[
+//        { class: 'textbox', caption: 'entity1', data_field: 'f1', filter_value: 'v1', id: 'e1', app_index: 0, left: 98, top: 50, width: 100, height: 25, is_selected: false, is_visible: true },
+//        { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
+//        {
+//            class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true,
+//            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the croc" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
+//        }
+//    ]};
 
-function initFilter() {
+function initFilter(filterModel) {
+    document.getElementById('filterForm').innerHTML = "";
+    $('#filterForm').filterForm();
+    if (objFilter)
+        objFilter.destroy();
 
     objFilter = new Vue({
         el: '#filterForm',
         data: {
             selected_index: -1,
-            ctrls: initFilterArray
+            ctrls: filterModel
         },
         methods: {
             ProcessKey: function (key, altKey, ctrlKey, shiftKey) {
@@ -107,7 +111,11 @@ function initFilter() {
                     result[i] = item.filter_value;
                 });
                 return JSON.stringify(result);
+            },
+            destroy: function () {
+                this.$destroy();
             }
+
         }
     });
 }

@@ -14,6 +14,7 @@ namespace LanWork.Models
     public class ObjectControllerAdapter
     {
         private string _className = "";
+        private int _form_type;
         private string _methodName = "";
         private int _objectid = -1;
         private int _status = -1;
@@ -24,14 +25,15 @@ namespace LanWork.Models
         private int _offset = 0;
         private int _row_count = -1;
 
-        public string GetEditModel(string class_name)
+        public string GetFormModel(string class_name, int form_type)
         {
             _className = class_name;
-            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForGetEditModel), null);
+            _form_type = form_type;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForGetFormModel), null);
             return M.MakeResponse();
         }
 
-        private string doTrueResponseForGetEditModel()
+        private string doTrueResponseForGetFormModel()
         {
             try
             {
@@ -46,7 +48,7 @@ namespace LanWork.Models
                     IObject obj = F.GetObject(Params);
                     Params.Clear();
                     Params.Add("object_type", obj.id);
-                    Params.Add("form_type", 3);
+                    Params.Add("form_type", _form_type);
                     F = M.GetFactory("FORM");
                     IObject form = F.GetObject(Params);
                     if (form != null)

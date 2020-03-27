@@ -69,7 +69,7 @@
 
         function InitModuleTree() {
 
-            $('#filterForm').filterForm();
+            //$('#filterForm').filterForm();
 
             var layout =
                 [
@@ -138,7 +138,7 @@
                                         }]
                                     }, {
                                         type: 'documentGroup',
-                                        height: '60%',
+                                        height: '55%',
                                         minHeight: 200,
                                         items: [{
                                             type: 'documentPanel',
@@ -151,7 +151,7 @@
                                                                                                         }*/]
                                     }, {
                                         type: 'tabbedGroup',
-                                        height: '30%',
+                                        height: '35%',
                                         pinnedHeight: 30,
                                         allowClose: true,
                                         items: [{
@@ -428,19 +428,24 @@
                 objEdit.SetObj(event.args.row);
             });
 
-            if (!objFilter)
-                initFilter();
 
             //if (!objEdit)
-            var editModel = "";
+            var formModel = "";
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/GetEditModel?class_name=' + currentClass, false);
+            xhr.open('GET', '/Object/GetFormModel?class_name=' + currentClass + '&form_type=3', false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
-            editModel = JSON.parse(data.response_body);
-            //            initEdit(editModels[className]);
-            initEdit(editModel);
+            formModel = JSON.parse(data.response_body);
+            initEdit(formModel);
+
+            xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/GetFormModel?class_name=' + currentClass + '&form_type=2', false);
+
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+            formModel = data.response_body ? JSON.parse(data.response_body) : [];
+            initFilter(formModel);
         }
 
         var getAdapter = function () {
