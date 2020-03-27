@@ -12,6 +12,7 @@ computed: {
         position: 'absolute',
         left: this.left + 'px',
         top: this.top + 'px',
+        marginTop: '-15px'
     }
   },
   styleI: function () {
@@ -33,6 +34,7 @@ Vue.component('edsel', {
                 position: 'absolute',
                 left: this.left + 'px',
                 top: this.top + 'px',
+                marginTop: '-15px'
             }
         },
         styleI: function () {
@@ -62,6 +64,7 @@ Vue.component('eddate', {
                 position: 'absolute',
                 left: this.left + 'px',
                 top: this.top + 'px',
+                marginTop: '-15px'
             }
         },
         styleI: function () {
