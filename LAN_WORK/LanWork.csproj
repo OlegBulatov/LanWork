@@ -459,6 +459,10 @@
     <Content Include="dist\themes\default\Type.gif" />
     <Content Include="dist\themes\default\View.gif" />
     <Content Include="dist\themes\default\ViewAttribute.gif" />
+    <Content Include="dist\vue.js" />
+    <Content Include="dist\vue_edit.js" />
+    <Content Include="dist\vue_filter.js" />
+    <Content Include="dist\vue_obj.js" />
     <Content Include="Global.asax" />
     <Content Include="ObjectWcfService.svc" />
     <Content Include="Views\DIOS\index.cshtml" />

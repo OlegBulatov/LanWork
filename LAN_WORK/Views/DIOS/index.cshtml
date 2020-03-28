@@ -24,19 +24,19 @@
 
         var objFilter = null;
         var objEdit = null;
-        var currentClass = 'some_class';
+        var cObj = null;
         var editedObject = new Object();
         var gridName = '#grid';
 
         var rendergridrows = function (params) {
             var xhr = new XMLHttpRequest();
-            var sortColumn = currentClass;
-            if (SortState[currentClass]) {
-                sortColumn = SortState[currentClass].sortcolumn;
-                if (SortState[currentClass].sortdirection.descending)
+            var sortColumn = cObj.class_name;
+            if (SortState[cObj.class_name]) {
+                sortColumn = SortState[cObj.class_name].sortcolumn;
+                if (SortState[cObj.class_name].sortdirection.descending)
                     sortColumn += ' desc';
             }
-            xhr.open('GET', '/Object/List?class_name=' + currentClass + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
+            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
@@ -129,10 +129,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                                                                    type: 'documentPanel',
-                                                                                                                    title: 'Document 2',
-                                                                                                                    contentContainer: 'Document2Panel'
-                                                                                                                }*/]
+                                                                                                                        type: 'documentPanel',
+                                                                                                                        title: 'Document 2',
+                                                                                                                        contentContainer: 'Document2Panel'
+                                                                                                                    }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '35%',
@@ -210,7 +210,7 @@
                                     //    $(gridName).jqxGrid('beginupdate');
 
                                     //    var body = new Object();
-                                    //    body.class_name = currentClass;
+                                    //    body.class_name = cObj.class_name;
                                     //    var changedObject = { id: ? };
                                     //    changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val');
                                     //    body.json_object = JSON.stringify(changedObject);
@@ -230,7 +230,7 @@
                                     $(gridName).jqxGrid('beginupdate');
 
                                     var body = new Object();
-                                    body.class_name = currentClass;
+                                    body.class_name = cObj.class_name;
                                     var changedObject = { id: $(gridName).jqxGrid('getrowid', rowindex) };
                                     changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val');
                                     body.json_object = JSON.stringify(changedObject);
@@ -271,7 +271,25 @@
                     };
                 });
 
-            currentClass = className;
+            var formModel = "";
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=3', false);
+
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+            formModel = JSON.parse(data.response_body);
+            initEdit(formModel);
+
+            xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
+
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+            formModel = data.response_body ? JSON.parse(data.response_body) : [];
+            initFilter(formModel);
+
+            $('').clientObj(className);
+
             gridName = "#" + className;
             let gridContainer = $('#grid_container');
             gridContainer.empty();
@@ -283,7 +301,7 @@
                 {
                     width: getWidth('Grid'),
                     autoheight: true,
-                    source: getAdapter(className),
+                    source: cObj.GetDataAdapter(),
                     sortable: true,
                     columnsresize: true,
                     columnsreorder: true,
@@ -390,24 +408,6 @@
                 objEdit.SetObj(event.args.row);
             });
 
-
-            //if (!objEdit)
-            var formModel = "";
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/GetFormModel?class_name=' + currentClass + '&form_type=3', false);
-
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
-            formModel = JSON.parse(data.response_body);
-            initEdit(formModel);
-
-            xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/GetFormModel?class_name=' + currentClass + '&form_type=2', false);
-
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
-            formModel = data.response_body ? JSON.parse(data.response_body) : [];
-            initFilter(formModel);
         }
 
         var getAdapter = function (className) {
@@ -522,6 +522,7 @@
         @Scripts.Render("~/dist/lantree.js")
         @Scripts.Render("~/dist/vue_filter.js")
         @Scripts.Render("~/dist/vue_edit.js")
+        @Scripts.Render("~/dist/vue_obj.js")
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
