@@ -36,7 +36,7 @@
                 if (SortState[cObj.class_name].sortdirection.descending)
                     sortColumn += ' desc';
             }
-            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
+            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
@@ -378,7 +378,7 @@
                         // reload grid data.
                         reloadButton.click(function (event) {
                             $(gridName).jqxGrid('gotopage', 0);
-                            $(gridName).jqxGrid({ source: getAdapter(className) });
+                            $(gridName).jqxGrid({ source: cObj.GetDataAdapter() });
                         });
                         saveStateButton.click(function () {
                             // save the current state of jqxGrid.
@@ -398,7 +398,7 @@
             $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation;
                 if (event.owner.dataview.pagenum == 0)
-                    $(gridName).jqxGrid({ source: getAdapter(className) });
+                    $(gridName).jqxGrid({ source: cObj.GetDataAdapter() });
                 else {
                     $(gridName).jqxGrid('gotoprevpage');
                     $(gridName).jqxGrid('gotonextpage');
@@ -410,29 +410,29 @@
 
         }
 
-        var getAdapter = function (className) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
+        //var getAdapter = function (className) {
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
+        //    xhr.send();
+        //    var data = JSON.parse(xhr.responseText);
 
-            var source =
-            {
-                datatype: "array",
-                //localdata: {},
-                id: "id",
-                updaterow: function (rowid, rowdata, commit) {
-                    // synchronize with the server - send update command
-                    // call commit with parameter true if the synchronization with the server is successful
-                    // and with parameter false if the synchronization failder.
-                    //commit(true);
-                },
-                totalrecords: data.row_count
-            };
+        //    var source =
+        //    {
+        //        datatype: "array",
+        //        //localdata: {},
+        //        id: "id",
+        //        updaterow: function (rowid, rowdata, commit) {
+        //            // synchronize with the server - send update command
+        //            // call commit with parameter true if the synchronization with the server is successful
+        //            // and with parameter false if the synchronization failder.
+        //            //commit(true);
+        //        },
+        //        totalrecords: data.row_count
+        //    };
 
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            return dataAdapter;
-        }
+        //    var dataAdapter = new $.jqx.dataAdapter(source);
+        //    return dataAdapter;
+        //}
 
 
     </script>

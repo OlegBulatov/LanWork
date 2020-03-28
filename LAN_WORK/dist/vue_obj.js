@@ -11,12 +11,12 @@
             },
             methods: {
                 GetFilter: function () {
-                    return [];
+                    return this.filtersSource.GetFilter();
                 },
                 GetDataAdapter: function () {
-                    console.log(this.filtersSource.GetFilter());
+                    console.log(this.GetFilter());
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&limit=0&offset=0', false);
+                    xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&filter=' + this.GetFilter() + '&limit=0&offset=0', false);
                     xhr.send();
                     var data = JSON.parse(xhr.responseText);
 

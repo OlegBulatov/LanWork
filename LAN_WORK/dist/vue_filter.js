@@ -107,7 +107,10 @@ function initFilter(filterModel) {
             GetFilter: function () {
                 let result = new Array();
                 this.$children.forEach(function (item, i, arr) {
-                    result[i] = item.filter_value;
+                    result[i] = {
+                        Name: item.data_field,
+                        Value: item.filter_value
+                    }
                 });
                 return JSON.stringify(result);
             },
