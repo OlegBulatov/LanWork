@@ -27,8 +27,6 @@
         var currentClass = 'some_class';
         var editedObject = new Object();
         var gridName = '#grid';
-        var dataAdapter;
-        var totalRecordsCount;
 
         var rendergridrows = function (params) {
             var xhr = new XMLHttpRequest();
@@ -131,10 +129,10 @@
                                             title: 'Data grid',
                                             contentContainer: 'Document1Panel'
                                         }/*, {
-                                                                                                            type: 'documentPanel',
-                                                                                                            title: 'Document 2',
-                                                                                                            contentContainer: 'Document2Panel'
-                                                                                                        }*/]
+                                                                                                                    type: 'documentPanel',
+                                                                                                                    title: 'Document 2',
+                                                                                                                    contentContainer: 'Document2Panel'
+                                                                                                                }*/]
                                     }, {
                                         type: 'tabbedGroup',
                                         height: '35%',
@@ -170,11 +168,6 @@
                 }
             }
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
-            totalRecordsCount = data.row_count;
-            xhr = new XMLHttpRequest();
             xhr.open('GET', '/Object/ColumnsList?class_name=' + className, false);
             xhr.send();
             data = JSON.parse(xhr.responseText);
@@ -198,20 +191,20 @@
                             $('#window').jqxWindow({
                                 autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
                                 resizable: false, isModal: true,
-                                okButton: $('#ok'),  cancelButton: $('#cancel'),
+                                okButton: $('#ok'), cancelButton: $('#cancel'),
                                 initContent: function () {
                                     // create editor.
                                     //$("#editor").jqxEditor({ tools: 'bold italic underline font size', width: '100%', height: '100%' }).val(cellvalue);
                                     $("#editor").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(cellvalue);
                                     $('#ok').jqxButton({
-                                         width: '65px',
-                                         theme: 'energyblue'
-                                     });
-                                     $('#cancel').jqxButton({
-                                         width: '65px',
-                                         theme: 'energyblue'
-                                     });
-                                     $('#ok').focus();
+                                        width: '65px',
+                                        theme: 'energyblue'
+                                    });
+                                    $('#cancel').jqxButton({
+                                        width: '65px',
+                                        theme: 'energyblue'
+                                    });
+                                    $('#ok').focus();
                                     //var okButton = $("#okbtn");
                                     //okButton.jqxButton({ theme: theme }).on('click', function () {
                                     //    $(gridName).jqxGrid('beginupdate');
@@ -219,7 +212,7 @@
                                     //    var body = new Object();
                                     //    body.class_name = currentClass;
                                     //    var changedObject = { id: ? };
-                                    //    changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val'); 
+                                    //    changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val');
                                     //    body.json_object = JSON.stringify(changedObject);
                                     //    var xhr = new XMLHttpRequest();
                                     //    xhr.open('POST', '/Object/Update', false);
@@ -233,22 +226,22 @@
                             });
                             $('#window').on('close', function (event) {
                                 if (event.args.dialogResult.OK) {
-                                        var rowindex = $(gridName).jqxGrid('getselectedrowindex');
-                                        $(gridName).jqxGrid('beginupdate');
+                                    var rowindex = $(gridName).jqxGrid('getselectedrowindex');
+                                    $(gridName).jqxGrid('beginupdate');
 
-                                        var body = new Object();
-                                        body.class_name = currentClass;
-                                        var changedObject = { id: $(gridName).jqxGrid('getrowid', rowindex) };
-                                        changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val'); 
-                                        body.json_object = JSON.stringify(changedObject);
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('POST', '/Object/Update', false);
-                                        xhr.setRequestHeader('Content-Type', 'application/json');
-                                        xhr.send(JSON.stringify(body));
+                                    var body = new Object();
+                                    body.class_name = currentClass;
+                                    var changedObject = { id: $(gridName).jqxGrid('getrowid', rowindex) };
+                                    changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val');
+                                    body.json_object = JSON.stringify(changedObject);
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '/Object/Update', false);
+                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                                    xhr.send(JSON.stringify(body));
 
-                                        $(gridName).jqxGrid('endupdate');
+                                    $(gridName).jqxGrid('endupdate');
                                 }
-                            }); 
+                            });
                             //$("#openButton").click(function () {
                             //    $('#window').jqxWindow('open');
                             //});
@@ -290,7 +283,7 @@
                 {
                     width: getWidth('Grid'),
                     autoheight: true,
-                    source: getAdapter(),
+                    source: getAdapter(className),
                     sortable: true,
                     columnsresize: true,
                     columnsreorder: true,
@@ -367,7 +360,7 @@
                         // reload grid data.
                         reloadButton.click(function (event) {
                             $(gridName).jqxGrid('gotopage', 0);
-                            $(gridName).jqxGrid({ source: getAdapter() });
+                            $(gridName).jqxGrid({ source: getAdapter(className) });
                         });
                         saveStateButton.click(function () {
                             // save the current state of jqxGrid.
@@ -387,7 +380,7 @@
             $(gridName).on("sort", function (event) {
                 SortState[className] = event.args.sortinformation;
                 if (event.owner.dataview.pagenum == 0)
-                    $(gridName).jqxGrid({ source: getAdapter() });
+                    $(gridName).jqxGrid({ source: getAdapter(className) });
                 else {
                     $(gridName).jqxGrid('gotoprevpage');
                     $(gridName).jqxGrid('gotonextpage');
@@ -417,11 +410,16 @@
             initFilter(formModel);
         }
 
-        var getAdapter = function () {
+        var getAdapter = function (className) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/List?class_name=' + className + '&limit=0&offset=0', false);
+            xhr.send();
+            var data = JSON.parse(xhr.responseText);
+
             var source =
             {
                 datatype: "array",
-                localdata: {},
+                //localdata: {},
                 id: "id",
                 updaterow: function (rowid, rowdata, commit) {
                     // synchronize with the server - send update command
@@ -429,7 +427,7 @@
                     // and with parameter false if the synchronization failder.
                     //commit(true);
                 },
-                totalrecords: totalRecordsCount
+                totalrecords: data.row_count
             };
 
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -440,7 +438,6 @@
     </script>
 
 
-    <script src="/dist/vue.js"></script>
 
     <style>
         .f-form {
@@ -520,6 +517,7 @@
 
 
     @section Scripts {
+        @Scripts.Render("~/dist/vue.js")
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")
         @Scripts.Render("~/dist/vue_filter.js")
