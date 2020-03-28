@@ -43,5 +43,10 @@
 
             }
         });
+        //if (!keydown_assigned) {
+        //    $(document).keydown(function (e) { cObj.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey) });
+        //    keydown_assigned = true;
+        //}
+
     };
 })(jQuery);

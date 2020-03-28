@@ -42,8 +42,16 @@ Vue.component('fltsel', {
             }
         }
     },
+    methods: {
+        ProcessKey: function (event) {
+            if (event.key == "Control")
+                return;
+            if (event.key == "Delete")
+                this.filter_value = null;
+        }
+    },
     props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><select  v-bind:style="styleI" v-model="filter_value" name="hero"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select ></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="filter_value" name="hero"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select ></div>'
 });
 
 Vue.component('fltdate', {
@@ -106,11 +114,12 @@ function initFilter(filterModel) {
             },
             GetFilter: function () {
                 let result = new Array();
-                this.$children.forEach(function (item, i, arr) {
-                    result[i] = {
-                        Name: item.data_field,
-                        Value: item.filter_value
-                    }
+                this.$children.forEach(function (item) {
+                    if (item.filter_value)
+                        result.push({
+                            Name: item.data_field,
+                            Value: item.filter_value
+                        });
                 });
                 return JSON.stringify(result);
             },
@@ -120,6 +129,7 @@ function initFilter(filterModel) {
 
         }
     });
+    //$(document).keydown(function (e) { objFilter.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey) });
 }
 
 (function ($) {
