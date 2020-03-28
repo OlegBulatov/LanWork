@@ -25,24 +25,10 @@
         var objFilter = null;
         var objEdit = null;
         var currentClass = 'some_class';
-        var selectedRecordKey = null;
         var editedObject = new Object();
         var gridName = '#grid';
         var dataAdapter;
         var totalRecordsCount;
-        var editModels = {
-            FORM: [
-                { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
-                { class: 'textbox', caption: null, data_field: 'wpf_type_name', control_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 350, height: 25, is_selected: false, is_visible: true },
-                {
-                    class: 'combobox', caption: 'entity3', data_field: 'form_type', control_value: 't2', id: 'e3', app_index: 2, left: 400, top: 20, width: 160, height: 25, is_selected: false, is_visible: true,
-                    options: [{ value: "1", text: "Browse" }, { value: "2", text: "Fiter" }, { value: "3", text: "Edit" }]
-                }],
-            OBJECT_TYPE: [
-                { class: 'textbox', caption: 'Type Name', data_field: 'type_name', control_value: 'v1', id: 'e1', app_index: 0, left: 20, top: 20, width: 350, height: 25, is_selected: false, is_visible: true },
-                { class: 'textbox', caption: 'Class Name', data_field: 'class_name', control_value: '', id: 'e2', app_index: 1, left: 20, top: 70, width: 300, height: 25, is_selected: false, is_visible: true },
-            ]
-        };
 
         var rendergridrows = function (params) {
             var xhr = new XMLHttpRequest();
@@ -232,7 +218,7 @@
 
                                     //    var body = new Object();
                                     //    body.class_name = currentClass;
-                                    //    var changedObject = { id: selectedRecordKey };
+                                    //    var changedObject = { id: ? };
                                     //    changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val'); 
                                     //    body.json_object = JSON.stringify(changedObject);
                                     //    var xhr = new XMLHttpRequest();
@@ -247,11 +233,12 @@
                             });
                             $('#window').on('close', function (event) {
                                 if (event.args.dialogResult.OK) {
+                                        var rowindex = $(gridName).jqxGrid('getselectedrowindex');
                                         $(gridName).jqxGrid('beginupdate');
 
                                         var body = new Object();
                                         body.class_name = currentClass;
-                                        var changedObject = { id: selectedRecordKey };
+                                        var changedObject = { id: $(gridName).jqxGrid('getrowid', rowindex) };
                                         changedObject[editedObject.DataField] = $('#editor').jqxTextArea('val'); 
                                         body.json_object = JSON.stringify(changedObject);
                                         var xhr = new XMLHttpRequest();
@@ -269,6 +256,7 @@
                         initeditor: function (row, cellvalue, editor, celltext, pressedChar) {
                             //$("#editor").jqxEditor('val', cellvalue);
                             //$('#texteditor').val(cellvalue);
+                            //console.log($(gridName).jqxGrid('getrowdata', row));
                             $('#editor').jqxTextArea('val', cellvalue);
                             $('#window').jqxWindow('open');
                         },
@@ -289,38 +277,20 @@
                         }
                     };
                 });
-            //[
-            //    { text: 'Id', datafield: 'object_type', width: 40 },
-            //    { text: 'Name', datafield: 'name', width: 120 },
-            //    { text: 'Type', datafield: 'type_name', width: 120 },
-            //    { text: 'Class Name', datafield: 'class_name', width: 180 }
-            //];
-            var source =
-            {
-                datatype: "array",
-                localdata: {},
-                totalrecords: totalRecordsCount
-            };
-            // load data.
 
             currentClass = className;
             gridName = "#" + className;
-            let gridContainer = $('#grid_container');//document.getElementById('grid_container');
-            gridContainer.empty()
+            let gridContainer = $('#grid_container');
+            gridContainer.empty();
             $('<div>', {
                 id: className
             }).appendTo(gridContainer);
-            //if (gridContainer.lastChild)
-            //    gridContainer.removeChild(gridContainer.lastChild);
-            //let gridDiv = document.createElement('div');
-            //gridDiv.id = className;
-            //gridContainer.appendChild(gridDiv);
 
             $(gridName).jqxGrid(
                 {
                     width: getWidth('Grid'),
                     autoheight: true,
-                    source: new $.jqx.dataAdapter(source),
+                    source: getAdapter(),
                     sortable: true,
                     columnsresize: true,
                     columnsreorder: true,
@@ -424,7 +394,6 @@
                 }
             });
             $(gridName).on('rowselect', function (event) {
-                selectedRecordKey = event.args.row[currentClass.toLowerCase()];
                 objEdit.SetObj(event.args.row);
             });
 
@@ -453,6 +422,7 @@
             {
                 datatype: "array",
                 localdata: {},
+                id: "id",
                 updaterow: function (rowid, rowdata, commit) {
                     // synchronize with the server - send update command
                     // call commit with parameter true if the synchronization with the server is successful

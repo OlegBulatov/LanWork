@@ -103,7 +103,14 @@ namespace LanWork.Models
                                 prop.Name,
                                 TypeName = PropertyIsLongText(prop)? "LongText" : prop.PropertyType.FullName
                             };
-                string result = JsonConvert.SerializeObject(query);
+                var queryId = from object p in new object[1]
+                              select new
+                              {
+                                  DisplayName = "Id",
+                                  Name = "id",
+                                  TypeName = "DIOS.Common.SqlInt32"
+                              };
+                string result = JsonConvert.SerializeObject(query.Union(queryId));
                 return result;
             }
             catch (Exception exc)

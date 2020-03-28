@@ -48,9 +48,8 @@ Vue.component('fltsel', {
 
 Vue.component('fltdate', {
     mounted: function () {
-        console.log(this);
         $('#' + this.id).datepicker({
-            buttonImage: "dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
+            buttonImage: "/dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
             dateFormat: 'dd.mm.yy', onSelect: function () {
                 var event = new Event('input');
                 this.dispatchEvent(event); } });
