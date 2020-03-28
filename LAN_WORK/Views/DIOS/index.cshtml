@@ -288,7 +288,7 @@
             formModel = data.response_body ? JSON.parse(data.response_body) : [];
             initFilter(formModel);
 
-            $('').clientObj(className);
+            $('').clientObj(className, objFilter);
 
             gridName = "#" + className;
             let gridContainer = $('#grid_container');

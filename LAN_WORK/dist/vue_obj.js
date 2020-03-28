@@ -1,11 +1,12 @@
 ﻿(function ($) {
-    $.fn.clientObj = function (className) {
+    $.fn.clientObj = function (className, vueFilter) {
         if (cObj)
             cObj.destroy();
 
         cObj = new Vue({
             data: {
                 class_name: className,
+                filtersSource: vueFilter,
                 controllers: []
             },
             methods: {
@@ -13,6 +14,7 @@
                     return [];
                 },
                 GetDataAdapter: function () {
+                    console.log(this.filtersSource.GetFilter());
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&limit=0&offset=0', false);
                     xhr.send();
