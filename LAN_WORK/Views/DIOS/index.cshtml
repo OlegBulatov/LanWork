@@ -20,6 +20,7 @@
 </head>
 <body onload="InitModuleTree();">
 
+    @Scripts.Render("~/dist/main_layout.js")
     <script>
 
         var objFilter = null;
@@ -53,108 +54,12 @@
 
         function InitModuleTree() {
 
-            //$('#filterForm').filterForm();
+            $('#jqxLayout').jqxDockingLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
 
-            var layout =
-                [
-                    {
-                        type: 'layoutGroup',
-                        orientation: 'horizontal',
-                        items:
-                            [
-                                {
-                                    type: 'tabbedGroup',
-                                    width: '20%',
-                                    minWidth: 200,
-                                    items:
-                                        [
-                                            {
-                                                type: 'layoutPanel',
-                                                title: 'Solution Explorer',
-                                                contentContainer: 'SolutionExplorerPanel',
-                                                initContent: function () {
-                                                    var $tree = $('#solutionExplorerTree');
+        }
 
-                                                    $tree.jstree({
-                                                        'core': {
-                                                            "check_callback": true,
-                                                            'data': {
-                                                                'multiple': false,
-                                                                "url": "/demotree.json",
-                                                                "dataType": "json",
-                                                                "data": function (node) {
-                                                                    return { "id": node.id };
-                                                                }
-                                                            }
-                                                        },
-                                                        'plugins': ["state", "contextmenu"]
-                                                    });
-
-                                                    $tree.on("changed.jstree", function (e, data) {
-                                                        if (data.selected.length) {
-                                                            selected = data.instance.get_node(data.selected[0]);
-                                                            //LoadFancyGrid(selected.data);
-                                                            loadJqxGrid(selected.data);
-                                                        }
-                                                    });
-
-                                                }
-                                            },
-                                            {
-                                                type: 'layoutPanel',
-                                                title: 'Help',
-                                                contentContainer: 'HelpPanel'
-                                            }
-                                        ]
-                                },
-                                {
-                                    type: 'layoutGroup',
-                                    orientation: 'vertical',
-                                    width: '80%',
-                                    items: [{
-                                        type: 'documentGroup',
-                                        height: '10%',
-                                        minHeight: 500,
-                                        items: [{
-                                            type: 'documentPanel',
-                                            title: 'Document 0',
-                                            contentContainer: 'Document0Panel'
-                                        }]
-                                    }, {
-                                        type: 'documentGroup',
-                                        height: '55%',
-                                        minHeight: 200,
-                                        items: [{
-                                            type: 'documentPanel',
-                                            title: 'Data grid',
-                                            contentContainer: 'Document1Panel'
-                                        }/*, {
-                                                                                                                        type: 'documentPanel',
-                                                                                                                        title: 'Document 2',
-                                                                                                                        contentContainer: 'Document2Panel'
-                                                                                                                    }*/]
-                                    }, {
-                                        type: 'tabbedGroup',
-                                        height: '35%',
-                                        pinnedHeight: 30,
-                                        allowClose: true,
-                                        items: [{
-                                            type: 'layoutPanel',
-                                            title: 'Error List',
-                                            contentContainer: 'ErrorListPanel'
-                                        }, {
-                                            type: 'layoutPanel',
-                                            title: 'Details',
-                                            contentContainer: 'DetailsPanel',
-                                            selected: true
-                                        }]
-                                    }]
-                                }
-                            ]
-                    }
-                ];
-            $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
-
+        function initBrowser(className) {
+            alert(className);
         }
 
         function loadJqxGrid(className) {
@@ -466,7 +371,7 @@
 
         </div>
         <!--documentGroup-->
-        <div data-container="Document0Panel">
+        <div data-container="innerLayoutContainer">
             <div id="filterForm" class="f-form">
             </div>
         </div>
@@ -506,8 +411,8 @@
 
         </div>
         <!--right tabbedGroup-->
-        <div data-container="SolutionExplorerPanel">
-            <div id="solutionExplorerTree" style="border: none;">
+        <div data-container="ModulesTree">
+            <div id="modulesTree" style="border: none;">
             </div>
         </div>
         <div data-container="PropertiesPanel">
@@ -526,6 +431,7 @@
         @Scripts.Render("~/jqwidgets/jqxcore.js")
         @Scripts.Render("~/jqwidgets/jqxribbon.js")
         @Scripts.Render("~/jqwidgets/jqxlayout.js")
+        @Scripts.Render("~/jqwidgets/jqxdockinglayout.js")
         @Scripts.Render("~/jqwidgets/jqxdata.js")
         @Scripts.Render("~/jqwidgets/jqxbuttons.js")
         @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
