@@ -1,5 +1,10 @@
 ﻿(function ($) {
     $.fn.clientObj = function (className, vueFilter) {
+        var gridDiv = $("<div>");
+        gridDiv.attr("id", className);
+        this.append(gridDiv);
+
+
         if (cObj)
             cObj.destroy();
 
@@ -11,7 +16,7 @@
             },
             methods: {
                 GetFilter: function () {
-                    return this.filtersSource.GetFilter();
+                    return this.filtersSource? this.filtersSource.GetFilter() : [];
                 },
                 GetDataAdapter: function () {
                     console.log(this.GetFilter());

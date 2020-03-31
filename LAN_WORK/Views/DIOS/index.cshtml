@@ -59,7 +59,10 @@
         }
 
         function initBrowser(className) {
-            alert(className);
+            $('#jqxLayout').jqxDockingLayout('addFloatGroup', 600, 400, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="' + className + 'Browser" style="border: none;"></div>', function () {
+                    $('#' + className + 'Browser').clientObj(className, null);
+            });
+            loadJqxGrid(className);
         }
 
         function loadJqxGrid(className) {
@@ -176,24 +179,24 @@
                     };
                 });
 
-            var formModel = "";
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=3', false);
+            //var formModel = "";
+            //var xhr = new XMLHttpRequest();
+            //xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=3', false);
 
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
-            formModel = JSON.parse(data.response_body);
-            initEdit(formModel);
+            //xhr.send();
+            //var data = JSON.parse(xhr.responseText);
+            //formModel = JSON.parse(data.response_body);
+            //initEdit(formModel);
 
-            xhr = new XMLHttpRequest();
-            xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
+            //xhr = new XMLHttpRequest();
+            //xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
 
-            xhr.send();
-            var data = JSON.parse(xhr.responseText);
-            formModel = data.response_body ? JSON.parse(data.response_body) : [];
-            initFilter(formModel);
+            //xhr.send();
+            //var data = JSON.parse(xhr.responseText);
+            //formModel = data.response_body ? JSON.parse(data.response_body) : [];
+            //initFilter(formModel);
 
-            $('').clientObj(className, objFilter);
+            //$('').clientObj(className, objFilter);
 
             gridName = "#" + className;
             let gridContainer = $('#grid_container');
@@ -364,6 +367,7 @@
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
             <input type="button" id="saveState" value="Save State" />
             <input type="button" id="loadState" value="Load State" />
+            <button onclick="$('#jqxLayout').jqxDockingLayout('addFloatGroup', 300, 200, { x: 500, y: 200 }, 'layoutPanel', 'Server Explorer', 'Server structure');">Add float panel</button>
             <button onclick="objEdit.SetObj({type_name:'MMM', created_at: 'rrg', f3: 't3'})">Test edit</button>
             <div style="margin-top: 20px" id="jqxlistbox"></div>
 
@@ -453,6 +457,7 @@
         @Scripts.Render("~/jqwidgets/jqxwindow.js")
         @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
         @Scripts.Render("~/jqwidgets/jqxeditor.js")
+        @*@Scripts.Render("~/jqwidgets/jqxtree.js")*@
         @Scripts.Render("~/jqwidgets/jqxtextarea.js")
 
     }
