@@ -1,4 +1,5 @@
-            var layout =
+//    var currentModuleName = '';
+    var layout =
                 [
                     {
                         type: 'layoutGroup',
@@ -35,9 +36,15 @@
 
                                                     $tree.on("changed.jstree", function (e, data) {
                                                         if (data.selected.length) {
-                                                            selected = data.instance.get_node(data.selected[0]);
-                                                            //LoadFancyGrid(selected.data);
-                                                            initBrowser(selected.data);
+                                                            var selected = data.instance.get_node(data.selected[0]);
+                                                            var moduleName = selected.data;
+                                                            //if (moduleName != currentModuleName) {
+                                                                //LoadFancyGrid(selected.data);
+                                                                if (!showPanel(moduleName))
+                                                              //      currentModuleName = moduleName;
+                                                                //else
+                                                                    initBrowser(moduleName);
+                                                            //}
                                                         }
                                                     });
 

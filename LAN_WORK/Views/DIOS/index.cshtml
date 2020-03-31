@@ -25,6 +25,13 @@
 
         function InitModuleTree() {
             $('#jqxLayout').jqxDockingLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
+            $('#jqxLayout').on('dock', function (event) {
+                console.log(event.args);
+                event.args.item.items.forEach(function (it, i) {
+                    it.selected = i == event.args.item.items.length - 1;
+                });
+                $('#jqxLayout').jqxDockingLayout('render');
+            });
         }
 
         function initBrowser(className) {
@@ -35,11 +42,39 @@
             $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 480, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
         }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////  helpers  /////////////////////////////////////////////////////////////////////
         function splitterDemo() {
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 300, 200, { x: 500, y: 200 }, 'layoutPanel', 'Server Explorer', '<div id="mainSplitter"><div></div><div><div id="contentSplitter"><div></div><div></div></div></div></div>');
             $('#mainSplitter').jqxSplitter({ width: 850, height: 600, orientation: 'horizontal', panels: [{ size: 200, min: 100 }, { min: 200, size: 400 }] });
             $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 400, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
+        }
 
+        function showPanel(moduleName) {
+            var result = false;
+            var mainLayout = $('#jqxLayout').jqxDockingLayout('layout');
+            var lroot = mainLayout[0];
+            lroot.items.forEach(function (item) {
+                function processItem(it) {
+                    if (it.type == 'layoutPanel') {
+                        if (it.selected)
+                            it.selected = false;
+                        if (it.title == moduleName) {
+                            it.selected = true;
+                            result = true;
+                        }
+                    }
+                    if (it.items) {
+                        it.items.forEach(function (item) {
+                            processItem(item);
+                        });
+                    }
+                }
+                processItem(item);
+            });
+            if(result)
+                $('#jqxLayout').jqxDockingLayout('render');
+            return result;
         }
 
     </script>
@@ -67,8 +102,8 @@
             <input type="button" id="loadState" value="Load State" />
             <button onclick="splitterDemo()">Add float panel</button>
             <button onclick="var L = $('#jqxLayout').jqxDockingLayout('saveLayout'); console.log(L);">See layout</button>
+            <button onclick="showPanel('MODULE')">show panel</button>
 
-            <button onclick="objEdit.SetObj({type_name:'MMM', created_at: 'rrg', f3: 't3'})">Test edit</button>
             <div style="margin-top: 20px" id="jqxlistbox"></div>
 
         </div>
