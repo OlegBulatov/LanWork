@@ -80,14 +80,16 @@ Vue.component('eddate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-function initEdit(initEditArray) {
-    document.getElementById('editForm').innerHTML = "";
-    $('#editForm').editForm();
+function initEdit(className, initEditArray) {
+    var editDiv = document.getElementById('editForm' + className);
+    if(editDiv)
+        editDiv.innerHTML = "";
+    $('#editForm' + className).editForm();
     if (objEdit)
         objEdit.destroy();
     objEdit = new Vue({
 
-        el: '#editForm',
+        el: '#editForm' + className,
         data: {
             selected_index: -1,
             ctrls: initEditArray,

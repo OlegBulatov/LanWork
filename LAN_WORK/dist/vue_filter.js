@@ -94,14 +94,19 @@ Vue.component('fltdate', {
 //        }
 //    ]};
 
-function initFilter(filterModel) {
-    document.getElementById('filterForm').innerHTML = "";
-    $('#filterForm').filterForm();
-    if (objFilter)
-        objFilter.destroy();
+
+function initFilter(className, filterModel) {
+    var objFilter = null;
+
+    var filterDiv = document.getElementById('filterForm' + className);
+    if (filterDiv)
+        filterDiv.innerHTML = "";
+    $('#filterForm' + className).filterForm();
+    //if (objFilter)
+    //    objFilter.destroy();
 
     objFilter = new Vue({
-        el: '#filterForm',
+        el: '#filterForm' + className,
         data: {
             selected_index: -1,
             ctrls: filterModel
@@ -129,6 +134,7 @@ function initFilter(filterModel) {
 
         }
     });
+    return objFilter;
     //$(document).keydown(function (e) { objFilter.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey) });
 }
 

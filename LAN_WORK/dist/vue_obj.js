@@ -1,6 +1,8 @@
-﻿
+﻿var objEdit = null;
+
+
 (function ($) {
-$.fn.clientObj = function (className, vueFilter) {
+$.fn.clientObj = function (className) {
 
     var cObj;
     var editedObject = new Object();
@@ -8,6 +10,33 @@ $.fn.clientObj = function (className, vueFilter) {
     var SortState = new Object();
     var LoadedState = new Object();
     var ColumnModels = new Object();
+
+    var editedObject = new Object();
+    var gridName = '#grid';
+
+    var rendergridrows = function (params) {
+        var xhr = new XMLHttpRequest();
+        var sortColumn = cObj.class_name;
+        if (SortState[cObj.class_name]) {
+            sortColumn = SortState[cObj.class_name].sortcolumn;
+            if (SortState[cObj.class_name].sortdirection.descending)
+                sortColumn += ' desc';
+        }
+        xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
+
+        xhr.send();
+        var data = JSON.parse(xhr.responseText);
+        return JSON.parse(data.response_body);
+    }
+    //var totalcolumnrenderer = function (row, column, cellvalue) {
+    //        var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
+    //        return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
+    //}
+
+    var SortState = new Object();
+    var LoadedState = new Object();
+    var ColumnModels = new Object();
+
 
     function InitGridFromObj(className) {
 
@@ -233,6 +262,23 @@ $.fn.clientObj = function (className, vueFilter) {
 
     }
 
+    var formModel = "";
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=3', false);
+
+    xhr.send();
+    var data = JSON.parse(xhr.responseText);
+    formModel = JSON.parse(data.response_body);
+    initEdit(className, formModel);
+
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
+
+    xhr.send();
+    var data = JSON.parse(xhr.responseText);
+    formModel = data.response_body ? JSON.parse(data.response_body) : [];
+    var vueFilter = initFilter(className, formModel);
+
         var gridDiv = $("<div>");
         gridDiv.attr("id", className);
         this.append(gridDiv);
@@ -258,7 +304,7 @@ $.fn.clientObj = function (className, vueFilter) {
                     return this.filtersSource? this.filtersSource.GetFilter() : [];
                 },
                 GetDataAdapter: function () {
-                    console.log(this.GetFilter());
+                    //console.log(this.GetFilter());
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&filter=' + this.GetFilter() + '&limit=0&offset=0', false);
                     xhr.send();
