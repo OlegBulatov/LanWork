@@ -1,5 +1,7 @@
 ﻿
 (function ($) {
+$.fn.clientObj = function (className, vueFilter) {
+
     var cObj;
     var editedObject = new Object();
     var gridName = '#grid';
@@ -231,7 +233,6 @@
 
     }
 
-    $.fn.clientObj = function (className, vueFilter) {
         var gridDiv = $("<div>");
         gridDiv.attr("id", className);
         this.append(gridDiv);
