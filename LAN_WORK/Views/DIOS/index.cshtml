@@ -25,7 +25,6 @@
 
         var objFilter = null;
         var objEdit = null;
-        var cObj = null;
         var editedObject = new Object();
         var gridName = '#grid';
 
@@ -62,7 +61,6 @@
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 600, 400, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="' + className + 'Browser" style="border: none;"></div>', function () {
                     $('#' + className + 'Browser').clientObj(className, null);
             });
-            loadJqxGrid(className);
         }
 
         function loadJqxGrid(className) {
