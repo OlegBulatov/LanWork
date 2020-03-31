@@ -51,7 +51,7 @@ Vue.component('fltsel', {
         }
     },
     props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="filter_value" name="hero"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select ></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="filter_value" name="ftype"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
 });
 
 Vue.component('fltdate', {
