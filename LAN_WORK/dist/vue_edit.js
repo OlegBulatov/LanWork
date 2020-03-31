@@ -85,9 +85,9 @@ function initEdit(className, initEditArray) {
     if(editDiv)
         editDiv.innerHTML = "";
     $('#editForm' + className).editForm();
-    if (objEdit)
-        objEdit.destroy();
-    objEdit = new Vue({
+    //if (objEdit)
+    //    objEdit.destroy();
+    var objEdit = new Vue({
 
         el: '#editForm' + className,
         data: {
@@ -118,6 +118,8 @@ function initEdit(className, initEditArray) {
             });
         }
     });
+
+    return objEdit;
 }
 
 (function ($) {

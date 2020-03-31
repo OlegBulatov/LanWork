@@ -1,7 +1,4 @@
-﻿var objEdit = null;
-
-
-(function ($) {
+﻿(function ($) {
 $.fn.clientObj = function (className) {
 
     var cObj;
@@ -256,7 +253,7 @@ $.fn.clientObj = function (className) {
             }
         });
         $(gridName).on('rowselect', function (event) {
-            objEdit.SetObj(event.args.row);
+            cObj.SetEditedObject(event.args.row);
         });
 
 
@@ -269,7 +266,7 @@ $.fn.clientObj = function (className) {
     xhr.send();
     var data = JSON.parse(xhr.responseText);
     formModel = JSON.parse(data.response_body);
-    initEdit(className, formModel);
+    var vueEdit = initEdit(className, formModel);
 
     xhr = new XMLHttpRequest();
     xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
@@ -290,7 +287,8 @@ $.fn.clientObj = function (className) {
             data: {
                 el: this.grid_name,
                 class_name: className,
-                filtersSource: vueFilter,
+                filterObject: vueFilter,
+                editObject: vueEdit,
                 controllers: []
             },
             computed: {
@@ -301,7 +299,11 @@ $.fn.clientObj = function (className) {
             },
             methods: {
                 GetFilter: function () {
-                    return this.filtersSource? this.filtersSource.GetFilter() : [];
+                    return this.filterObject ? this.filterObject.GetFilter() : [];
+                },
+                SetEditedObject: function (row) {
+                    if (this.editObject)
+                        this.editObject.SetObj(row);
                 },
                 GetDataAdapter: function () {
                     //console.log(this.GetFilter());
