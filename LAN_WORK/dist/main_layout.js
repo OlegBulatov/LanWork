@@ -1,0 +1,65 @@
+            var layout =
+                [
+                    {
+                        type: 'layoutGroup',
+                        orientation: 'horizontal',
+                        items:
+                            [
+                                {
+                                    type: 'tabbedGroup',
+                                    width: '12%',
+                                    minWidth: 200,
+                                    items:
+                                        [
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Module Tree',
+                                                contentContainer: 'ModulesTree',
+                                                initContent: function () {
+                                                    var $tree = $('#modulesTree');
+
+                                                    $tree.jstree({
+                                                        'core': {
+                                                            "check_callback": true,
+                                                            'data': {
+                                                                'multiple': false,
+                                                                "url": "/demotree.json",
+                                                                "dataType": "json",
+                                                                "data": function (node) {
+                                                                    return { "id": node.id };
+                                                                }
+                                                            }
+                                                        },
+                                                        'plugins': ["state", "contextmenu"]
+                                                    });
+
+                                                    $tree.on("changed.jstree", function (e, data) {
+                                                        if (data.selected.length) {
+                                                            selected = data.instance.get_node(data.selected[0]);
+                                                            //LoadFancyGrid(selected.data);
+                                                            initBrowser(selected.data);
+                                                        }
+                                                    });
+
+                                                }
+                                            },
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Help',
+                                                contentContainer: 'HelpPanel'
+                                            }
+                                        ]
+                                },
+                                {
+                                    type: 'tabbedGroup',
+                                    orientation: 'vertical',
+                                    width: '88%',
+                                    items: [{
+                                        type: 'layoutPanel',
+                                        title: '',
+                                        contentContainer: 'innerLayoutContainer'
+                                    }]
+                                }
+                            ]
+                    }
+                ];
