@@ -42,11 +42,6 @@
                                                     });
 
                                                 }
-                                            },
-                                            {
-                                                type: 'layoutPanel',
-                                                title: 'Help',
-                                                contentContainer: 'HelpPanel'
                                             }
                                         ]
                                 },
@@ -54,11 +49,12 @@
                                     type: 'tabbedGroup',
                                     orientation: 'vertical',
                                     width: '88%',
-                                    items: [{
-                                        type: 'layoutPanel',
-                                        title: '',
-                                        contentContainer: 'innerLayoutContainer'
-                                    }]
+                                    items: [
+                                        {
+                                            type: 'layoutPanel',
+                                            title: 'Help',
+                                            contentContainer: 'HelpPanel'
+                                        }]
                                 }
                             ]
                     }
