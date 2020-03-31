@@ -28,11 +28,11 @@
         }
 
         function initBrowser(className) {
-            $('#jqxLayout').jqxDockingLayout('addFloatGroup', 600, 400, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
+            $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 700, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
                 $('#' + className + 'Browser').clientObj(className);
             });
-            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 100, min: 60 }, { size: 600, min: 200 }] });
-            $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 480, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
+            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 600, min: 200 }] });
+            $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 480, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
         }
 
         function splitterDemo() {
@@ -73,7 +73,7 @@
 
         </div>
     </div>
-    <div id="window">
+    <div id="window" style="display:none">
         <div>
             jqxEditor
         </div>
