@@ -15,6 +15,10 @@ namespace LanitWork
     // см. по ссылке http://go.microsoft.com/?LinkId=9394801
     public class LanWorkApplication : System.Web.HttpApplication
     {
+        private bool UserIsAuthenticated()
+        {
+            return System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+        }
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -23,7 +27,7 @@ namespace LanitWork
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Configuration configuration = WebConfigurationManager.OpenWebConfiguration("~");
-            new DIOS.Common.SqlManagerConfigProvider(configuration);
+            new DIOS.Common.SqlManagerConfigProvider(configuration, new DIOS.Common.UserIsAuthenticatedMethod(UserIsAuthenticated)); 
         }
 
         protected void Application_BeginRequest()

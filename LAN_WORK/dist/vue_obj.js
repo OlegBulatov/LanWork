@@ -64,18 +64,24 @@ $.fn.clientObj = function (className) {
         var renderToolBar = function (statusbar) {
             // appends buttons to the status bar.
             var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
-            var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Tune</span></div>");
-            var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Reload</span></div>");
-            var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>");
+            var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
+            var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
+            var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
+            var loadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/edit.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
             //                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
             container.append(tuneButton);
             container.append(reloadButton);
             container.append(saveStateButton);
+            container.append(loadButton);
             statusbar.append(container);
             tuneButton.jqxButton({ theme: theme });
             reloadButton.jqxButton({ theme: theme });
             saveStateButton.jqxButton({ theme: theme });
-            //                        loadStateButton.jqxButton({ theme: theme });
+            loadButton.jqxButton({ theme: theme });
+
+            loadButton.click(function (event) {
+                cObj.Load();
+            });
 
             var isTuning;
             var tuneDiv;
@@ -266,7 +272,7 @@ $.fn.clientObj = function (className) {
 
     xhr.send();
     var data = JSON.parse(xhr.responseText);
-    formModel = JSON.parse(data.response_body);
+    formModel = data.response_body ? JSON.parse(data.response_body) : [];
     var vueEdit = initEdit(className, formModel);
 
     xhr = new XMLHttpRequest();
@@ -324,6 +330,25 @@ $.fn.clientObj = function (className) {
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     return dataAdapter;
                 },
+                Load() {
+                    if (this.editObject)
+                        this.editObject.Load();
+                },
+                Post(obj) {
+                    var body = new Object();
+                    body.class_name = this.class_name;
+                    var rowindex = $(gridName).jqxGrid('selectedrowindex');
+                    var changedObject = { id: $(gridName).jqxGrid('getrowid', rowindex) };
+                    for (f in obj) {
+                        changedObject[f] = obj[f];
+                    }
+                    console.log(changedObject);
+                    body.json_object = JSON.stringify(changedObject);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/Object/Update', false);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(body));
+                },
                 destroy: function () {
                     $(gridName).jqxGrid('destroy');
                     if (this.editObject)
@@ -333,6 +358,9 @@ $.fn.clientObj = function (className) {
                     this.$destroy();
                 }
 
+            },
+            created: function (){
+                this.editObject.SetMainObj(this);
             }
         });
 

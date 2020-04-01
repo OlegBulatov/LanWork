@@ -22,9 +22,9 @@ computed: {
     }
   }
 },
-props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
+    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'read_only'],
 
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><input type="text" v-if="height<=30"  v-bind:style="styleI" v-model="control_value" /><textarea v-if="height>30"  v-bind:style="styleI" v-model="control_value" /></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><input type="text" :readonly="read_only" v-if="height<=30"  v-bind:style="styleI" v-model="control_value" /><textarea  :readonly="read_only" v-if="height>30"  v-bind:style="styleI" v-model="control_value" /></div>'
 });
 
 Vue.component('edsel', {
@@ -44,8 +44,8 @@ Vue.component('edsel', {
             }
         }
     },
-    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><select  v-bind:style="styleI" v-model="control_value" name="ftype"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
+    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options', 'read_only'],
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><select :disabled="read_only" v-bind:style="styleI" v-model="control_value" name="ftype"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
 });
 
 Vue.component('eddate', {
@@ -74,13 +74,13 @@ Vue.component('eddate', {
             }
         }
     },
-    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
+    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'read_only'],
     template: '<div v-bind:style="styleD"><input v-model="control_value" v-bind:id="GlId()" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-function initEdit(className, initEditArray) {
+function initEdit(className, initCtrlsArray) {
     var editDiv = document.getElementById('editForm' + className);
     if(editDiv)
         editDiv.innerHTML = "";
@@ -92,8 +92,10 @@ function initEdit(className, initEditArray) {
         el: '#editForm' + className,
         data: {
             selected_index: -1,
-            ctrls: initEditArray,
-            communicationObj: new Object()
+            ctrls: initCtrlsArray,
+            is_edit: false,
+            communicationObj: new Object(),
+            mainObj: null
         },
         methods: {
             ProcessKey: function (key, altKey, ctrlKey, shiftKey) {
@@ -107,18 +109,53 @@ function initEdit(className, initEditArray) {
                         this.communicationObj[f].control_value = obj[f];
                 }
             },
+            GetObj: function () {
+                var obj = new Object();
+                var commObj = this.communicationObj;
+                this.$children.forEach(function (item) {
+                    obj[item.data_field] = item.control_value;
+                    if (commObj[item.data_field])
+                        commObj[item.data_field].control_value = item.control_value;
+                });
+                return obj;
+            },
             GetId: function () {
                 return idGenerator.next().value;
+            },
+            EnableControls(val) {
+                this.ctrls.forEach(function (item) {
+                    item.read_only = !val;
+                });
+            },
+            Load() {
+                this.is_edit = true;
+                this.EnableControls(true);
+                this.$forceUpdate();
+            },
+            Post() {
+                if (!this.is_edit)
+                    return;
+                this.mainObj.Post(this.GetObj());
+                this.Cancel();
+            },
+            Cancel() {
+                this.is_edit = false;
+                this.EnableControls(false);
+                this.$forceUpdate();
+            },
+            SetMainObj(obj) {
+                this.mainObj = obj;
             },
             destroy: function () {
                 this.$destroy();
             }
         },
         created: function () {
-            var cObj = this.communicationObj;
+            var commObj = this.communicationObj;
             this.ctrls.forEach(function (item) {
-                cObj[item.data_field] = item;
+                commObj[item.data_field] = item;
             });
+            this.EnableControls(false);
         }
     });
 
@@ -127,24 +164,29 @@ function initEdit(className, initEditArray) {
 
 (function ($) {
     function initVueDivForClass(divName, className, parentObj) {
-        var fltDiv = $("<" + divName + "></" + divName + ">");
-        fltDiv.attr("v-for", "ctrl in ctrls");
-        fltDiv.attr("v-if", "ctrl.class=='" + className + "'");
-        fltDiv.attr(":key", "ctrl.id");
-        fltDiv.attr("v-bind:caption", "ctrl.caption");
-        fltDiv.attr("v-bind:data_field", "ctrl.data_field");
-        fltDiv.attr("v-bind:control_value", "ctrl.control_value");
-        fltDiv.attr("v-bind:left", "ctrl.left");
-        fltDiv.attr("v-bind:top", "ctrl.top");
-        fltDiv.attr("v-bind:width", "ctrl.width");
-        fltDiv.attr("v-bind:height", "ctrl.height");
-        fltDiv.attr("v-bind:id", "GetId()");
-        fltDiv.attr("v-bind:options", "ctrl.options");
-        parentObj.append(fltDiv);
+        var edDiv = $("<" + divName + "></" + divName + ">");
+        edDiv.attr("v-for", "ctrl in ctrls");
+        edDiv.attr("v-if", "ctrl.class=='" + className + "'");
+        edDiv.attr(":key", "ctrl.id");
+        edDiv.attr("v-bind:caption", "ctrl.caption");
+        edDiv.attr("v-bind:data_field", "ctrl.data_field");
+        edDiv.attr("v-bind:control_value", "ctrl.control_value");
+        edDiv.attr("v-bind:left", "ctrl.left");
+        edDiv.attr("v-bind:top", "ctrl.top");
+        edDiv.attr("v-bind:width", "ctrl.width");
+        edDiv.attr("v-bind:height", "ctrl.height");
+        edDiv.attr("v-bind:id", "GetId()");
+        edDiv.attr("v-bind:options", "ctrl.options");
+        edDiv.attr("v-bind:read_only", "ctrl.read_only");
+        parentObj.append(edDiv);
     }
     $.fn.editForm = function () {
         initVueDivForClass("eddiv", "textbox", this);
         initVueDivForClass("edsel", "combobox", this);
         initVueDivForClass("eddate", "datepick", this);
+        var okBtn = $('<input type="button" value="OK" v-on:click="Post" style="position:absolute;bottom:10px;">');
+        var cancelBtn = $('<input type="button" value="Cancel" v-on:click="Cancel" style="position:absolute;bottom:10px;left:50px">');
+        this.append(okBtn);
+        this.append(cancelBtn);
     };
 })(jQuery);

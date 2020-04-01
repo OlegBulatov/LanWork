@@ -42,7 +42,6 @@
 
         function initBrowser(className) {
             var exDiv = document.getElementById('f_spl' + className);
-            console.log(exDiv);
             if(exDiv)
                 exDiv.parentNode.removeChild(exDiv);
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 700, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {

@@ -7,7 +7,8 @@
 	],"icon":"Package","rank":0},
 {"id":"2","text":"Модули","children":
 	[
-	{"id":"6","text":"Серверы","children":false,"icon":"BrowseForm","data":"LNT_SERVER"}
+	{"id":"6","text":"Серверы","children":false,"icon":"BrowseForm","data":"LNT_SERVER"},
+	{"id":"7","text":"Заявки JIRA","children":false,"icon":"BrowseForm","data":"JIRA_ISSUE"}
 	],"icon":"Package"}
 ]
 
