@@ -22,19 +22,29 @@
 
     @Scripts.Render("~/dist/main_layout.js")
     <script>
-
         function InitModuleTree() {
             $('#jqxLayout').jqxDockingLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
             $('#jqxLayout').on('dock', function (event) {
-                console.log(event.args);
                 event.args.item.items.forEach(function (it, i) {
                     it.selected = i == event.args.item.items.length - 1;
                 });
                 $('#jqxLayout').jqxDockingLayout('render');
             });
+            $('#jqxLayout').on('floatGroupClosed', function (event) {
+                var args = event.args;
+                element = args.element; // the jqxWindow that represents the float group
+                floatGroup = args.floatGroup; // the layout object of the float group
+                var class_name = floatGroup.items[0].title;
+                loadedClasses[class_name].destroy();
+                loadedClasses[class_name] = null;
+            });
         }
 
         function initBrowser(className) {
+            var exDiv = document.getElementById('f_spl' + className);
+            console.log(exDiv);
+            if(exDiv)
+                exDiv.parentNode.removeChild(exDiv);
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 700, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
                 $('#' + className + 'Browser').clientObj(className);
             });
@@ -53,25 +63,27 @@
         function showPanel(moduleName) {
             var result = false;
             var mainLayout = $('#jqxLayout').jqxDockingLayout('layout');
-            var lroot = mainLayout[0];
-            lroot.items.forEach(function (item) {
-                function processItem(it) {
-                    if (it.type == 'layoutPanel') {
-                        if (it.selected)
-                            it.selected = false;
-                        if (it.title == moduleName) {
-                            it.selected = true;
-                            result = true;
+            for (i = 0; i < mainLayout.length; i++) {
+                var lgroup = mainLayout[i];
+                lgroup.items.forEach(function (item) {
+                    function processItem(it) {
+                        if (it.type == 'layoutPanel') {
+                            if (it.selected)
+                                it.selected = false;
+                            if (it.title == moduleName) {
+                                it.selected = true;
+                                result = true;
+                            }
+                        }
+                        if (it.items) {
+                            it.items.forEach(function (item) {
+                                processItem(item);
+                            });
                         }
                     }
-                    if (it.items) {
-                        it.items.forEach(function (item) {
-                            processItem(item);
-                        });
-                    }
-                }
-                processItem(item);
-            });
+                    processItem(item);
+                });
+            }
             if (result)
                 $('#jqxLayout').jqxDockingLayout('render');
             return result;

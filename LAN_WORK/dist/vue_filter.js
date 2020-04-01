@@ -101,7 +101,6 @@ function initFilter(className, filterModel) {
     var filterDiv = document.getElementById('filterForm' + className);
     if (filterDiv)
         filterDiv.innerHTML = "";
-    console.log('idgen = ' + idGenerator);
     $('#filterForm' + className).filterForm(idGenerator);
     //if (objFilter)
     //    objFilter.destroy();

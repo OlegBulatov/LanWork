@@ -1,6 +1,7 @@
-﻿(function ($) {
-$.fn.clientObj = function (className) {
+﻿var loadedClasses = new Object();
 
+(function ($) {
+$.fn.clientObj = function (className) {
     var cObj;
     var editedObject = new Object();
     var gridName = '#grid';
@@ -291,12 +292,6 @@ $.fn.clientObj = function (className) {
                 editObject: vueEdit,
                 controllers: []
             },
-            computed: {
-                // a computed getter
-                grid_name: function () {
-                    return '#' + this.class_name + '_';
-                }
-            },
             methods: {
                 GetFilter: function () {
                     return this.filterObject ? this.filterObject.GetFilter() : [];
@@ -330,11 +325,18 @@ $.fn.clientObj = function (className) {
                     return dataAdapter;
                 },
                 destroy: function () {
+                    $(gridName).jqxGrid('destroy');
+                    if (this.editObject)
+                        this.editObject.destroy();
+                    if (this.filterObject)
+                        this.filterObject.destroy();
                     this.$destroy();
                 }
 
             }
         });
+
+    loadedClasses[className] = cObj;
 
         InitGridFromObj(className);
 
