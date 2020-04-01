@@ -101,7 +101,8 @@ function initFilter(className, filterModel) {
     var filterDiv = document.getElementById('filterForm' + className);
     if (filterDiv)
         filterDiv.innerHTML = "";
-    $('#filterForm' + className).filterForm();
+    console.log('idgen = ' + idGenerator);
+    $('#filterForm' + className).filterForm(idGenerator);
     //if (objFilter)
     //    objFilter.destroy();
 
@@ -128,6 +129,9 @@ function initFilter(className, filterModel) {
                 });
                 return JSON.stringify(result);
             },
+            GetId: function () {
+                return idGenerator.next().value;
+            },
             destroy: function () {
                 this.$destroy();
             }
@@ -151,11 +155,12 @@ function initFilter(className, filterModel) {
         fltDiv.attr("v-bind:top", "ctrl.top");
         fltDiv.attr("v-bind:width", "ctrl.width");
         fltDiv.attr("v-bind:height", "ctrl.height");
-        fltDiv.attr("v-bind:id", "ctrl.id");
+        fltDiv.attr("v-bind:id", "GetId()");
         fltDiv.attr("v-bind:options", "ctrl.options");
         parentObj.append(fltDiv);
     }
-    $.fn.filterForm = function () {
+    $.fn.filterForm = function (G) {
+        idGenerator = G;
         initVueDivForClass("fltdiv", "textbox", this);
         initVueDivForClass("fltsel", "combobox", this);
         initVueDivForClass("fltdate", "datepick", this);

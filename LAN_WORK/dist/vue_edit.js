@@ -75,7 +75,7 @@ Vue.component('eddate', {
         }
     },
     props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
-    template: '<div v-bind:style="styleD"><input v-model="control_value" v-bind:id="id" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
+    template: '<div v-bind:style="styleD"><input v-model="control_value" v-bind:id="GlId()" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -107,6 +107,9 @@ function initEdit(className, initEditArray) {
                         this.communicationObj[f].control_value = obj[f];
                 }
             },
+            GetId: function () {
+                return idGenerator.next().value;
+            },
             destroy: function () {
                 this.$destroy();
             }
@@ -135,7 +138,7 @@ function initEdit(className, initEditArray) {
         fltDiv.attr("v-bind:top", "ctrl.top");
         fltDiv.attr("v-bind:width", "ctrl.width");
         fltDiv.attr("v-bind:height", "ctrl.height");
-        fltDiv.attr("v-bind:id", "ctrl.id");
+        fltDiv.attr("v-bind:id", "GetId()");
         fltDiv.attr("v-bind:options", "ctrl.options");
         parentObj.append(fltDiv);
     }

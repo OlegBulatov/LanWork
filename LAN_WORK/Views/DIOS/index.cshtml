@@ -43,7 +43,7 @@
         }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////  helpers  /////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////  helpers  /////////////////////////////////////////////////////////////////////
         function splitterDemo() {
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 300, 200, { x: 500, y: 200 }, 'layoutPanel', 'Server Explorer', '<div id="mainSplitter"><div></div><div><div id="contentSplitter"><div></div><div></div></div></div></div>');
             $('#mainSplitter').jqxSplitter({ width: 850, height: 600, orientation: 'horizontal', panels: [{ size: 200, min: 100 }, { min: 200, size: 400 }] });
@@ -72,7 +72,7 @@
                 }
                 processItem(item);
             });
-            if(result)
+            if (result)
                 $('#jqxLayout').jqxDockingLayout('render');
             return result;
         }
@@ -103,6 +103,7 @@
             <button onclick="splitterDemo()">Add float panel</button>
             <button onclick="var L = $('#jqxLayout').jqxDockingLayout('saveLayout'); console.log(L);">See layout</button>
             <button onclick="showPanel('MODULE')">show panel</button>
+            <button onclick="alert(GlId());">get ID</button>
 
             <div style="margin-top: 20px" id="jqxlistbox"></div>
 
@@ -123,6 +124,7 @@
 
 
     @section Scripts {
+        @Scripts.Render("~/dist/util.js")
         @Scripts.Render("~/dist/vue.js")
         @Scripts.Render("~/dist/jstree.js")
         @Scripts.Render("~/dist/lantree.js")

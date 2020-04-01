@@ -268,6 +268,7 @@
     <Content Include="demo\basic\Handler.ashx" />
     <Content Include="demo\basic\root.json" />
     <Content Include="demo\README.md" />
+    <Content Include="dist\main_layout.js" />
     <Content Include="dist\mxgraphsrc\css\common.css" />
     <Content Include="dist\mxgraphsrc\css\explorer.css" />
     <Content Include="dist\mxgraphsrc\images\button.gif" />
@@ -459,6 +460,7 @@
     <Content Include="dist\themes\default\Type.gif" />
     <Content Include="dist\themes\default\View.gif" />
     <Content Include="dist\themes\default\ViewAttribute.gif" />
+    <Content Include="dist\util.js" />
     <Content Include="dist\vue.js" />
     <Content Include="dist\vue_edit.js" />
     <Content Include="dist\vue_filter.js" />
