@@ -3,8 +3,7 @@
 (function ($) {
 $.fn.clientObj = function (className) {
     var cObj;
-    var editedObject = new Object();
-    var gridName = '#grid';
+
     var SortState = new Object();
     var LoadedState = new Object();
     var ColumnModels = new Object();
@@ -260,6 +259,7 @@ $.fn.clientObj = function (className) {
             }
         });
         $(gridName).on('rowselect', function (event) {
+            cObj.Cancel();
             cObj.SetEditedObject(event.args.row);
         });
 
@@ -333,6 +333,10 @@ $.fn.clientObj = function (className) {
                 Load() {
                     if (this.editObject)
                         this.editObject.Load();
+                },
+                Cancel() {
+                    if (this.editObject)
+                        this.editObject.Cancel();
                 },
                 Post(obj) {
                     var body = new Object();

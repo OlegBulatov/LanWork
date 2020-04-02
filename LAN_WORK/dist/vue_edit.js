@@ -184,8 +184,8 @@ function initEdit(className, initCtrlsArray) {
         initVueDivForClass("eddiv", "textbox", this);
         initVueDivForClass("edsel", "combobox", this);
         initVueDivForClass("eddate", "datepick", this);
-        var okBtn = $('<input type="button" value="OK" v-on:click="Post" style="position:absolute;bottom:10px;">');
-        var cancelBtn = $('<input type="button" value="Cancel" v-on:click="Cancel" style="position:absolute;bottom:10px;left:50px">');
+        var okBtn = $('<input type="button" value="OK" v-if="is_edit" v-on:click="Post" style="position:absolute;bottom:10px;">');
+        var cancelBtn = $('<input type="button" value="Cancel" v-if="is_edit" v-on:click="Cancel" style="position:absolute;bottom:10px;left:50px">');
         this.append(okBtn);
         this.append(cancelBtn);
     };
