@@ -66,25 +66,19 @@
             for (i = 1; i < mainLayout.length; i++) {
                 var flgroup = mainLayout[i];
                 if (flgroup.items[0].title == moduleName) {
-                    //console.log($('#jqxLayout').jqxDockingLayout('_draggedWindow'));
                     mainLayout.splice(i, 1);
                     flgroup.type = 'tabbedGroup';
                     delete flgroup.items[0].content;
-                    flgroup.items[0].contentContainer = 'MMM';
                     flgroup.items[0].detachedContent = [($('#f_splMODULE'))];
                     flgroup.items[0].docked = true;
                     flgroup.items[0].prevent = true;
                     mainLayout[0].items[1].items.push(flgroup.items[0]);
-                    //var TP = document.getElementById('temp_parent');
-                    //TP.appendChild(document.getElementById('f_splMODULE'));
-                    //document.getElementById('jqxLayout').appendChild(TP);
-                                      //$('#jqxLayout').jqxDockingLayout('dockOnEdge', flgroup);
                     result = true;
                     break;
                 }
             }
             if (result)
-                $('#jqxLayout').jqxDockingLayout('render');//('loadLayout', mainLayout);
+                $('#jqxLayout').jqxDockingLayout('render');
             return result;
         }
 
@@ -131,7 +125,6 @@
     </style>
 
 
-    <div id="temp_parent"  data-container="MMM" style="height:80px;width:600px"></div>
     <div id="jqxLayout">
         <div data-container="ModulesTree">
             <div id="modulesTree" style="border: none;">
