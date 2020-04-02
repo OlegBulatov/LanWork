@@ -62,10 +62,13 @@
 
         function dockPanel(moduleName) {
             var result = false;
+            var floatWindow = null;
             var mainLayout = $('#jqxLayout').jqxDockingLayout('layout');
             for (i = 1; i < mainLayout.length; i++) {
                 var flgroup = mainLayout[i];
                 if (flgroup.items[0].title == moduleName) {
+                    console.log(flgroup);
+                    floatWindow = flgroup.widget;
                     mainLayout.splice(i, 1);
                     flgroup.type = 'tabbedGroup';
                     delete flgroup.items[0].content;
@@ -78,7 +81,10 @@
                 }
             }
             if (result)
-                $('#jqxLayout').jqxDockingLayout('render');
+                showPanel(moduleName);
+            //$('#jqxLayout').jqxDockingLayout('render');
+            if (floatWindow)
+                floatWindow.remove();
             return result;
         }
 
