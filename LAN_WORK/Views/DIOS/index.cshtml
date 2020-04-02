@@ -25,6 +25,7 @@
         function InitModuleTree() {
             $('#jqxLayout').jqxDockingLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
             $('#jqxLayout').on('dock', function (event) {
+                console.log(event.args);
                 event.args.item.items.forEach(function (it, i) {
                     it.selected = i == event.args.item.items.length - 1;
                 });
@@ -42,22 +43,51 @@
 
         function initBrowser(className) {
             var exDiv = document.getElementById('f_spl' + className);
-            if(exDiv)
+            if (exDiv)
                 exDiv.parentNode.removeChild(exDiv);
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 700, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
                 $('#' + className + 'Browser').clientObj(className);
             });
-            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 600, min: 200 }] });
-            $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 480, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
+            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 800, min: 200 }] });
+            $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 450, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
         }
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////  helpers  /////////////////////////////////////////////////////////////////////
         function splitterDemo() {
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 300, 200, { x: 500, y: 200 }, 'layoutPanel', 'Server Explorer', '<div id="mainSplitter"><div></div><div><div id="contentSplitter"><div></div><div></div></div></div></div>');
-            $('#mainSplitter').jqxSplitter({ width: 850, height: 600, orientation: 'horizontal', panels: [{ size: 200, min: 100 }, { min: 200, size: 400 }] });
-            $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 400, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
+            $('#mainSplitter').jqxSplitter({ width: 850, height: 800, orientation: 'horizontal', panels: [{ size: 200, min: 100 }, { size: 600, min: 200 }] });
+            $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 500, min: 100, collapsible: false }, { size: 100, min: 100, collapsible: true }] });
         }
+
+        function dockPanel(moduleName) {
+            var result = false;
+            var mainLayout = $('#jqxLayout').jqxDockingLayout('layout');
+            for (i = 1; i < mainLayout.length; i++) {
+                var flgroup = mainLayout[i];
+                if (flgroup.items[0].title == moduleName) {
+                    //console.log($('#jqxLayout').jqxDockingLayout('_draggedWindow'));
+                    mainLayout.splice(i, 1);
+                    flgroup.type = 'tabbedGroup';
+                    delete flgroup.items[0].content;
+                    flgroup.items[0].contentContainer = 'MMM';
+                    flgroup.items[0].detachedContent = [($('#f_splMODULE'))];
+                    flgroup.items[0].docked = true;
+                    flgroup.items[0].prevent = true;
+                    mainLayout[0].items[1].items.push(flgroup.items[0]);
+                    //var TP = document.getElementById('temp_parent');
+                    //TP.appendChild(document.getElementById('f_splMODULE'));
+                    //document.getElementById('jqxLayout').appendChild(TP);
+                                      //$('#jqxLayout').jqxDockingLayout('dockOnEdge', flgroup);
+                    result = true;
+                    break;
+                }
+            }
+            if (result)
+                $('#jqxLayout').jqxDockingLayout('render');//('loadLayout', mainLayout);
+            return result;
+        }
+
 
         function showPanel(moduleName) {
             var result = false;
@@ -101,6 +131,7 @@
     </style>
 
 
+    <div id="temp_parent"  data-container="MMM" style="height:80px;width:600px"></div>
     <div id="jqxLayout">
         <div data-container="ModulesTree">
             <div id="modulesTree" style="border: none;">
@@ -108,6 +139,8 @@
         </div>
         <div data-container="HelpPanel">
             Help topics
+
+            <button onclick="dockPanel('MODULE')">dock panel</button>
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
             <input type="button" id="saveState" value="Save State" />
             <input type="button" id="loadState" value="Load State" />
