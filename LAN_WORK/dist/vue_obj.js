@@ -68,24 +68,31 @@ $.fn.clientObj = function (className) {
             var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
             var loadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/edit1.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
             var newButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/new.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>New</span></div>");
+            var dropButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/delete.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Drop</span></div>");
             //                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
             container.append(tuneButton);
             container.append(reloadButton);
             container.append(saveStateButton);
             container.append(loadButton);
             container.append(newButton);
+            container.append(dropButton);
             statusbar.append(container);
+
             tuneButton.jqxButton({ theme: theme });
             reloadButton.jqxButton({ theme: theme });
             saveStateButton.jqxButton({ theme: theme });
             loadButton.jqxButton({ theme: theme });
             newButton.jqxButton({ theme: theme });
+            dropButton.jqxButton({ theme: theme });
 
             loadButton.click(function (event) {
                 cObj.Load();
             });
             newButton.click(function (event) {
                 cObj.New();
+            });
+            dropButton.click(function (event) {
+                cObj.Drop();
             });
 
             var isTuning;
@@ -343,6 +350,20 @@ $.fn.clientObj = function (className) {
                 New() {
                     if (this.editObject)
                         this.editObject.New();
+                },
+                Drop() {
+                    var rowindex = $(gridName).jqxGrid('selectedrowindex');
+                    var objectid = $(gridName).jqxGrid('getrowid', rowindex);
+                    if (confirm('Удалить объект ' + objectid + '?')) {
+                        var body = new Object();
+                        body.class_name = this.class_name;
+                        body.objectid = objectid;
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/Object/Drop', false);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.send(JSON.stringify(body));
+                        alert('объект ' + objectid + ' удален');
+                    }
                 },
                 Cancel() {
                     if (this.editObject)

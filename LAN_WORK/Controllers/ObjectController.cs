@@ -52,6 +52,14 @@ namespace LanWork.Controllers
         }
 
         [HttpPost]
+        public string Drop(string class_name, int objectid)
+        {
+            string result = (new ObjectControllerAdapter()).Drop(class_name, objectid);
+            return result;
+        }
+
+
+        [HttpPost]
         public string Create(string class_name, string json_object)
         {
             string result = (new ObjectControllerAdapter()).Create(class_name, json_object);

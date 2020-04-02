@@ -251,7 +251,25 @@ namespace LanWork.Models
                 throw exc;
             }
         }
-
+        public string Drop(string class_name, int objectid)
+        {
+            _className = class_name;
+            _objectid = objectid;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForDrop));
+            return M.MakeResponse();
+        }
+        private string doTrueResponseForDrop()
+        {
+            DiosSqlManager M = new DiosSqlManager();
+            ObjectFactory F = M.GetFactory(_className);
+            IObject o = F.GetObject(_objectid);
+            if (o != null)
+            {
+                o.Drop();
+                return string.Format("Object {0} of class [{1}] was dropped.", _objectid, _className);
+            }
+            throw new Exception(string.Format("Object {0} of class [{1}] was not found.", _objectid, _className));
+        }
 
     }
 }
