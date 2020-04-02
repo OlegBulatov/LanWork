@@ -51,5 +51,12 @@ namespace LanWork.Controllers
             return result;
         }
 
+        [HttpPost]
+        public string Create(string class_name, string json_object)
+        {
+            string result = (new ObjectControllerAdapter()).Create(class_name, json_object);
+            return result;
+        }
+
     }
 }

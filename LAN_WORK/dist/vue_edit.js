@@ -94,6 +94,7 @@ function initEdit(className, initCtrlsArray) {
             selected_index: -1,
             ctrls: initCtrlsArray,
             is_edit: false,
+            is_new: false,
             communicationObj: new Object(),
             mainObj: null
         },
@@ -129,6 +130,15 @@ function initEdit(className, initCtrlsArray) {
             },
             Load() {
                 this.is_edit = true;
+                this.is_new = false;
+                this.EnableControls(true);
+                this.$forceUpdate();
+            },
+            New() {
+                this.is_edit = true;
+                this.is_new = true;
+                for (f in this.communicationObj)
+                    this.communicationObj[f].control_value = null;
                 this.EnableControls(true);
                 this.$forceUpdate();
             },
@@ -140,6 +150,7 @@ function initEdit(className, initCtrlsArray) {
             },
             Cancel() {
                 this.is_edit = false;
+                this.is_new = false;
                 this.EnableControls(false);
                 this.$forceUpdate();
             },

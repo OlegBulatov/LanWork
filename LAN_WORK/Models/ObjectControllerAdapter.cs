@@ -177,6 +177,40 @@ namespace LanWork.Models
             return ObjectMethods.JsonVirtualClassList(_className, Params, _order, _limit, _offset, out _row_count);
         }
 
+        public string Create(string class_name, string json_object = null)
+        {
+            _className = class_name;
+            _json_object = json_object;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForCreate));
+            return M.MakeResponse();
+        }
+        private string doTrueResponseForCreate()
+        {
+            IParameterCollection Params = Util.ConvertJsonToParameterCollection(_json_object);
+
+            try
+            {
+                DiosSqlManager M = new DiosSqlManager();
+                if (_json_object == null)
+                    _json_object = "";
+                ObjectFactory F = M.GetFactory(_className);
+
+                if (Params.Contains("id"))
+                {
+                    Params.Remove("id");
+                }
+                IObject targetObject = F.Create(Params);
+                return JsonConvert.SerializeObject(targetObject);
+
+            }
+            catch (Exception exc)
+            {
+                //ObjectMethods.LogOperation(string.Format("Exception in object create. Params were {0}, exception was {1}.", _json_object, exc.Message));
+                Logger.LogStatic(string.Format("Exception in object create. Params were {0}, exception was {1}.", _json_object, exc.Message));
+                throw exc;
+            }
+        }
+
         public string Update(string class_name, string json_object, bool overwrite_sync = false)
         {
             _className = class_name;
