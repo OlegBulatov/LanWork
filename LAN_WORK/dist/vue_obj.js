@@ -63,18 +63,18 @@ $.fn.clientObj = function (className) {
         var renderToolBar = function (statusbar) {
             // appends buttons to the status bar.
             var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
-            var tuneButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
-            var reloadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
-            var saveStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
-            var loadButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/edit1.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
-            var newButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/new.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>New</span></div>");
-            var dropButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/delete.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Drop</span></div>");
+            var tuneButton = $("<div title='Grid settings' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/></div>");
+            var saveStateButton = $("<div title='Save settings' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
+            var reloadButton = $("<div title='Refresh' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/></div>");
+            var loadButton = $("<div title='Load' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/edit1.png'/></div>");
+            var newButton = $("<div title='New' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/new.gif'/></div>");
+            var dropButton = $("<div title='Drop' style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/delete.gif'/></div>");
             //                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
             container.append(tuneButton);
-            container.append(reloadButton);
             container.append(saveStateButton);
-            container.append(loadButton);
+            container.append(reloadButton);
             container.append(newButton);
+            container.append(loadButton);
             container.append(dropButton);
             statusbar.append(container);
 
