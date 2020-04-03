@@ -1,4 +1,4 @@
-//    var currentModuleName = '';
+    var currentModuleName = 'Help';
     var layout =
                 [
                     {
@@ -34,20 +34,33 @@
                                                         'plugins': ["state", "contextmenu"]
                                                     });
 
-                                                    $tree.on("changed.jstree", function (e, data) {
+                                                    $tree.on("select_node.jstree", function (e, data) {
                                                         if (data.selected.length) {
                                                             var selected = data.instance.get_node(data.selected[0]);
-                                                            var moduleName = selected.data;
-                                                            //if (moduleName != currentModuleName) {
-                                                                //LoadFancyGrid(selected.data);
-                                                                if (!showPanel(moduleName))
+                                                            currentModuleName = selected.data;
+                                                            var helpText = document.getElementById('helpText');
+                                                            helpText.innerText = 'For opening of module ' + currentModuleName + ' use mouse double click';
+                                                        }
+                                                        if (!showPanel(currentModuleName))
+                                                            showPanel('Help')
+                                                    });
+                                                    $tree.on("dblclick.jstree", function (e, data) {
+                                                        //if (data.selected.length) {
+                                                        //    var selected = data.instance.get_node(data.selected[0]);
+                                                        //    var moduleName = selected.data;
+                                                        //    //if (moduleName != currentModuleName) {
+                                                        //        //LoadFancyGrid(selected.data);
+                                                        if (!showPanel(currentModuleName))
                                                               //      currentModuleName = moduleName;
                                                                 //else
-                                                                    initBrowser(moduleName);
-                                                            //}
-                                                        }
+                                                            initBrowser(currentModuleName);
+                                                        //    //}
+                                                        //}
                                                     });
 
+                                                    $tree.on("dblclick", function (e, data) {
+                                                        console.log(data);
+                                                    });
                                                 }
                                             }
                                         ]
