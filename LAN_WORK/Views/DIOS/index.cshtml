@@ -45,7 +45,7 @@
             var exDiv = document.getElementById('f_spl' + className);
             if (exDiv)
                 exDiv.parentNode.removeChild(exDiv);
-            $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 700, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
+            $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 800, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
                 $('#' + className + 'Browser').clientObj(className);
             });
             $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 800, min: 200 }] });
@@ -72,8 +72,9 @@
                     mainLayout.splice(i, 1);
                     flgroup.type = 'tabbedGroup';
                     delete flgroup.items[0].content;
-                    flgroup.items[0].detachedContent = [($('#f_splMODULE'))];
-                    flgroup.items[0].docked = true;
+                    delete flgroup.items[0].initContent;
+                    flgroup.items[0].detachedContent = [$('#f_splMODULE')];
+                    //flgroup.items[0].docked = true;
                     flgroup.items[0].prevent = true;
                     mainLayout[0].items[1].items.push(flgroup.items[0]);
                     result = true;
@@ -113,6 +114,7 @@
                     processItem(item);
                 });
             }
+            console.log(mainLayout);
             if (result)
                 $('#jqxLayout').jqxDockingLayout('render');
             return result;
