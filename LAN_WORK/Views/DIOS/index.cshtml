@@ -50,6 +50,7 @@
             });
             $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 800, min: 200 }] });
             $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 450, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
+            dockPanel(className);
         }
 
 
@@ -73,7 +74,7 @@
                     flgroup.type = 'tabbedGroup';
                     delete flgroup.items[0].content;
                     delete flgroup.items[0].initContent;
-                    flgroup.items[0].detachedContent = [$('#f_splMODULE')];
+                    flgroup.items[0].detachedContent = [$('#f_spl' + moduleName)];
                     //flgroup.items[0].docked = true;
                     flgroup.items[0].prevent = true;
                     mainLayout[0].items[1].items.push(flgroup.items[0]);
@@ -141,7 +142,7 @@
         <div data-container="HelpPanel">
             Help topics
 
-            <button onclick="dockPanel('MODULE')">dock panel</button>
+            <button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
             <button onclick="alert(objFilter.GetFilter())">Get filter</button>
             <input type="button" id="saveState" value="Save State" />
             <input type="button" id="loadState" value="Load State" />
