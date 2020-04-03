@@ -35,14 +35,16 @@
                                                     });
 
                                                     $tree.on("select_node.jstree", function (e, data) {
+                                                        var helpText = document.getElementById('helpText');
                                                         if (data.selected.length) {
                                                             var selected = data.instance.get_node(data.selected[0]);
                                                             currentModuleName = selected.data;
-                                                            var helpText = document.getElementById('helpText');
-                                                            helpText.innerText = 'For opening of module ' + currentModuleName + ' use mouse double click';
                                                         }
-                                                        if (!showPanel(currentModuleName))
-                                                            showPanel('Help')
+                                                        var moduleOpened = showPanel(currentModuleName);
+                                                        if (!moduleOpened) {
+                                                            helpText.innerText = 'For opening of module ' + currentModuleName + ' use mouse double click';
+                                                            showPanel('Help');
+                                                        }
                                                     });
                                                     $tree.on("dblclick.jstree", function (e, data) {
                                                         //if (data.selected.length) {
@@ -50,7 +52,8 @@
                                                         //    var moduleName = selected.data;
                                                         //    //if (moduleName != currentModuleName) {
                                                         //        //LoadFancyGrid(selected.data);
-                                                        if (!showPanel(currentModuleName))
+                                                        helpText.innerText = 'You can show already opened module with mouse click';
+                                                        if (!showPanel(currentModuleName)) 
                                                               //      currentModuleName = moduleName;
                                                                 //else
                                                             initBrowser(currentModuleName);
@@ -58,9 +61,6 @@
                                                         //}
                                                     });
 
-                                                    $tree.on("dblclick", function (e, data) {
-                                                        console.log(data);
-                                                    });
                                                 }
                                             }
                                         ]
