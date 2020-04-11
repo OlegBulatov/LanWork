@@ -24,7 +24,7 @@
     @Scripts.Render("~/dist/main_layout.js")
     <script>
         function InitModuleTree() {
-            $('#jqxLayout').jqxDockingLayout({ width: '100%'/*getWidth('layout')*/, height: '100%', layout: layout });
+            $('#jqxLayout').jqxDockingLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             $('#jqxLayout').on('dock', function (event) {
                 console.log(event.args);
                 event.args.item.items.forEach(function (it, i) {
@@ -132,26 +132,27 @@
         }
     </style>
 
-
-    <div id="jqxLayout" style="position:absolute;top:0px;left:0px">
-        <div data-container="ModulesTree">
-            <div id="modulesTree" style="border: none;">
+    <div  style="position:absolute;top:0px;left:0px">
+        <div id="jqxLayout">
+            <div data-container="ModulesTree">
+                <div id="modulesTree" style="border: none;">
+                </div>
             </div>
-        </div>
-        <div data-container="HelpPanel">
-            <div id="helpText" style="position:absolute;left:60px;top:100px; "></div>
+            <div data-container="HelpPanel">
+                <div id="helpText" style="position:absolute;left:60px;top:100px; "></div>
 
-            <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
-    <button onclick="alert(objFilter.GetFilter())">Get filter</button>
-    <input type="button" id="saveState" value="Save State" />
-    <input type="button" id="loadState" value="Load State" />
-    <button onclick="splitterDemo()">Add float panel</button>
-    <button onclick="var L = $('#jqxLayout').jqxDockingLayout('saveLayout'); console.log(L);">See layout</button>
-    <button onclick="showPanel('MODULE')">show panel</button>
-    <button onclick="alert(GlId());">get ID</button>
+                <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
+            <button onclick="alert(objFilter.GetFilter())">Get filter</button>
+            <input type="button" id="saveState" value="Save State" />
+            <input type="button" id="loadState" value="Load State" />
+            <button onclick="splitterDemo()">Add float panel</button>
+            <button onclick="var L = $('#jqxLayout').jqxDockingLayout('saveLayout'); console.log(L);">See layout</button>
+            <button onclick="showPanel('MODULE')">show panel</button>
+            <button onclick="alert(GlId());">get ID</button>
 
-    <div style="margin-top: 20px" id="jqxlistbox"></div-->
+            <div style="margin-top: 20px" id="jqxlistbox"></div-->
 
+            </div>
         </div>
     </div>
 
