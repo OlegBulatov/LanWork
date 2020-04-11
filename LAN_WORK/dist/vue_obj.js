@@ -3,7 +3,6 @@
 (function ($) {
 $.fn.clientObj = function (className) {
     var cObj;
-
     var SortState = new Object();
     var LoadedState = new Object();
     var ColumnModels = new Object();
@@ -71,6 +70,7 @@ $.fn.clientObj = function (className) {
 
         var isTuning;
         var tuneDiv;
+        var tuneListBox;
         //var state = null;
         tuneButton.click(function (event) {
             if (isTuning) {
@@ -79,28 +79,49 @@ $.fn.clientObj = function (className) {
                 return;
             }
             isTuning = true;
+            if (tuneDiv) {
+                tuneDiv.show();
+                return;
+            }
             tuneDiv = $("<div>");
             tuneDiv.css({
                 "position": "absolute",
                 "top": statusbar.offset().top + 40,
                 "left": statusbar.offset().left,
-                "z-index": "35",
+                "z-index": 35,
+                "height": 250,
                 "background-color": "white",
                 "border": "2px solid blue"
             });
-            //var okButton = $("<div style='position: absolute; margin-left: 5px; bottom: 2px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Save</span></div>");
-            //okButton.jqxButton({ width: 65, height: 20 });
-            //okButton.click(function (event) {
-            //    tuneDiv.hide();
-            //});
-            //tuneDiv.append(okButton);
+            tuneListBox = $("<div>");
+            var clpsButton = $("<div title='Collapse' style='position:absolute;left:5px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/collapse.gif'/></div>");
+            clpsButton.jqxButton({ theme: theme });
+            clpsButton.click(function (event) {
+                cObj.Collapse();
+            });
+            var expButton = $("<div title='Expand' style='position:absolute;left:35px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/expand.gif'/></div>");
+            expButton.jqxButton({ theme: theme });
+            expButton.click(function (event) {
+                cObj.Expand();
+            });
+            var okButton = $("<div title='Save' style='position:absolute;left:65px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
+            okButton.jqxButton({ theme: theme });
+            okButton.click(function (event) {
+                isTuning = false;
+                tuneDiv.hide();
+            });
+            tuneDiv.append(tuneListBox);
+            tuneDiv.append(clpsButton);
+            tuneDiv.append(expButton);
+            tuneDiv.append(okButton);
+            //tuneHideButton
             var listSource = new Array();
             var gridColumns = $(gridName).jqxGrid('columns').records;
             gridColumns.forEach(function (item, i) {
                 listSource[i] = { label: item.text, value: item.datafield, checked: !item.hidden };
             });
-            tuneDiv.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
-            tuneDiv.on('checkChange', function (event) {
+            tuneListBox.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+            tuneListBox.on('checkChange', function (event) {
                 event.stopPropagation();
                 $(gridName).jqxGrid('beginupdate');
                 if (event.args.checked) {
@@ -406,6 +427,12 @@ $.fn.clientObj = function (className) {
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(body));
                 },
+                Collapse() {
+                    $('#d_spl' + this.class_name).jqxSplitter('collapse');
+                },
+                Expand() {
+                    $('#d_spl' + this.class_name).jqxSplitter('expand');
+                },
                 destroy: function () {
                     $(gridName).jqxGrid('destroy');
                     if (this.editObject)
@@ -423,7 +450,9 @@ $.fn.clientObj = function (className) {
 
     loadedClasses[className] = cObj;
 
-        InitGridFromObj(className);
+    InitGridFromObj(className);
+
+    return cObj;
 
     };
 })(jQuery);
