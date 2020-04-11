@@ -255,7 +255,7 @@ $.fn.clientObj = function (className) {
                 editable: true,
                 editmode: 'dblclick',
                 rendergridrows: renderGridRows,
-                showtoolbar: true,
+                //showtoolbar: true,
                 //rendertoolbar: renderToolBar,
                 columns: ColumnModels[className]
             });
