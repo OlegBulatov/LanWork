@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization;
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,7 @@
     @Scripts.Render("~/dist/main_layout.js")
     <script>
         function InitModuleTree() {
-            $('#jqxLayout').jqxDockingLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
+            $('#jqxLayout').jqxDockingLayout({ width: '100%'/*getWidth('layout')*/, height: '100%', layout: layout });
             $('#jqxLayout').on('dock', function (event) {
                 console.log(event.args);
                 event.args.item.items.forEach(function (it, i) {
@@ -132,7 +133,7 @@
     </style>
 
 
-    <div id="jqxLayout">
+    <div id="jqxLayout" style="position:absolute;top:0px;left:0px">
         <div data-container="ModulesTree">
             <div id="modulesTree" style="border: none;">
             </div>
@@ -153,6 +154,11 @@
 
         </div>
     </div>
+
+    <div style="position:absolute;top:5px;right:200px">
+        <a href="/Home/Index">Home</a>
+    </div>
+
     <div id="window" style="display:none">
         <div>
             jqxEditor

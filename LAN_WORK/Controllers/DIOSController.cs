@@ -15,6 +15,7 @@ namespace LanWork.Controllers
         {
             if (!System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
+            ViewBag.ShowPageMenu = false;
             return View();
         }
 
