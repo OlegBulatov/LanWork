@@ -10,29 +10,6 @@ $.fn.clientObj = function (className) {
     var editedObject = new Object();
     var gridName = '#grid';
 
-    //var rendergridrows = function (params) {
-    //    var xhr = new XMLHttpRequest();
-    //    var sortColumn = cObj.class_name;
-    //    if (SortState[cObj.class_name]) {
-    //        sortColumn = SortState[cObj.class_name].sortcolumn;
-    //        if (SortState[cObj.class_name].sortdirection.descending)
-    //            sortColumn += ' desc';
-    //    }
-    //    xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
-
-    //    xhr.send();
-    //    var data = JSON.parse(xhr.responseText);
-    //    return JSON.parse(data.response_body);
-    //}
-    //var totalcolumnrenderer = function (row, column, cellvalue) {
-    //        var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
-    //        return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
-    //}
-
-    var SortState = new Object();
-    var LoadedState = new Object();
-    var ColumnModels = new Object();
-
     function renderToolBar(statusbar) {
         // appends buttons to the status bar.
         var container = $("<div style='overflow: hidden;'></div>");
@@ -153,8 +130,7 @@ $.fn.clientObj = function (className) {
         });
         // reload grid data.
         reloadButton.click(function (event) {
-            $(gridName).jqxGrid('gotopage', 0);
-            $(gridName).jqxGrid({ source: cObj.GetDataAdapter() });
+            cObj.List();
         });
         saveStateButton.click(function () {
             // save the current state of jqxGrid.
@@ -315,7 +291,7 @@ $.fn.clientObj = function (className) {
         });
         $(gridName).on('rowselect', function (event) {
             cObj.Cancel();
-            cObj.SetEditedObject(event.args.row);
+            cObj.SetObjectData(event.args.row, event.args.rowindex);
         });
 
     }
@@ -362,15 +338,33 @@ $.fn.clientObj = function (className) {
                 class_name: className,
                 filterObject: vueFilter,
                 editObject: vueEdit,
+                currentId: null,
                 controllers: []
             },
             methods: {
                 GetFilter: function () {
+                    if (this.controllers.length > 0) {
+                        var myClassName = this.class_name;
+                        var result = new Array();
+                        this.controllers.forEach(function (item) {
+                            if (item.controlledClassName == myClassName) {
+                                result.push({ Name: item.masterClassName.toLowerCase(), Value: item.masterObj.currentId });
+                            }
+                        });
+                        return JSON.stringify(result);
+                    }
                     return this.filterObject ? this.filterObject.GetFilter() : [];
                 },
-                SetEditedObject: function (row) {
+                SetObjectData: function (row, rowindex) {
+                    this.currentId = $(gridName).jqxGrid('getrowid', rowindex);
                     if (this.editObject)
                         this.editObject.SetObj(row);
+                    var myClassName = this.class_name;
+                    this.controllers.forEach(function (item) {
+                        if (item.masterClassName == myClassName) {
+                            item.controlledObj.List();
+                        }
+                    });
                 },
                 GetDataAdapter: function () {
                     //console.log(this.GetFilter());
@@ -395,6 +389,10 @@ $.fn.clientObj = function (className) {
 
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     return dataAdapter;
+                },
+                List() {
+                    $(gridName).jqxGrid('gotopage', 0);
+                    $(gridName).jqxGrid({ source: this.GetDataAdapter() });
                 },
                 Load() {
                     if (this.editObject)
@@ -427,8 +425,7 @@ $.fn.clientObj = function (className) {
                     body.class_name = this.class_name;
                     var changedObject = new Object();
                     if (!this.editObject.is_new) {
-                        var rowindex = $(gridName).jqxGrid('selectedrowindex');
-                        changedObject.id = $(gridName).jqxGrid('getrowid', rowindex);
+                        changedObject.id = CurrentId();
                     }
                     for (f in obj) {
                         changedObject[f] = obj[f];
@@ -490,7 +487,7 @@ $.fn.clientObj = function (className) {
                             || item.controlledClassName == linkClassName) {
                             if (recursive) {
                                 if (item.masterClassName == linkClassName) {
-                                    console.log('remove controller ' + ownerClassName + ' from ' + item.masterObj.class_name);
+                                    console.log('remove slave controller ' + ownerClassName + ' from ' + item.masterObj.class_name);
                                     item.masterObj.RemoveController(ownerClassName, true);
                                 }
                                 else {
