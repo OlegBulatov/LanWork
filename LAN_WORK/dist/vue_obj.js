@@ -104,7 +104,21 @@ $.fn.clientObj = function (className) {
             expButton.click(function (event) {
                 cObj.Expand();
             });
-            var okButton = $("<div title='Save' style='position:absolute;left:65px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
+            var linkButton = $("<div title='Link' style='position:absolute;left:65px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/arrow.gif'/></div>");
+            linkButton.jqxButton({ theme: theme });
+            linkButton.click(function (event) {
+                let linkClassName = prompt('Связать с:');
+                cObj.Link(linkClassName);
+                console.log(cObj.controllers);
+            });
+            var unLinkButton = $("<div title='Unlink' style='position:absolute;left:95px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/cut.gif'/></div>");
+            unLinkButton.jqxButton({ theme: theme });
+            unLinkButton.click(function (event) {
+                let linkClassName = prompt('Убрать связь с:');
+                cObj.RemoveController(linkClassName);
+                console.log(cObj.controllers);
+            });
+            var okButton = $("<div title='Save' style='position:absolute;left:125px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
             okButton.jqxButton({ theme: theme });
             okButton.click(function (event) {
                 isTuning = false;
@@ -113,6 +127,8 @@ $.fn.clientObj = function (className) {
             tuneDiv.append(tuneListBox);
             tuneDiv.append(clpsButton);
             tuneDiv.append(expButton);
+            tuneDiv.append(linkButton);
+            tuneDiv.append(unLinkButton);
             tuneDiv.append(okButton);
             //tuneHideButton
             var listSource = new Array();
@@ -432,6 +448,59 @@ $.fn.clientObj = function (className) {
                 },
                 Expand() {
                     $('#d_spl' + this.class_name).jqxSplitter('expand');
+                },
+                Link(linkClassName) {
+                    if (!loadedClasses[linkClassName]) {
+                        alert('class ' + linkClassName + ' is not initialized');
+                        return;
+                    }
+                    if (this.class_name == linkClassName) {
+                        alert('can not link to myself');
+                        return;
+                    }
+                    this.AddController({
+                        masterClassName: this.class_name,
+                        controlledClassName: linkClassName,
+                        masterObj: this,
+                        controlledObj: loadedClasses[linkClassName]
+                    }, true);
+                },
+                AddController(controller, recursive) {
+                    var alreadyLinked = false;
+                    this.controllers.forEach(function (item) {
+                        if (item.masterClassName == controller.masterClassName
+                            || item.masterClassName == controller.controlledClassName
+                            || item.controlledClassName == controller.masterClassName
+                            || item.controlledClassName == controller.controlledClassName
+                        ) {
+                            alreadyLinked = true;
+                        }
+                    });
+                    if (!alreadyLinked) {
+                        this.controllers.push(controller);
+                        if(recursive)
+                            controller.controlledObj.AddController(controller, false);
+                    }
+                },
+                RemoveController(linkClassName, noRecursion) {
+                    var recursive = !noRecursion;
+                    var ownerClassName = this.class_name;
+                    this.controllers.forEach(function (item, i, items) {
+                        if (item.masterClassName == linkClassName
+                            || item.controlledClassName == linkClassName) {
+                            if (recursive) {
+                                if (item.masterClassName == linkClassName) {
+                                    console.log('remove controller ' + ownerClassName + ' from ' + item.masterObj.class_name);
+                                    item.masterObj.RemoveController(ownerClassName, true);
+                                }
+                                else {
+                                    console.log('remove master controller ' + ownerClassName + ' from ' + item.controlledObj.class_name);
+                                    item.controlledObj.RemoveController(ownerClassName, true);
+                                }
+                            }
+                            items.splice(i, 1);
+                        }
+                    });
                 },
                 destroy: function () {
                     $(gridName).jqxGrid('destroy');
