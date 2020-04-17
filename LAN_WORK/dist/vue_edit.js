@@ -10,21 +10,21 @@ computed: {
   styleD: function () {
     return {
         position: 'absolute',
-        left: this.left + 'px',
-        top: this.top + 'px',
+        left: this.ctrl.left + 'px',
+        top: this.ctrl.top + 'px',
         marginTop: '-15px'
     }
   },
   styleI: function () {
     return {
-        width: this.width + 'px',
-        height: this.height + 'px',
+        width: this.ctrl.width + 'px',
+        height: this.ctrl.height + 'px',
     }
   }
 },
-    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'read_only'],
+    props: ['id', 'ctrl'],
 
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><input type="text" :readonly="read_only" v-if="height<=30"  v-bind:style="styleI" v-model="control_value" /><textarea  :readonly="read_only" v-if="height>30"  v-bind:style="styleI" v-model="control_value" /></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><input type="text" :readonly="ctrl.read_only" v-if="ctrl.height<=30"  v-bind:style="styleI" v-model="ctrl.control_value" /><textarea  :readonly="ctrl.read_only" v-if="ctrl.height>30"  v-bind:style="styleI" v-model="ctrl.control_value" /></div>'
 });
 
 Vue.component('edsel', {
@@ -32,20 +32,20 @@ Vue.component('edsel', {
         styleD: function () {
             return {
                 position: 'absolute',
-                left: this.left + 'px',
-                top: this.top + 'px',
+                left: this.ctrl.left + 'px',
+                top: this.ctrl.top + 'px',
                 marginTop: '-15px'
             }
         },
         styleI: function () {
             return {
-                width: this.width + 'px',
-                height: this.height + 'px',
+                width: this.ctrl.width + 'px',
+                height: this.ctrl.height + 'px',
             }
         }
     },
-    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options', 'read_only'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><select :disabled="read_only" v-bind:style="styleI" v-model="control_value" name="ftype"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
+    props: ['id', 'ctrl'],
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><select :disabled="ctrl.read_only" v-bind:style="styleI" v-model="ctrl.control_value" name="ftype"><option v-for="opt in ctrl.options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
 });
 
 Vue.component('eddate', {
@@ -62,20 +62,20 @@ Vue.component('eddate', {
         styleD: function () {
             return {
                 position: 'absolute',
-                left: this.left + 'px',
-                top: this.top + 'px',
+                left: this.ctrl.left + 'px',
+                top: this.ctrl.top + 'px',
                 marginTop: '-15px'
             }
         },
         styleI: function () {
             return {
-                width: this.width + 'px',
-                height: this.height + 'px'
+                width: this.ctrl.width + 'px',
+                height: this.ctrl.height + 'px'
             }
         }
     },
-    props: ['caption', 'data_field', 'control_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'read_only'],
-    template: '<div v-bind:style="styleD"><input v-model="control_value" v-bind:id="GlId()" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
+    props: ['id', 'ctrl'],
+    template: '<div v-bind:style="styleD"><input v-model="ctrl.control_value" v-bind:id="GlId()" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -178,17 +178,18 @@ function initEdit(className, initCtrlsArray) {
         var edDiv = $("<" + divName + "></" + divName + ">");
         edDiv.attr("v-for", "ctrl in ctrls");
         edDiv.attr("v-if", "ctrl.class=='" + className + "'");
-        edDiv.attr(":key", "ctrl.id");
-        edDiv.attr("v-bind:caption", "ctrl.caption");
-        edDiv.attr("v-bind:data_field", "ctrl.data_field");
-        edDiv.attr("v-bind:control_value", "ctrl.control_value");
-        edDiv.attr("v-bind:left", "ctrl.left");
-        edDiv.attr("v-bind:top", "ctrl.top");
-        edDiv.attr("v-bind:width", "ctrl.width");
-        edDiv.attr("v-bind:height", "ctrl.height");
+        //edDiv.attr(":key", "ctrl.id");
+        //edDiv.attr("v-bind:caption", "ctrl.caption");
+        //edDiv.attr("v-bind:data_field", "ctrl.data_field");
+        //edDiv.attr("v-bind:control_value", "ctrl.control_value");
+        //edDiv.attr("v-bind:left", "ctrl.left");
+        //edDiv.attr("v-bind:top", "ctrl.top");
+        //edDiv.attr("v-bind:width", "ctrl.width");
+        //edDiv.attr("v-bind:height", "ctrl.height");
+        //edDiv.attr("v-bind:options", "ctrl.options");
+        //edDiv.attr("v-bind:read_only", "ctrl.read_only");
+        edDiv.attr("v-bind:ctrl", "ctrl");
         edDiv.attr("v-bind:id", "GetId()");
-        edDiv.attr("v-bind:options", "ctrl.options");
-        edDiv.attr("v-bind:read_only", "ctrl.read_only");
         parentObj.append(edDiv);
     }
     $.fn.editForm = function () {

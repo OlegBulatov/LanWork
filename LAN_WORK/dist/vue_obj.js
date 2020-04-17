@@ -392,7 +392,7 @@ $.fn.clientObj = function (className) {
                     return dataAdapter;
                 },
                 List() {
-                    console.log($(gridName).jqxGrid('getdatainformation'));
+                    //console.log($(gridName).jqxGrid('getdatainformation'));
                      
                     $(gridName).jqxGrid('gotopage', 0);
                     $(gridName).jqxGrid({ source: this.GetDataAdapter() });
