@@ -10,20 +10,20 @@ computed: {
   styleD: function () {
     return {
         position: 'absolute',
-        left: this.left + 'px',
-        top: this.top + 'px',
+        left: this.ctrl.left + 'px',
+        top: this.ctrl.top + 'px',
     }
   },
   styleI: function () {
     return {
-        width: this.width + 'px',
-        height: this.height + 'px',
+        width: this.ctrl.width + 'px',
+        height: this.ctrl.height + 'px',
     }
   }
 },
-props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
+props: ['id','ctrl'],
 
-template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text"  v-bind:style="styleI" v-model="filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text"  v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div></div>'
 });
 
 Vue.component('fltsel', {
@@ -31,14 +31,14 @@ Vue.component('fltsel', {
         styleD: function () {
             return {
                 position: 'absolute',
-                left: this.left + 'px',
-                top: this.top + 'px',
+                left: this.ctrl.left + 'px',
+                top: this.ctrl.top + 'px',
             }
         },
         styleI: function () {
             return {
-                width: this.width + 'px',
-                height: this.height + 'px',
+                width: this.ctrl.width + 'px',
+                height: this.ctrl.height + 'px',
             }
         }
     },
@@ -47,11 +47,11 @@ Vue.component('fltsel', {
             if (event.key == "Control")
                 return;
             if (event.key == "Delete")
-                this.filter_value = null;
+                this.ctrl.filter_value = null;
         }
     },
-    props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible', 'options'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="filter_value" name="ftype"><option v-for="opt in options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
+    props: ['id','ctrl'],
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="ctrl.filter_value" name="ftype"><option v-for="opt in ctrl.options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
 });
 
 Vue.component('fltdate', {
@@ -67,19 +67,19 @@ Vue.component('fltdate', {
         styleD: function () {
             return {
                 position: 'absolute',
-                left: this.left + 'px',
-                top: this.top + 'px',
+                left: this.ctrl.left + 'px',
+                top: this.ctrl.top + 'px',
             }
         },
         styleI: function () {
             return {
-                width: this.width + 'px',
-                height: this.height + 'px'
+                width: this.ctrl.width + 'px',
+                height: this.ctrl.height + 'px'
             }
         }
     },
-    props: ['caption', 'data_field', 'filter_value', 'id', 'app_index', 'left', 'top', 'width', 'height', 'is_selected', 'is_visible'],
-    template: '<div v-bind:style="styleD"><input v-model="filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ this.caption ? this.caption : this.data_field }}</div></div>'
+    props: ['id','ctrl'],
+    template: '<div v-bind:style="styleD"><input v-model="ctrl.filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -120,10 +120,10 @@ function initFilter(className, filterModel) {
             GetFilter: function () {
                 let result = new Array();
                 this.$children.forEach(function (item) {
-                    if (item.filter_value)
+                    if (item.ctrl.filter_value)
                         result.push({
-                            Name: item.data_field,
-                            Value: item.filter_value
+                            Name: item.ctrl.data_field,
+                            Value: item.ctrl.filter_value
                         });
                 });
                 return JSON.stringify(result);
@@ -146,16 +146,17 @@ function initFilter(className, filterModel) {
         var fltDiv = $("<" + divName + "></" + divName + ">");
         fltDiv.attr("v-for", "ctrl in ctrls");
         fltDiv.attr("v-if", "ctrl.class=='" + className + "'");
-        fltDiv.attr(":key", "ctrl.id");
-        fltDiv.attr("v-bind:caption", "ctrl.caption");
-        fltDiv.attr("v-bind:data_field", "ctrl.data_field");
-        fltDiv.attr("v-bind:filter_value", "ctrl.filter_value");
-        fltDiv.attr("v-bind:left", "ctrl.left");
-        fltDiv.attr("v-bind:top", "ctrl.top");
-        fltDiv.attr("v-bind:width", "ctrl.width");
-        fltDiv.attr("v-bind:height", "ctrl.height");
+        //fltDiv.attr(":key", "ctrl.id");
+        //fltDiv.attr("v-bind:caption", "ctrl.caption");
+        //fltDiv.attr("v-bind:data_field", "ctrl.data_field");
+        //fltDiv.attr("v-bind:filter_value", "ctrl.filter_value");
+        //fltDiv.attr("v-bind:left", "ctrl.left");
+        //fltDiv.attr("v-bind:top", "ctrl.top");
+        //fltDiv.attr("v-bind:width", "ctrl.width");
+        //fltDiv.attr("v-bind:height", "ctrl.height");
+        //fltDiv.attr("v-bind:options", "ctrl.options");
+        fltDiv.attr("v-bind:ctrl", "ctrl");
         fltDiv.attr("v-bind:id", "GetId()");
-        fltDiv.attr("v-bind:options", "ctrl.options");
         parentObj.append(fltDiv);
     }
     $.fn.filterForm = function (G) {

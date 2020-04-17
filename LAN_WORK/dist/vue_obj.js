@@ -259,6 +259,7 @@ $.fn.clientObj = function (className) {
                 width: getWidth('Grid'),
                 autoheight: true,
                 rowsheight: 20,
+                pagerheight: 25,
                 source: cObj.GetDataAdapter(),
                 sortable: true,
                 columnsresize: true,
@@ -391,6 +392,8 @@ $.fn.clientObj = function (className) {
                     return dataAdapter;
                 },
                 List() {
+                    console.log($(gridName).jqxGrid('getdatainformation'));
+                     
                     $(gridName).jqxGrid('gotopage', 0);
                     $(gridName).jqxGrid({ source: this.GetDataAdapter() });
                 },
