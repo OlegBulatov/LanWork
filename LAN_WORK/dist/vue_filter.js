@@ -20,7 +20,7 @@ Vue.component('enabler', {
         }
     },
     props: ['ctrl'],
-    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="value" v-model:value="ctrl.enabled" v-on:change="$emit(evName, $event)"></div>'
+    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="value" v-model:value="ctrl.enabled" v-on:change="$emit(evName, $event.target.checked)"></div>'
 });
 
 Vue.component('fltdiv', {
@@ -92,16 +92,6 @@ Vue.component('fltdate', {
         $('#' + this.id).on('change', function (event) {
             self.ctrl.filter_value = event.target.value;
         }); 
-        //$('#' + this.id).datepicker({
-        //    buttonImage: "/dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
-        //    dateFormat: 'dd.mm.yy',
-        //    onSelect: function () {
-        //        this.dispatchEvent(new Event('input')); 
-        //    }
-        //});
-    },
-    data: function () {
-        return { isEnabled: false };
     },
     methods: {
         setEnabled(val) {
@@ -124,21 +114,10 @@ Vue.component('fltdate', {
         },
         valuable: function () {
             return !this.ctrl.enablable || this.ctrl.enabled;
-        },
-        //enabled: {
-        //    // геттер:
-        //    get: function () {
-        //        return this.isEnabled;
-        //    },
-        //    // сеттер:
-        //    set: function (newValue) {
-        //        alert(newValue);
-        //        this.isEnabled = newValue;
-        //    }
-        //}
+        }
     },
     props: ['id','ctrl'],
-    template: '<div v-bind:style="styleD"><div style="color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><input v-model="ctrl.filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable" v-on:change="setEnabled($event.target.checked)"></enabler></div>'
+    template: '<div v-bind:style="styleD"><div style="color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><input v-model="ctrl.filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable" v-on:change="setEnabled($event)"></enabler></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
