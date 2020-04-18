@@ -4,7 +4,7 @@ Vue.component('enabler', {
             return {
                 position: 'absolute',
                 left: '-20px',
-                top: '0px',
+                top: '20px',
             }
         }
     },
@@ -28,19 +28,19 @@ computed: {
             top: this.ctrl.top + 'px',
         }
     },
-    valuable: function () {
-        return !this.ctrl.enablable || this.ctrl.enabled;
-    },
     styleI: function () {
         return {
             width: this.ctrl.width + 'px',
             height: this.ctrl.height + 'px',
         }
+    },
+    valuable: function () {
+        return !this.ctrl.enablable || this.ctrl.enabled;
     }
 },
 props: ['id','ctrl'],
 
-    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text" v-bind:readonly="!valuable" v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable"></enabler></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><input type="text" v-bind:readonly="!valuable" v-bind:style="styleI" v-model="ctrl.filter_value" /><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable"></enabler></div>'
 });
 
 Vue.component('fltsel', {
@@ -57,6 +57,9 @@ Vue.component('fltsel', {
                 width: this.ctrl.width + 'px',
                 height: this.ctrl.height + 'px',
             }
+        },
+        valuable: function () {
+            return !this.ctrl.enablable || this.ctrl.enabled;
         }
     },
     methods: {
@@ -68,7 +71,7 @@ Vue.component('fltsel', {
         }
     },
     props: ['id','ctrl'],
-    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="position:relative;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><select v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="ctrl.filter_value" name="ftype"><option v-for="opt in ctrl.options" v-bind:value="opt.value">{{ opt.text }}</option></select></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><div style="color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><select v-bind:disabled="!valuable" v-on:keydown="ProcessKey" v-bind:style="styleI" v-model="ctrl.filter_value" name="ftype"><option v-for="opt in ctrl.options" v-bind:value="opt.value">{{ opt.text }}</option></select><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable"></enabler></div>'
 });
 
 Vue.component('fltdate', {
@@ -95,6 +98,9 @@ Vue.component('fltdate', {
                 width: this.ctrl.width + 'px',
                 height: this.ctrl.height + 'px'
             }
+        },
+        valuable: function () {
+            return !this.ctrl.enablable || this.ctrl.enabled;
         }
     },
     props: ['id','ctrl'],

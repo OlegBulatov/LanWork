@@ -102,7 +102,6 @@ function initEdit(className, initCtrlsArray) {
             ProcessKey: function (key, altKey, ctrlKey, shiftKey) {
                 if (key == "Control")
                     return;
-                console.log(key);
             },
             SetObj: function (obj) {
                 for (f in obj) {
@@ -113,7 +112,8 @@ function initEdit(className, initCtrlsArray) {
             GetObj: function () {
                 var obj = new Object();
                 var commObj = this.communicationObj;
-                this.$children.forEach(function (item) {
+                //this.$children.forEach(function (item) {
+                this.ctrls.forEach(function (item) {
                     obj[item.data_field] = item.control_value;
                     if (commObj[item.data_field])
                         commObj[item.data_field].control_value = item.control_value;

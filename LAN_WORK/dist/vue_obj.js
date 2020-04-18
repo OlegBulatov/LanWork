@@ -428,12 +428,11 @@ $.fn.clientObj = function (className) {
                     body.class_name = this.class_name;
                     var changedObject = new Object();
                     if (!this.editObject.is_new) {
-                        changedObject.id = CurrentId();
+                        changedObject.id = this.currentId;
                     }
                     for (f in obj) {
                         changedObject[f] = obj[f];
                     }
-                    console.log(changedObject);
                     body.json_object = JSON.stringify(changedObject);
                     var xhr = new XMLHttpRequest();
                     if (this.editObject.is_new)
