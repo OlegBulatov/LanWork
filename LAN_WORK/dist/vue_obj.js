@@ -1,4 +1,5 @@
-﻿var loadedClasses = new Object();
+﻿var theme = 'light';
+var loadedClasses = new Object();
 
 (function ($) {
 $.fn.clientObj = function (className) {
@@ -256,7 +257,7 @@ $.fn.clientObj = function (className) {
         //}).appendTo(gridContainer);
         $(gridName).jqxGrid(
             {
-                width: getWidth('Grid'),
+                width: 1200,//getWidth('Grid'),
                 autoheight: true,
                 rowsheight: 20,
                 pagerheight: 25,

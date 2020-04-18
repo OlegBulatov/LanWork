@@ -1,4 +1,7 @@
 Vue.component('enabler', {
+    data: function(){
+        return { evName: 'change', _value: false };
+    },
     computed: {
         styleD: function () {
             return {
@@ -6,10 +9,18 @@ Vue.component('enabler', {
                 left: '-20px',
                 top: '20px',
             }
+        },
+        value: {
+            get: function () {
+                return this._value;
+            },
+            set: function (newVal) {
+                this._value = newVal;
+            }
         }
     },
-    props: ['value', 'ctrl'],
-    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="ctrl.enabled" ></div>'
+    props: ['ctrl'],
+    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="value" v-model:value="ctrl.enabled" v-on:change="$emit(evName, $event)"></div>'
 });
 
 Vue.component('fltdiv', {
@@ -76,15 +87,27 @@ Vue.component('fltsel', {
 
 Vue.component('fltdate', {
     mounted: function () {
-        $('#' + this.id).datepicker({
-            buttonImage: "/dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
-            dateFormat: 'dd.mm.yy',
-            onSelect: function () {
-                this.dispatchEvent(new Event('input')); 
-            }
-        });
+        var self = this;
+        $('#' + this.id).jqxDateTimeInput({ value: null, width: this.styleI.width, height: this.styleI.height });
+        $('#' + this.id).on('change', function (event) {
+            self.ctrl.filter_value = event.target.value;
+        }); 
+        //$('#' + this.id).datepicker({
+        //    buttonImage: "/dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
+        //    dateFormat: 'dd.mm.yy',
+        //    onSelect: function () {
+        //        this.dispatchEvent(new Event('input')); 
+        //    }
+        //});
     },
-
+    data: function () {
+        return { isEnabled: false };
+    },
+    methods: {
+        setEnabled(val) {
+            $('#' + this.id).jqxDateTimeInput({ disabled: !val });
+        }
+    },
     computed: {
         styleD: function () {
             return {
@@ -101,10 +124,21 @@ Vue.component('fltdate', {
         },
         valuable: function () {
             return !this.ctrl.enablable || this.ctrl.enabled;
-        }
+        },
+        //enabled: {
+        //    // геттер:
+        //    get: function () {
+        //        return this.isEnabled;
+        //    },
+        //    // сеттер:
+        //    set: function (newValue) {
+        //        alert(newValue);
+        //        this.isEnabled = newValue;
+        //    }
+        //}
     },
     props: ['id','ctrl'],
-    template: '<div v-bind:style="styleD"><input v-model="ctrl.filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><div style="position:relative;top:-42px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div></div>'
+    template: '<div v-bind:style="styleD"><div style="color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><input v-model="ctrl.filter_value" v-bind:id="id" v-bind:style="styleI" type="text"><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable" v-on:change="setEnabled($event.target.checked)"></enabler></div>'
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    

@@ -133,16 +133,17 @@
         }
     </style>
 
-    <div  style="position:absolute;top:0px;left:0px">
+    <div style="position:absolute;top:0px;left:0px">
         <div id="jqxLayout">
             <div data-container="ModulesTree">
                 <div id="modulesTree" style="border: none;">
                 </div>
             </div>
             <div data-container="HelpPanel">
-                <div id="helpText" style="position:absolute;left:60px;top:100px; "></!--div>
+                <div id="helpText" style="position:absolute;left:60px;top:100px; ">
+                    </!--div>
 
-                <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
+                    <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
                 <button onclick="alert(objFilter.GetFilter())">Get filter</button>
                 <input type="button" id="saveState" value="Save State" />
                 <input type="button" id="loadState" value="Load State" />
@@ -155,66 +156,68 @@
 
                 <div style="margin-top: 20px" id="jqxlistbox"></div-->
 
+                </div>
             </div>
         </div>
-    </div>
 
-    <div style="position:absolute;top:5px;right:200px">
-        <a href="/Home/Index">Home</a>
-    </div>
-
-    <div id="window" style="display:none">
-        <div>
-            jqxEditor
+        <div style="position:absolute;top:5px;right:200px">
+            <a href="/Home/Index">Home</a>
         </div>
-        <div>
-            <div id="editor"></div>
+
+        <div id="window" style="display:none">
             <div>
-                <input type="button" id="ok" value="OK" style="margin-right: 10px" />
-                <input type="button" id="cancel" value="Cancel" />
+                jqxEditor
+            </div>
+            <div>
+                <div id="editor"></div>
+                <div>
+                    <input type="button" id="ok" value="OK" style="margin-right: 10px" />
+                    <input type="button" id="cancel" value="Cancel" />
+                </div>
             </div>
         </div>
-    </div>
 
 
-    @section Scripts {
-        @Scripts.Render("~/dist/util.js")
-        @Scripts.Render("~/dist/vue.js")
-        @Scripts.Render("~/dist/jstree.js")
-        @Scripts.Render("~/dist/lantree.js")
-        @Scripts.Render("~/dist/vue_filter.js")
-        @Scripts.Render("~/dist/vue_edit.js")
-        @Scripts.Render("~/dist/vue_obj.js")
-        @Scripts.Render("~/jqwidgets/jqxcore.js")
-        @Scripts.Render("~/jqwidgets/jqxribbon.js")
-        @Scripts.Render("~/jqwidgets/jqxlayout.js")
-        @Scripts.Render("~/jqwidgets/jqxdockinglayout.js")
-        @Scripts.Render("~/jqwidgets/jqxdata.js")
-        @Scripts.Render("~/jqwidgets/jqxbuttons.js")
-        @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
-        @Scripts.Render("~/jqwidgets/jqxlistbox.js")
-        @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")
-        @Scripts.Render("~/jqwidgets/jqxmenu.js")
-        @Scripts.Render("~/scripts/demos.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-        @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")
-        @Scripts.Render("~/jqwidgets/jqxpanel.js")
-        @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
-        @Scripts.Render("~/jqwidgets/jqxwindow.js")
-        @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
-        @Scripts.Render("~/jqwidgets/jqxsplitter.js")
-        @Scripts.Render("~/jqwidgets/jqxeditor.js")
-        @*@Scripts.Render("~/jqwidgets/jqxtree.js")*@
-        @Scripts.Render("~/jqwidgets/jqxtextarea.js")
+        @section Scripts {
+            @Scripts.Render("~/dist/util.js")
+            @Scripts.Render("~/dist/vue.js")
+            @Scripts.Render("~/dist/jstree.js")
+            @Scripts.Render("~/dist/lantree.js")
+            @Scripts.Render("~/dist/vue_filter.js")
+            @Scripts.Render("~/dist/vue_edit.js")
+            @Scripts.Render("~/dist/vue_obj.js")
+            @Scripts.Render("~/jqwidgets/jqxcore.js")
+            @Scripts.Render("~/jqwidgets/jqxribbon.js")
+            @Scripts.Render("~/jqwidgets/jqxlayout.js")
+            @Scripts.Render("~/jqwidgets/jqxdockinglayout.js")
+            @Scripts.Render("~/jqwidgets/jqxdata.js")
+            @Scripts.Render("~/jqwidgets/jqxbuttons.js")
+            @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
+            @Scripts.Render("~/jqwidgets/jqxlistbox.js")
+            @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")
+            @Scripts.Render("~/jqwidgets/jqxmenu.js")
+            @*@Scripts.Render("~/scripts/demos.js")*@
+            @Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")
+            @Scripts.Render("~/jqwidgets/jqxpanel.js")
+            @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
+            @Scripts.Render("~/jqwidgets/jqxwindow.js")
+            @Scripts.Render("~/jqwidgets/jqxscrollbar.js")
+            @Scripts.Render("~/jqwidgets/jqxsplitter.js")
+            @Scripts.Render("~/jqwidgets/jqxeditor.js")
+            @*@Scripts.Render("~/jqwidgets/jqxtree.js")*@
+            @Scripts.Render("~/jqwidgets/jqxtextarea.js")
+            @Scripts.Render("~/jqwidgets/jqxdatetimeinput.js")
+            @Scripts.Render("~/jqwidgets/jqxcalendar.js")
 
-    }
+        }
 
 </body>
 </html>
