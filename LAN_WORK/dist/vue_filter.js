@@ -21,23 +21,26 @@ methods:{
 },
 
 computed: {
-  styleD: function () {
-    return {
-        position: 'absolute',
-        left: this.ctrl.left + 'px',
-        top: this.ctrl.top + 'px',
+    styleD: function () {
+        return {
+            position: 'absolute',
+            left: this.ctrl.left + 'px',
+            top: this.ctrl.top + 'px',
+        }
+    },
+    valuable: function () {
+        return !this.ctrl.enablable || this.ctrl.enabled;
+    },
+    styleI: function () {
+        return {
+            width: this.ctrl.width + 'px',
+            height: this.ctrl.height + 'px',
+        }
     }
-  },
-  styleI: function () {
-    return {
-        width: this.ctrl.width + 'px',
-        height: this.ctrl.height + 'px',
-    }
-  }
 },
 props: ['id','ctrl'],
 
-    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text" v-bind:readonly="!ctrl.enabled" v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><enabler v-bind:ctrl="ctrl"></enabler></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text" v-bind:readonly="!valuable" v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><enabler v-bind:ctrl="ctrl" v-if="ctrl.enablable"></enabler></div>'
 });
 
 Vue.component('fltsel', {
@@ -136,7 +139,7 @@ function initFilter(className, filterModel) {
             GetFilter: function () {
                 let result = new Array();
                 this.$children.forEach(function (item) {
-                    if (item.ctrl.filter_value)
+                    if (item.ctrl.filter_value && item.valuable)
                         result.push({
                             Name: item.ctrl.data_field,
                             Value: item.ctrl.filter_value
