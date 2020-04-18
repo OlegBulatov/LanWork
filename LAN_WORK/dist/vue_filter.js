@@ -1,3 +1,17 @@
+Vue.component('enabler', {
+    computed: {
+        styleD: function () {
+            return {
+                position: 'absolute',
+                left: '-20px',
+                top: '0px',
+            }
+        }
+    },
+    props: ['value', 'ctrl'],
+    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="ctrl.enabled" ></div>'
+});
+
 Vue.component('fltdiv', {
 
 methods:{
@@ -23,7 +37,7 @@ computed: {
 },
 props: ['id','ctrl'],
 
-    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text"  v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div></div>'
+    template: '<div v-bind:id="id" v-bind:style="styleD"><input type="text" v-bind:readonly="!ctrl.enabled" v-bind:style="styleI" v-model="ctrl.filter_value" /><div style="position:relative;top:-40px;left:0px;color:black;font-size:10pt;">{{ ctrl.caption ? ctrl.caption : ctrl.data_field }}</div><enabler v-bind:ctrl="ctrl"></enabler></div>'
 });
 
 Vue.component('fltsel', {
@@ -58,9 +72,11 @@ Vue.component('fltdate', {
     mounted: function () {
         $('#' + this.id).datepicker({
             buttonImage: "/dist/themes/default/Calendar__.png", showOn: "button", buttonImageOnly: true, changeMonth: true, buttonText: "choose date",
-            dateFormat: 'dd.mm.yy', onSelect: function () {
-                var event = new Event('input');
-                this.dispatchEvent(event); } });
+            dateFormat: 'dd.mm.yy',
+            onSelect: function () {
+                this.dispatchEvent(new Event('input')); 
+            }
+        });
     },
 
     computed: {
