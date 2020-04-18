@@ -246,15 +246,6 @@ $.fn.clientObj = function (className) {
 
 
         gridName = "#" + className;
-        //let gridContainer = $('#gcontainer');
-        //gridContainer.empty();
-        //$('<div>', {
-        //    id: className + 'ToolBar',
-        //    style: 'position:absolute;left:0px;width:10px;height:100%'
-        //}).appendTo(gridContainer);
-        //$('<div>', {
-        //    id: className
-        //}).appendTo(gridContainer);
         $(gridName).jqxGrid(
             {
                 width: 1200,//getWidth('Grid'),
@@ -344,6 +335,9 @@ $.fn.clientObj = function (className) {
                 controllers: []
             },
             methods: {
+                GetFilterFormMinHeight() {
+                    return this.filterObject ? this.filterObject.minFormHeight : 0;
+                },
                 GetFilter: function () {
                     if (this.controllers.length > 0) {
                         var myClassName = this.class_name;
@@ -444,9 +438,11 @@ $.fn.clientObj = function (className) {
                     xhr.send(JSON.stringify(body));
                 },
                 Collapse() {
+                    $('#f_spl' + this.class_name).jqxSplitter('collapse');
                     $('#d_spl' + this.class_name).jqxSplitter('collapse');
                 },
                 Expand() {
+                    $('#f_spl' + this.class_name).jqxSplitter('expand');
                     $('#d_spl' + this.class_name).jqxSplitter('expand');
                 },
                 Link(linkClassName) {

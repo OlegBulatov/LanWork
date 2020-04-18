@@ -135,46 +135,59 @@ Vue.component('fltdate', {
 
 function initFilter(className, filterModel) {
     var objFilter = null;
+    if (filterModel && filterModel.length) {
 
-    var filterDiv = document.getElementById('filterForm' + className);
-    if (filterDiv)
-        filterDiv.innerHTML = "";
-    $('#filterForm' + className).filterForm(idGenerator);
-    //if (objFilter)
-    //    objFilter.destroy();
+        var filterDiv = document.getElementById('filterForm' + className);
+        if (filterDiv)
+            filterDiv.innerHTML = "";
+        $('#filterForm' + className).filterForm(idGenerator);
+        //if (objFilter)
+        //    objFilter.destroy();
 
-    objFilter = new Vue({
-        el: '#filterForm' + className,
-        data: {
-            selected_index: -1,
-            ctrls: filterModel
-        },
-        methods: {
-            ProcessKey: function (key, altKey, ctrlKey, shiftKey) {
-                if (key == "Control")
-                    return;
-                console.log(key);
+        objFilter = new Vue({
+            el: '#filterForm' + className,
+            data: {
+                selected_index: -1,
+                ctrls: filterModel
             },
-            GetFilter: function () {
-                let result = new Array();
-                this.$children.forEach(function (item) {
-                    if (item.ctrl.filter_value && item.valuable)
-                        result.push({
-                            Name: item.ctrl.data_field,
-                            Value: item.ctrl.filter_value
-                        });
-                });
-                return JSON.stringify(result);
+            computed: {
+                minFormHeight: function () {
+                    let h = 0;
+                    this.ctrls.forEach(function (item) {
+                        let Hi = item.top + item.height + 25;
+                        if (h < Hi)
+                            h = Hi;
+                    });
+                    return h;
+                }
             },
-            GetId: function () {
-                return idGenerator.next().value;
-            },
-            destroy: function () {
-                this.$destroy();
+            methods: {
+                ProcessKey: function (key, altKey, ctrlKey, shiftKey) {
+                    if (key == "Control")
+                        return;
+                    console.log(key);
+                },
+                GetFilter: function () {
+                    let result = new Array();
+                    this.$children.forEach(function (item) {
+                        if (item.ctrl.filter_value && item.valuable)
+                            result.push({
+                                Name: item.ctrl.data_field,
+                                Value: item.ctrl.filter_value
+                            });
+                    });
+                    return JSON.stringify(result);
+                },
+                GetId: function () {
+                    return idGenerator.next().value;
+                },
+                destroy: function () {
+                    this.$destroy();
+                }
+
             }
-
-        }
-    });
+        });
+    }
     return objFilter;
     //$(document).keydown(function (e) { objFilter.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey) });
 }

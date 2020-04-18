@@ -50,7 +50,7 @@
             $('#jqxLayout').jqxDockingLayout('addFloatGroup', 1000, 800, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
                 clObj = $('#' + className + 'Browser').clientObj(className);
             });
-            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 100, min: 60 }, { size: 800, min: 200 }] });
+            $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: clObj.GetFilterFormMinHeight(), min: clObj.GetFilterFormMinHeight(), collapsible: true }, { size: 800, min: 200, collapsible: false }] });
             $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 450, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
             dockPanel(className);
         }
