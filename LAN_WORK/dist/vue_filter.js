@@ -88,7 +88,7 @@ Vue.component('fltsel', {
 Vue.component('fltdate', {
     mounted: function () {
         var self = this;
-        $('#' + this.id).jqxDateTimeInput({ value: null, width: this.styleI.width, height: this.styleI.height });
+        $('#' + this.id).jqxDateTimeInput({ value: null, width: this.styleI.width, height: this.styleI.height, disabled: !this.valuable });
         $('#' + this.id).on('change', function (event) {
             self.ctrl.filter_value = event.target.value;
         }); 
