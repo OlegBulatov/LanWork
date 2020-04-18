@@ -21,7 +21,8 @@
 </head>
 <body onload="InitModuleTree();">
 
-    @Scripts.Render("~/dist/main_layout.js")
+    @*@Scripts.Render("~/dist/main_layout.js")*@
+    <script src="~/dist/main_layout.js"></script>
     <script>
         function InitModuleTree() {
             $('#jqxLayout').jqxDockingLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
@@ -216,6 +217,7 @@
             @Scripts.Render("~/jqwidgets/jqxtextarea.js")
             @Scripts.Render("~/jqwidgets/jqxdatetimeinput.js")
             @Scripts.Render("~/jqwidgets/jqxcalendar.js")
+            @Scripts.Render("~/jqwidgets/jqxtree.js")
 
         }
 

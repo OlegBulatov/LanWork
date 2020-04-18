@@ -1,14 +1,14 @@
 ﻿[
 {"id":"1","text":"Администрирование","children":
 	[
-	{"id":"3","text":"Объекты","children":false,"data":"OBJECT_TYPE"},
-	{"id":"4","text":"Модули","children":false,"data":"MODULE"},
-	{"id":"5","text":"Формы","children":false,"data":"FORM"}
-	],"rank":0},
+	{"id":"3","text":"Объекты","children":false,"icon":"BrowseForm","data":"OBJECT_TYPE"},
+	{"id":"4","text":"Модули","children":false,"icon":"BrowseForm","data":"MODULE"},
+	{"id":"5","text":"Формы","children":false,"icon":"BrowseForm","data":"FORM"}
+	],"icon":"Package","rank":0},
 {"id":"2","text":"Модули","children":
 	[
-	{"id":"6","text":"Серверы","children":false,"data":"LNT_SERVER"},
-	{"id":"7","text":"Заявки JIRA","children":false,"data":"JIRA_ISSUE"}
-	]}
+	{"id":"6","text":"Серверы","children":false,"icon":"BrowseForm","data":"LNT_SERVER"},
+	{"id":"7","text":"Заявки JIRA","children":false,"icon":"BrowseForm","data":"JIRA_ISSUE"}
+	],"icon":"Package"}
 ]
 
