@@ -120,6 +120,32 @@ $.fn.clientObj = function (className) {
             okButton.jqxButton({ theme: theme });
             okButton.click(function (event) {
                 //console.log(getColumnsData());
+                var $win = null;
+                if (document.getElementById('infowin'))
+                    $win = $('#infowin');
+                else {
+                    $win = $("<div id='infowin'><div id='info'></div></div>");
+                    $("body").append($win);
+                }
+                $win.jqxWindow({
+                    autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+                    resizable: false, isModal: true,
+                    //okButton: $('#ok'), cancelButton: $('#cancel'),
+                    initContent: function () {
+                        $("#info").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(JSON.stringify(getColumnsData()));
+                        //$('#ok').jqxButton({
+                        //    width: '65px',
+                        //    theme: 'energyblue'
+                        //});
+                        //$('#cancel').jqxButton({
+                        //    width: '65px',
+                        //    theme: 'energyblue'
+                        //});
+                        //$('#ok').focus();
+                    }
+                });
+                $("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
+                $win.jqxWindow('open');
                 isTuning = false;
                 tuneDiv.hide();
             });
@@ -291,6 +317,7 @@ $.fn.clientObj = function (className) {
                     ColumnModels[className].push(
                         {
                             text: item.label,
+                            align: 'center',
                             datafield: item.value,
                             width: 80,
                             columngroup: item.parentid,
