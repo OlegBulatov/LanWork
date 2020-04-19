@@ -294,7 +294,7 @@ $.fn.clientObj = function (className) {
                             datafield: item.value,
                             width: 80,
                             columngroup: item.parentid,
-                            columntype: 'textbox',
+                            columntype: item.columntype ? item.columntype : 'textbox',
                             createeditor: createEditor,
                             initeditor: initEditor,
                             geteditorvalue: getEditorValue
