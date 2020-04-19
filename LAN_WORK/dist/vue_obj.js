@@ -112,12 +112,19 @@ $.fn.clientObj = function (className) {
 
             var data = [];
             var N = 0; 
+            var groups = new Object();
             var gridColumnGroups = $(gridName).jqxGrid('columngroups');
-            gridColumnGroups.forEach(function (item) {
-                data.push({ id: item.name, label: item.text, value: item.name, checked: true });
-            });
             var gridColumns = $(gridName).jqxGrid('columns').records;
             gridColumns.forEach(function (item) {
+                if (item.columngroup && !groups[item.columngroup]) {
+                    var groupName = item.columngroup;
+                    gridColumnGroups.forEach(function (item) {
+                        if (item.name == groupName) {
+                            data.push({ id: item.name, label: item.text, value: item.name, checked: true });
+                            groups[item.columngroup] = item.name;
+                        }
+                    });
+                }
                 data.push({ id: N++, parentid: item.columngroup, label: item.text, value: item.datafield, checked: !item.hidden });
             });
             var source =
