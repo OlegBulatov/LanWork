@@ -5,7 +5,6 @@ var loadedClasses = new Object();
 $.fn.clientObj = function (className) {
     var cObj;
     var SortState = new Object();
-    var LoadedState = new Object();
     var ColumnModels = new Object();
 
     var editedObject = new Object();
@@ -67,11 +66,12 @@ $.fn.clientObj = function (className) {
                 "top": statusbar.offset().top + 40,
                 "left": statusbar.offset().left,
                 "z-index": 35,
-                "height": 250,
+                "height": 350,
                 "background-color": "white",
                 "border": "2px solid blue"
             });
             tuneListBox = $("<div>");
+            $("body").append(tuneDiv);
             var clpsButton = $("<div title='Collapse' style='position:absolute;left:5px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/collapse.gif'/></div>");
             clpsButton.jqxButton({ theme: theme });
             clpsButton.click(function (event) {
@@ -109,25 +109,60 @@ $.fn.clientObj = function (className) {
             tuneDiv.append(unLinkButton);
             tuneDiv.append(okButton);
             //tuneHideButton
-            var listSource = new Array();
-            var gridColumns = $(gridName).jqxGrid('columns').records;
-            gridColumns.forEach(function (item, i) {
-                listSource[i] = { label: item.text, value: item.datafield, checked: !item.hidden };
-            });
-            tuneListBox.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
-            tuneListBox.on('checkChange', function (event) {
-                event.stopPropagation();
-                $(gridName).jqxGrid('beginupdate');
-                if (event.args.checked) {
-                    $(gridName).jqxGrid('showcolumn', event.args.value);
-                }
-                else {
-                    $(gridName).jqxGrid('hidecolumn', event.args.value);
-                }
-                $(gridName).jqxGrid('endupdate');
-            });
 
-            $("body").append(tuneDiv);
+            var data = [];
+            var N = 0; 
+            var gridColumnGroups = $(gridName).jqxGrid('columngroups');
+            gridColumnGroups.forEach(function (item) {
+                data.push({ id: item.name, label: item.text, value: item.name, checked: true });
+            });
+            var gridColumns = $(gridName).jqxGrid('columns').records;
+            gridColumns.forEach(function (item) {
+                data.push({ id: N++, parentid: item.columngroup, label: item.text, value: item.datafield, checked: !item.hidden });
+            });
+            var source =
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'id' },
+                    { name: 'parentid' },
+                    { name: 'label' },
+                    { name: 'value' },
+                    { name: 'checked' }
+                ],
+                id: 'id',
+                localdata: data
+            };
+            // create data adapter.
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // perform Data Binding.
+            dataAdapter.dataBind();
+            // get the tree items. The first parameter is the item's id. The second parameter is the parent item's id. The 'items' parameter represents 
+            // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
+            // specifies the mapping between the 'text' and 'label' fields.  
+            var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', []);
+            tuneListBox.jqxTree({ source: records, width: '300px', height: '300px' });
+            tuneListBox.jqxTree('checkboxes', true);
+            //hasThreeStates: true, checkboxes: true, 
+
+            //var listSource = new Array();
+            //var gridColumns = $(gridName).jqxGrid('columns').records;
+            //gridColumns.forEach(function (item, i) {
+            //    listSource[i] = { label: item.text, value: item.datafield, checked: !item.hidden };
+            //});
+            //tuneListBox.jqxListBox({ source: listSource, width: 200, height: 200, checkboxes: true });
+            //tuneListBox.on('checkChange', function (event) {
+            //    event.stopPropagation();
+            //    $(gridName).jqxGrid('beginupdate');
+            //    if (event.args.checked) {
+            //        $(gridName).jqxGrid('showcolumn', event.args.value);
+            //    }
+            //    else {
+            //        $(gridName).jqxGrid('hidecolumn', event.args.value);
+            //    }
+            //    $(gridName).jqxGrid('endupdate');
+            //});
+
         });
         // reload grid data.
         reloadButton.click(function (event) {
@@ -223,6 +258,7 @@ $.fn.clientObj = function (className) {
                     text: item.DisplayName,
                     datafield: item.Name,
                     width: 80,
+                    columngroup: i < 5 ? 'main' : i > 7 ? 'additional' : null,
                     columntype: getColumnType(item.TypeName),
                     createeditor: createEditor,
                     initeditor: function (row, cellvalue, editor, celltext, pressedChar) {
@@ -255,7 +291,7 @@ $.fn.clientObj = function (className) {
                 source: cObj.GetDataAdapter(),
                 sortable: true,
                 columnsresize: true,
-                columnsreorder: true,
+                //columnsreorder: true,
                 virtualmode: true,
                 pageable: true,
                 editable: true,
@@ -263,15 +299,17 @@ $.fn.clientObj = function (className) {
                 rendergridrows: renderGridRows,
                 //showtoolbar: true,
                 //rendertoolbar: renderToolBar,
-                columns: ColumnModels[className]
+                columns: ColumnModels[className],
+                columngroups:
+                    [
+                        { text: 'Основные', align: 'center', name: 'main' },
+                        { text: 'Дополнительные', align: 'center', name: 'additional' }
+                    ]
             });
 
         $(gridName).jqxGrid({ pagermode: "simple" });
 
-        //if (!LoadedState[className]) {
         $(gridName).jqxGrid('loadstate');
-        //    LoadedState[className] = true;
-        //}
 
         $(gridName).on("sort", function (event) {
             SortState[className] = event.args.sortinformation;

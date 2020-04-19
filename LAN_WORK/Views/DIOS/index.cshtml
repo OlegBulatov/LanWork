@@ -142,9 +142,9 @@
             </div>
             <div data-container="HelpPanel">
                 <div id="helpText" style="position:absolute;left:60px;top:100px; ">
-                    </!--div>
+             </div>
 
-                    <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
+                <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
                 <button onclick="alert(objFilter.GetFilter())">Get filter</button>
                 <input type="button" id="saveState" value="Save State" />
                 <input type="button" id="loadState" value="Load State" />
@@ -154,11 +154,52 @@
                 <button onclick="alert(GlId());">get ID</button>
                 <button onclick="$('#d_splFORM').jqxSplitter('collapse');">Collapse</button>
                 <button onclick="$('#d_splFORM').jqxSplitter('expand');">Expand</button>
+                <button onclick="showTree();">Tree example</button>
+                <script>function showTree() {
+                //$tree = $("#jqxlistbox");
+                $tree = $("<div>");
+                $("body").append($tree);
+                $tree.css({
+                "position": "absolute",
+                "top": 300,
+                "left": 600,
+                    "height": 350,
+                    "width": 300,
+                    "background-color": "white",
+                    "border": "2px solid blue"
+                });
+            var data = [];
+            data.push({ id: 1, label: 'item1', value: 'x', checked: true });
+            data.push({ id: 2, label: 'item2', value: 'x', checked: false });
+            data.push({ id: 3, label: 'item3', value: 'x', checked: true });
+            var source =
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'id' },
+                    { name: 'parentid' },
+                    { name: 'label' },
+                    { name: 'value' },
+                    { name: 'checked' }
+                ],
+                id: 'id',
+                localdata: data
+            };
+            // create data adapter.
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // perform Data Binding.
+            dataAdapter.dataBind();
+            // get the tree items. The first parameter is the item's id. The second parameter is the parent item's id. The 'items' parameter represents 
+            // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
+            // specifies the mapping between the 'text' and 'label' fields.  
+            var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', []);
+            $tree.jqxTree({ source: records, checkboxes: true, width: '300px', height: '300px' });
 
-                <div style="margin-top: 20px" id="jqxlistbox"></div-->
+                    }</script>
+                <div style="margin-top: 20px" id="jqxlistbox"></div>
 
-                </div>
             </div>
+            </div-->
         </div>
 
         <div style="position:absolute;top:5px;right:200px">
