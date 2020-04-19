@@ -6,11 +6,31 @@ $.fn.clientObj = function (className) {
     var cObj;
     var SortState = new Object();
     var ColumnModels = new Object();
+    var ColumnGroups = new Object();
 
     var editedObject = new Object();
     var gridName = '#grid';
 
     function renderToolBar(statusbar) {
+        var getColumnsData = function () {
+            var data = [];
+            var groups = new Object();
+            var gridColumnGroups = $(gridName).jqxGrid('columngroups');
+            var gridColumns = $(gridName).jqxGrid('columns').records;
+            gridColumns.forEach(function (item, i) {
+                if (item.columngroup && !groups[item.columngroup]) {
+                    var groupName = item.columngroup;
+                    gridColumnGroups.forEach(function (item) {
+                        if (item.name == groupName) {
+                            data.push({ id: item.name, label: item.text, value: item.name, checked: true });
+                            groups[groupName] = groupName;
+                        }
+                    });
+                }
+                data.push({ id: i, parentid: item.columngroup, label: item.text, value: item.datafield, checked: !item.hidden });
+            });
+            return data;
+        };
         // appends buttons to the status bar.
         var container = $("<div style='overflow: hidden;'></div>");
         var tuneButton = $("<div title='Grid settings'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/></div>");
@@ -99,6 +119,7 @@ $.fn.clientObj = function (className) {
             var okButton = $("<div title='Save' style='position:absolute;left:125px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
             okButton.jqxButton({ theme: theme });
             okButton.click(function (event) {
+                //console.log(getColumnsData());
                 isTuning = false;
                 tuneDiv.hide();
             });
@@ -110,23 +131,6 @@ $.fn.clientObj = function (className) {
             tuneDiv.append(okButton);
             //tuneHideButton
 
-            var data = [];
-            var N = 0; 
-            var groups = new Object();
-            var gridColumnGroups = $(gridName).jqxGrid('columngroups');
-            var gridColumns = $(gridName).jqxGrid('columns').records;
-            gridColumns.forEach(function (item) {
-                if (item.columngroup && !groups[item.columngroup]) {
-                    var groupName = item.columngroup;
-                    gridColumnGroups.forEach(function (item) {
-                        if (item.name == groupName) {
-                            data.push({ id: item.name, label: item.text, value: item.name, checked: true });
-                            groups[item.columngroup] = item.name;
-                        }
-                    });
-                }
-                data.push({ id: N++, parentid: item.columngroup, label: item.text, value: item.datafield, checked: !item.hidden });
-            });
             var source =
             {
                 datatype: "json",
@@ -138,7 +142,7 @@ $.fn.clientObj = function (className) {
                     { name: 'checked' }
                 ],
                 id: 'id',
-                localdata: data
+                localdata: getColumnsData()
             };
             // create data adapter.
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -148,10 +152,19 @@ $.fn.clientObj = function (className) {
             // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
             // specifies the mapping between the 'text' and 'label' fields.  
             var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', []);
-            tuneListBox.jqxTree({ source: records, width: '300px', height: '300px' });
-            tuneListBox.jqxTree('checkboxes', true);
-            //hasThreeStates: true, checkboxes: true, 
-
+            tuneListBox.jqxTree({ source: records, hasThreeStates: true, checkboxes: true, width: '300px', height: '300px' });
+            tuneListBox.on('checkChange', function (event) {
+                var item = tuneListBox.jqxTree('getItem', event.args.element);
+                event.stopPropagation();
+                $(gridName).jqxGrid('beginupdate');
+                if (event.args.checked) {
+                    $(gridName).jqxGrid('showcolumn', item.value);
+                }
+                else {
+                    $(gridName).jqxGrid('hidecolumn', item.value);
+                }
+                $(gridName).jqxGrid('endupdate');
+            });
             //var listSource = new Array();
             //var gridColumns = $(gridName).jqxGrid('columns').records;
             //gridColumns.forEach(function (item, i) {
@@ -211,7 +224,13 @@ $.fn.clientObj = function (className) {
         //        var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
         //        return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
         //}
-
+        var getEditorValue = function (row, cellvalue, editor) {
+            return $('#editor').jqxTextArea('val');
+        };
+        var initEditor = function (row, cellvalue, editor, celltext, pressedChar) {
+            $('#editor').jqxTextArea('val', cellvalue);
+            $('#window').jqxWindow('open');
+        };
         var createEditor = function (row, cellvalue, editor) {
             $('#window').jqxWindow({
                 autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
@@ -251,42 +270,69 @@ $.fn.clientObj = function (className) {
         }
 
         /////////////////////////////////////////////////////////////////////////////////here starts initialization of Grid////////////////////////////////////////////////////////////////////////////////
-
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/Object/ColumnsList?class_name=' + className, false);
+        var formModel = "";
+        var data = "";
+
+        xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=1', false);
         xhr.send();
         data = JSON.parse(xhr.responseText);
-        ColumnModels[className] = new Array();
-        var columnsInfo = JSON.parse(data.response_body);
-        if (columnsInfo && columnsInfo.length)
-            columnsInfo.forEach(function (item, i) {
-                ColumnModels[className][i] =
-                {
-                    text: item.DisplayName,
-                    datafield: item.Name,
-                    width: 80,
-                    columngroup: i < 5 ? 'main' : i > 7 ? 'additional' : null,
-                    columntype: getColumnType(item.TypeName),
-                    createeditor: createEditor,
-                    initeditor: function (row, cellvalue, editor, celltext, pressedChar) {
-                        $('#editor').jqxTextArea('val', cellvalue);
-                        $('#window').jqxWindow('open');
-                    },
-                    geteditorvalue: function (row, cellvalue, editor) {
-                        return $('#editor').jqxTextArea('val');
-                    },
-                    cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
-                        // return the old value, if the new value is empty.
-                        //console.log(newvalue);
-                        //if (newvalue == "") return oldvalue;
-                    },
-                    cellbeginedit: function (row, datafield, columntype) {
-                        editedObject.DataField = datafield;
-                        return true;
-                    }
-                };
-            });
+        formModel = data.response_body ? JSON.parse(data.response_body) : [];
+        //console.log(formModel);
 
+        ColumnModels[className] = new Array();
+        if (formModel.length) {
+            ColumnGroups[className] = [];
+            formModel.forEach(function (item) {
+                if (item.is_group) {
+                    ColumnGroups[className].push({ text: item.label, align: 'center', name: item.id });
+                }
+                else {
+                    ColumnModels[className].push(
+                        {
+                            text: item.label,
+                            datafield: item.value,
+                            width: 80,
+                            columngroup: item.parentid,
+                            columntype: 'textbox',
+                            createeditor: createEditor,
+                            initeditor: initEditor,
+                            geteditorvalue: getEditorValue
+                        });
+                }
+            });
+        }
+        else {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Object/ColumnsList?class_name=' + className, false);
+            xhr.send();
+            data = JSON.parse(xhr.responseText);
+            var columnsInfo = JSON.parse(data.response_body);
+            if (columnsInfo && columnsInfo.length) {
+                columnsInfo.forEach(function (item, i) {
+                    ColumnModels[className][i] =
+                    {
+                        text: item.DisplayName,
+                        datafield: item.Name,
+                        width: 80,
+                        columntype: getColumnType(item.TypeName),
+                        createeditor: createEditor,
+                        initeditor: initEditor,
+                        geteditorvalue: getEditorValue,
+                        cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
+                            // return the old value, if the new value is empty.
+                            //console.log(newvalue);
+                            //if (newvalue == "") return oldvalue;
+                        },
+                        cellbeginedit: function (row, datafield, columntype) {
+                            editedObject.DataField = datafield;
+                            return true;
+                        }
+                    };
+                });
+            }
+        }
+        //console.log(ColumnModels[className]);
 
         gridName = "#" + className;
         $(gridName).jqxGrid(
@@ -307,11 +353,7 @@ $.fn.clientObj = function (className) {
                 //showtoolbar: true,
                 //rendertoolbar: renderToolBar,
                 columns: ColumnModels[className],
-                columngroups:
-                    [
-                        { text: 'Основные', align: 'center', name: 'main' },
-                        { text: 'Дополнительные', align: 'center', name: 'additional' }
-                    ]
+                columngroups: ColumnGroups[className]
             });
 
         $(gridName).jqxGrid({ pagermode: "simple" });
@@ -334,12 +376,11 @@ $.fn.clientObj = function (className) {
 
     }
 
-    var formModel = "";
-    var xhr = new XMLHttpRequest();
+    xhr = new XMLHttpRequest();
     xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=3', false);
 
     xhr.send();
-    var data = JSON.parse(xhr.responseText);
+    data = JSON.parse(xhr.responseText);
     formModel = data.response_body ? JSON.parse(data.response_body) : [];
     var vueEdit = initEdit(className, formModel);
 
@@ -347,7 +388,7 @@ $.fn.clientObj = function (className) {
     xhr.open('GET', '/Object/GetFormModel?class_name=' + className + '&form_type=2', false);
 
     xhr.send();
-    var data = JSON.parse(xhr.responseText);
+    data = JSON.parse(xhr.responseText);
     formModel = data.response_body ? JSON.parse(data.response_body) : [];
     var vueFilter = initFilter(className, formModel);
 
