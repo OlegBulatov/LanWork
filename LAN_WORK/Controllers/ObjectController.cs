@@ -28,6 +28,13 @@ namespace LanWork.Controllers
             string result = (new ObjectControllerAdapter()).GetFormModel(class_name, form_type);
             return result;
         }
+
+        [HttpPost]
+        public string SetFormModel(string class_name, int form_type, string value)
+        {
+            string result = (new ObjectControllerAdapter()).SetFormModel(class_name, form_type, value);
+            return result;
+        }
         public string PureList(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
         {
             string result = (new ObjectControllerAdapter()).List(class_name, filter, order, limit, offset);

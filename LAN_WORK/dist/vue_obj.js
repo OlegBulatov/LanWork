@@ -15,7 +15,7 @@ $.fn.clientObj = function (className) {
         var getColumnsDataFromArray = function (columnsData) {
             var data = [];
             columnsData.forEach(function (item) {
-                data.push({ id: item.id, parentid: item.parentId, label: item.label, value: item.value, checked: item.checked }); //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
+                data.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked }); //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
             });
             return data;
         };
@@ -24,6 +24,7 @@ $.fn.clientObj = function (className) {
             var groups = new Object();
             var gridColumnGroups = $(gridName).jqxGrid('columngroups');
             var gridColumns = $(gridName).jqxGrid('columns').records;
+            console.log(gridColumns);
             gridColumns.forEach(function (item, i) {
                 if (item.columngroup && !groups[item.columngroup]) {
                     var groupName = item.columngroup;
@@ -126,37 +127,60 @@ $.fn.clientObj = function (className) {
             var okButton = $("<div title='Save' style='position:absolute;left:125px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
             okButton.jqxButton({ theme: theme });
             okButton.click(function (event) {
-                //console.log(getColumnsData());
-                var $win = null;
-                if (document.getElementById('infowin'))
-                    $win = $('#infowin');
-                else {
-                    $win = $("<div id='infowin'><div id='info'></div></div>");
-                    $("body").append($win);
-                }
-                $win.jqxWindow({
-                    autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
-                    resizable: false, isModal: true,
-                    //okButton: $('#ok'), cancelButton: $('#cancel'),
-                    initContent: function () {
-                        var treeItems = tuneListBox.jqxTree('getItems');
-                        $("#info").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(JSON.stringify(getColumnsDataFromArray(treeItems)));
-                        //$('#ok').jqxButton({
-                        //    width: '65px',
-                        //    theme: 'energyblue'
-                        //});
-                        //$('#cancel').jqxButton({
-                        //    width: '65px',
-                        //    theme: 'energyblue'
-                        //});
-                        //$('#ok').focus();
+                //var $win = null;
+                //if (document.getElementById('infowin'))
+                //    $win = $('#infowin');
+                //else {
+                //    $win = $("<div id='infowin'><div id='info'></div></div>");
+                //    $("body").append($win);
+                //}
+                //$win.jqxWindow({
+                //    autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+                //    resizable: false, isModal: true,
+                //    //okButton: $('#ok'), cancelButton: $('#cancel'),
+                //    initContent: function () {
+                //        var treeItems = tuneListBox.jqxTree('getItems');
+                //        $("#info").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(JSON.stringify(getColumnsDataFromArray(treeItems)));
+                //        //$('#ok').jqxButton({
+                //        //    width: '65px',
+                //        //    theme: 'energyblue'
+                //        //});
+                //        //$('#cancel').jqxButton({
+                //        //    width: '65px',
+                //        //    theme: 'energyblue'
+                //        //});
+                //        //$('#ok').focus();
+                //    }
+                //});
+                ////$("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
+                //var treeItems = tuneListBox.jqxTree('getItems');
+                //$("#info").jqxTextArea('val', JSON.stringify(getColumnsDataFromArray(treeItems)));
+                //$win.jqxWindow('open');
+                //console.log($(gridName).jqxGrid('getstate'));
+                var treeItems = tuneListBox.jqxTree('getItems');
+                var body = new Object();
+                body.class_name = cObj.class_name;
+                body.form_type = 1;
+                var columnsData = getColumnsDataFromArray(treeItems);
+                body.value = JSON.stringify(columnsData);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/Object/SetFormModel', false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(body));
+
+                var N = 0;
+                columnsData.forEach(function (item) {
+                    if (!item.value.is_group) {
+                        var colIsHidden = $(gridName).jqxGrid('getcolumnproperty', item.value.name, 'hidden');
+                        if (colIsHidden)
+                            $(gridName).jqxGrid('showcolumn', item.value.name);
+                        $(gridName).jqxGrid('setcolumnindex', item.value.name, N++);//если меняли местами группы, сбиваются все индексы, поэтому надо перенумеровать
+                        if (colIsHidden)
+                            $(gridName).jqxGrid('hidecolumn', item.value.name);
                     }
                 });
-                //$("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
-                var treeItems = tuneListBox.jqxTree('getItems');
-                $("#info").jqxTextArea('val', JSON.stringify(getColumnsDataFromArray(treeItems)));
-                $win.jqxWindow('open');
                 console.log($(gridName).jqxGrid('getstate'));
+                $(gridName).jqxGrid('savestate');
                 isTuning = false;
                 tuneDiv.hide();
             });
@@ -192,16 +216,22 @@ $.fn.clientObj = function (className) {
             tuneListBox.jqxTree({
                 source: records, hasThreeStates: true, checkboxes: true, allowDrag: true, allowDrop: true, width: '300px', height: '300px',
                 dragEnd: function (item, dropItem, args, dropPosition, tree) {
-                    if (+dropItem.id > 0 && dropPosition == 'inside')
+                    if (/*+dropItem.id > 0 && */dropPosition == 'inside')  //до лучших времен никуда нельзя дропать вовнутрь, можно только перед или после
+                        return false;
+                    else if (item.value.is_group ^ dropItem.value.is_group)
                         return false;
                     else {
+                        if (item.parentId != dropItem.parentId)
+                            alert('Поменялась привязка группы. Для корректного отображения необходимо перезагрузить форму.');
                         var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
                         var index_to = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
-                        if (index_from > index_to && dropPosition == 'after')
-                            index_to++;
-                        if (index_from < index_to && dropPosition == 'before')
-                            index_to--;
-                        $(gridName).jqxGrid('setcolumnindex', item.value.name, index_to);
+                        if (!item.value.is_group) {
+                            if (index_from > index_to && dropPosition == 'after')
+                                index_to++;
+                            if (index_from < index_to && dropPosition == 'before')
+                                index_to--;
+                            $(gridName).jqxGrid('setcolumnindex', item.value.name, index_to);
+                        }
                     }
                 }
             });
@@ -336,7 +366,6 @@ $.fn.clientObj = function (className) {
         if (formModel.length) {
             ColumnGroups[className] = [];
             formModel.forEach(function (item) {
-                console.log(item);
                 if (item.value.is_group) {
                     ColumnGroups[className].push({ text: item.label, align: 'center', name: item.id });
                 }
@@ -398,7 +427,7 @@ $.fn.clientObj = function (className) {
                 source: cObj.GetDataAdapter(),
                 sortable: true,
                 columnsresize: true,
-                //columnsreorder: true,
+                columnsreorder: true,
                 virtualmode: true,
                 pageable: true,
                 editable: true,
@@ -413,6 +442,10 @@ $.fn.clientObj = function (className) {
         $(gridName).jqxGrid({ pagermode: "simple" });
 
         $(gridName).jqxGrid('loadstate');
+
+        $("#grid").on('columnreordered', function (event) {
+            console.log(event.args);
+        });
 
         $(gridName).on("sort", function (event) {
             SortState[className] = event.args.sortinformation;

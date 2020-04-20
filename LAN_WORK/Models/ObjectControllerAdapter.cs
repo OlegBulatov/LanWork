@@ -25,6 +25,51 @@ namespace LanWork.Models
         private int _offset = 0;
         private int _row_count = -1;
 
+        public string SetFormModel(string class_name, int form_type, string value)
+        {
+            _className = class_name;
+            _form_type = form_type;
+            _json_object = value;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForSetFormModel), null);
+            return M.MakeResponse();
+        }
+
+        private string doTrueResponseForSetFormModel()
+        {
+            try
+            {
+                DiosSqlManager M = new DiosSqlManager();
+                ObjectFactory F = null;
+                string result = "";
+                try
+                {
+                    F = M.GetFactory("OBJECT_TYPE");
+                    IParameterCollection Params = new ParameterCollection();
+                    Params.Add("class_name", _className);
+                    IObject obj = F.GetObject(Params);
+                    Params.Clear();
+                    Params.Add("object_type", obj.id);
+                    Params.Add("form_type", _form_type);
+                    F = M.GetFactory("FORM");
+                    IObject form = F.GetObject(Params);
+                    if (form != null)
+                    {
+                        form.Load();
+                        form["content_json"] = _json_object;
+                        form.Post();
+                    }
+                }
+                catch (Exception exc)
+                {
+                    throw new Exception("Form for " + _className + " not found");
+                }
+                return result;
+            }
+            catch (Exception exc)
+            {
+                return exc.Message;
+            }
+        }
         public string GetFormModel(string class_name, int form_type)
         {
             _className = class_name;
