@@ -14,7 +14,6 @@ $.fn.clientObj = function (className) {
     function renderToolBar(statusbar) {
         var getColumnsDataFromArray = function (columnsData) {
             var data = [];
-            var groups = new Object();
             columnsData.forEach(function (item) {
                 data.push({ id: item.id, parentid: item.parentId, label: item.label, value: item.value, checked: item.checked }); //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
             });
@@ -140,7 +139,8 @@ $.fn.clientObj = function (className) {
                     resizable: false, isModal: true,
                     //okButton: $('#ok'), cancelButton: $('#cancel'),
                     initContent: function () {
-                        $("#info").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(JSON.stringify(getColumnsData()));
+                        var treeItems = tuneListBox.jqxTree('getItems');
+                        $("#info").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(JSON.stringify(getColumnsDataFromArray(treeItems)));
                         //$('#ok').jqxButton({
                         //    width: '65px',
                         //    theme: 'energyblue'
@@ -153,7 +153,8 @@ $.fn.clientObj = function (className) {
                     }
                 });
                 //$("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
-                $("#info").jqxTextArea('val', JSON.stringify(getColumnsDataFromArray(tuneListBox.jqxTree('getItems'))));
+                var treeItems = tuneListBox.jqxTree('getItems');
+                $("#info").jqxTextArea('val', JSON.stringify(getColumnsDataFromArray(treeItems)));
                 $win.jqxWindow('open');
                 console.log($(gridName).jqxGrid('getstate'));
                 isTuning = false;
@@ -194,15 +195,13 @@ $.fn.clientObj = function (className) {
                     if (+dropItem.id > 0 && dropPosition == 'inside')
                         return false;
                     else {
-                        console.log(dropItem);
-                        var index1 = $(gridName).jqxGrid('getcolumnindex', item.value.name);
-                        var index2 = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
-                        console.log({ p: dropPosition, i_from: index1, i_to: dropPosition + ' ' + index2 });
-                        if (index1 > index2 && dropPosition == 'after')
-                            index2++;
-                        if (index1 < index2 && dropPosition == 'before')
-                            index2--;
-                        $(gridName).jqxGrid('setcolumnindex', item.value.name, index2);
+                        var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
+                        var index_to = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
+                        if (index_from > index_to && dropPosition == 'after')
+                            index_to++;
+                        if (index_from < index_to && dropPosition == 'before')
+                            index_to--;
+                        $(gridName).jqxGrid('setcolumnindex', item.value.name, index_to);
                     }
                 }
             });
