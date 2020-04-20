@@ -12,6 +12,14 @@ $.fn.clientObj = function (className) {
     var gridName = '#grid';
 
     function renderToolBar(statusbar) {
+        var getColumnsDataFromArray = function (columnsData) {
+            var data = [];
+            var groups = new Object();
+            columnsData.forEach(function (item) {
+                data.push({ id: item.id, parentid: item.parentId, label: item.label, value: item.value, checked: item.checked }); //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
+            });
+            return data;
+        };
         var getColumnsData = function () {
             var data = [];
             var groups = new Object();
@@ -22,12 +30,12 @@ $.fn.clientObj = function (className) {
                     var groupName = item.columngroup;
                     gridColumnGroups.forEach(function (item) {
                         if (item.name == groupName) {
-                            data.push({ id: item.name, label: item.text, value: item.name, checked: true });
+                            data.push({ id: item.name, label: item.text, value: { is_group: true, name: groupName } });
                             groups[groupName] = groupName;
                         }
                     });
                 }
-                data.push({ id: i, parentid: item.columngroup, label: item.text, value: item.datafield, checked: !item.hidden });
+                data.push({ id: i, parentid: item.columngroup, label: item.text, value: { is_group: false, name: item.datafield, columntype: item.columntype }, checked: !item.hidden });
             });
             return data;
         };
@@ -144,8 +152,10 @@ $.fn.clientObj = function (className) {
                         //$('#ok').focus();
                     }
                 });
-                $("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
+                //$("#info").jqxTextArea('val', JSON.stringify(getColumnsData()));
+                $("#info").jqxTextArea('val', JSON.stringify(getColumnsDataFromArray(tuneListBox.jqxTree('getItems'))));
                 $win.jqxWindow('open');
+                console.log($(gridName).jqxGrid('getstate'));
                 isTuning = false;
                 tuneDiv.hide();
             });
@@ -178,16 +188,33 @@ $.fn.clientObj = function (className) {
             // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
             // specifies the mapping between the 'text' and 'label' fields.  
             var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', []);
-            tuneListBox.jqxTree({ source: records, hasThreeStates: true, checkboxes: true, width: '300px', height: '300px' });
+            tuneListBox.jqxTree({
+                source: records, hasThreeStates: true, checkboxes: true, allowDrag: true, allowDrop: true, width: '300px', height: '300px',
+                dragEnd: function (item, dropItem, args, dropPosition, tree) {
+                    if (+dropItem.id > 0 && dropPosition == 'inside')
+                        return false;
+                    else {
+                        console.log(dropItem);
+                        var index1 = $(gridName).jqxGrid('getcolumnindex', item.value.name);
+                        var index2 = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
+                        console.log({ p: dropPosition, i_from: index1, i_to: dropPosition + ' ' + index2 });
+                        if (index1 > index2 && dropPosition == 'after')
+                            index2++;
+                        if (index1 < index2 && dropPosition == 'before')
+                            index2--;
+                        $(gridName).jqxGrid('setcolumnindex', item.value.name, index2);
+                    }
+                }
+            });
             tuneListBox.on('checkChange', function (event) {
                 var item = tuneListBox.jqxTree('getItem', event.args.element);
                 event.stopPropagation();
                 $(gridName).jqxGrid('beginupdate');
                 if (event.args.checked) {
-                    $(gridName).jqxGrid('showcolumn', item.value);
+                    $(gridName).jqxGrid('showcolumn', item.value.name);
                 }
                 else {
-                    $(gridName).jqxGrid('hidecolumn', item.value);
+                    $(gridName).jqxGrid('hidecolumn', item.value.name);
                 }
                 $(gridName).jqxGrid('endupdate');
             });
@@ -310,7 +337,8 @@ $.fn.clientObj = function (className) {
         if (formModel.length) {
             ColumnGroups[className] = [];
             formModel.forEach(function (item) {
-                if (item.is_group) {
+                console.log(item);
+                if (item.value.is_group) {
                     ColumnGroups[className].push({ text: item.label, align: 'center', name: item.id });
                 }
                 else {
@@ -318,10 +346,10 @@ $.fn.clientObj = function (className) {
                         {
                             text: item.label,
                             align: 'center',
-                            datafield: item.value,
+                            datafield: item.value.name,
                             width: 80,
                             columngroup: item.parentid,
-                            columntype: item.columntype ? item.columntype : 'textbox',
+                            columntype: item.value.columntype ? item.value.columntype : 'textbox',
                             createeditor: createEditor,
                             initeditor: initEditor,
                             geteditorvalue: getEditorValue

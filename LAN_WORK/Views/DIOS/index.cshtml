@@ -142,7 +142,7 @@
             </div>
             <div data-container="HelpPanel">
                 <div id="helpText" style="position:absolute;left:60px;top:100px; ">
-             </div>
+                </div>
 
                 <!--button onclick="var moduleName = prompt('module name?');dockPanel(moduleName)">dock panel</button>
                 <button onclick="alert(objFilter.GetFilter())">Get filter</button>
@@ -189,9 +189,9 @@
             var dataAdapter = new $.jqx.dataAdapter(source);
             // perform Data Binding.
             dataAdapter.dataBind();
-            // get the tree items. The first parameter is the item's id. The second parameter is the parent item's id. The 'items' parameter represents 
-            // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
-            // specifies the mapping between the 'text' and 'label' fields.  
+            // get the tree items. The first parameter is the item's id. The second parameter is the parent item's id. The 'items' parameter represents
+            // the sub items collection name. Each jqxTree item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter
+            // specifies the mapping between the 'text' and 'label' fields.
             var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', []);
             $tree.jqxTree({ source: records, checkboxes: true, width: '300px', height: '300px' });
 
@@ -259,7 +259,8 @@
             @Scripts.Render("~/jqwidgets/jqxdatetimeinput.js")
             @Scripts.Render("~/jqwidgets/jqxcalendar.js")
             @Scripts.Render("~/jqwidgets/jqxtree.js")
-
+            @Scripts.Render("~/jqwidgets/jqxdragdrop.js")
+            
         }
 
 </body>
