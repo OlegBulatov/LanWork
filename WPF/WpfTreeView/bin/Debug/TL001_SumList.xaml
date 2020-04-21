@@ -174,28 +174,7 @@
               </l:DataTemplate>
             </dxg:GridColumn.HeaderTemplate>
           </dxg:GridColumn>
-          <dxg:GridColumn Header=" МЕНА" FieldName="T001_N8" ReadOnly="True" Width="80">
-            <dxg:GridColumn.HeaderTemplate>
-              <l:DataTemplate>
-                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
-              </l:DataTemplate>
-            </dxg:GridColumn.HeaderTemplate>
-          </dxg:GridColumn>
           <dxg:GridColumn Header=" РАССРОЧКА" FieldName="T001_N9" ReadOnly="True" Width="20">
-            <dxg:GridColumn.HeaderTemplate>
-              <l:DataTemplate>
-                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
-              </l:DataTemplate>
-            </dxg:GridColumn.HeaderTemplate>
-          </dxg:GridColumn>
-          <dxg:GridColumn Header=" БРОКЕР" FieldName="T001_11" ReadOnly="True" Width="80">
-            <dxg:GridColumn.HeaderTemplate>
-              <l:DataTemplate>
-                <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
-              </l:DataTemplate>
-            </dxg:GridColumn.HeaderTemplate>
-          </dxg:GridColumn>
-          <dxg:GridColumn Header=" ИМУЩЕСТВО" FieldName="T001_N99" ReadOnly="True" Width="80">
             <dxg:GridColumn.HeaderTemplate>
               <l:DataTemplate>
                 <l:TextBlock Text="{l:Binding}" TextWrapping="Wrap" />
@@ -312,8 +291,8 @@
                 IsChecked="{l:Binding Path=ColorIsOn}" 
 		HorizontalAlignment = "Left" 
 		VerticalAlignment = "Top" /-->
-    <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Height="23" Margin="133,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600" />
-    <Button x:Name="bnFilter" Content="Фильтр" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" />
+    <TextBox Name="tbFilter" HorizontalAlignment="Left" Height="23" Margin="133,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600" />
+    <Button Name="bnFilter" Content="Фильтр" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" />
     <TextBox Name="tbCurrentColumnState" Height="30" Margin="800,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
       <TextBox.Text>
         <MultiBinding Converter="{ StaticResource MultiValueTextConverter}">
@@ -328,5 +307,6 @@
         </MultiBinding>
       </TextBox.Tag>
     </TextBox>
+    <l:Label Name="lbClassName" Content="TL001_SumList" Margin="1000,10,0,0" HorizontalAlignment="Left" />
   </Grid>
 </Window>

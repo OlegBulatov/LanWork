@@ -131,6 +131,13 @@ namespace WpfLib
             parent.Leaves.Add(this);
         }
         private string _fieldName;
+        public string FieldName
+        {
+            get
+            {
+                return this._fieldName;
+            }
+        }
         private string _header;
         public string Header
         {
@@ -245,6 +252,32 @@ namespace WpfLib
             {
                 return _parent;
             }
+        }
+
+        internal object GetModel(string branchEntityName, string leafEntityName, bool onlyLeaves, bool emptyResult = false)
+        {
+            if (emptyResult)
+                return new object[] { };
+            var queryL = from Leaf L in this.Leaves
+                         select new
+                         {
+                             Name = L.Header,
+                             StereotypeName = leafEntityName,
+                             schemaAttributes = new object[] { new { Name = "PhisicalName", Value = L.FieldName } },
+                             childEntities = this.GetModel(branchEntityName, leafEntityName, true, true)
+                         };
+            if (onlyLeaves)
+                return queryL;
+            var queryN = from Node chNode in this.Children
+                         where chNode.Children.Count > 0 || chNode.Leaves.Count > 0
+                         select new
+                        {
+                            Name = chNode.Header.Item2,
+                            StereotypeName = branchEntityName,
+                            schemaAttributes = new object[] { },
+                            childEntities = chNode.GetModel(branchEntityName, leafEntityName, chNode.Children.Count < 1)
+                        };
+            return queryN.Union(queryL);
         }
         public XmlNode AddToXmlNode(XmlNode xNode, string width, string color, bool readOnly)
         {
@@ -384,6 +417,12 @@ namespace WpfLib
             _readOnly = readOnly;
             LastChain = new Node[] { new Node(new Tuple<string, string>(null, "---top---"), null, this) };
             Nodes.Add(LastChain[0]);
+        }
+        public string GetJsonModel(string branchEntityName, string leafEntityName)
+        {
+            if(Nodes.Count > 0)
+                return JsonConvert.SerializeObject(Nodes[0].GetModel(branchEntityName, leafEntityName, false));
+            return null;
         }
         public void AddChain(Node[] chain)
         {
