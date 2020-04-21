@@ -123,7 +123,18 @@ $.fn.clientObj = function (className) {
                 cObj.RemoveController(linkClassName);
                 console.log(cObj.controllers);
             });
-            var okButton = $("<div title='Save' style='position:absolute;left:125px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
+            var renameButton = $("<div title='Переименовать столбец/группу' style='position:absolute;left:125px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/edit.png'/></div>");
+            renameButton.jqxButton({ theme: theme });
+            renameButton.click(function (event) {
+                var selectedItem = tuneListBox.jqxTree('selectedItem');
+                if (selectedItem != null) {
+                    let newName = prompt('Переименовать столбец/группу ' + selectedItem.value.name, selectedItem.label);
+                    tuneListBox.jqxTree('updateItem', { label: newName }, selectedItem.element);
+                    // update the tree.
+                    tuneListBox.jqxTree('render');
+                }
+            });
+            var okButton = $("<div title='Save' style='position:absolute;left:155px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
             okButton.jqxButton({ theme: theme });
             okButton.click(function (event) {
                 //var $win = null;
@@ -188,6 +199,7 @@ $.fn.clientObj = function (className) {
             tuneDiv.append(expButton);
             tuneDiv.append(linkButton);
             tuneDiv.append(unLinkButton);
+            tuneDiv.append(renameButton);
             tuneDiv.append(okButton);
             //tuneHideButton
 
