@@ -24,7 +24,6 @@ $.fn.clientObj = function (className) {
             var groups = new Object();
             var gridColumnGroups = $(gridName).jqxGrid('columngroups');
             var gridColumns = $(gridName).jqxGrid('columns').records;
-            console.log(gridColumns);
             gridColumns.forEach(function (item, i) {
                 if (item.columngroup && !groups[item.columngroup]) {
                     var groupName = item.columngroup;
@@ -218,9 +217,9 @@ $.fn.clientObj = function (className) {
                 dragEnd: function (item, dropItem, args, dropPosition, tree) {
                     if (/*+dropItem.id > 0 && */dropPosition == 'inside')  //до лучших времен никуда нельзя дропать вовнутрь, можно только перед или после
                         return false;
-                    else if (item.value.is_group ^ dropItem.value.is_group)
-                        return false;
                     else {
+                        if (dropItem.value.is_group)
+                            alert('Положение столбцов будет пересчитано после сохранения');
                         if (item.parentId != dropItem.parentId)
                             alert('Поменялась привязка группы. Для корректного отображения необходимо перезагрузить форму.');
                         var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
@@ -364,10 +363,10 @@ $.fn.clientObj = function (className) {
 
         ColumnModels[className] = new Array();
         if (formModel.length) {
-            ColumnGroups[className] = [];
+            var columnGroups = [];
             formModel.forEach(function (item) {
                 if (item.value.is_group) {
-                    ColumnGroups[className].push({ text: item.label, align: 'center', name: item.id });
+                    columnGroups.push({ text: item.label, align: 'center', name: item.id });
                 }
                 else {
                     ColumnModels[className].push(
@@ -380,10 +379,15 @@ $.fn.clientObj = function (className) {
                             columntype: item.value.columntype ? item.value.columntype : 'textbox',
                             createeditor: createEditor,
                             initeditor: initEditor,
-                            geteditorvalue: getEditorValue
+                            geteditorvalue: getEditorValue,
+                            cellbeginedit: function (row, datafield, columntype) {
+                                editedObject.DataField = datafield;
+                                return true;
+                            }
                         });
                 }
             });
+            ColumnGroups[className] = columnGroups.length ? columnGroups : null;
         }
         else {
             var xhr = new XMLHttpRequest();
