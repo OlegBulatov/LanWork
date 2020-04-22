@@ -26,6 +26,7 @@ var clickAfterSelect = false;
                                                         { "id": "3", "parentid": "1", "text": "Объекты", "value": "OBJECT_TYPE" },
                                                         { "id": "4", "parentid": "1", "text": "Модули", "value": "MODULE" },
                                                         { "id": "5", "parentid": "1", "text": "Формы", "value": "FORM" },
+                                                        { "id": "8", "parentid": "1", "text": "Системные параметры", "value": "SYS_PARAM" },
                                                         {
                                                             "id": "2", "text": "Модули"
                                                         },

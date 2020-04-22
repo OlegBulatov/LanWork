@@ -3,7 +3,8 @@
 	[
 	{"id":"3","text":"Объекты","children":false,"icon":"BrowseForm","data":"OBJECT_TYPE"},
 	{"id":"4","text":"Модули","children":false,"icon":"BrowseForm","data":"MODULE"},
-	{"id":"5","text":"Формы","children":false,"icon":"BrowseForm","data":"FORM"}
+	{"id":"5","text":"Формы","children":false,"icon":"BrowseForm","data":"FORM"},
+	{"id":"8","text":"Системные параметры","children":false,"icon":"BrowseForm","data":"SYS_PARAM"}
 	],"icon":"Package","rank":0},
 {"id":"2","text":"Модули","children":
 	[
