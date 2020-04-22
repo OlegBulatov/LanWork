@@ -15,7 +15,9 @@ $.fn.clientObj = function (className) {
         var getColumnsDataFromArray = function (columnsData) {
             var data = [];
             columnsData.forEach(function (item) {
-                data.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked }); //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
+                data.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked });
+                //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
+                //кроме того, в item.parentId после взятия из дерева содержится 0, а надо null
             });
             return data;
         };
@@ -23,16 +25,26 @@ $.fn.clientObj = function (className) {
             var data = [];
             var groups = new Object();
             var gridColumnGroups = $(gridName).jqxGrid('columngroups');
+            var gridColumnGroupsByName = new Object();
+            gridColumnGroups.forEach(function (item) {
+                gridColumnGroupsByName[item.name] = item;
+            });
             var gridColumns = $(gridName).jqxGrid('columns').records;
             gridColumns.forEach(function (item, i) {
                 if (item.columngroup && !groups[item.columngroup]) {
-                    var groupName = item.columngroup;
-                    gridColumnGroups.forEach(function (item) {
-                        if (item.name == groupName) {
-                            data.push({ id: item.name, label: item.text, value: { is_group: true, name: groupName } });
-                            groups[groupName] = groupName;
-                        }
-                    });
+                    var group = gridColumnGroupsByName[item.columngroup];
+                    while (group) {
+                        data.push({ id: group.name, parentid: group.parentgroup, label: group.text, value: { is_group: true, name: group.name } });
+                        groups[group.name] = group;
+                        group = group.parent;
+                    }
+                    //var groupName = item.columngroup;
+                    //gridColumnGroups.forEach(function (item) {
+                    //    if (item.name == groupName) {
+                    //        data.push({ id: item.name, label: item.text, value: { is_group: true, name: groupName } });
+                    //        groups[groupName] = groupName;
+                    //    }
+                    //});
                 }
                 data.push({ id: i, parentid: item.columngroup, label: item.text, value: { is_group: false, name: item.datafield, columntype: item.columntype }, checked: !item.hidden });
             });
@@ -132,6 +144,7 @@ $.fn.clientObj = function (className) {
                     tuneListBox.jqxTree('updateItem', { label: newName }, selectedItem.element);
                     // update the tree.
                     tuneListBox.jqxTree('render');
+                    $(gridName).jqxGrid('setcolumnproperty', selectedItem.value.name, 'text', newName);
                 }
             });
             var okButton = $("<div title='Save' style='position:absolute;left:155px;bottom:5px;width:20px;'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/></div>");
@@ -378,7 +391,7 @@ $.fn.clientObj = function (className) {
             var columnGroups = [];
             formModel.forEach(function (item) {
                 if (item.value.is_group) {
-                    columnGroups.push({ text: item.label, align: 'center', name: item.id });
+                    columnGroups.push({ text: item.label, align: 'center', name: item.id, parentgroup: item.parentid });
                 }
                 else {
                     ColumnModels[className].push(
