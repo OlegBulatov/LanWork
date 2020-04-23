@@ -38,7 +38,7 @@ namespace WpfLib
             return "EmptyClassName";
         }
 
-        public static XTree GetXTree(List<Tuple<string, string>> headers, Dictionary<string, string> widthsDictionary, Dictionary<string, string> colorsDictionary, bool readOnly)
+        public static XTree GetXTree(List<Tuple<string, string>> headers, Dictionary<string, string> widthsDictionary, Dictionary<string, string> colorsDictionary, bool readOnly, string emptyHeaderReplacement = "")
         {
             XTree Tree = new XTree(widthsDictionary, colorsDictionary, readOnly);
             Node currentParent = null;
@@ -53,7 +53,10 @@ namespace WpfLib
                     for (int i = 0; i < splittedHeader.Length; i++)
                     {
                         string fieldName = i == splittedHeader.Length - 1 ? header.Item1 : null;
-                        chain[i] = new Node(new Tuple<string, string>(fieldName, splittedHeader[i]), null);
+                        string fieldHeader = splittedHeader[i].Trim();
+                        if (fieldHeader == "")
+                            fieldHeader = emptyHeaderReplacement;
+                        chain[i] = new Node(new Tuple<string, string>(fieldName, fieldHeader), null);
                     }
                     Tree.AddChain(chain);
                 }
@@ -64,7 +67,7 @@ namespace WpfLib
                     Tree.AddChain(newChain);
                 }
             }
-            Tree.AddLeaves();
+            Tree.AddLeaves(emptyHeaderReplacement);
             return Tree;
         }
 
@@ -307,7 +310,7 @@ namespace WpfLib
             }
             return xNode.AppendChild(chXNode);
         }
-        public void AddLeaves()
+        public void AddLeaves(string emptyHeaderReplacement)
         {
             this.NodeType = GetNodeType();
             if (this.Header.Item1 != null)
@@ -333,12 +336,12 @@ namespace WpfLib
                         break;
                     }
                     new Leaf(this.Header.Item1, this.Header.Item2, leafParent);
-                    leafParent._header = "";
+                    leafParent._header = emptyHeaderReplacement;
                 }
             }
             foreach (Node chNode in this.Children)
             {
-                chNode.AddLeaves();
+                chNode.AddLeaves(emptyHeaderReplacement);
             }
         }
         public NodeType GetNodeType()
@@ -476,11 +479,11 @@ namespace WpfLib
             LastChain = newLastChain;
         }
 
-        public void AddLeaves()
+        public void AddLeaves(string emptyHeaderReplacement)
         {
             foreach (Node node in this.Nodes)
             {
-                node.AddLeaves();
+                node.AddLeaves(emptyHeaderReplacement);
             }
         }
     }

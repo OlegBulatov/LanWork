@@ -51,7 +51,7 @@ namespace ColumnsDesignGenerator
                     widthsDictionary.Add(fe.PropertyName, fe.Width.Value.ToString());
                 headersList.Add(new Tuple<string, string>(fe.PropertyName, fe.Header == null ? fe.PropertyName : fe.Header.Replace("-", "|").Replace("К|во", "Кол-во")));
             }
-            XTree Tree = XGenerator.GetXTree(headersList, widthsDictionary, new Dictionary<string, string>(), false);
+            XTree Tree = XGenerator.GetXTree(headersList, widthsDictionary, new Dictionary<string, string>(), false, "~");
             tbResult.Text = Tree.GetJsonModel("ColumnsGroup", "Attribute");
         }
     }

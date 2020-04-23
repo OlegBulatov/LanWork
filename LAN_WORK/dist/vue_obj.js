@@ -136,7 +136,7 @@ $.fn.clientObj = function (className) {
                 "position": "absolute",
                 "top": statusbar.offset().top + 40,
                 "left": statusbar.offset().left,
-                "z-index": 35,
+                "z-index": 200,
                 "height": 350,
                 "background-color": "white",
                 "border": "2px solid blue"
@@ -278,19 +278,19 @@ $.fn.clientObj = function (className) {
                     if (/*+dropItem.id > 0 && */dropPosition == 'inside')  //до лучших времен никуда нельзя дропать вовнутрь, можно только перед или после
                         return false;
                     else {
-                        if (dropItem.value.is_group)
-                            alert('Положение столбцов будет пересчитано после сохранения');
+                        //if (dropItem.value.is_group)
+                        alert('Положение столбцов будет пересчитано после сохранения');
                         if (item.parentId != dropItem.parentId)
                             alert('Поменялась привязка группы. Для корректного отображения необходимо перезагрузить форму.');
-                        var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
-                        var index_to = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
-                        if (!item.value.is_group) {
-                            if (index_from > index_to && dropPosition == 'after')
-                                index_to++;
-                            if (index_from < index_to && dropPosition == 'before')
-                                index_to--;
-                            $(gridName).jqxGrid('setcolumnindex', item.value.name, index_to);
-                        }
+                        //var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
+                        //var index_to = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
+                        //if (!item.value.is_group) {
+                        //    if (index_from > index_to && dropPosition == 'after')
+                        //        index_to++;
+                        //    if (index_from < index_to && dropPosition == 'before')
+                        //        index_to--;
+                        //    $(gridName).jqxGrid('setcolumnindex', item.value.name, index_to);
+                        //}
                     }
                 }
             });
@@ -361,6 +361,9 @@ $.fn.clientObj = function (className) {
             return JSON.parse(data.response_body);
         }
 
+        var tooltiprenderer = function (element) {
+            $(element).jqxTooltip({ position: 'mouse', content: $(element).text() });
+        }
         //var totalcolumnrenderer = function (row, column, cellvalue) {
         //        var cellvalue = $.jqx.dataFormat.formatnumber(cellvalue, 'c2');
         //        return '<span style="margin: 6px 3px; font-size: 12px; float: right; font-weight: bold;">' + cellvalue + '</span>';
@@ -426,7 +429,8 @@ $.fn.clientObj = function (className) {
             var columnGroups = [];
             var pushTreeItemIntoGrid = function (item) {
                 if (item.value.is_group) {
-                    columnGroups.push({ text: item.label, align: 'center', name: item.id, parentgroup: item.parentid });
+                    if(item.label != '~')
+                        columnGroups.push({ text: item.label, align: 'center', name: item.id, parentgroup: item.parentid });
                     if (item.children) {
                         item.children.forEach(pushTreeItemIntoGrid);
                     }
@@ -443,6 +447,7 @@ $.fn.clientObj = function (className) {
                             createeditor: createEditor,
                             initeditor: initEditor,
                             geteditorvalue: getEditorValue,
+                            rendered: tooltiprenderer,
                             cellbeginedit: function (row, datafield, columntype) {
                                 editedObject.DataField = datafield;
                                 return true;
@@ -488,9 +493,10 @@ $.fn.clientObj = function (className) {
         gridName = "#" + className;
         $(gridName).jqxGrid(
             {
-                width: 1200,//getWidth('Grid'),
+                width: 1600,//getWidth('Grid'),
                 autoheight: true,
                 rowsheight: 20,
+                columnsheight: 20,
                 pagerheight: 25,
                 source: cObj.GetDataAdapter(),
                 sortable: true,
@@ -501,12 +507,13 @@ $.fn.clientObj = function (className) {
                 editable: true,
                 editmode: 'dblclick',
                 rendergridrows: renderGridRows,
+                enabletooltips: true,
                 //showtoolbar: true,
                 //rendertoolbar: renderToolBar,
                 columns: ColumnModels[className],
                 columngroups: ColumnGroups[className]
             });
-
+        $(gridName).css('font-size', 11);
         $(gridName).jqxGrid({ pagermode: "simple" });
 
         $(gridName).jqxGrid('loadstate');
