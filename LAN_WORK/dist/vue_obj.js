@@ -12,12 +12,44 @@ $.fn.clientObj = function (className) {
     var gridName = '#grid';
 
     function renderToolBar(statusbar) {
+        var pushItemWithChildren = function (item, dataArray) {
+            var itemChildrenTransformed = [];
+            var Ch = itemChildren(item);
+            for (let i = 0; i < Ch.length; i++) {
+                pushItemWithChildren(Ch[i], itemChildrenTransformed);
+            }
+            dataArray.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked, children: itemChildrenTransformed });
+            return dataArray;
+        };
+        var itemChildren = function (item) {
+            var children = [];
+            if (item.hasItems) {
+                var parentId = item.id;
+                item = item.nextItem;
+                while (item) {
+                    if (item.parentId == parentId)
+                        children.push(item);
+                    item = item.nextItem;
+                }
+            }
+            return children;
+        };
+        var getTreeColumnsDataFromArray = function (columnsData) {
+            var data = [];
+            columnsData.forEach(function (item) {
+                if ((!item.value.is_group || item.hasItems) && !item.parentId)
+                    pushItemWithChildren(item, data);
+            });
+            return data;
+        };
         var getColumnsDataFromArray = function (columnsData) {
             var data = [];
             columnsData.forEach(function (item) {
-                data.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked });
+                if (!item.value.is_group || item.hasItems)
+                    data.push({ id: item.id, parentid: item.parentId ? item.parentId : null, label: item.label, value: item.value, checked: item.checked });
                 //в item больше полей, чем нам надо, поэтому берем подмножество, а не весь item
                 //кроме того, в item.parentId после взятия из дерева содержится 0, а надо null
+                //пустые группы игнорируем, т.к. они потом дадут ошибку при загрузке
             });
             return data;
         };
@@ -181,16 +213,19 @@ $.fn.clientObj = function (className) {
                 //$win.jqxWindow('open');
                 //console.log($(gridName).jqxGrid('getstate'));
                 var treeItems = tuneListBox.jqxTree('getItems');
+                //console.log(getTreeColumnsDataFromArray(treeItems));
+                
                 var body = new Object();
                 body.class_name = cObj.class_name;
                 body.form_type = 1;
-                var columnsData = getColumnsDataFromArray(treeItems);
-                body.value = JSON.stringify(columnsData);
+                var treeColumnsData = getTreeColumnsDataFromArray(treeItems);
+                body.value = JSON.stringify(treeColumnsData);
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/Object/SetFormModel', false);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(JSON.stringify(body));
 
+                var columnsData = getColumnsDataFromArray(treeItems);
                 var N = 0;
                 columnsData.forEach(function (item) {
                     if (!item.value.is_group) {
@@ -202,7 +237,7 @@ $.fn.clientObj = function (className) {
                             $(gridName).jqxGrid('hidecolumn', item.value.name);
                     }
                 });
-                console.log($(gridName).jqxGrid('getstate'));
+                //console.log($(gridName).jqxGrid('getstate'));
                 $(gridName).jqxGrid('savestate');
                 isTuning = false;
                 tuneDiv.hide();
@@ -389,9 +424,12 @@ $.fn.clientObj = function (className) {
         ColumnModels[className] = new Array();
         if (formModel.length) {
             var columnGroups = [];
-            formModel.forEach(function (item) {
+            var pushTreeItemIntoGrid = function (item) {
                 if (item.value.is_group) {
                     columnGroups.push({ text: item.label, align: 'center', name: item.id, parentgroup: item.parentid });
+                    if (item.children) {
+                        item.children.forEach(pushTreeItemIntoGrid);
+                    }
                 }
                 else {
                     ColumnModels[className].push(
@@ -411,7 +449,8 @@ $.fn.clientObj = function (className) {
                             }
                         });
                 }
-            });
+            }
+            formModel.forEach(pushTreeItemIntoGrid);
             ColumnGroups[className] = columnGroups.length ? columnGroups : null;
         }
         else {
