@@ -229,12 +229,24 @@ $.fn.clientObj = function (className) {
                 var N = 0;
                 columnsData.forEach(function (item) {
                     if (!item.value.is_group) {
+                        var colCurrIndex = $(gridName).jqxGrid('getcolumnindex', item.value.name);
                         var colIsHidden = $(gridName).jqxGrid('getcolumnproperty', item.value.name, 'hidden');
-                        if (colIsHidden)
-                            $(gridName).jqxGrid('showcolumn', item.value.name);
-                        $(gridName).jqxGrid('setcolumnindex', item.value.name, N++);//если меняли местами группы, сбиваются все индексы, поэтому надо перенумеровать
-                        if (colIsHidden)
-                            $(gridName).jqxGrid('hidecolumn', item.value.name);
+                        var colMustBeHidden = !item.checked;
+                        if (colCurrIndex != N) {
+                            console.log(N, colCurrIndex, item.value.name);
+                            if (colIsHidden || colMustBeHidden)
+                                $(gridName).jqxGrid('showcolumn', item.value.name);
+                            $(gridName).jqxGrid('setcolumnindex', item.value.name, N);//если меняли местами группы, сбиваются все индексы, поэтому надо перенумеровать
+                            if (colMustBeHidden)
+                                $(gridName).jqxGrid('hidecolumn', item.value.name);
+                        }
+                        else if (colIsHidden ^ colMustBeHidden) {
+                            if (colMustBeHidden)
+                                $(gridName).jqxGrid('hidecolumn', item.value.name);
+                            else
+                                $(gridName).jqxGrid('showcolumn', item.value.name);
+                        }
+                        N++;
                     }
                 });
                 //console.log($(gridName).jqxGrid('getstate'));
@@ -294,18 +306,19 @@ $.fn.clientObj = function (className) {
                     }
                 }
             });
-            tuneListBox.on('checkChange', function (event) {
-                var item = tuneListBox.jqxTree('getItem', event.args.element);
-                event.stopPropagation();
-                $(gridName).jqxGrid('beginupdate');
-                if (event.args.checked) {
-                    $(gridName).jqxGrid('showcolumn', item.value.name);
-                }
-                else {
-                    $(gridName).jqxGrid('hidecolumn', item.value.name);
-                }
-                $(gridName).jqxGrid('endupdate');
-            });
+            //tuneListBox.on('checkChange', function (event) {
+            //    var item = tuneListBox.jqxTree('getItem', event.args.element);
+            //    event.stopPropagation();
+            //    $(gridName).jqxGrid('beginupdate');
+            //    if (event.args.checked) {
+            //        $(gridName).jqxGrid('showcolumn', item.value.name);
+            //    }
+            //    else {
+            //        $(gridName).jqxGrid('hidecolumn', item.value.name);
+            //    }
+            //    $(gridName).jqxGrid('endupdate');
+            //});
+
             //var listSource = new Array();
             //var gridColumns = $(gridName).jqxGrid('columns').records;
             //gridColumns.forEach(function (item, i) {
