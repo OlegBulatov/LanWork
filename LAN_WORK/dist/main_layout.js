@@ -31,7 +31,8 @@ var clickAfterSelect = false;
                                                             "id": "2", "text": "Модули"
                                                         },
                                                         { "id": "6", "parentid": "2", "text": "Серверы", "value": "LNT_SERVER" },
-                                                        { "id": "7", "parentid": "2", "text": "Заявки JIRA", "value": "JIRA_ISSUE" }
+                                                        { "id": "7", "parentid": "2", "text": "Заявки JIRA", "value": "JIRA_ISSUE" },
+                                                        { "id": "9", "parentid": "2", "text": "Отладка", "value": "TEST_OBJECT" }
 
                                                     ];
                                                     var source =

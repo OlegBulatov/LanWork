@@ -58,9 +58,11 @@ $.fn.clientObj = function (className) {
             var groups = new Object();
             var gridColumnGroups = $(gridName).jqxGrid('columngroups');
             var gridColumnGroupsByName = new Object();
-            gridColumnGroups.forEach(function (item) {
-                gridColumnGroupsByName[item.name] = item;
-            });
+            if (gridColumnGroups) {
+                gridColumnGroups.forEach(function (item) {
+                    gridColumnGroupsByName[item.name] = item;
+                });
+            }
             var gridColumns = $(gridName).jqxGrid('columns').records;
             gridColumns.forEach(function (item, i) {
                 if (item.columngroup && !groups[item.columngroup]) {
@@ -136,7 +138,7 @@ $.fn.clientObj = function (className) {
                 "position": "absolute",
                 "top": statusbar.offset().top + 40,
                 "left": statusbar.offset().left,
-                "z-index": 200,
+                "z-index": 2000,
                 "height": 350,
                 "background-color": "white",
                 "border": "2px solid blue"
@@ -230,13 +232,14 @@ $.fn.clientObj = function (className) {
                 columnsData.forEach(function (item) {
                     if (!item.value.is_group) {
                         var colCurrIndex = $(gridName).jqxGrid('getcolumnindex', item.value.name);
+                        var colGroup = $(gridName).jqxGrid('getcolumnproperty', item.value.name, 'columngroup');
                         var colIsHidden = $(gridName).jqxGrid('getcolumnproperty', item.value.name, 'hidden');
                         var colMustBeHidden = !item.checked;
                         if (colCurrIndex != N) {
                             console.log(N, colCurrIndex, item.value.name);
                             if (colIsHidden || colMustBeHidden)
                                 $(gridName).jqxGrid('showcolumn', item.value.name);
-                            $(gridName).jqxGrid('setcolumnindex', item.value.name, N);//если меняли местами группы, сбиваются все индексы, поэтому надо перенумеровать
+                            $(gridName).jqxGrid('setcolumnindex', item.value.name, N);//надо перенумеровать
                             if (colMustBeHidden)
                                 $(gridName).jqxGrid('hidecolumn', item.value.name);
                         }
@@ -246,11 +249,17 @@ $.fn.clientObj = function (className) {
                             else
                                 $(gridName).jqxGrid('showcolumn', item.value.name);
                         }
+                        if (colGroup != item.parentid) {
+                            if (!item.parentid)
+                                alert('При переносе столбца из группы в корень иерархии необходимо перезагрузить форму');
+                            $(gridName).jqxGrid('setcolumnproperty', item.value.name, 'columngroup', item.parentid);
+                        }
                         N++;
                     }
                 });
                 //console.log($(gridName).jqxGrid('getstate'));
                 $(gridName).jqxGrid('savestate');
+                $(gridName).jqxGrid('render');
                 isTuning = false;
                 tuneDiv.hide();
             });
@@ -292,7 +301,7 @@ $.fn.clientObj = function (className) {
                     else {
                         //if (dropItem.value.is_group)
                         alert('Положение столбцов будет пересчитано после сохранения');
-                        if (item.parentId != dropItem.parentId)
+                        if (item.value.is_group && item.parentId != dropItem.parentId)
                             alert('Поменялась привязка группы. Для корректного отображения необходимо перезагрузить форму.');
                         //var index_from = $(gridName).jqxGrid('getcolumnindex', item.value.name);
                         //var index_to = $(gridName).jqxGrid('getcolumnindex', dropItem.value.name);
@@ -367,10 +376,11 @@ $.fn.clientObj = function (className) {
                 if (SortState[cObj.class_name].sortdirection.descending)
                     sortColumn += ' desc';
             }
-            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
+            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter()/* + '&order=' + sortColumn*/ + '&limit=10&offset=' + params.startindex, false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
+            console.log(data.response_body);
             return JSON.parse(data.response_body);
         }
 
