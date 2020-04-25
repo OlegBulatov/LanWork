@@ -2,7 +2,7 @@
 var loadedClasses = new Object();
 
 (function ($) {
-$.fn.clientObj = function (className) {
+    $.fn.clientObj = function (className, isVirtual) {
     var cObj;
     var SortState = new Object();
     var ColumnModels = new Object();
@@ -370,17 +370,19 @@ $.fn.clientObj = function (className) {
         }
         var renderGridRows = function (params) {
             var xhr = new XMLHttpRequest();
-            var sortColumn = cObj.class_name;
+            var sortColumn = cObj.key_name;
             if (SortState[cObj.class_name]) {
                 sortColumn = SortState[cObj.class_name].sortcolumn;
                 if (SortState[cObj.class_name].sortdirection.descending)
                     sortColumn += ' desc';
             }
-            xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter()/* + '&order=' + sortColumn*/ + '&limit=10&offset=' + params.startindex, false);
+            if (cObj.virtual_class)
+                xhr.open('GET', '/Object/VCList?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
+            else
+                xhr.open('GET', '/Object/List?class_name=' + cObj.class_name + '&filter=' + cObj.GetFilter() + '&order=' + sortColumn + '&limit=10&offset=' + params.startindex, false);
 
             xhr.send();
             var data = JSON.parse(xhr.responseText);
-            console.log(data.response_body);
             return JSON.parse(data.response_body);
         }
 
@@ -438,6 +440,11 @@ $.fn.clientObj = function (className) {
 
         /////////////////////////////////////////////////////////////////////////////////here starts initialization of Grid////////////////////////////////////////////////////////////////////////////////
         var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Object/GetKeyName?class_name=' + className, false);
+        xhr.send();
+
+        cObj.key_name = xhr.responseText;
+
         var formModel = "";
         var data = "";
 
@@ -600,6 +607,8 @@ $.fn.clientObj = function (className) {
             data: {
                 el: this.grid_name,
                 class_name: className,
+                virtual_class: !!isVirtual,
+                key_name: null,
                 filterObject: vueFilter,
                 editObject: vueEdit,
                 currentId: null,
@@ -636,7 +645,10 @@ $.fn.clientObj = function (className) {
                 GetDataAdapter: function () {
                     //console.log(this.GetFilter());
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&filter=' + this.GetFilter() + '&limit=0&offset=0', false);
+                    if(this.virtual_class)
+                        xhr.open('GET', '/Object/VCList?class_name=' + this.class_name + '&filter=' + this.GetFilter() + '&limit=0&offset=0', false);
+                    else
+                        xhr.open('GET', '/Object/List?class_name=' + this.class_name + '&filter=' + this.GetFilter() + '&limit=0&offset=0', false);
                     xhr.send();
                     var data = JSON.parse(xhr.responseText);
 

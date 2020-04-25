@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using LanWork.Models;
 using Newtonsoft.Json;
+using DIOS.BusinessBase;
 
 namespace LanWork.Controllers
 {
@@ -12,7 +13,10 @@ namespace LanWork.Controllers
     {
         //
         // GET: /Object/
-
+        public string GetKeyName(string class_name)
+        {
+            return ObjectMethods.GetKeyName(class_name);
+        }
         public string List(string class_name, string filter = null, string order = "", int limit = -1, int offset = 0)
         {
             string result = (new ObjectControllerAdapter()).List(class_name, filter, order, limit, offset);

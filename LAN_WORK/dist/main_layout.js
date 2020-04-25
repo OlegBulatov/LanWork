@@ -23,16 +23,16 @@ var clickAfterSelect = false;
                                                         {
                                                             "id": "1", "text": "Администрирование"
                                                         },
-                                                        { "id": "3", "parentid": "1", "text": "Объекты", "value": "OBJECT_TYPE" },
-                                                        { "id": "4", "parentid": "1", "text": "Модули", "value": "MODULE" },
-                                                        { "id": "5", "parentid": "1", "text": "Формы", "value": "FORM" },
-                                                        { "id": "8", "parentid": "1", "text": "Системные параметры", "value": "SYS_PARAM" },
+                                                        { "id": "3", "parentid": "1", "text": "Объекты", "value": { "name": "OBJECT_TYPE" } },
+                                                        { "id": "4", "parentid": "1", "text": "Модули", "value": { "name": "MODULE" } },
+                                                        { "id": "5", "parentid": "1", "text": "Формы", "value": { "name": "FORM" } },
+                                                        { "id": "8", "parentid": "1", "text": "Системные параметры", "value": { "name": "SYS_PARAM" } },
                                                         {
                                                             "id": "2", "text": "Модули"
                                                         },
-                                                        { "id": "6", "parentid": "2", "text": "Серверы", "value": "LNT_SERVER" },
-                                                        { "id": "7", "parentid": "2", "text": "Заявки JIRA", "value": "JIRA_ISSUE" },
-                                                        { "id": "9", "parentid": "2", "text": "Отладка", "value": "TEST_OBJECT" }
+                                                        { "id": "6", "parentid": "2", "text": "Серверы", "value": { "name": "LNT_SERVER" } },
+                                                        { "id": "7", "parentid": "2", "text": "Заявки JIRA", "value": { "name": "JIRA_ISSUE" } },
+                                                        { "id": "9", "parentid": "2", "text": "Отладка", "value": { "name": "TEST_OBJECT", "virtual_class": true } }
 
                                                     ];
                                                     var source =
@@ -59,8 +59,10 @@ var clickAfterSelect = false;
                                                     $tree.on('select', function (event) {
                                                         var args = event.args;
                                                         var item = $tree.jqxTree('getItem', args.element);
+                                                        if (!item.value)
+                                                            return;
                                                         var helpText = document.getElementById('helpText');
-                                                        currentModuleName = item.value;
+                                                        currentModuleName = item.value.name;
                                                         var moduleOpened = showPanel(currentModuleName);
                                                         if (!moduleOpened) {
                                                             if (currentModuleName) {
@@ -78,8 +80,8 @@ var clickAfterSelect = false;
                                                             var item = $tree.jqxTree('getItem', args.element);
                                                             if (item.value) {
                                                                 helpText.innerText = 'Уже открытый модуль можно открыть повторно, выбрав мышью в дереве модулей';
-                                                                if (!showPanel(currentModuleName)) 
-                                                                    initBrowser(currentModuleName);
+                                                                if (!showPanel(item.value.name)) 
+                                                                    initBrowser(item.value.name, item.value.virtual_class);
                                                             }
                                                         }
                                                         clickAfterSelect = false;
