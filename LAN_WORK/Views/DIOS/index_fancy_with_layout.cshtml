@@ -1,0 +1,295 @@
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+    @Styles.Render("~/guriddo/css/trirand/ui.jqgrid-bootstrap.css")
+    @Styles.Render("~/jqwidgets/styles/jqx.base.css")
+    
+</head>
+<body onload="InitModuleTree(); LoadFancyGrid('MODULE');">
+
+    <script>
+        var ColumnModels = new Object();
+        ColumnModels.OBJECT_TYPE = [{
+            index: 'object_type',
+            width: 40,
+            type: 'number',
+            filter: false
+        }, {
+            index: 'class_name',
+            width: 120,
+            title: 'Class Name',
+        }, {
+            title: 'Type',
+            index: 'type_name',
+            width: 300
+        }];
+        ColumnModels.MODULE = [{
+            index: 'module',
+            width: 40,
+            type: 'number',
+            filter: false
+        }, {
+            index: 'title',
+            width: 120,
+            title: 'Name',
+        }, {
+            title: 'type',
+            index: 'form_type_name',
+            width: 300
+        }];
+
+        function LoadFancyGrid(className) {
+            $('#grid').empty();
+            $('#form').empty();
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', "/Object/List?class_name=" + className + "&limit=50&offset=0", false);
+            xhr.send();
+            var resp = JSON.parse(xhr.responseText);
+            var data = JSON.parse(resp.response_body);
+            var grid = new FancyGrid({
+                title: className,
+                renderTo: 'grid',
+                width: 500,
+                height: 500,
+                data: data,
+                selModel: 'row',
+                trackOver: true,
+                defaults: {
+                    type: 'string',
+                    width: 100,
+                    sortable: true,
+                    resizable: true,
+                    editable: true,
+                    vtype: 'notempty',
+                    menu: true,
+                    ellipsis: true
+                },
+                events: [{
+                    cellclick: function (grid, o) {
+                        form.set(o.data);
+                    }
+                }],
+                columns: ColumnModels[className]
+            });
+
+
+            var form = new FancyForm({
+                renderTo: 'form',
+                title: 'Module Data',
+                width: 290,
+                height: 500,
+                defaults: {
+                    type: 'string'
+                },
+                items: [{
+                    name: 'module',
+                    type: 'hidden'
+                }, {
+                    label: 'Name',
+                    emptyText: 'Name',
+                    name: 'title'
+                }],
+                buttons: ['side', {
+                    text: 'Clear',
+                    handler: function () {
+                        form.clear();
+                    }
+                }, {
+                        text: 'Save',
+                        handler: function () {
+                            var values = form.get();
+
+                            if (!values.id) {
+                                return;
+                            }
+
+                            grid.getById(values.id).set(values);
+                            grid.update();
+                        }
+                    }]
+            });
+
+        }
+        function InitModuleTree() {
+
+
+            var layout =
+                [
+                    {
+                        type: 'layoutGroup',
+                        orientation: 'horizontal',
+                        items:
+                            [
+                                {
+                                    type: 'tabbedGroup',
+                                    width: '20%',
+                                    minWidth: 200,
+                                    items:
+                                        [
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Solution Explorer',
+                                                contentContainer: 'SolutionExplorerPanel',
+                                                initContent: function () {
+                                                    var $tree = $('#solutionExplorerTree');
+
+                                                    $tree.jstree({
+                                                        'core': {
+                                                            "check_callback": true,
+                                                            'data': {
+                                                                'multiple': false,
+                                                                "url": "/demotree.json",
+                                                                "dataType": "json",
+                                                                "data": function (node) {
+                                                                    return { "id": node.id };
+                                                                }
+                                                            }
+                                                        },
+                                                        'plugins': ["state", "contextmenu"]
+                                                    });
+
+                                                    $tree.on("changed.jstree", function (e, data) {
+                                                        if (data.selected.length) {
+                                                            selected = data.instance.get_node(data.selected[0]);
+                                                            LoadFancyGrid(selected.text);
+                                                        }
+                                                    });
+
+                                                    //$('#solutionExplorerTree').jqxTree({ source: source, width: 190 });
+                                                }
+                                            },
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Help',
+                                                contentContainer: 'HelpPanel'
+                                            }
+                                        ]
+                                },
+                                {
+                                    type: 'layoutGroup',
+                                    orientation: 'vertical',
+                                    width: '80%',
+                                    items: [{
+                                        type: 'documentGroup',
+                                        height: '50%',
+                                        minHeight: 200,
+                                        items: [{
+                                            type: 'documentPanel',
+                                            title: 'Document 1',
+                                            contentContainer: 'Document1Panel'
+                                        }, {
+                                            type: 'documentPanel',
+                                            title: 'Document 2',
+                                            contentContainer: 'Document2Panel'
+                                        }]
+                                    }, {
+                                        type: 'tabbedGroup',
+                                        height: '50%',
+                                        pinnedHeight: 30,
+                                        items: [{
+                                            type: 'layoutPanel',
+                                            title: 'Error List',
+                                            contentContainer: 'ErrorListPanel'
+                                        }, {
+                                            type: 'layoutPanel',
+                                            title: 'Output',
+                                            contentContainer: 'OutputPanel',
+                                            selected: true
+                                        }]
+                                    }]
+                                }
+                            ]
+                    }
+                ];
+            $('#jqxLayout').jqxLayout({ width: 1500/*getWidth('layout')*/, height: 900, layout: layout });
+
+            //var $tree = $('#dersa');
+
+            //$tree.jstree({
+            //    'core': {
+            //        "check_callback": true,
+            //        'data': {
+            //            'multiple': false,
+            //            "url": "/demotree.json",
+            //            "dataType": "json",
+            //            "data": function (node) {
+            //                return { "id": node.id };
+            //            }
+            //        }
+            //    },
+            //    'plugins': ["state", "contextmenu"]
+            //});
+
+            //$tree.on("changed.jstree", function (e, data) {
+            //    if (data.selected.length) {
+            //        selected = data.instance.get_node(data.selected[0]);
+            //    }
+            //});
+
+
+        }
+
+    </script>
+
+
+    <!-- Note: "onLoad" is defined in "JSIL.Browser.js" -->
+    @*<div id="dersa" style="position:absolute;top:80px; left:0px;overflow-x:hidden"></div>*@
+    
+    <div id="jqxLayout">
+        <!--The panel content divs can have a flat structure-->
+        <!--autoHideGroup-->
+        <div data-container="ToolboxPanel">
+            List of tools
+        </div>
+        <div data-container="HelpPanel">
+            Help topics
+        </div>
+        <!--documentGroup-->
+        <div data-container="Document1Panel">
+            <div id="grid" style="width: 500px;"></div>
+            <div id="form" style="position:absolute; left:500px; top: 0px; margin-left: 10px;"></div>
+        </div>
+        <div data-container="Document2Panel">
+            Document 2 content
+        </div>
+        <!--bottom tabbedGroup-->
+        <div data-container="ErrorListPanel">
+            List of errors
+        </div>
+        <div data-container="OutputPanel">
+            Output
+        </div>
+        <!--right tabbedGroup-->
+        <div data-container="SolutionExplorerPanel">
+            <div id="solutionExplorerTree" style="border: none;">
+            </div>
+        </div>
+        <div data-container="PropertiesPanel">
+            List of properties
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/dist/jstree.js")
+        @Scripts.Render("~/dist/lantree.js")
+        @Scripts.Render("~/fancygrid/fancy.min.js")
+        @Scripts.Render("~/jqwidgets/jqxcore.js")
+        @Scripts.Render("~/jqwidgets/jqxribbon.js")
+        @Scripts.Render("~/jqwidgets/jqxlayout.js")
+
+    }
+
+</body>
+</html>
