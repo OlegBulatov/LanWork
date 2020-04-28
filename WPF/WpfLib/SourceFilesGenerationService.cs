@@ -116,7 +116,7 @@ namespace WpfLib
                 FS.Flush();
                 FS.Close();
             }
-            string fileContent = System.Text.Encoding.Default.GetString(_buffer).Replace("-", "=");
+            string fileContent = System.Text.Encoding.Default.GetString(_buffer).Replace("-", "_");
             Regex rExp = new Regex("(item)");
             string[] itemArray = rExp.Split(fileContent);
             int col = 1;
