@@ -108,7 +108,7 @@ namespace Dios.WCF
             int exists = 0;
             try
             {
-                exists = M.ExecuteSPWithResult("WCF_USER$Exists", true, Params);
+                exists = M.ExecuteIntMethod("WCF_USER", "Exists", Params);
             }
             catch (Exception exc)
             {

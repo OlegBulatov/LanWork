@@ -17,7 +17,14 @@ namespace LanitWork
     {
         private bool UserIsAuthenticated()
         {
-            return System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+            try
+            {
+                return System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+            }
+            catch
+            {
+                return true;
+            }
         }
         protected void Application_Start()
         {

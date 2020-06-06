@@ -40,8 +40,9 @@
     <Reference Include="Dios.Interfaces">
       <HintPath>..\..\..\gitdersa\dersa\DIOS\DIOS.Server\common\Dios.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Dios.SqlManager">
-      <HintPath>..\..\..\gitdersa\dersa\DIOS\DIOS.Server\common\Dios.SqlManager.dll</HintPath>
+    <Reference Include="Dios.SqlManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\gitd\dersa\DIOS\DIOS.Server\common\Dios.SqlManager.dll</HintPath>
     </Reference>
     <Reference Include="DIOS.WordAdapter">
       <HintPath>..\..\..\gitdersa\dersa\DIOS\DIOS.Server\common\DIOS.WordAdapter.dll</HintPath>

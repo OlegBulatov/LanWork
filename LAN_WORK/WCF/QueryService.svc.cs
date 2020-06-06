@@ -15,6 +15,11 @@ namespace LanWork.WCF
     {
         public static string RequestUrl;
         public static Hashtable QTable = new Hashtable();
+
+        public string GetWordDataset(string file_id)
+        {
+            return "[{\"mark1\":\"qwerty\"}]";
+        }
         public string GetQueryId(string query, string connectionString)
         {
             Tuple<string, string> queryParams = new Tuple<string, string>(query, connectionString);

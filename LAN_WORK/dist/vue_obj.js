@@ -7,6 +7,7 @@ var loadedClasses = new Object();
     var SortState = new Object();
     var ColumnModels = new Object();
     var ColumnGroups = new Object();
+    var FormButtons = new Object();
 
     var editedObject = new Object();
     var gridName = '#grid';
@@ -85,13 +86,14 @@ var loadedClasses = new Object();
             return data;
         };
         // appends buttons to the status bar.
-        var container = $("<div style='overflow: hidden;'></div>");
-        var tuneButton = $("<div title='Grid settings'><img style='position: relative; margin-top: 2px;' src='/images/property.gif'/></div>");
-        var saveStateButton = $("<div title='Save settings'><img style='position: relative; margin-top: 2px;' src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
-        var reloadButton = $("<div title='Refresh'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/></div>");
-        var loadButton = $("<div title='Load'><img style='position: relative; margin-top: 2px;' src='/images/edit1.png'/></div>");
-        var newButton = $("<div title='New'><img style='position: relative; margin-top: 2px;' src='/images/new.gif'/></div>");
-        var dropButton = $("<div title='Drop'><img style='position: relative; margin-top: 2px;' src='/images/delete.gif'/></div>");
+        var container = $("<div id='" + className + "btns' style='overflow: hidden;'></div>");
+        var tuneButton = $("<div title='Grid settings'><img src='/images/property.gif'/></div>");
+        var saveStateButton = $("<div title='Save settings'><img src='/images/save.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'></span></div>");
+        var reloadButton = $("<div title='Refresh'><img src='/images/refresh.gif'/></div>");
+        var loadButton = $("<div title='Load'><img src='/images/edit1.png'/></div>");
+        var newButton = $("<div title='New'><img src='/images/new.gif'/></div>");
+        var dropButton = $("<div title='Drop'><img src='/images/delete.gif'/></div>");
+        var excelButton = $("<div title='Export to Excel'><img src='/images/excel.gif'/></div>");
         //                        var loadStateButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='/images/refresh.gif'/><span style='margin-left: 4px; position: relative; top: -3px;'>Load</span></div>");
         container.append(tuneButton);
         container.append(saveStateButton);
@@ -99,6 +101,8 @@ var loadedClasses = new Object();
         container.append(newButton);
         container.append(loadButton);
         container.append(dropButton);
+        container.append(excelButton);
+
         statusbar.append(container);
 
         tuneButton.jqxButton({ theme: theme });
@@ -107,6 +111,7 @@ var loadedClasses = new Object();
         loadButton.jqxButton({ theme: theme });
         newButton.jqxButton({ theme: theme });
         dropButton.jqxButton({ theme: theme });
+        excelButton.jqxButton({ theme: theme });
 
         loadButton.click(function (event) {
             cObj.Load();
@@ -116,6 +121,9 @@ var loadedClasses = new Object();
         });
         dropButton.click(function (event) {
             cObj.Drop();
+        });
+        excelButton.click(function (event) {
+            $(gridName).jqxGrid('exportdata', 'xls', cObj.class_name); 
         });
 
         var isTuning;
@@ -220,7 +228,10 @@ var loadedClasses = new Object();
                 var body = new Object();
                 body.class_name = cObj.class_name;
                 body.form_type = 1;
-                var treeColumnsData = getTreeColumnsDataFromArray(treeItems);
+                var treeColumnsData = new Object();
+                treeColumnsData.Columns = getTreeColumnsDataFromArray(treeItems);
+                if (FormButtons[className])
+                    treeColumnsData.Buttons = FormButtons[className];
                 body.value = JSON.stringify(treeColumnsData);
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/Object/SetFormModel', false);
@@ -452,10 +463,10 @@ var loadedClasses = new Object();
         xhr.send();
         data = JSON.parse(xhr.responseText);
         formModel = data.response_body ? JSON.parse(data.response_body) : [];
-        //console.log(formModel);
+        FormButtons[className] = formModel.Buttons;
 
         ColumnModels[className] = new Array();
-        if (formModel.length) {
+        if (formModel.Columns && formModel.Columns.length) {
             var columnGroups = [];
             var pushTreeItemIntoGrid = function (item) {
                 if (item.value.is_group) {
@@ -485,7 +496,7 @@ var loadedClasses = new Object();
                         });
                 }
             }
-            formModel.forEach(pushTreeItemIntoGrid);
+            formModel.Columns.forEach(pushTreeItemIntoGrid);
             ColumnGroups[className] = columnGroups.length ? columnGroups : null;
         }
         else {
@@ -545,6 +556,23 @@ var loadedClasses = new Object();
             });
         $(gridName).css('font-size', 11);
         $(gridName).jqxGrid({ pagermode: "simple" });
+
+        if (FormButtons[className]) {
+            var container = $('#' + className + 'btns');
+            let $divider = $('<div style="width:100%;height:6px;background:gray">');
+            container.append($divider);
+            FormButtons[className].forEach(function (btn) {
+                let initText = "<div style='height:18px' title='" + btn.text + "'>";
+                if (btn.icon)
+                    initText += "<img src='/images/" + btn.icon + "'/>";
+                initText += "</div> ";
+                let $btn = $(initText);
+                $btn.jqxButton({ theme: theme });
+                $btn.click(function (event) { let code = btn.onclick; eval(code);});
+                container.append($btn);
+            });
+        }
+
 
         $(gridName).jqxGrid('loadstate');
 
@@ -780,6 +808,68 @@ var loadedClasses = new Object();
                             items.splice(i, 1);
                         }
                     });
+                },
+                ExecuteMethod(methodName) {
+                    var rowindex = $(gridName).jqxGrid('selectedrowindex');
+                    var objectid = $(gridName).jqxGrid('getrowid', rowindex);
+                    if (!objectid) {
+                        alert('object id is not defined');
+                        return;
+                    }
+                    //ExecMethod(string class_name, int id, string method_name
+                    //alert('execute method of class ' + this.class_name + ' on object id ' + objectid + ' with name ' + methodName);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/Object/ExecMethod?class_name=' + this.class_name + '&id=' + objectid + '&method_name=' + methodName, false);
+                    xhr.send();
+
+                    console.log(xhr.responseText);
+
+                },
+                FullInfo() {
+                    var rowindex = $(gridName).jqxGrid('selectedrowindex');
+                    var objectid = $(gridName).jqxGrid('getrowid', rowindex);
+                    if (!objectid) {
+                        alert('object id is not defined');
+                        return;
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/Object/FullInfo?class_name=' + this.class_name + '&id=' + objectid, false);
+                    xhr.send();
+                    let result = JSON.parse(xhr.responseText);
+                    if (result.response_status == 0)
+                        return result.response_body;
+                    else
+                        return result.error_message;
+                    //console.log(xhr.responseText);
+
+                },
+                SendToWord(fileName) {
+                    var rowindex = $(gridName).jqxGrid('selectedrowindex');
+                    var objectid = $(gridName).jqxGrid('getrowid', rowindex);
+                    if (!objectid) {
+                        alert('object id is not defined');
+                        return;
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/Object/FullInfo?class_name=' + this.class_name + '&id=' + objectid, false);
+                    xhr.send();
+                    let result = JSON.parse(xhr.responseText);
+                    let wordTable = new Array();
+                    wordTable.push(JSON.parse(result.response_body));
+                    if (result.response_status == 0) {
+                        var body = new Object();
+                        body.json_table = JSON.stringify(wordTable);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/Object/SendToWord?file_name=' + fileName, false);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.send(JSON.stringify(body));
+                        let fileId = xhr.responseText;
+                        let url = '/Object/DownloadById?file_id=' + fileId + '&file_name=word_document.docx';
+                        window.open(url);                        
+                    }
+                    else
+                        return result.error_message;
+
                 },
                 destroy: function () {
                     $(gridName).jqxGrid('destroy');

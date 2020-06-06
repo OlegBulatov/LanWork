@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +11,7 @@ using DIOS.Common.Interfaces;
 using DIOS.ObjectLib;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace LanWork.Models
 {
@@ -24,6 +28,122 @@ namespace LanWork.Models
         private int _limit = 1000;
         private int _offset = 0;
         private int _row_count = -1;
+        private bool _onlyFactoryMethods = true;
+
+        public string FullInfo(string class_name, int id)
+        {
+            _className = class_name;
+            _objectid = id;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForFullInfo), null);
+            return M.MakeResponse();
+        }
+
+        private string doTrueResponseForFullInfo()
+        {
+            IObject obj = ObjectMethods.GetObject(_className, _objectid);
+            if (obj == null)
+                throw new Exception(string.Format("Object {0} of class {1} not found.", _objectid, _className));
+            Type _Type = obj.GetType();
+            if (_Type != null)
+            {
+                MethodInfo FullInfoMethod = _Type.GetMethod("FullInfo");
+                if (FullInfoMethod != null)
+                    return (string)FullInfoMethod.Invoke(obj, new object[0]);
+            }
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public byte[] SendToWord(string json_table, string file_name)
+        {
+            GenerateService.ObjectWcfServiceClient sClient = new GenerateService.ObjectWcfServiceClient();
+            return sClient.GenerateWordFile(json_table, file_name);
+            //return res;
+            //DIOS.WordAdapter.WordDocument doc = new DIOS.WordAdapter.WordDocument();
+            //DataSet dataSet = new DataSet();
+            //DataTable T = JsonConvert.DeserializeObject<DataTable>(json_table);
+            //dataSet.Tables.Add(T);
+            //string templateName = "c:\\doc\\project_solution_template.docx";
+            //doc.NewDocument(templateName);
+            //doc.SetDataSource(dataSet);
+            //string fileName = AppDomain.CurrentDomain.BaseDirectory + "\\user_resources\\" + HttpContext.Current.User.Identity.Name + "\\" + Guid.NewGuid().ToString() + ".doc";
+            //doc.SaveAs(fileName);
+            ////doc.CloseDocument();
+            //doc.CloseWord();
+            //return new FileInfo(fileName);
+        }
+
+        public string ExecMethod(string class_name, int id, string method_name, string json_params = null)
+        {
+            _className = class_name;
+            _objectid = id;
+            _methodName = method_name;
+            _json_params = json_params;
+
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForExecMethod), null);
+            return M.MakeResponse();
+        }
+
+        private string doTrueResponseForExecMethod()
+        {
+            DiosSqlManager M = new DiosSqlManager();
+            ObjectFactory F = M.GetFactory(_className);
+            IObject obj = F.GetObject(_objectid);
+            object[] methodArgs = new object[0];
+            if (_json_params != null)
+            {
+                Hashtable HT = JsonConvert.DeserializeObject(_json_params, typeof(Hashtable)) as Hashtable;
+                if (HT != null)
+                {
+                    methodArgs = new object[HT.Count];
+                    for (int i = 1; i <= methodArgs.Length; i++)
+                    {
+                        string key = "p" + i.ToString();
+                        methodArgs[i - 1] = HT[key];
+                    }
+                }
+            }
+            object result = obj.ExecuteMethod(_methodName, methodArgs);
+            return JsonConvert.SerializeObject(result);
+            //if (result != null)
+            //    return result.ToString();
+            //return "no result";
+        }
+        public string ExecStaticMethod(string className, string methodName, string json_params, bool onlyFactoryMethods = true)
+        {
+            _json_params = json_params;
+            _className = className;
+            _methodName = methodName;
+            _onlyFactoryMethods = onlyFactoryMethods;
+            ResponseMaker M = new ResponseMaker(new ReceiveResponseHandler(doTrueResponseForExecStaticMethod), null);
+            return M.MakeResponse();
+        }
+        private string doTrueResponseForExecStaticMethod()
+        {
+            if (_onlyFactoryMethods)
+            {
+                object[] methodArgs = new object[0];
+                if (!string.IsNullOrEmpty(_json_params))
+                {
+                    Hashtable HT = JsonConvert.DeserializeObject(_json_params, typeof(Hashtable)) as Hashtable;
+                    if (HT != null)
+                    {
+                        methodArgs = new object[HT.Count];
+                        for (int i = 1; i <= methodArgs.Length; i++)
+                        {
+                            string key = "p" + i.ToString();
+                            methodArgs[i - 1] = HT[key];
+                        }
+                    }
+                }
+                object result = ObjectMethods.ExecuteStaticMethod(_className, _methodName, methodArgs);
+                return JsonConvert.SerializeObject(result);
+            }
+            return "Not implemented";
+
+            //if (result != null)
+            //    return result.ToString();
+            //return null;
+        }
 
         public string SetFormModel(string class_name, int form_type, string value)
         {

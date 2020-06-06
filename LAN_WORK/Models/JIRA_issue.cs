@@ -4,8 +4,10 @@ using DIOS.Common;
 using DIOS.Common.Interfaces;
 using DIOS.ObjectLib;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 using System.Collections;
+using System.IO;
 
 namespace DIOS.Lanit
 {
@@ -19,6 +21,12 @@ namespace DIOS.Lanit
         public JiraIssue(UniStructView v, ObjectFactory f) : base(v, f) { }
 
         public const string EntityClassName = "JIRA_ISSUE";
+
+        private static JiraIssue Create(UniStructView v, ObjectFactory f)
+        {
+            return new JiraIssue(v, f);
+        }
+
         #region jira_issue
         protected SqlInt32 _jira_issue;
         [DataMember]
@@ -94,7 +102,7 @@ namespace DIOS.Lanit
         #region project_name
         protected SqlString _project_name;
         [DataMember]
-        [ObjectPropertyAttribute("проект", false, false, 255, false, false)]
+        [ObjectPropertyAttribute("проект", false, false, 255, false, false, "fields.project.name")]
         public SqlString project_name
         {
             get
@@ -166,7 +174,7 @@ namespace DIOS.Lanit
         #region status
         protected SqlInt32 _status;
         [DataMember]
-        [ObjectPropertyAttribute("статус", false, false, 0, false, false)]
+        [ObjectPropertyAttribute("статус", false, false, 0, false, false, "fields.status.id")]
         public SqlInt32 status
         {
             get
@@ -202,7 +210,7 @@ namespace DIOS.Lanit
         #region author
         protected SqlString _author;
         [DataMember]
-        [ObjectPropertyAttribute("автор", false, false, 255, false, false)]
+        [ObjectPropertyAttribute("автор", false, false, 255, false, false, "fields.customfield_10407")]
         public SqlString author
         {
             get
@@ -253,17 +261,20 @@ namespace DIOS.Lanit
         #region List
         public static IObjectCollection List(IParameterCollection Params, int offset)
         {
-            //Params.Clear();
             Params.Remove("1");
             if (Params.Contains("c.jira_issue"))
             {
                 Params.Add("id", Params["c.jira_issue"].Value);
                 Params.Remove("c.jira_issue");
             }
-            Params.Add("project", 10505);
-            //Params.Add("created", "2017/08/01", ">=");
+            foreach (IParameter Param in Params)
+            {
+                if (Param.Value is DateTime)
+                    Param.Value = ((DateTime)Param.Value).ToString("yyyy-MM-dd");
+            }
+            Params.Add("project", SysParam.Get("JIRA old default project"));
             string token = "T0J1bGF0b3Y6YnJhY2VsZXR0RV8xODEx";
-            string url = "http://jira-app-pc:8080/rest/api/2/search?startAt=" + offset.ToString() + "&maxResults=50&jql=" + Params.GetWhere();// created%3E=%222017/08/01%22and%20project%20=%2010505";
+            string url = SysParam.Get("JIRA old server URL") + "rest/api/2/search?startAt=" + offset.ToString() + "&maxResults=50&jql=" + Params.GetWhere();
             System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
             req.Method = "GET";
             req.ContentType = "application/json";
@@ -275,45 +286,120 @@ namespace DIOS.Lanit
             string jiraSourceList = SR.ReadToEnd(); //(new JIRAController()).List(null);
             dynamic jiraSourceListObject = JsonConvert.DeserializeObject(jiraSourceList);
             object issueArr = jiraSourceListObject.issues;
-            //var query = from dynamic i in (IList)issueArr
-            //            select new { desc = i.key };
             ObjectFactory F = GetFactory();
-
-            //            Logger.LogStatic(JsonConvert.SerializeObject(Params));
             IObjectCollection result = new ObjectCollection(F.GetObjectProperties(), F.ObjectType, F.FactoryClassName);
             foreach (dynamic i in (IList)issueArr)
             {
-                JiraIssue J = new JiraIssue(new UniStructView(), F);
-                UniStructView vs = J.GetUniView();
-                vs["jira_issue"] = new SqlInt32(int.Parse(i.id.ToString()));//new SqlInt32(1);//new SqlInt32(int.Parse(savedScene["aid"].ToString()));
-                vs["key"] = new SqlString(i.key.ToString());
-                vs["link"] = new SqlString("jira-app-pc:8080/browse/" + (string)i.key);
-                dynamic Fi = i.fields;
-                vs["description"] = new SqlString(Fi.description == null ? null : Fi.description.ToString());
-                dynamic Pr = Fi.project;
-                vs["project_name"] = new SqlString(Pr.name == null ? null : Pr.name.ToString());
-                dynamic iType = Fi.issuetype;
-                vs["jira_issue_type"] = new SqlInt32(int.Parse(iType.id.ToString()));
-                dynamic iStatus = Fi.status;
-                vs["status"] = new SqlInt32(int.Parse(iStatus.id.ToString()));
-                vs["status_name"] = new SqlString((string)iStatus.name);
-                vs["author"] = new SqlString((string)Fi.customfield_11505);
-                dynamic createdAt = Fi.created;
-                vs["creation_date"] = new SqlDateTime((DateTime)createdAt);
-                dynamic Asg = Fi.assignee;
-                if (Asg != null)
-                {
-                    vs["assignee"] = new SqlString(Asg.name.ToString());
-                }
-                vs["summary"] = new SqlString(Fi.summary.ToString());
 
-                result.Add(new JiraIssue(vs, F));
+                try
+                {
+                    WJObject w = new WJObject(i as Newtonsoft.Json.Linq.JObject);
+                    var J = Create(new UniStructView(), F);
+                    UniStructView vs = J.GetUniView();
+                    vs["jira_issue"] = new SqlInt32(int.Parse(i.id.ToString()));
+
+                    foreach (IndexerPropertyDescriptor descr in vs.PDC)
+                    {
+                        string systemName = descr.Name;
+                        var pInfo = F.ObjectType.GetProperty(descr.Name);
+                        if (pInfo == null)
+                            continue;
+                        var attr = (Attribute.GetCustomAttribute(pInfo, typeof(ObjectPropertyAttribute)) as ObjectPropertyAttribute);
+                        if (attr != null && !string.IsNullOrEmpty(attr.SourceName))
+                            systemName = attr.SourceName;
+                        Newtonsoft.Json.Linq.JValue val = w[systemName] as Newtonsoft.Json.Linq.JValue;
+                        if (descr.Name != "jira_issue" && val != null)
+                        {
+                            Type T = descr.PropertyType;
+                            if (T == typeof(SqlString))
+                                vs[descr.Name] = new SqlString(val.ToString()); //Activator.CreateInstance(T, new object[] { val.ToString() });
+                            else if (T == typeof(SqlDateTime))
+                                vs[descr.Name] = new SqlDateTime(val.ToObject<DateTime>());
+                            //else if (T == typeof(SqlInt32))
+                            //    vs[descr.Name] = new SqlInt32(val.ToObject<System.Int32>());
+                            else
+                            {
+                                new Logger().LogError(descr.Name + ": " + (val as Newtonsoft.Json.Linq.JValue).Type.ToString());
+                                Type JT = ((ISqlType)J[descr.Name]).GetValueType();
+                                vs[descr.Name] = Activator.CreateInstance(T, new object[] { val.ToObject(JT) });
+                            }
+                        }
+                    }
+
+                    result.Add(Create(vs, F));
+                }
+                catch (Exception exc)
+                {
+                    new Logger().LogError(exc.Message);
+                }
             }
             return result;
 
         }
         #endregion
+
+        public static string Update(string json_object)
+        {
+            IParameterCollection Params = Util.ConvertJsonToParameterCollection(json_object);
+            string key = "";
+            if (Params.Contains("id"))
+            {
+                key = Params["id"].Value.ToString();
+                Params.Remove("id");
+                string token = "T0J1bGF0b3Y6YnJhY2VsZXR0RV8xODEx";
+                string url = SysParam.Get("JIRA server URL") + "rest/api/2/issue/" + key;
+                //System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
+                //req.Method = "GET";
+                //req.ContentType = "application/json";
+                //req.Headers.Add("Authorization", "Basic " + token);
+                //var resp = req.GetResponse();
+                //var respStream = resp.GetResponseStream();
+                //var SR = new System.IO.StreamReader(respStream);
+
+                //string jiraSourceList = SR.ReadToEnd(); //(new JIRAController()).List(null);
+                //dynamic jiraSourceListObject = JsonConvert.DeserializeObject(jiraSourceList);
+
+                var jiraSourceListObject = new JObject();
+                //jiraSourceListObject["fields"]["issuetype"]["id"] = 65432;
+                WJObject wo = new WJObject(jiraSourceListObject);
+                //wo["key"] = "qwerty";
+                //wo["fields.issuetype.id"] = 13210;
+                Type T = typeof(JiraIssue);
+                foreach(IParameter Param in Params)
+                {
+                    string systemName = Param.Name;
+                    var pInfo = T.GetProperty(Param.Name);
+                    if (pInfo == null)
+                        continue;
+                    var attr = (Attribute.GetCustomAttribute(pInfo, typeof(ObjectPropertyAttribute)) as ObjectPropertyAttribute);
+                    if (attr != null && !string.IsNullOrEmpty(attr.SourceName))
+                        systemName = attr.SourceName;
+                    wo[systemName] = Param.Value;
+                }
+                System.Net.HttpWebRequest wreq = System.Net.HttpWebRequest.CreateHttp(url);
+                wreq.Method = "PUT";
+                wreq.ContentType = "application/json";
+                wreq.Headers.Add("Authorization", "Basic " + token);
+                Stream S = wreq.GetRequestStream();
+                StreamWriter SW = new StreamWriter(S, System.Text.Encoding.UTF8);
+//                jiraSourceListObject = new { fields = new { customfield_10407 = "Власов А.В." } };
+                SW.Write(JsonConvert.SerializeObject(jiraSourceListObject));
+                SW.Flush();
+                var resp = wreq.GetResponse();
+                var respStream = resp.GetResponseStream();
+                var SR = new System.IO.StreamReader(respStream);
+                return SR.ReadToEnd();
+
+                //return CustomActionResult;
+            }
+            return "no id";
+        }
         #endregion
+        #region Константы
+        private static System.String UrlSysParamName = "JIRA old server URL";
+        private static System.String ProjectSysParamName = "JIRA old default project";
+        #endregion
+
         #region GetUniView()
         protected override UniStructView GetUniView()
         {

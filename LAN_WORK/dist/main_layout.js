@@ -32,7 +32,11 @@ var clickAfterSelect = false;
                                                         },
                                                         { "id": "6", "parentid": "2", "text": "Серверы", "value": { "name": "LNT_SERVER" } },
                                                         { "id": "7", "parentid": "2", "text": "Заявки JIRA", "value": { "name": "JIRA_ISSUE" } },
-                                                        { "id": "9", "parentid": "2", "text": "Отладка", "value": { "name": "TEST_OBJECT", "virtual_class": true } }
+                                                        { "id": "12", "parentid": "2", "text": "Требования JIRA", "value": { "name": "JIRA_REQUIREMENT" } },
+                                                        { "id": "10", "parentid": "2", "text": "Заявки JIRA old", "value": { "name": "JIRA_ISSUE_OLD" } },
+                                                        { "id": "11", "parentid": "2", "text": "Типы заявок JIRA", "value": { "name": "JIRA_ISSUE_TYPE" } },
+                                                        { "id": "9", "parentid": "2", "text": "Отладка", "value": { "name": "PROJECT_SOLUTION", "virtual_class": false } }
+                                                        //{ "id": "9", "parentid": "2", "text": "Отладка", "value": { "name": "TEST_OBJECT", "virtual_class": true } }
 
                                                     ];
                                                     var source =

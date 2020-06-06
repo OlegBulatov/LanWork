@@ -67,11 +67,11 @@
     </Reference>
     <Reference Include="Dios.Common, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Dios.Common.dll</HintPath>
+      <HintPath>..\..\..\gitd\dersa\DIOS\DIOS.Server\common\Dios.Common.dll</HintPath>
     </Reference>
     <Reference Include="Dios.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Dios.Interfaces.dll</HintPath>
+      <HintPath>..\..\..\gitd\dersa\DIOS\DIOS.Server\common\Dios.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Dios.SqlManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,6 +80,10 @@
     <Reference Include="DIOS.WCF.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\DIOS.WCF.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DIOS.WordAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\gitd\dersa\DIOS\DIOS.Server\common\DIOS.WordAdapter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -197,6 +201,16 @@
     <Compile Include="Models\JiraIssueComment.cs" />
     <Compile Include="Models\JiraIssueType.cs" />
     <Compile Include="Models\JIRA_issue.cs" />
+    <Compile Include="Service References\GenerateService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="WCF\IQueryService.cs" />
+    <Compile Include="WCF\QueryService.svc.cs">
+      <DependentUpon>QueryService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="WCF\Util.cs" />
     <Content Include="app_code\Startup.Auth.cs" />
     <Content Include="app_code\Startup.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -263,7 +277,12 @@
     <Content Include="dist\vue_filter.js" />
     <Content Include="dist\vue_obj.js" />
     <Content Include="Global.asax" />
-    <Content Include="ObjectWcfService.svc" />
+    <None Include="Service References\GenerateService\configuration91.svcinfo" />
+    <None Include="Service References\GenerateService\configuration.svcinfo" />
+    <None Include="Service References\GenerateService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Views\DIOS\index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -274,8 +293,16 @@
     <Content Include="Views\DIOS\index_jqx.cshtml" />
     <Content Include="Views\DIOS\index_guriddo_wo_layout.cshtml" />
     <Content Include="Views\DIOS\index_fancy_with_filter.cshtml" />
+    <None Include="Service References\GenerateService\service1.wsdl" />
+    <None Include="Service References\GenerateService\service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GenerateService\service21.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\HelpPage.html" />
+    <Content Include="WCF\QueryService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -294,9 +321,11 @@
     <Content Include="Views\JIRA\Index.cshtml" />
     <Content Include="Views\Report\JIRA_ISSUE_INFO.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GenerateService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

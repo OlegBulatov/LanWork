@@ -31,7 +31,8 @@
 <br>
 <br>
 <br>
-<a href="http://jira-app-pc:8080/browse/@ViewBag.code" target="_blank">открыть в браузере</a>
+@{string issueUrl = ViewBag.code.ToString().Contains("DPB")? "http://jira-app-pc:8080/browse/" + ViewBag.code :  "http://drpo-jira/browse/" + ViewBag.code;}
+<a href="@issueUrl" target="_blank">открыть в браузере</a>
 <script>
     var issueCode = '@ViewBag.code';
     function setIssueSolution(stext) {

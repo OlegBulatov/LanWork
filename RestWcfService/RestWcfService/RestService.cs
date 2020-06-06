@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text;
 using System.IO;
+using System.Data;
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -36,6 +38,10 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         string EditText(string textId);
+
+        [WebInvoke(Method = "POST", UriTemplate = "wordfile?json_table={json_table}", RequestFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        byte[] WordFile(string json_table);
 
         [WebInvoke(Method = "OPTIONS", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -78,6 +84,31 @@ namespace RestWcfService
             string options = "";
         }
 
+        public byte[] WordFile(string json_table)
+        {
+            //DIOS.WordAdapter.WordDocument doc = new DIOS.WordAdapter.WordDocument();
+            //DataSet dataSet = new DataSet();
+            //DataTable T = JsonConvert.DeserializeObject<DataTable>(json_table);
+            //dataSet.Tables.Add(T);
+            //string templateName = AppDomain.CurrentDomain.BaseDirectory + "\\TempFiles\\project_solution_template.docx";
+            //doc.NewDocument(templateName);
+            //doc.SetDataSource(dataSet);
+            //string fileName = AppDomain.CurrentDomain.BaseDirectory + "\\TempFiles\\" + Guid.NewGuid().ToString() + ".doc";
+            //doc.SaveAs(fileName);
+            ////doc.CloseDocument();
+            //doc.CloseWord();
+            //FileInfo fi = new FileInfo(fileName);
+            //System.IO.Stream S = fi.OpenRead();
+            //byte[] bts = new byte[S.Length];
+            //S.Read(bts, 0, bts.Length);
+            //S.Flush();
+            //S.Close();
+            //return bts;
+
+            byte[] bts = Encoding.Default.GetBytes(json_table);
+            return bts;
+        }
+
         public string ExecuteQuery(string queryId)
         {
             var response = WebOperationContext.Current.OutgoingResponse;
@@ -115,7 +146,8 @@ namespace RestWcfService
                     Params.Add("object_name", objectName);
                     Params.Add("object_type", objectType);
                     Params.Add("new_ddl", query);
-                    M.ExecuteSPWithResult(Properties_Settings_Default.QueryExecuteProcedure, false, Params);
+                    string[] QueryExecuteProcedureParams = Properties_Settings_Default.QueryExecuteProcedure.Split('.');
+                    M.ExecuteIntMethod(QueryExecuteProcedureParams[0], QueryExecuteProcedureParams[1], Params);
                 }
                 return M.ExecMultiPartSql(query); // "ExecuteQuery " + query;
             }

@@ -13,5 +13,8 @@ namespace LanWork.WCF
     {
         [OperationContract]
         string GetQueryId(string query, string connectionString);
+
+        [OperationContract]
+        string GetWordDataset(string id);
     }
 }

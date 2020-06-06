@@ -5,6 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using Newtonsoft.Json;
+using DIOS.Common.Interfaces;
+using DIOS.Common;
+using DIOS.ObjectLib;
+using DIOS.BusinessBase;
+using DIOS.Lanit;
 
 namespace LanWork.Controllers
 {
@@ -43,25 +48,34 @@ namespace LanWork.Controllers
         {
             return View();
         }
+
         public string List(string json_params)
         {
-            try
-            {
-                string token = "T0J1bGF0b3Y6YnJhY2VsZXR0RV8xODEx";
-                string url = "http://jira-app-pc:8080/rest/api/2/search?jql=created%3E=%222017/08/01%22and%20project%20=%2010505";
-                System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
-                req.Method = "GET";
-                req.ContentType = "application/json";
-                req.Headers.Add("Authorization", "Basic " + token);
-                var resp = req.GetResponse();
-                var respStream = resp.GetResponseStream();
-                var SR = new System.IO.StreamReader(respStream);
-                return SR.ReadToEnd();
-            }
-            catch (Exception exc)
-            {
-                return exc.Message;
-            }
+            IParameterCollection Params = Util.DeserializeParams(json_params);
+            IObjectCollection result = JiraIssue.List(Params, 0);
+            return JsonConvert.SerializeObject(result);
+            //try
+            //{
+            //    string token = "T0J1bGF0b3Y6YnJhY2VsZXR0RV8xODEx";
+            //    string url = "http://jira-app-pc:8080/rest/api/2/search?jql=created%3E=%222017/08/01%22and%20project%20=%2010505";
+            //    System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
+            //    req.Method = "GET";
+            //    req.ContentType = "application/json";
+            //    req.Headers.Add("Authorization", "Basic " + token);
+            //    var resp = req.GetResponse();
+            //    var respStream = resp.GetResponseStream();
+            //    var SR = new System.IO.StreamReader(respStream);
+            //    return SR.ReadToEnd();
+            //}
+            //catch (Exception exc)
+            //{
+            //    return exc.Message;
+            //}
+        }
+
+        public string Update(string json_object)
+        {
+            return JiraIssue.Update(json_object);
         }
 
     }

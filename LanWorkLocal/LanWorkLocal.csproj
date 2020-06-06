@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02F5D318-9E06-4526-A850-719DB66FFFC7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>LanWorkLocal</RootNamespace>
+    <AssemblyName>LanWorkLocal</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DIOS.BusinessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\gitd\dersa\DIOS\DIOS.Server\common\DIOS.BusinessBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Diagnostics, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Diagnostics.4.1.0\lib\net45\Microsoft.Owin.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.FileSystems.4.1.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Host.HttpListener.4.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Hosting.4.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.StaticFiles.4.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ObjectController.cs" />
+    <Compile Include="Models\ObjectControllerAdapter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="www\dist\dersa.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="www\dist\dersatree.js" />
+    <Content Include="www\dist\grid_fullrowedit.bundle.js" />
+    <Content Include="www\dist\grid_paging.bundle.js" />
+    <Content Include="www\dist\inner_layout.js" />
+    <Content Include="www\dist\jquery.json.min.js" />
+    <Content Include="www\dist\jstree.js" />
+    <Content Include="www\dist\jstree.min.js" />
+    <Content Include="www\dist\lantree.js" />
+    <Content Include="www\dist\main_layout.js" />
+    <Content Include="www\dist\menu.js" />
+    <Content Include="www\dist\menu2.js" />
+    <Content Include="www\dist\themes\default\32px.png" />
+    <Content Include="www\dist\themes\default\40px.png" />
+    <Content Include="www\dist\themes\default\Actor.gif" />
+    <Content Include="www\dist\themes\default\Application.gif" />
+    <Content Include="www\dist\themes\default\Article.gif" />
+    <Content Include="www\dist\themes\default\Attribute.gif" />
+    <Content Include="www\dist\themes\default\BackRef.gif" />
+    <Content Include="www\dist\themes\default\BrowseForm.gif" />
+    <Content Include="www\dist\themes\default\Calendar__.png" />
+    <Content Include="www\dist\themes\default\Change.gif" />
+    <Content Include="www\dist\themes\default\CheckBox.gif" />
+    <Content Include="www\dist\themes\default\ComboBox.gif" />
+    <Content Include="www\dist\themes\default\Common.gif" />
+    <Content Include="www\dist\themes\default\Const.gif" />
+    <Content Include="www\dist\themes\default\Database.gif" />
+    <Content Include="www\dist\themes\default\DataFlow.gif" />
+    <Content Include="www\dist\themes\default\DBMS.gif" />
+    <Content Include="www\dist\themes\default\Deployment.gif" />
+    <Content Include="www\dist\themes\default\Document.gif" />
+    <Content Include="www\dist\themes\default\DropObject.gif" />
+    <Content Include="www\dist\themes\default\EditForm.gif" />
+    <Content Include="www\dist\themes\default\Empty.gif" />
+    <Content Include="www\dist\themes\default\Entity.gif" />
+    <Content Include="www\dist\themes\default\EntityVC.gif" />
+    <Content Include="www\dist\themes\default\Event.gif" />
+    <Content Include="www\dist\themes\default\Extention.gif" />
+    <Content Include="www\dist\themes\default\FilterForm.gif" />
+    <Content Include="www\dist\themes\default\Function.gif" />
+    <Content Include="www\dist\themes\default\Group.gif" />
+    <Content Include="www\dist\themes\default\Implement.gif" />
+    <Content Include="www\dist\themes\default\Index.gif" />
+    <Content Include="www\dist\themes\default\Inherit.gif" />
+    <Content Include="www\dist\themes\default\Interface.gif" />
+    <Content Include="www\dist\themes\default\Join.gif" />
+    <Content Include="www\dist\themes\default\Key.gif" />
+    <Content Include="www\dist\themes\default\ListBox.gif" />
+    <Content Include="www\dist\themes\default\Method.gif" />
+    <Content Include="www\dist\themes\default\Module.gif" />
+    <Content Include="www\dist\themes\default\Object.gif" />
+    <Content Include="www\dist\themes\default\Op.gif" />
+    <Content Include="www\dist\themes\default\Package.gif" />
+    <Content Include="www\dist\themes\default\Parameter.gif" />
+    <Content Include="www\dist\themes\default\Procedure.gif" />
+    <Content Include="www\dist\themes\default\Property.gif" />
+    <Content Include="www\dist\themes\default\RadioButton.gif" />
+    <Content Include="www\dist\themes\default\RadioGroup.gif" />
+    <Content Include="www\dist\themes\default\Recycle.bmp" />
+    <Content Include="www\dist\themes\default\Ref.gif" />
+    <Content Include="www\dist\themes\default\Relation.gif" />
+    <Content Include="www\dist\themes\default\Report.gif" />
+    <Content Include="www\dist\themes\default\Root.gif" />
+    <Content Include="www\dist\themes\default\Script.gif" />
+    <Content Include="www\dist\themes\default\Set.gif" />
+    <Content Include="www\dist\themes\default\StartState.gif" />
+    <Content Include="www\dist\themes\default\State.gif" />
+    <Content Include="www\dist\themes\default\StateEngine.gif" />
+    <Content Include="www\dist\themes\default\StereotypeE.gif" />
+    <Content Include="www\dist\themes\default\StereotypeR.gif" />
+    <Content Include="www\dist\themes\default\StopState.gif" />
+    <Content Include="www\dist\themes\default\style.css" />
+    <Content Include="www\dist\themes\default\SystemBase.gif" />
+    <Content Include="www\dist\themes\default\Table.gif" />
+    <Content Include="www\dist\themes\default\TextBox.gif" />
+    <Content Include="www\dist\themes\default\throbber.gif" />
+    <Content Include="www\dist\themes\default\Transition.gif" />
+    <Content Include="www\dist\themes\default\TreeMidMin.gif" />
+    <Content Include="www\dist\themes\default\TreeMidPlus.gif" />
+    <Content Include="www\dist\themes\default\TreePath.gif" />
+    <Content Include="www\dist\themes\default\TreePathMin.gif" />
+    <Content Include="www\dist\themes\default\TreePathPlus.gif" />
+    <Content Include="www\dist\themes\default\TreeVert.gif" />
+    <Content Include="www\dist\themes\default\Trigger.gif" />
+    <Content Include="www\dist\themes\default\Type.gif" />
+    <Content Include="www\dist\themes\default\Version.gif" />
+    <Content Include="www\dist\themes\default\View.gif" />
+    <Content Include="www\dist\themes\default\ViewAttribute.gif" />
+    <Content Include="www\dist\themes\default\Xsd.gif" />
+    <Content Include="www\dist\themes\default\¦Ь¦-¦+TГ¦¬TМ.gif" />
+    <Content Include="www\dist\user-functions.js" />
+    <Content Include="www\dist\util.js" />
+    <Content Include="www\dist\vue.js" />
+    <Content Include="www\dist\vue_edit.js" />
+    <Content Include="www\dist\vue_filter.js" />
+    <Content Include="www\dist\vue_obj.js" />
+    <Content Include="www\dist\vue_settings.js" />
+    <Content Include="www\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="www\dist\libs\" />
+    <Folder Include="www\dist\mxgraphsrc\css\" />
+    <Folder Include="www\dist\mxgraphsrc\images\" />
+    <Folder Include="www\dist\mxgraphsrc\js\editor\" />
+    <Folder Include="www\dist\mxgraphsrc\js\handler\" />
+    <Folder Include="www\dist\mxgraphsrc\js\io\" />
+    <Folder Include="www\dist\mxgraphsrc\js\layout\hierarchical\model\" />
+    <Folder Include="www\dist\mxgraphsrc\js\layout\hierarchical\stage\" />
+    <Folder Include="www\dist\mxgraphsrc\js\model\" />
+    <Folder Include="www\dist\mxgraphsrc\js\shape\" />
+    <Folder Include="www\dist\mxgraphsrc\js\util\" />
+    <Folder Include="www\dist\mxgraphsrc\js\view\" />
+    <Folder Include="www\dist\mxgraphsrc\resources\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

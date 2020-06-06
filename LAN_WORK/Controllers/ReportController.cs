@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using DIOS.BusinessBase;
 using System.Data.OleDb;
+using System.Net;
 //using LanWork.WCF;
 
 namespace LanitWork.Controllers
@@ -32,33 +33,39 @@ namespace LanitWork.Controllers
             Response.Headers.Add("Access-Control-Allow-Method", "*");
         }
         [HttpPost]
-        public string CreateJiraIssue(string token, string sbody)
+        public string CreateJiraIssue(string token, string _sbody)
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             //return sbody;
             try
             {
-                string url = "http://jira-app-pc:8080/rest/api/2/issue";
-                System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
+                //string url = "http://jira-app-pc:8080/rest/api/2/issue";
+                string url = SysParam.Get("JIRA server URL") + "rest/api/2/issue";
+                string jiraProject = SysParam.Get("JIRA default project");
+                HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
                 req.Method = "POST";
                 req.ContentType = "application/json";
                 req.Headers.Add("Authorization", "Basic " + token);
-                //var body = new
-                //{
-                //    fields = new
-                //    {
-                //        project = new
-                //        {
-                //            id = 10505
-                //        },
-                //        summary = summary,
-                //        issuetype = new
-                //        {
-                //            id = 10200
-                //        }
-                //    }
-                //};
-                //string sbody = JsonConvert.SerializeObject(body);
+                var body = new
+                {
+                    fields = new
+                    {
+                        project = new
+                        {
+                            id = jiraProject
+                        },
+                        summary = "test",
+                        description = "test",
+                        customfield_10415 = new { id = "10247" },//"Источник  обязательно.",
+                        customfield_10406 = new { id = "10211"},//"Тип требования  обязательно.",
+                        customfield_10411 = new { id = "10219"},//"Вид договора  обязательно.",
+                        issuetype = new
+                        {
+                            id = 10200
+                        }
+                    }
+                };
+                string sbody = JsonConvert.SerializeObject(body);
                 Stream S = req.GetRequestStream();
                 StreamWriter SW = new StreamWriter(S, System.Text.Encoding.UTF8);
                 SW.Write(sbody);
@@ -70,10 +77,18 @@ namespace LanitWork.Controllers
                 //                byte[] ibytes = new byte[Request.InputStream.Length];
                 //                Request.InputStream.Read(ibytes, 0, ibytes.Length);
                 //                S.Write(ibytes, 0, ibytes.Length);
-                var resp = req.GetResponse();
-                var respStream = resp.GetResponseStream();
-                var SR = new System.IO.StreamReader(respStream);
-                return SR.ReadToEnd();
+                try
+                {
+                    var resp = req.GetResponse();
+                    var respStream = resp.GetResponseStream();
+                    var SR = new System.IO.StreamReader(respStream);
+                    return SR.ReadToEnd();
+                }
+                catch(WebException wExc)
+                {
+                    var ER = new System.IO.StreamReader(wExc.Response.GetResponseStream());
+                    return ER.ReadToEnd();
+                }
                 //                byte[] rbytes = new byte[respStream.Length];
                 //                respStream.Read(rbytes, 0, rbytes.Length);
                 //                return System.Text.Encoding.Default.GetString(rbytes);
