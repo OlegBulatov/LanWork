@@ -595,6 +595,7 @@ var editorCreated = false;
         });
         $(gridName).on('rowselect', function (event) {
             cObj.Cancel();
+            console.log(event.args);
             cObj.SetObjectData(event.args.row, event.args.rowindex);
         });
 
@@ -706,6 +707,8 @@ var editorCreated = false;
                      
                     $(gridName).jqxGrid('gotopage', 0);
                     $(gridName).jqxGrid({ source: this.GetDataAdapter() });
+                    $(gridName).jqxGrid('unselectrow', 0);
+                    $(gridName).jqxGrid('selectrow', 0);
                 },
                 Load() {
                     if (this.editObject)
