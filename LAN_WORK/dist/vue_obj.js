@@ -1,5 +1,6 @@
 ﻿var theme = 'light';
 var loadedClasses = new Object();
+var editorCreated = false;
 
 (function ($) {
     $.fn.clientObj = function (className, isVirtual) {
@@ -412,6 +413,9 @@ var loadedClasses = new Object();
             $('#window').jqxWindow('open');
         };
         var createEditor = function (row, cellvalue, editor) {
+            if (editorCreated)
+                return;
+            editorCreated = true;
             $('#window').jqxWindow({
                 autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
                 resizable: false, isModal: true,
