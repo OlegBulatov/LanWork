@@ -309,7 +309,8 @@ namespace LanWork.Models
                 {
                     throw new Exception("Object type " + _className + " not found");
                 }
-                IParameterCollection Params = Util.DeserializeParams(_json_params);
+                IParameterCollection Params = Util.ConvertJsonToParameterCollection(_json_params);//Util.DeserializeParams(_json_params);
+                Params = SmartFilter.ModifyParameters(_className, Params);
                 string result = F.ListJson(Params, _order, _limit, _offset);
                 _row_count = F.RowCount;
                 return result;

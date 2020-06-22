@@ -27,6 +27,7 @@ var clickAfterSelect = false;
                                                         { "id": "4", "parentid": "1", "text": "Модули", "value": { "name": "MODULE" } },
                                                         { "id": "5", "parentid": "1", "text": "Формы", "value": { "name": "FORM" } },
                                                         { "id": "8", "parentid": "1", "text": "Системные параметры", "value": { "name": "SYS_PARAM" } },
+                                                        { "id": "15", "parentid": "1", "text": "Умные фильтры", "value": { "name": "SMART_FILTER" } },
                                                         {
                                                             "id": "2", "text": "Модули"
                                                         },
