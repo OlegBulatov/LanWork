@@ -88,7 +88,7 @@ Vue.component('fltsel', {
 Vue.component('fltdate', {
     mounted: function () {
         var self = this;
-        $('#' + this.id).jqxDateTimeInput({ value: null, width: this.styleI.width, height: this.styleI.height, disabled: !this.valuable });
+        $('#' + this.id).jqxDateTimeInput({ formatString: 'yyyy-MM-dd', value: null, width: this.styleI.width, height: this.styleI.height, disabled: !this.valuable });
         $('#' + this.id).on('change', function (event) {
             self.ctrl.filter_value = event.target.value;
         }); 
@@ -170,11 +170,13 @@ function initFilter(className, filterModel) {
                 GetFilter: function () {
                     let result = new Array();
                     this.$children.forEach(function (item) {
-                        if (item.ctrl.filter_value && item.valuable)
+                        if (item.ctrl.filter_value && item.valuable) {
                             result.push({
                                 Name: item.ctrl.data_field,
+                                Predicate: item.ctrl.predicate ? item.ctrl.predicate : '=',
                                 Value: item.ctrl.filter_value
                             });
+                        }
                     });
                     return JSON.stringify(result);
                 },
