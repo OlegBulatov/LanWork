@@ -1,6 +1,6 @@
 Vue.component('enabler', {
     data: function(){
-        return { evName: 'change', _value: false };
+        return { _value: false };
     },
     computed: {
         styleD: function () {
@@ -20,7 +20,7 @@ Vue.component('enabler', {
         }
     },
     props: ['ctrl'],
-    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="value" v-model:value="ctrl.enabled" v-on:change="$emit(evName, $event.target.checked)"></div>'
+    template: '<div v-bind:style="styleD"><input type="checkbox" v-model:checked="value" v-model:value="ctrl.enabled" v-on:change="$emit(\'change\', $event.target.checked)"></div>'
 });
 
 Vue.component('fltdiv', {
@@ -122,16 +122,6 @@ Vue.component('fltdate', {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
-//var initFilterModel = {
-//    FORM:[
-//        { class: 'textbox', caption: 'entity1', data_field: 'f1', filter_value: 'v1', id: 'e1', app_index: 0, left: 98, top: 50, width: 100, height: 25, is_selected: false, is_visible: true },
-//        { class: 'datepick', caption: null, data_field: 'creation_date', filter_value: '', id: 'e2', app_index: 1, left: 200, top: 50, width: 90, height: 25, is_selected: false, is_visible: true },
-//        {
-//            class: 'combobox', caption: 'entity3', data_field: 'f3', filter_value: 't2', id: 'e3', app_index: 2, left: 402, top: 50, width: 160, height: 25, is_selected: false, is_visible: true,
-//            options: [{ value: "1", text: "Che Bur" }, { value: "2", text: "Gena the croc" }, { value: "3", text: "Ch-claque" }, { value: "4", text: "Larissa" }]
-//        }
-//    ]};
-
 
 function initFilter(className, filterModel) {
     var objFilter = null;
@@ -199,15 +189,6 @@ function initFilter(className, filterModel) {
         var fltDiv = $("<" + divName + "></" + divName + ">");
         fltDiv.attr("v-for", "ctrl in ctrls");
         fltDiv.attr("v-if", "ctrl.class=='" + className + "'");
-        //fltDiv.attr(":key", "ctrl.id");
-        //fltDiv.attr("v-bind:caption", "ctrl.caption");
-        //fltDiv.attr("v-bind:data_field", "ctrl.data_field");
-        //fltDiv.attr("v-bind:filter_value", "ctrl.filter_value");
-        //fltDiv.attr("v-bind:left", "ctrl.left");
-        //fltDiv.attr("v-bind:top", "ctrl.top");
-        //fltDiv.attr("v-bind:width", "ctrl.width");
-        //fltDiv.attr("v-bind:height", "ctrl.height");
-        //fltDiv.attr("v-bind:options", "ctrl.options");
         fltDiv.attr("v-bind:ctrl", "ctrl");
         fltDiv.attr("v-bind:id", "GetId()");
         parentObj.append(fltDiv);
