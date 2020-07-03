@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>x select[[]]1[[]]as[[]]FF1,c.%2a[[]]from[[]]H001_TREE[[]]c{{{}}}t1.csv</StartArguments>
+    <StartArguments>x select[[]]c.%2a[[]]from[[]]V_SRC_VS_EDITED[[]]c{{{}}}t1.csv</StartArguments>
   </PropertyGroup>
 </Project>

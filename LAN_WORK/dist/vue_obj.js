@@ -698,6 +698,12 @@ var editorCreated = false;
                         },
                         totalrecords: data.row_count
                     };
+                    if ($(gridName).jqxGrid('columns')) {
+                        source.datafields = new Array();
+                        $(gridName).jqxGrid('columns').records.forEach(function (item) {
+                            source.datafields.push({ name: item.datafield, type: 'string' });
+                        });
+                    }
 
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     return dataAdapter;
