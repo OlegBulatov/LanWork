@@ -37,7 +37,7 @@
     var issueCode = '@ViewBag.code';
     function setIssueSolution(stext) {
         var body = new Object();
-        body.sbody = $.toJSON({code:issueCode,body:{update:{customfield_10421:[{set:stext}]}}});
+        body.sbody = $.toJSON({code:issueCode,body:{update:{customfield_10600:[{set:stext}]}}});
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/JIRA/SetIssueSolution', false);
         xhr.setRequestHeader('Content-Type', 'application/json');

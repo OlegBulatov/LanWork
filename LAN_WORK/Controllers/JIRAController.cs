@@ -25,6 +25,32 @@ namespace LanWork.Controllers
             try
             {
                 dynamic jsonObj = JsonConvert.DeserializeObject(sbody);
+                string url = "http://drpo-jira/rest/api/2/issue/" + jsonObj.code;
+                System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
+                req.Method = "PUT";
+                req.ContentType = "application/json";
+                req.Headers.Add("Authorization", "Basic " + token);
+                Stream S = req.GetRequestStream();
+                StreamWriter SW = new StreamWriter(S, System.Text.Encoding.UTF8);
+                SW.Write(jsonObj.body);
+                SW.Flush();
+                var resp = req.GetResponse();
+                var respStream = resp.GetResponseStream();
+                var SR = new System.IO.StreamReader(respStream);
+                return SR.ReadToEnd();
+            }
+            catch (Exception exc)
+            {
+                return exc.Message;
+            }
+        }
+        public string SetIssueSolutionOld(string sbody)
+        {
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            string token = "T0J1bGF0b3Y6YnJhY2VsZXR0RV8xODEx";
+            try
+            {
+                dynamic jsonObj = JsonConvert.DeserializeObject(sbody);
                 string url = "http://jira-app-pc:8080/rest/api/2/issue/" + jsonObj.code;
                 System.Net.HttpWebRequest req = System.Net.HttpWebRequest.CreateHttp(url);
                 req.Method = "PUT";

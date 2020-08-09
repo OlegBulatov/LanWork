@@ -68,7 +68,6 @@ D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CoreCompil
 D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csproj.CopyComplete
 D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.exe
 D:\gitlanit\master\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.pdb
-D:\gitlan\lanitwork\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.csprojAssemblyReference.cache
 D:\gitlan\lanitwork\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.DisplayCountForm.resources
 D:\gitlan\lanitwork\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.Properties.Resources.resources
 D:\gitlan\lanitwork\SaveGivenCsvFile\obj\Debug\SaveGivenCsvFile.SettingsForm.resources
