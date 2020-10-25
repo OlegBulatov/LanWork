@@ -194,6 +194,7 @@
   <ItemGroup>
     <Compile Include="Controllers\DIOSController.cs" />
     <Compile Include="Controllers\ObjectController.cs" />
+    <Compile Include="Controllers\WVIBController.cs" />
     <Compile Include="Controllers\WIBController.cs" />
     <Compile Include="Controllers\JIRAController.cs" />
     <Compile Include="Models\ObjectControllerAdapter.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\JIRA\Index.cshtml" />
     <Content Include="Views\Report\JIRA_ISSUE_INFO.cshtml" />
+    <Content Include="Views\WVIB\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
