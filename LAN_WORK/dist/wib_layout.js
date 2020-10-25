@@ -9,7 +9,7 @@ var clickAfterSelect = false;
                             [
                                 {
                                     type: 'tabbedGroup',
-                                    width: '12%',
+                                    width: '15%',
                                     minWidth: 200,
                                     items:
                                         [
@@ -21,13 +21,18 @@ var clickAfterSelect = false;
                                                     var $tree = $('#modulesTree');
                                                     InitTree($tree);
                                                 }
+                                            },
+                                            {
+                                                type: 'layoutPanel',
+                                                title: 'Редактирование',
+                                                contentContainer: 'EditPanel'
                                             }
                                         ]
                                 },
                                 {
                                     type: 'tabbedGroup',
                                     orientation: 'vertical',
-                                    width: '88%',
+                                    width: '85%',
                                     items: [
                                         {
                                             type: 'layoutPanel',
