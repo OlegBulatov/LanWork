@@ -247,7 +247,6 @@
     <Content Include="dist\jstree.js" />
     <Content Include="dist\jstree.min.js" />
     <Content Include="dist\lantree.js" />
-    <Content Include="dist\main_layout.js" />
     <Content Include="dist\themes\default\32px.png" />
     <Content Include="dist\themes\default\40px.png" />
     <Content Include="dist\themes\default\Application.gif" />
@@ -277,6 +276,7 @@
     <Content Include="dist\vue_edit.js" />
     <Content Include="dist\vue_filter.js" />
     <Content Include="dist\vue_obj.js" />
+    <Content Include="dist\wib_layout.js" />
     <Content Include="Global.asax" />
     <None Include="Service References\GenerateService\configuration91.svcinfo" />
     <None Include="Service References\GenerateService\configuration.svcinfo" />

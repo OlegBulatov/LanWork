@@ -37,8 +37,10 @@ return {
 (function ($) {
 	$.fn.wibPage = function () {
 //initialization code
-		var pictureContainer = $("<div>{{picture_url}}</div>");
+		var pictureContainer = $("<div>");
+		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
+		
 
         var buttonComponents = $("<wib_button>");
         buttonComponents.attr("v-for", "button in buttons");
@@ -59,14 +61,24 @@ return {
 		return new Vue({
 			el: this.selector, 
 			data: {
-				picture_url: "www.picture.com",
+				picture_url: "/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png",
 				buttons: [{caption: "Test", left: 200, top: 100}],
 				texts: [{text: "Test text just for test", left: 300, top: 200, width: 100, height: 100}]
+			},
+			computed: {
+				displayStyle: function () {
+					return {
+						//background: 'magenta',
+						width: "1200px",
+						height: "800px",
+						backgroundImage: "url('" + this.picture_url + "')"
+					}
+				}
 			},
 			methods: {
 				SetPicture(purl) {
 					this.picture_url = purl;
-				}
+				},
 			}
 		});
 	}
