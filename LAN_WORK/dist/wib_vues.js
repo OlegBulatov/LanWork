@@ -69,8 +69,8 @@ return {
 				displayStyle: function () {
 					return {
 						//background: 'magenta',
-						width: "1200px",
-						height: "800px",
+						width: "100%",
+						height: "100%",
 						backgroundImage: "url('" + this.picture_url + "')"
 					}
 				}
