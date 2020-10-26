@@ -73,7 +73,8 @@
 
                         //p.innerHTML = selected.data.src;
                         vueApp.SetPicture(selected.data.src);
-
+                        var buttonsJson = GetButtons(selected.id);
+                        vueApp.SetButtons(JSON.parse(buttonsJson));
                     }
                     else {
                         //p.src = "";
@@ -102,30 +103,7 @@
             vueApp = $('#frame-html').wibPage();
         }
 
-        //function initBrowser(className, isVirtual) {
-        //    var exDiv = document.getElementById('f_spl' + className);
-        //    if (exDiv)
-        //        exDiv.parentNode.removeChild(exDiv);
-        //    var clObj;
-        //    $('#jqxLayout').jqxLayout('addFloatGroup', 1000, 800, { x: 500, y: 200 }, 'layoutPanel', className, '<div id="f_spl' + className + '"><div id="filterForm' + className + '" class="f-form"></div><div><div id="d_spl' + className + '"><div id="' + className + 'Browser"></div><div id="editForm' + className + '" class="f-form"></div></div></div></div>', function () {
-        //        clObj = $('#' + className + 'Browser').clientObj(className, isVirtual);
-        //    });
-        //    $('#f_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: clObj.GetFilterFormMinHeight(), min: clObj.GetFilterFormMinHeight(), collapsible: true }, { size: 800, min: 200, collapsible: false }] });
-        //    $('#d_spl' + className).jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', splitBarSize: 1, panels: [{ size: 450, min: 100, collapsible: false }, { min: 100, collapsible: true }] });
-        //    dockPanel(className);
-        //}
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////  helpers  /////////////////////////////////////////////////////////////////////
-        //function splitterDemo() {
-        //    $('#jqxLayout').jqxLayout('addFloatGroup', 300, 200, { x: 500, y: 200 }, 'layoutPanel', 'Server Explorer', '<div id="mainSplitter"><div></div><div><div id="contentSplitter"><div></div><div></div></div></div></div>');
-        //    $('#mainSplitter').jqxSplitter({ width: 850, height: 800, orientation: 'horizontal', panels: [{ size: 200, min: 100 }, { size: 600, min: 200 }] });
-        //    $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: 500, min: 100, collapsible: false }, { size: 100, min: 100, collapsible: true }] });
-        //}
-
-
     </script>
-
 
 
     <style>

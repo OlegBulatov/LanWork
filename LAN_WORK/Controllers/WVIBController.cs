@@ -212,6 +212,10 @@ namespace LanitWork.Controllers
             //return "";
         }
 
+        public string GetButtons(string nodeId, string idPostfix = "")
+        {
+            return HtmlButton.GetJson(htmlButtons, nodeId, idPostfix);
+        }
     }
 
 }

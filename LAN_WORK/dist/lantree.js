@@ -106,6 +106,15 @@ function GetHtml(id, idPostfix) {
     return xhr.responseText;
 }
 
+function GetButtons(id, idPostfix) {
+    var currentNodeUrl = '/WVIB/GetButtons?nodeId=' + id;
+    if (idPostfix)
+        currentNodeUrl += '&idPostfix=' + idPostfix;
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', currentNodeUrl, false);
+    xhr.send();
+    return xhr.responseText;
+}
 
 
 function RenameNode(id, text) {

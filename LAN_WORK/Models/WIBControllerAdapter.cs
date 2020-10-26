@@ -91,6 +91,15 @@ namespace LanitWork.Models
             //    return button.GetHtml();
             return result;
         }
+        public static string GetJson(HtmlButton[] buttons, string nodeId, string idPostfix)
+        {
+            if (buttons == null)
+                return "[]";
+            var query = from HtmlButton B in buttons
+                        where B.ownerNodeId == nodeId
+                        select B;
+            return JsonConvert.SerializeObject(query);
+        }
 
         public static HtmlButton GetButton(HtmlButton[] buttons, string buttonId)
         {
