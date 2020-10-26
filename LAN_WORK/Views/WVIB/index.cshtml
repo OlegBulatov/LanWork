@@ -103,8 +103,7 @@
         function InitModuleTree() {
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
-            document.addEventListener("dragover", vueApp.DragOver);
-            document.addEventListener("ondrop", vueApp.DragDrop);
+            //document.addEventListener("dragover", vueApp.DragOver);
         }
 
     </script>
@@ -126,9 +125,9 @@
             </div>
             <div data-container="EditPanel">
                 <div id="editPanel" style="border: none;position:absolute;margin-top:30px;">
-                    <button onclick="vueApp.SetButtonsDraggable(true);">Edit</button>
+                    <button onclick="vueApp.SetButtonsEdited(true);">Edit</button>
                     <br>
-                    <button onclick="vueApp.SetButtonsDraggable(false);">Post</button>
+                    <button onclick="vueApp.SetButtonsEdited(false);">Post</button>
                 </div>
             </div>
 

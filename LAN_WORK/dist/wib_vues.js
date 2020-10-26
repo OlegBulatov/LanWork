@@ -10,23 +10,31 @@ Vue.component('wib_button', {
 		});
 	},
 	computed: {
-		displayStyle: function () {
+		divStyle: function () {
 			return {
 				position: 'absolute',
 				zIndex: 150,
 				background: 'black',
 				color: 'red',
-				//opacity: 0.7,
 				left: (this.left - 5) + 'px',
 				top: (this.top - 5) + 'px',
 				width: '5px',
 				height: '5px',
-				border: this.draggable? '2px solid red' : 'none'
+				}
+		},
+			btnStyle: function () {
+				return {
+					position: 'absolute',
+					zIndex: 150,
+					background: 'cyan',
+					color: 'red',
+					left: this.left + 'px',
+					top: this.top + 'px',
 				}
 		},
 	},
-	props: ['id', 'caption', 'top', 'left', 'draggable'],
-	template: '<div v-bind:id="id" v-bind:style="displayStyle"><button style="position:absolute; left:5px; top:5px; height: 25px" onclick="alert(\'!\')" >{{this.caption}}</button></div>'
+	props: ['id', 'caption', 'top', 'left'],
+		template: '<div v-bind:id="id" v-bind:style="divStyle"><button style="position:absolute; left:5px; top:5px; height: 25px" onclick="alert(\'!\')" >{{this.caption}}</button></div>'
 });
 
 Vue.component('wib_text', {
@@ -75,7 +83,6 @@ return {
 		wib_buttonComponents.attr("v-for", "v_wib_button in buttons");
 		wib_buttonComponents.attr("v-bind:Id", "v_wib_button.Id");
 		wib_buttonComponents.attr("v-bind:Caption", "v_wib_button.Caption");
-		//wib_buttonComponents.attr("v-bind:draggable", "v_wib_button.draggable");
 		wib_buttonComponents.attr("v-bind:Top", "v_wib_button.Top");
 		wib_buttonComponents.attr("v-bind:targetNodeId", "v_wib_button.targetNodeId");
 		wib_buttonComponents.attr("v-bind:Left", "v_wib_button.Left");
@@ -110,9 +117,9 @@ return {
 				SetButtons(btns) {
 					this.buttons = btns;
 				},
-				SetButtonsDraggable(drg) {
+				SetButtonsEdited(is_edit) {
 					this.buttons.forEach(function(item){
-						item.draggable = drg;
+						item.edited = is_edit;
 						//item.Caption += "-"; 
 					});
 					this.$forceUpdate();
