@@ -15,6 +15,8 @@
     @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
     @Styles.Render("~/guriddo/css/trirand/ui.jqgrid-bootstrap.css")
     @Styles.Render("~/jqwidgets/styles/jqx.base.css")
+    <script src="dist/jquery.js"></script>
+    <script src="dist/jquery-ui.js"></script>
     @Styles.Render("~/Content/jquery-ui.css")
 
 
@@ -101,6 +103,8 @@
         function InitModuleTree() {
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
+            document.addEventListener("dragover", vueApp.DragOver);
+            document.addEventListener("ondrop", vueApp.DragDrop);
         }
 
     </script>
@@ -201,8 +205,8 @@
             @Scripts.Render("~/dist/lantree.js")
             @Scripts.Render("~/dist/wib_vues.js")
             @*@Scripts.Render("~/dist/vue_filter.js")
-            @Scripts.Render("~/dist/vue_edit.js")
-            @Scripts.Render("~/dist/vue_obj.js")*@
+                @Scripts.Render("~/dist/vue_edit.js")
+                @Scripts.Render("~/dist/vue_obj.js")*@
             @Scripts.Render("~/jqwidgets/jqxcore.js")
             @Scripts.Render("~/jqwidgets/jqxribbon.js")
             @Scripts.Render("~/jqwidgets/jqxLayout.js")
@@ -212,16 +216,16 @@
             @Scripts.Render("~/jqwidgets/jqxlistbox.js")
             @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
             @*@Scripts.Render("~/jqwidgets/jqxgrid.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
             @Scripts.Render("~/jqwidgets/jqxmenu.js")
             @*@Scripts.Render("~/scripts/demos.js")*@
             @*@Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
             @Scripts.Render("~/jqwidgets/jqxpanel.js")
             @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
             @Scripts.Render("~/jqwidgets/jqxwindow.js")
@@ -236,8 +240,8 @@
             @Scripts.Render("~/jqwidgets/jqxdragdrop.js")
             @Scripts.Render("~/jqwidgets/jqxtooltip.js")
             @*@Scripts.Render("~/jqwidgets/jqxdata.export.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
-            @Scripts.Render("~/jqwidgets/jqxexport.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
+                @Scripts.Render("~/jqwidgets/jqxexport.js")*@
 
         }
 
