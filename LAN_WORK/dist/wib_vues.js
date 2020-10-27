@@ -70,7 +70,11 @@ return {
 	},
 	methods: {
 		Edit(event) {
+			this.$root.editCallback = this.SetText;
 			editText(this.text);
+		},
+		SetText(txt) {
+			this.text = txt;
 		}
 	},
 	props: ['id','width','height','text','top','left'],
@@ -110,6 +114,7 @@ return {
 			el: this.selector, 
 			data: {
 				treeCallback: undefined,
+				editorCallback: undefined,
 				backgroundImage: "url('/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png')",
 				buttons: [],
 				texts: []
@@ -166,6 +171,10 @@ return {
 				AddText(txt) {
 					var nextIndex = this.texts.length;
 					this.texts.push({ id: "text" + nextIndex, text: txt, left: 100, top: 100, width: 100, height: 100, app_index: nextIndex });
+				},
+				SetText(txt) {
+					if (this.editCallback)
+						this.editCallback(txt);
 				}
 			}
 		});
