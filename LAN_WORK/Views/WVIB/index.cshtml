@@ -96,15 +96,31 @@
             });
 
         }
+
     </script>
     <script src="~/dist/wib_layout.js"></script>
 
     <script>
+        function selectNode(nodeId) {
+            var instance = $('#modulesTree').jstree(true);
+            instance.deselect_all();
+            instance.select_node(nodeId);
+        }
         function InitModuleTree() {
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
+            vueApp.treeCallback = selectNode;
         }
-
+        function saveAll() {
+            var formSaveFile = new FormData();
+            var fileName = prompt('название файла:', 'saved_tree.json');
+            if (fileName) {
+                formSaveFile.append('fileName', fileName);
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', '/WVIB/SaveToFile', false);
+                xhr.send(formSaveFile);
+            }
+        }
     </script>
 
 
@@ -124,9 +140,13 @@
             </div>
             <div data-container="EditPanel">
                 <div id="editPanel" style="border: none;position:absolute;margin-top:30px;">
-                    <button onclick="vueApp.SetButtonsEdited(true);">Edit</button>
+                    <button onclick="vueApp.Edit();">Edit</button>
                     <br>
-                    <button onclick="vueApp.SetButtonsEdited(false);">Post</button>
+                    <br>
+                    <button onclick="vueApp.Post();">Post</button>
+                    <br>
+                    <br>
+                    <button onclick="saveAll();">Save</button>
                 </div>
             </div>
 

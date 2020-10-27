@@ -118,7 +118,7 @@ namespace LanitWork.Controllers
 
         public void SaveToFile(string fileName)
         {
-            if(treeCopy != null)
+            if(treeCopy != null && !string.IsNullOrEmpty(fileName))
                 WIBControllerAdapter.SaveToFile(fileName, treeCopy);
             if (htmlButtons != null)
                 WIBControllerAdapter.SaveToFile("saved_buttons_for_vue.json", htmlButtons);

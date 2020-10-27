@@ -2,11 +2,17 @@ Vue.component('wib_button', {
 	mounted: function () {
 		//var theButton = $('#' + this.id);
 		this.jqButton.jqxButton({ theme: 'Light' });
+		this.jqButton.click(function (event) {
+			var vueButton = this.__vue__.$root.ButtonById(this.__vue__.id);
+			if (!vueButton.draggable)
+				this.__vue__.$root.ButtonClick(vueButton.targetNodeId);
+		});
 		this.jqButton.draggable({
 			stop: function (ev) {
-				if (this.__vue__ && this.__vue__.app_index >= 0) {
-					this.__vue__.$root.entities[this.__vue__.app_index].left = $('#' + this.id).position().left;
-					this.__vue__.$root.entities[this.__vue__.app_index].top = $('#' + this.id).position().top;
+				if (this.__vue__ && this.__vue__.id) {
+					var vueButton = this.__vue__.$root.ButtonById(this.__vue__.id);
+					vueButton.Left = $('#' + this.id).position().left;
+					vueButton.Top = $('#' + this.id).position().top;
 				}
 			}
 		});
@@ -100,6 +106,7 @@ return {
 		return new Vue({
 			el: this.selector, 
 			data: {
+				treeCallback: undefined,
 				pictureUrl: "/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png",
 				buttons: [],
 				texts: [{id: "text1", text: "Test text just for test", left: 300, top: 200, width: 100, height: 100}]
@@ -126,6 +133,32 @@ return {
 					});
 					this.$forceUpdate();
 				},
+				ButtonById(btnId) {
+					for (i = 0; i < this.buttons.length; i++) {
+						if (this.buttons[i].Id == btnId)
+							return this.buttons[i];
+					}
+					return undefined;
+				},
+				Edit() {
+					this.SetButtonsEdited(true);
+				},
+				Post() {
+					this.SetButtonsEdited(false);
+					this.buttons.forEach(function (item) {
+						var formSetCoords = new FormData();
+						formSetCoords.append('id', item.Id);
+						formSetCoords.append('left', item.Left);
+						formSetCoords.append('top', item.Top);
+						var xhr = new XMLHttpRequest();
+						xhr.open('POST', '/WVIB/SetButtonCoords', false);
+						xhr.send(formSetCoords);
+					});
+				},
+				ButtonClick(targetId) {
+					if (this.treeCallback)
+						this.treeCallback(targetId);
+				}
 			}
 		});
 	}
