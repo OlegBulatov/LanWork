@@ -1,6 +1,5 @@
 Vue.component('wib_button', {
 	mounted: function () {
-		//var theButton = $('#' + this.id);
 		this.jqButton.jqxButton({ theme: 'Light' });
 		this.jqButton.click(function (event) {
 			var vueButton = this.__vue__.$root.ButtonById(this.__vue__.id);
@@ -19,7 +18,10 @@ Vue.component('wib_button', {
 		this.jqButton.draggable('disable');
 	},
 	updated: function () {
-		this.SetEdited(this.draggable);
+		if (this.draggable)
+			this.jqButton.draggable('enable');
+		else
+			this.jqButton.draggable('disable');
 	},
 	computed: {
 		divStyle: function () {
@@ -31,20 +33,10 @@ Vue.component('wib_button', {
 				color: 'red',
 				left: this.left + 'px',
 				top: this.top + 'px',
-				//width: '100px',
-				//height: '25px',
 				}
 		},
 		jqButton: function () {
 			return $('#' + this.id);
-		}
-	},
-	methods: {
-		SetEdited(isEdit) {
-			if (isEdit)
-				this.jqButton.draggable('enable');
-			else
-				this.jqButton.draggable('disable');
 		}
 	},
 	props: ['id', 'caption', 'top', 'left', 'draggable'],
@@ -98,7 +90,6 @@ return {
 		wib_buttonComponents.attr("v-bind:Id", "v_wib_button.Id");
 		wib_buttonComponents.attr("v-bind:Caption", "v_wib_button.Caption");
 		wib_buttonComponents.attr("v-bind:Top", "v_wib_button.Top");
-		wib_buttonComponents.attr("v-bind:targetNodeId", "v_wib_button.targetNodeId");
 		wib_buttonComponents.attr("v-bind:Left", "v_wib_button.Left");
 		wib_buttonComponents.attr("v-bind:draggable", "v_wib_button.draggable");
 		this.append(wib_buttonComponents);
@@ -116,7 +107,8 @@ return {
 					return {
 						width: "100%",
 						height: "100%",
-						backgroundImage: "url('" + this.pictureUrl + "')"
+						backgroundImage: "url('" + this.pictureUrl + "')",
+						backgroundRepeat: "no-repeat"
 					}
 				}
 			},
