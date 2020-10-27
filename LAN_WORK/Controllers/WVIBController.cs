@@ -35,7 +35,7 @@ namespace LanitWork.Controllers
             string loadButtonsResult = null;
             try
             {
-                using (StreamReader SR = System.IO.File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "saved_buttons.json")))
+                using (StreamReader SR = System.IO.File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "saved_buttons_for_vue.json")))
                 {
                     loadButtonsResult = SR.ReadToEnd();
                     htmlButtons = JsonConvert.DeserializeObject<HtmlButton[]>(loadButtonsResult);
@@ -121,7 +121,7 @@ namespace LanitWork.Controllers
             if(treeCopy != null)
                 WIBControllerAdapter.SaveToFile(fileName, treeCopy);
             if (htmlButtons != null)
-                WIBControllerAdapter.SaveToFile("saved_buttons.json", htmlButtons);
+                WIBControllerAdapter.SaveToFile("saved_buttons_for_vue.json", htmlButtons);
         }
 
         public void AddButton(string nodeId, string caption, int left, int top, string targetNodeId)

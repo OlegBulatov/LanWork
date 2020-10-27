@@ -1,41 +1,48 @@
 Vue.component('wib_button', {
+	mounted: function () {
+		//var theButton = $('#' + this.id);
+		this.jqButton.jqxButton({ theme: 'Light' });
+		this.jqButton.draggable({
+			stop: function (ev) {
+				if (this.__vue__ && this.__vue__.app_index >= 0) {
+					this.__vue__.$root.entities[this.__vue__.app_index].left = $('#' + this.id).position().left;
+					this.__vue__.$root.entities[this.__vue__.app_index].top = $('#' + this.id).position().top;
+				}
+			}
+		});
+		this.jqButton.draggable('disable');
+	},
+	updated: function () {
+		this.SetEdited(this.draggable);
+	},
 	computed: {
 		divStyle: function () {
 			return {
+				border: this.draggable? '2px solid red' : 'none',
 				position: 'absolute',
 				zIndex: 150,
-				background: 'black',
+				background: 'cyan',
 				color: 'red',
-				left: (this.left - 5) + 'px',
-				top: (this.top - 5) + 'px',
-				width: '5px',
-				height: '5px',
+				left: this.left + 'px',
+				top: this.top + 'px',
+				//width: '100px',
+				//height: '25px',
 				}
 		},
-			btnStyle: function () {
-				return {
-					position: 'absolute',
-					zIndex: 150,
-					background: 'cyan',
-					color: 'red',
-					left: this.left + 'px',
-					top: this.top + 'px',
-					border: this.draggable? '2px solid red' : 'none'
-				}
-		},
+		jqButton: function () {
+			return $('#' + this.id);
+		}
 	},
 	methods: {
-		DragStart(ev) {
-			console.log(this);
-			ev.dataTransfer.effectAllowed = 'move';
-			ev.dataTransfer.setData("Text", this.id);
-			//ev.dataTransfer.setDragImage(ev.target, 10, 10);
-			return true;
+		SetEdited(isEdit) {
+			if (isEdit)
+				this.jqButton.draggable('enable');
+			else
+				this.jqButton.draggable('disable');
 		}
 	},
 	props: ['id', 'caption', 'top', 'left', 'draggable'],
-	template: '<button v-bind:id="id" v-on:dragstart="DragStart" v-bind:draggable="draggable" v-bind:style="btnStyle" onclick="alert(\'!\')" >{{this.caption}}</button>'
-	//template: '<div v-bind:id="id" v-bind:style="divStyle"><button draggable="true" style="position:absolute; left:5px; top:5px; height: 25px" onclick="alert(\'!\')" >{{this.caption}}</button></div>'
+	template: '<div v-bind:id="id" v-bind:style="divStyle">{{this.caption}}</div>'
 });
 
 Vue.component('wib_text', {
@@ -90,12 +97,6 @@ return {
 		wib_buttonComponents.attr("v-bind:draggable", "v_wib_button.draggable");
 		this.append(wib_buttonComponents);
 
-		var dropContainer = $("<div>");
-		dropContainer.attr("v-on:drop", "DragDrop");
-		dropContainer.attr("id", "dropContainer");
-		dropContainer.attr("style", "position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;");
-		this.append(dropContainer);
-
 		return new Vue({
 			el: this.selector, 
 			data: {
@@ -125,18 +126,6 @@ return {
 					});
 					this.$forceUpdate();
 				},
-				DragOver(ev) {
-					ev.preventDefault();
-				},
-				DragDrop(ev) {
-					var data = ev.dataTransfer.getData("Text");
-					console.log(data);
-					//let N = app.entities.length;
-					//app.entities.push({ displayed_name: 'new div', id: 'n' + (N + 1), app_index: N, left: ev.offsetX - 10, top: ev.offsetY - 10, width: 100, height: 25, is_selected: false, is_visible: true });
-					//app.relations.push({ entity_a: app.entities[N - 1], entity_b: app.entities[N] });
-					ev.stopPropagation();
-					return false;
-				}
 			}
 		});
 	}
