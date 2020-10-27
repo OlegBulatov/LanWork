@@ -79,18 +79,20 @@
                         vueApp.SetButtons(JSON.parse(buttonsJson));
                     }
                     else {
-                        //p.src = "";
-                        p.style.backgroundImage = "linear-gradient(white, gray)";
-                        p.innerHTML = "";
-                        if (selected.icon == 'Package') {//(selected.children.length) {
-                            $('#presenter').show();
-                            $('#loader').hide();
-                        }
-                        else {
-                            clearImage();
-                            $('#presenter').hide();
-                            $('#loader').show();
-                        }
+                        vueApp.SetPicture("linear-gradient(white, gray)", true);
+                        vueApp.SetButtons([]);
+                        ////p.src = "";
+                        //p.style.backgroundImage = "linear-gradient(white, gray)";
+                        //p.innerHTML = "";
+                        //if (selected.icon == 'Package') {//(selected.children.length) {
+                        //    $('#presenter').show();
+                        //    $('#loader').hide();
+                        //}
+                        //else {
+                        //    clearImage();
+                        //    $('#presenter').hide();
+                        //    $('#loader').show();
+                        //}
                     }
                 }
             });
@@ -147,6 +149,12 @@
                     <br>
                     <br>
                     <button onclick="saveAll();">Save</button>
+                    <br>
+                    <br>
+                    <button onclick="var ctchr = document.getElementById('paste_catcher'); vueApp.AddText(ctchr.innerText); ctchr.innerHTML = '';">Add text</button>
+                    <br>
+                    <br>
+                    <div id="paste_catcher" contenteditable="" style="position:absolute;width:100px;height:100px;"></div>
                 </div>
             </div>
 
@@ -162,7 +170,6 @@
                     <button id="bnLeft" onclick="imageToLeft()" style="display:none">&lt;</button>
                     <button id="bnRight" onclick="imageToRight()" style="display:none">&gt;</button>
                     <br>
-                    <div id="paste_catcher" contenteditable="" style="display:none;position:absolute;width:100%;height:100%"></div>
                     <img id="pasted_pict" src="" style="margin-top:0px">
                 </div>
                 <div id="tools" style="position:fixed;left:80%;top:0">

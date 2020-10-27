@@ -1,4 +1,11 @@
 Vue.component('wib_button', {
+	updated: function () {
+		if (this.draggable)
+			this.jqButton.draggable('enable');
+		else
+			this.jqButton.draggable('disable');
+
+	},
 	mounted: function () {
 		this.jqButton.jqxButton({ theme: 'Light' });
 		this.jqButton.click(function (event) {
@@ -16,36 +23,35 @@ Vue.component('wib_button', {
 			}
 		});
 		this.jqButton.draggable('disable');
+
 	},
-	updated: function () {
-		if (this.draggable)
-			this.jqButton.draggable('enable');
-		else
-			this.jqButton.draggable('disable');
-	},
+
 	computed: {
+		jqButton: function () {
+			return $('#' + this.id);
+
+		},
 		divStyle: function () {
 			return {
-				border: this.draggable? '2px solid red' : 'none',
+				border: this.draggable ? '2px solid red' : 'none',
 				position: 'absolute',
 				zIndex: 150,
 				background: 'cyan',
 				color: 'red',
 				left: this.left + 'px',
 				top: this.top + 'px',
-				}
+			}
+
 		},
-		jqButton: function () {
-			return $('#' + this.id);
-		}
 	},
-	props: ['id', 'caption', 'top', 'left', 'draggable'],
+	props: ['id', 'caption', 'draggable', 'top', 'left'],
 	template: '<div v-bind:id="id" v-bind:style="divStyle">{{this.caption}}</div>'
 });
 
 Vue.component('wib_text', {
 	mounted: function () {
 		$('#' + this.id).draggable();
+		$('#' + this.id).resizable();
 	},
 	computed: {
 		displayStyle: function () {
@@ -70,18 +76,15 @@ return {
 	$.fn.wibPage = function () {
 //initialization code
 
-		var pictureContainer = $("<div>");
-		pictureContainer.attr("v-bind:style", "displayStyle");
-		this.append(pictureContainer);
-		
+		//properties of components:
 
 		var wib_textComponents = $("<wib_text>");
 		wib_textComponents.attr("v-for", "v_wib_text in texts");
-		wib_textComponents.attr("v-bind:id", "v_wib_text.id");
 		wib_textComponents.attr("v-bind:width", "v_wib_text.width");
 		wib_textComponents.attr("v-bind:height", "v_wib_text.height");
-		wib_textComponents.attr("v-bind:text", "v_wib_text.text");
+		wib_textComponents.attr("v-bind:id", "v_wib_text.id");
 		wib_textComponents.attr("v-bind:top", "v_wib_text.top");
+		wib_textComponents.attr("v-bind:text", "v_wib_text.text");
 		wib_textComponents.attr("v-bind:left", "v_wib_text.left");
 		this.append(wib_textComponents);
 
@@ -89,32 +92,36 @@ return {
 		wib_buttonComponents.attr("v-for", "v_wib_button in buttons");
 		wib_buttonComponents.attr("v-bind:Id", "v_wib_button.Id");
 		wib_buttonComponents.attr("v-bind:Caption", "v_wib_button.Caption");
+		wib_buttonComponents.attr("v-bind:draggable", "v_wib_button.draggable");
 		wib_buttonComponents.attr("v-bind:Top", "v_wib_button.Top");
 		wib_buttonComponents.attr("v-bind:Left", "v_wib_button.Left");
-		wib_buttonComponents.attr("v-bind:draggable", "v_wib_button.draggable");
 		this.append(wib_buttonComponents);
+
+		var pictureContainer = $("<div>");
+		pictureContainer.attr("v-bind:style", "displayStyle");
+		this.append(pictureContainer);
 
 		return new Vue({
 			el: this.selector, 
 			data: {
 				treeCallback: undefined,
-				pictureUrl: "/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png",
+				backgroundImage: "url('/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png')",
 				buttons: [],
-				texts: [{id: "text1", text: "Test text just for test", left: 300, top: 200, width: 100, height: 100}]
+				texts: []
 			},
 			computed: {
 				displayStyle: function () {
 					return {
 						width: "100%",
 						height: "100%",
-						backgroundImage: "url('" + this.pictureUrl + "')",
+						backgroundImage: this.backgroundImage,
 						backgroundRepeat: "no-repeat"
 					}
 				}
 			},
 			methods: {
-				SetPicture(purl) {
-					this.pictureUrl = purl;
+				SetPicture(pict, isNotUrl) {
+					this.backgroundImage = isNotUrl? pict : "url('" + pict + "')";
 				},
 				SetButtons(btns) {
 					this.buttons = btns;
@@ -150,6 +157,10 @@ return {
 				ButtonClick(targetId) {
 					if (this.treeCallback)
 						this.treeCallback(targetId);
+				},
+				AddText(txt) {
+					var nextIndex = this.texts.length;
+					this.texts.push({ id: "text" + nextIndex, text: txt, left: 100, top: 100, width: 100, height: 100, app_index: nextIndex });
 				}
 			}
 		});
