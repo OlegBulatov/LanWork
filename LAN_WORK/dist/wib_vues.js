@@ -70,7 +70,7 @@ return {
 	},
 	methods: {
 		Edit(event) {
-			this.$root.editCallback = this.SetText;
+			this.$root.editedId = this.id;
 			editText(this.text);
 		},
 		SetText(txt) {
@@ -78,7 +78,7 @@ return {
 		}
 	},
 	props: ['id','width','height','text','top','left'],
-	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle">{{this.text}}</div>'
+	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><span v-html="this.text"></span></div>'
 });
 
 (function ($) {
@@ -114,7 +114,7 @@ return {
 			el: this.selector, 
 			data: {
 				treeCallback: undefined,
-				editorCallback: undefined,
+				editedId: undefined,
 				backgroundImage: "url('/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png')",
 				buttons: [],
 				texts: []
@@ -149,6 +149,13 @@ return {
 					}
 					return undefined;
 				},
+				TextById(txtId) {
+					for (i = 0; i < this.texts.length; i++) {
+						if (this.texts[i].id == txtId)
+							return this.texts[i];
+					}
+					return undefined;
+				},
 				Edit() {
 					this.SetButtonsEdited(true);
 				},
@@ -170,11 +177,10 @@ return {
 				},
 				AddText(txt) {
 					var nextIndex = this.texts.length;
-					this.texts.push({ id: "text" + nextIndex, text: txt, left: 100, top: 100, width: 100, height: 100, app_index: nextIndex });
+					this.texts.push({ id: "text" + nextIndex, text: txt, left: 100, top: 100, width: 100, height: 100 });
 				},
 				SetText(txt) {
-					if (this.editCallback)
-						this.editCallback(txt);
+					this.TextById(this.editedId).text = txt;
 				}
 			}
 		});

@@ -124,6 +124,7 @@
 				        height: "90%",
 				        width: '100%'
                     });
+                    $('#editor').val("");
                     $('#ok').jqxButton({
                         width: '65px',
                         theme: 'energyblue'
@@ -138,7 +139,6 @@
             $('#window').on('close', function (event) {
                 if (event.args.dialogResult.OK) {
                     var txt = $('#editor').val();
-                    alert('edited was the text ' + txt);
                     vueApp.SetText(txt);
                 }
             });
@@ -156,7 +156,7 @@
         }
         function editText(txt) {
             if (!$('#editor').jqxEditor('val'))
-                $('#editor').html(txt);
+                $('#editor').val(txt);
             else
                 $('#editor').jqxEditor('val', txt);
             $('#window').jqxWindow('open');
