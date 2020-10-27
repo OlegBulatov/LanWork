@@ -68,8 +68,13 @@ return {
     }
 		},
 	},
+	methods: {
+		Edit(event) {
+			editText(this.text);
+		}
+	},
 	props: ['id','width','height','text','top','left'],
-	template: '<div v-bind:id="id" v-bind:style="displayStyle">{{this.text}}</div>'
+	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle">{{this.text}}</div>'
 });
 
 (function ($) {

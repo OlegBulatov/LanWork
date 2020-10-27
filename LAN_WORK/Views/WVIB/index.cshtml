@@ -15,8 +15,11 @@
     @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
     @Styles.Render("~/guriddo/css/trirand/ui.jqgrid-bootstrap.css")
     @Styles.Render("~/jqwidgets/styles/jqx.base.css")
+    @Styles.Render("~/jqwidgets/styles/jqx.energyblue.css")
     <script src="dist/jquery.js"></script>
     <script src="dist/jquery-ui.js"></script>
+    <script src="/jqwidgets/jqx-all.js"></script>
+    <script src="/jqwidgets/globalization/globalize.js"></script>
     @Styles.Render("~/Content/jquery-ui.css")
 
 
@@ -44,19 +47,19 @@
             treeRef.on("changed.jstree", function (e, data) {
                 if (data.selected.length) {
                     selected = data.instance.get_node(data.selected[0]);
-                    $("#nodeIdDisplay").val(data.selected[0]);
+                    $("#nodeIdDisplay").val(data.selected[0]);//id текущего узла
                     //var p = document.getElementById('pict');
-                    var p = document.getElementById('frame-html');
-                    var pict = document.getElementById('designed_pict');
-                    var btns = document.getElementById('designed_html');
+                    //var p = document.getElementById('frame-html');
+                    //var pict = document.getElementById('designed_pict');
+                    //var btns = document.getElementById('designed_html');
                     if (selected.data && (selected.data.src || selected.data.html)) {
                         //if (selected.data.href) {
                         //    window.open(selected.data.href);
                         //}
                         //else {
-                        $('#presenter').show();
-                        $('#loader').hide();
-                        $('#designer').hide();
+                        //$('#presenter').show();
+                        //$('#loader').hide();
+                        //$('#designer').hide();
                         //p.style = selected.data.style;
                         //if (p.style)
                         //    pictMarginLeft = +(p.style.marginLeft.replace('px', ''));
@@ -112,6 +115,28 @@
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
             vueApp.treeCallback = selectNode;
+            $('#window').jqxWindow({
+                autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+                resizable: true, isModal: true,
+                okButton: $('#ok'), cancelButton: $('#cancel'),
+                initContent: function () {
+                    $('#editor').jqxEditor({
+				        height: "90%",
+				        width: '100%'
+                    });
+                    //$("#editor").jqxTextArea({ height: 320, width: '100%', minLength: 1 }).val(cellvalue);
+                    $('#ok').jqxButton({
+                        width: '65px',
+                        theme: 'energyblue'
+                    });
+                    $('#cancel').jqxButton({
+                        width: '65px',
+                        theme: 'energyblue'
+                    });
+                    $('#ok').focus();
+                }
+            });
+
         }
         function saveAll() {
             var formSaveFile = new FormData();
@@ -122,6 +147,10 @@
                 xhr.open('POST', '/WVIB/SaveToFile', false);
                 xhr.send(formSaveFile);
             }
+        }
+        function editText(txt) {
+            $('#editor').html(txt);
+            $('#window').jqxWindow('open');
         }
     </script>
 
@@ -142,19 +171,22 @@
             </div>
             <div data-container="EditPanel">
                 <div id="editPanel" style="border: none;position:absolute;margin-top:30px;">
-                    <button onclick="vueApp.Edit();">Edit</button>
+                    <button onclick="vueApp.Edit();">Move buttons</button>
                     <br>
                     <br>
-                    <button onclick="vueApp.Post();">Post</button>
+                    <button onclick="vueApp.Post();">Fix buttons</button>
                     <br>
                     <br>
                     <button onclick="saveAll();">Save</button>
                     <br>
                     <br>
+                    <button onclick="editText('текст тестовый: тест текстовый');">Edit text</button>
+                    <br>
+                    <br>
                     <button onclick="var ctchr = document.getElementById('paste_catcher'); vueApp.AddText(ctchr.innerText); ctchr.innerHTML = '';">Add text</button>
                     <br>
                     <br>
-                    <div id="paste_catcher" contenteditable="" style="position:absolute;width:100px;height:100px;"></div>
+                    <div id="paste_catcher" contenteditable style="width:100px;height:100px;"></div>
                 </div>
             </div>
 
