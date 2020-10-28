@@ -24,14 +24,12 @@ Vue.component('wib_button', {
 		});
 		this.jqButton.draggable('disable');
 		this.jqButton.contextmenu(function (e) {
-			console.log(e);
 			e.preventDefault();
 			$('#cmenu').css("left", e.pageX);
 			$('#cmenu').css("top", e.pageY);
 			$('#cmenu').attr("btn_id", e.currentTarget.id);
 			$('#cmenu').attr("caption", e.currentTarget.innerText);
 			$('#cmenu').show();
-			//renameButton(e.currentTarget.id, e.currentTarget.innerText);
 		});
 
 	},
@@ -48,8 +46,8 @@ Vue.component('wib_button', {
 				zIndex: 150,
 				background: 'cyan',
 				color: 'red',
-				left: this.left + 'px',
-				top: this.top + 'px',
+				left: (this.left-0) + 'px',
+				top: (this.top-0) + 'px',
 			}
 
 		},
@@ -80,6 +78,14 @@ Vue.component('wib_text', {
 				}
 			}
 		});
+		$('#' + this.id).contextmenu(function (e) {
+			e.preventDefault();
+			$('#cmenutxt').css("left", e.pageX);
+			$('#cmenutxt').css("top", e.pageY);
+			$('#cmenutxt').attr("txt_id", e.currentTarget.id);
+			$('#cmenutxt').show();
+		});
+
 	},
 	computed: {
 		displayStyle: function () {
@@ -140,6 +146,10 @@ return {
 
 		return new Vue({
 			el: this.selector, 
+			updated: function () {
+				$('#cmenu').hide();
+				$('#cmenutxt').hide();
+			},
 			data: {
 				treeCallback: undefined,
 				editedId: undefined,
@@ -177,6 +187,21 @@ return {
 					}
 					return undefined;
 				},
+				DeleteButtonById(btnId) {
+					var btnForm = new FormData();
+					btnForm.append('id', btnId);
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/RemoveButton', false);
+					xhr.send(btnForm);
+					var buttonsJson = GetButtons(selected.id);
+					vueApp.SetButtons(JSON.parse(buttonsJson));
+					//for (i = 0; i < this.buttons.length; i++) {
+					//	if (this.buttons[i].Id == btnId) {
+					//		this.buttons.splice(i, 1);
+					//		return;
+					//	}
+					//}
+				},
 				SetTexts(texts) {
 					this.texts = texts;
 				},
@@ -186,6 +211,21 @@ return {
 							return this.texts[i];
 					}
 					return undefined;
+				},
+				DeleteTextById(txtId) {
+					var noteForm = new FormData();
+					noteForm.append('id', txtId);
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/RemoveNote', false);
+					xhr.send(noteForm);
+					var textsJson = GetNotes(selected.id);
+					vueApp.SetTexts(JSON.parse(textsJson));
+					//for (i = 0; i < this.texts.length; i++) {
+					//	if (this.texts[i].id == txtId) {
+					//		this.texts.splice(i, 1);
+					//		return;
+					//	}
+					//}
 				},
 				Edit() {
 					this.SetButtonsEdited(true);

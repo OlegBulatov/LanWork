@@ -168,15 +168,15 @@ namespace LanitWork.Controllers
             HtmlNote.SetText(htmlNotes, id, text);
         }
 
-        public void RemoveButton(string buttonId)
+        public void RemoveButton(string id)
         {
-            HtmlButton[] res = HtmlButton.Remove(htmlButtons, buttonId);
+            HtmlButton[] res = HtmlButton.Remove(htmlButtons, id);
             htmlButtons = res;
         }
 
-        public void RemoveNote(string noteId)
+        public void RemoveNote(string id)
         {
-            HtmlNote[] res = HtmlNote.Remove(htmlNotes, noteId);
+            HtmlNote[] res = HtmlNote.Remove(htmlNotes, id);
             htmlNotes = res;
         }
 

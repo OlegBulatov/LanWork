@@ -183,10 +183,15 @@ function renameButton(id) {
 }
 
 function dropButton(id) {
-    alert('drop button ' + id);
+    vueApp.DeleteButtonById(id);
 }
 
 function setButtonTargetId(id) {
-    alert('set button ' + id + 'target id');
+    alert('set button ' + id + ' target id');
 }
+
+function dropText(id) {
+    vueApp.DeleteTextById(id);
+}
+
 

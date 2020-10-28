@@ -48,35 +48,7 @@
                 if (data.selected.length) {
                     selected = data.instance.get_node(data.selected[0]);
                     $("#nodeIdDisplay").val(data.selected[0]);//id текущего узла
-                    //var p = document.getElementById('pict');
-                    //var p = document.getElementById('frame-html');
-                    //var pict = document.getElementById('designed_pict');
-                    //var btns = document.getElementById('designed_html');
                     if (selected.data && (selected.data.src || selected.data.html)) {
-                        //if (selected.data.href) {
-                        //    window.open(selected.data.href);
-                        //}
-                        //else {
-                        //$('#presenter').show();
-                        //$('#loader').hide();
-                        //$('#designer').hide();
-                        //p.style = selected.data.style;
-                        //if (p.style)
-                        //    pictMarginLeft = +(p.style.marginLeft.replace('px', ''));
-                        //pict.style.marginLeft = p.style.marginLeft;
-                        //btns.style.marginLeft = p.style.marginLeft;
-                        //pict.style.marginTop = p.style.marginTop;
-                        //btns.style.marginTop = p.style.marginTop;
-                        //p.style.backgroundImage = "url('" + selected.data.src + "')";
-                        //p.style.backgroundRepeat = "no-repeat";
-                        //p.style.height = "100%";
-                        //p.style.width = "100%";
-                        //p.innerHTML = "";
-                        //if (selected.data.html)
-                        //    p.innerHTML += selected.data.html;
-                        //p.innerHTML += GetHtml(selected.id);
-
-                        //p.innerHTML = selected.data.src;
                         vueApp.SetPicture(selected.data.src);
                         var buttonsJson = GetButtons(selected.id);
                         vueApp.SetButtons(JSON.parse(buttonsJson));
@@ -87,18 +59,6 @@
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
                         vueApp.SetButtons([]);
                         vueApp.SetTexts([]);
-                        ////p.src = "";
-                        //p.style.backgroundImage = "linear-gradient(white, gray)";
-                        //p.innerHTML = "";
-                        //if (selected.icon == 'Package') {//(selected.children.length) {
-                        //    $('#presenter').show();
-                        //    $('#loader').hide();
-                        //}
-                        //else {
-                        //    clearImage();
-                        //    $('#presenter').hide();
-                        //    $('#loader').show();
-                        //}
                     }
                 }
             });
@@ -145,7 +105,13 @@
                     vueApp.SetText(txt);
                 }
             });
-
+            $(document).click(function (e) {
+                    $('#cmenu').hide();
+            });
+            $(document).keydown(function (e) {
+                    $('#cmenu').hide();
+                //app.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey)
+            });
         }
         function saveAll() {
             var formSaveFile = new FormData();
@@ -267,7 +233,15 @@
         <script>
             cmitemRename.href = "javascript: {renameButton($('#cmenu').attr('btn_id'), $('#cmenu').attr('caption'));$('#cmenu').hide();}";
             cmitemChangeTarget.href = "javascript: {setButtonTargetId($('#cmenu').attr('btn_id'), 0);$('#cmenu').hide();}";
-            cmitemDropButton.href = "javascript: {dropButton($('#cmenu').attr('btn_id'), $('#cmenu').attr('caption'));$('#cmenu').hide();}";
+            cmitemDropButton.href = "javascript: {dropButton($('#cmenu').attr('btn_id'));$('#cmenu').hide();}";
+        </script>
+        <div id="cmenutxt" style="position:absolute;display:none">
+            <ul>
+                <li><a id="cmitemDropText">Удалить</a></li>
+            </ul>
+        </div>
+        <script>
+            cmitemDropText.href = "javascript: {dropText($('#cmenutxt').attr('txt_id'));$('#cmenutxt').hide();}";
         </script>
 
 
