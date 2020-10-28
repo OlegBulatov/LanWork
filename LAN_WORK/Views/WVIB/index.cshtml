@@ -80,10 +80,13 @@
                         vueApp.SetPicture(selected.data.src);
                         var buttonsJson = GetButtons(selected.id);
                         vueApp.SetButtons(JSON.parse(buttonsJson));
+                        var textsJson = GetNotes(selected.id);
+                        vueApp.SetTexts(JSON.parse(textsJson));
                     }
                     else {
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
                         vueApp.SetButtons([]);
+                        vueApp.SetTexts([]);
                         ////p.src = "";
                         //p.style.backgroundImage = "linear-gradient(white, gray)";
                         //p.innerHTML = "";
@@ -187,9 +190,6 @@
                     <br>
                     <br>
                     <button onclick="saveAll();">Save</button>
-                    <br>
-                    <br>
-                    <button onclick="editText('текст тестовый: тест текстовый');">Edit text</button>
                     <br>
                     <br>
                     <button onclick="var ctchr = document.getElementById('paste_catcher'); vueApp.AddText(ctchr.innerText); ctchr.innerHTML = '';">Add text</button>

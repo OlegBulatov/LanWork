@@ -16,6 +16,7 @@ namespace LanitWork.Controllers
 
         private static MTreeNode[] treeCopy = null;
         private static HtmlButton[] htmlButtons = null;
+        private static HtmlNote[] htmlNotes = null;
 
         public ActionResult Index()
         {
@@ -32,16 +33,23 @@ namespace LanitWork.Controllers
 
         public string ModuleTree()
         {
-            string loadButtonsResult = null;
             try
             {
+                string loadButtonsResult = null;
                 using (StreamReader SR = System.IO.File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "saved_buttons_for_vue.json")))
                 {
                     loadButtonsResult = SR.ReadToEnd();
                     htmlButtons = JsonConvert.DeserializeObject<HtmlButton[]>(loadButtonsResult);
                 }
+                string loadNotesResult = null;
+                htmlNotes = new HtmlNote[0];
+                using (StreamReader SR = System.IO.File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "saved_notes.json")))
+                {
+                    loadNotesResult = SR.ReadToEnd();
+                    htmlNotes = JsonConvert.DeserializeObject<HtmlNote[]>(loadNotesResult);
+                }
             }
-            catch { }//кнопки инициализируем при каждом рефреше
+            catch { }//кнопки и заметки инициализируем при каждом рефреше
 
             if (treeCopy != null)
             {
@@ -122,6 +130,8 @@ namespace LanitWork.Controllers
                 WIBControllerAdapter.SaveToFile(fileName, treeCopy);
             if (htmlButtons != null)
                 WIBControllerAdapter.SaveToFile("saved_buttons_for_vue.json", htmlButtons);
+            if (htmlNotes != null)
+                WIBControllerAdapter.SaveToFile("saved_notes.json", htmlNotes);
         }
 
         public void AddButton(string nodeId, string caption, int left, int top, string targetNodeId)
@@ -142,15 +152,32 @@ namespace LanitWork.Controllers
                 htmlButtons = res;
         }
 
+        public string AddNote(string nodeId, string text, int left, int top, int width, int height)
+        {
+            if (htmlNotes == null)
+                return "";
+            return HtmlNote.Add(ref htmlNotes, nodeId, text, left, top, width, height);
+        }
+
         public void RenameButton(string buttonId, string caption)
         {
             HtmlButton.Rename(htmlButtons, buttonId, caption);
+        }
+        public void SetNoteText(string id, string text)
+        {
+            HtmlNote.SetText(htmlNotes, id, text);
         }
 
         public void RemoveButton(string buttonId)
         {
             HtmlButton[] res = HtmlButton.Remove(htmlButtons, buttonId);
             htmlButtons = res;
+        }
+
+        public void RemoveNote(string noteId)
+        {
+            HtmlNote[] res = HtmlNote.Remove(htmlNotes, noteId);
+            htmlNotes = res;
         }
 
         public void SetButtonCoords(string id, int left, int top)
@@ -160,6 +187,26 @@ namespace LanitWork.Controllers
             {
                 B.Left = left;
                 B.Top = top;
+            }
+        }
+
+        public void SetNoteCoords(string id, int left, int top)
+        {
+            HtmlNote N = HtmlNote.GetNote(htmlNotes, id);
+            if (N != null)
+            {
+                N.left = left;
+                N.top = top;
+            }
+        }
+
+        public void SetNoteGeometry(string id, int width, int height)
+        {
+            HtmlNote N = HtmlNote.GetNote(htmlNotes, id);
+            if (N != null)
+            {
+                N.width = width;
+                N.height = height;
             }
         }
 
@@ -212,9 +259,13 @@ namespace LanitWork.Controllers
             //return "";
         }
 
-        public string GetButtons(string nodeId, string idPostfix = "")
+        public string GetButtons(string nodeId)
         {
-            return HtmlButton.GetJson(htmlButtons, nodeId, idPostfix);
+            return HtmlButton.GetJson(htmlButtons, nodeId);
+        }
+        public string GetNotes(string nodeId)
+        {
+            return HtmlNote.GetJson(htmlNotes, nodeId);
         }
     }
 

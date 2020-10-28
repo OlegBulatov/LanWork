@@ -50,8 +50,26 @@ Vue.component('wib_button', {
 
 Vue.component('wib_text', {
 	mounted: function () {
-		$('#' + this.id).draggable();
-		$('#' + this.id).resizable();
+		$('#' + this.id).draggable({
+			stop: function (ev) {
+				if (this.__vue__ && this.__vue__.$root) {
+					var root = this.__vue__.$root;
+					var left = $('#' + this.id).position().left;
+					var top = $('#' + this.id).position().top;
+					root.SetTextCoords(this.id, left, top);
+				}
+			}
+		});
+		$('#' + this.id).resizable({
+			stop: function (ev) {
+				if (this.__vue__ && this.__vue__.$root) {
+					var root = this.__vue__.$root;
+					let width = $('#' + this.id).width();
+					let height = $('#' + this.id).height();
+					root.SetTextGeometry(this.id, width, height);
+				}
+			}
+		});
 	},
 	computed: {
 		displayStyle: function () {
@@ -149,6 +167,9 @@ return {
 					}
 					return undefined;
 				},
+				SetTexts(texts) {
+					this.texts = texts;
+				},
 				TextById(txtId) {
 					for (i = 0; i < this.texts.length; i++) {
 						if (this.texts[i].id == txtId)
@@ -176,12 +197,49 @@ return {
 						this.treeCallback(targetId);
 				},
 				AddText(txt) {
-					var nextIndex = this.texts.length;
-					this.texts.push({ id: "text" + nextIndex, text: txt, left: 100, top: 100, width: 100, height: 100 });
+					var noteLeft = 100;
+					var noteTop = 100;
+					var noteWidth = 100;
+					var noteHeight = 100;
+					var noteId = addNote(txt, noteLeft, noteTop, noteWidth, noteHeight);
+					this.texts.push({ id: noteId, text: txt, left: 100, top: 100, width: 100, height: 100 });
 				},
 				SetText(txt) {
-					this.TextById(this.editedId).text = txt;
+					var note = this.TextById(this.editedId);
+					note.text = txt;
+					var noteForm = new Object();
+					noteForm.id = note.id;
+					noteForm.text = txt;
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/SetNoteText', false);
+					xhr.setRequestHeader('Content-Type', 'application/json');
+					xhr.send(JSON.stringify(noteForm));
+				},
+				SetTextCoords(noteId, left, top) {
+					var note = this.TextById(noteId);
+					note.left = left;
+					note.top = top;
+					var noteForm = new FormData();
+					noteForm.append('id', noteId);
+					noteForm.append('left', left);
+					noteForm.append('top', top);
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/SetNoteCoords', false);
+					xhr.send(noteForm);
+				},
+				SetTextGeometry(noteId, width, height) {
+					var note = this.TextById(noteId);
+					note.width = width;
+					note.height = height;
+					var noteForm = new FormData();
+					noteForm.append('id', noteId);
+					noteForm.append('width', width);
+					noteForm.append('height', height);
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/SetNoteGeometry', false);
+					xhr.send(noteForm);
 				}
+
 			}
 		});
 	}

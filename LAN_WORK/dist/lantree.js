@@ -96,27 +96,6 @@ function RemoveNode(id, parent) {
 }
 
 
-function GetHtml(id, idPostfix) {
-    var currentNodeUrl = '/WIB/GetHtml?nodeId=' + id;
-    if (idPostfix)
-        currentNodeUrl += '&idPostfix=' + idPostfix;
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', currentNodeUrl, false);
-    xhr.send();
-    return xhr.responseText;
-}
-
-function GetButtons(id, idPostfix) {
-    var currentNodeUrl = '/WVIB/GetButtons?nodeId=' + id;
-    if (idPostfix)
-        currentNodeUrl += '&idPostfix=' + idPostfix;
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', currentNodeUrl, false);
-    xhr.send();
-    return xhr.responseText;
-}
-
-
 function RenameNode(id, text) {
     var formRename = new FormData();
     formRename.append('nodeId', id);
@@ -153,3 +132,48 @@ function CreateNodeAtServer(obj) {
     xhr.send(formCreateNode);
 }
 
+////////////////////////////////////////////////////////////////////////////////////non-tree stuff
+
+function GetHtml(id, idPostfix) {
+    var currentNodeUrl = '/WIB/GetHtml?nodeId=' + id;
+    if (idPostfix)
+        currentNodeUrl += '&idPostfix=' + idPostfix;
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', currentNodeUrl, false);
+    xhr.send();
+    return xhr.responseText;
+}
+
+function GetButtons(id, idPostfix) {
+    var currentNodeUrl = '/WVIB/GetButtons?nodeId=' + id;
+    if (idPostfix)
+        currentNodeUrl += '&idPostfix=' + idPostfix;
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', currentNodeUrl, false);
+    xhr.send();
+    return xhr.responseText;
+}
+
+function GetNotes(id) {
+    var currentNodeUrl = '/WVIB/GetNotes?nodeId=' + id;
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', currentNodeUrl, false);
+    xhr.send();
+    return xhr.responseText;
+}
+
+function addNote(txt, noteLeft, noteTop, noteWidth, noteHeight) {
+    var instance = $("#modulesTree").jstree(true);
+    sel = instance.get_selected()[0];
+    var formAddNote = new FormData();
+    formAddNote.append('nodeId', sel);
+    formAddNote.append('text', txt);
+    formAddNote.append('left', noteLeft);
+    formAddNote.append('top', noteTop);
+    formAddNote.append('width', noteWidth);
+    formAddNote.append('height', noteHeight);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/WVIB/AddNote', false);
+    xhr.send(formAddNote);
+    return xhr.responseText;
+}

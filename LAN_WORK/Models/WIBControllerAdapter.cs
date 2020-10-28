@@ -91,7 +91,7 @@ namespace LanitWork.Models
             //    return button.GetHtml();
             return result;
         }
-        public static string GetJson(HtmlButton[] buttons, string nodeId, string idPostfix)
+        public static string GetJson(HtmlButton[] buttons, string nodeId)
         {
             if (buttons == null)
                 return "[]";
@@ -143,6 +143,68 @@ namespace LanitWork.Models
             var modifiedButtons = (from HtmlButton B in buttons
                       select B).Union(new HtmlButton[] { newButton });
             return modifiedButtons.ToArray<HtmlButton>(); 
+        }
+
+    }
+    public class HtmlNote
+    {
+        public string id;
+        public string text;
+        public int left;
+        public int top;
+        public int width;
+        public int height;
+        public string ownerNodeId;
+
+        public static string GetJson(HtmlNote[] notes, string nodeId)
+        {
+            if (notes == null)
+                return "[]";
+            var query = from HtmlNote N in notes
+                        where N.ownerNodeId == nodeId
+                        select N;
+            return JsonConvert.SerializeObject(query);
+        }
+
+        public static HtmlNote GetNote(HtmlNote[] notes, string noteId)
+        {
+            var res = from HtmlNote N in notes
+                      where N.id == noteId
+                      select N;
+            if (res.Count<HtmlNote>() > 0)
+                return res.ToArray<HtmlNote>()[0];
+            return null;
+        }
+
+        public static void SetText(HtmlNote[] notes, string noteId, string text)
+        {
+            HtmlNote N = GetNote(notes, noteId);
+            if (N != null)
+                N.text = text;
+        }
+
+        public static HtmlNote[] Remove(HtmlNote[] notes, string noteId)
+        {
+            var modifiedNotes = from HtmlNote N in notes
+                                  where N.id != noteId
+                                  select N;
+            return modifiedNotes.ToArray<HtmlNote>();
+        }
+
+        public static string Add(ref HtmlNote[] notes, string nodeId, string text, int left, int top, int width, int height)
+        {
+            HtmlNote newNote = new HtmlNote();
+            newNote.id = Guid.NewGuid().ToString();
+            newNote.ownerNodeId = nodeId;
+            newNote.text = text;
+            newNote.left = left;
+            newNote.top = top;
+            newNote.width = width;
+            newNote.height = height;
+            var modifiedNotes = (from HtmlNote N in notes
+                                 select N).Union(new HtmlNote[] { newNote });
+            notes = modifiedNotes.ToArray<HtmlNote>();
+            return newNote.id;
         }
 
     }
