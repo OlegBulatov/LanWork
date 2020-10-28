@@ -124,8 +124,8 @@
                 okButton: $('#ok'), cancelButton: $('#cancel'),
                 initContent: function () {
                     $('#editor').jqxEditor({
-				        height: "90%",
-				        width: '100%'
+                        height: "90%",
+                        width: '100%'
                     });
                     $('#editor').val("");
                     $('#ok').jqxButton({
@@ -233,12 +233,7 @@
                 <div id="recycle_bin" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)"
                      style="position:absolute;left:0px;top:0px;width:20px;height:20px">
                 </div>
-                <div id="cmenu" style="position:absolute;display:none">
-                    <ul>
-                        <li><a id="cmitemRename">Переименовать</a></li>
-                        <li><a id="cmitemChangeTarget">Назначить экран</a></li>
-                    </ul>
-                </div>
+
             </div>
             <div data-container="HelpPanel">
                 <div id="helpText" style="position:absolute;left:60px;top:100px; ">
@@ -262,6 +257,18 @@
                 </div>
             </div>
         </div>
+        <div id="cmenu" style="position:absolute;display:none">
+            <ul>
+                <li><a id="cmitemRename">Переименовать</a></li>
+                <li><a id="cmitemChangeTarget">Назначить экран</a></li>
+                <li><a id="cmitemDropButton">Удалить</a></li>
+            </ul>
+        </div>
+        <script>
+            cmitemRename.href = "javascript: {renameButton($('#cmenu').attr('btn_id'), $('#cmenu').attr('caption'));$('#cmenu').hide();}";
+            cmitemChangeTarget.href = "javascript: {setButtonTargetId($('#cmenu').attr('btn_id'), 0);$('#cmenu').hide();}";
+            cmitemDropButton.href = "javascript: {dropButton($('#cmenu').attr('btn_id'), $('#cmenu').attr('caption'));$('#cmenu').hide();}";
+        </script>
 
 
         @section Scripts {
@@ -271,8 +278,8 @@
             @Scripts.Render("~/dist/lantree.js")
             @Scripts.Render("~/dist/wib_vues.js")
             @*@Scripts.Render("~/dist/vue_filter.js")
-                @Scripts.Render("~/dist/vue_edit.js")
-                @Scripts.Render("~/dist/vue_obj.js")*@
+            @Scripts.Render("~/dist/vue_edit.js")
+            @Scripts.Render("~/dist/vue_obj.js")*@
             @Scripts.Render("~/jqwidgets/jqxcore.js")
             @Scripts.Render("~/jqwidgets/jqxribbon.js")
             @Scripts.Render("~/jqwidgets/jqxLayout.js")
@@ -282,16 +289,16 @@
             @Scripts.Render("~/jqwidgets/jqxlistbox.js")
             @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
             @*@Scripts.Render("~/jqwidgets/jqxgrid.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
+            @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
             @Scripts.Render("~/jqwidgets/jqxmenu.js")
             @*@Scripts.Render("~/scripts/demos.js")*@
             @*@Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
+            @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
+            @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
             @Scripts.Render("~/jqwidgets/jqxpanel.js")
             @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
             @Scripts.Render("~/jqwidgets/jqxwindow.js")
@@ -306,8 +313,8 @@
             @Scripts.Render("~/jqwidgets/jqxdragdrop.js")
             @Scripts.Render("~/jqwidgets/jqxtooltip.js")
             @*@Scripts.Render("~/jqwidgets/jqxdata.export.js")
-                @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
-                @Scripts.Render("~/jqwidgets/jqxexport.js")*@
+            @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
+            @Scripts.Render("~/jqwidgets/jqxexport.js")*@
 
         }
 

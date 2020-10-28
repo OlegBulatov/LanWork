@@ -23,6 +23,16 @@ Vue.component('wib_button', {
 			}
 		});
 		this.jqButton.draggable('disable');
+		this.jqButton.contextmenu(function (e) {
+			console.log(e);
+			e.preventDefault();
+			$('#cmenu').css("left", e.pageX);
+			$('#cmenu').css("top", e.pageY);
+			$('#cmenu').attr("btn_id", e.currentTarget.id);
+			$('#cmenu').attr("caption", e.currentTarget.innerText);
+			$('#cmenu').show();
+			//renameButton(e.currentTarget.id, e.currentTarget.innerText);
+		});
 
 	},
 

@@ -177,3 +177,16 @@ function addNote(txt, noteLeft, noteTop, noteWidth, noteHeight) {
     xhr.send(formAddNote);
     return xhr.responseText;
 }
+
+function renameButton(id) {
+    alert('rename button ' + id);
+}
+
+function dropButton(id) {
+    alert('drop button ' + id);
+}
+
+function setButtonTargetId(id) {
+    alert('set button ' + id + 'target id');
+}
+
