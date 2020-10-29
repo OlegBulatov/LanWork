@@ -131,7 +131,7 @@ namespace LanitWork.Models
             return modifiedButtons.ToArray<HtmlButton>();
         }
 
-        public static HtmlButton[] Add(HtmlButton[] buttons, string nodeId, string caption, int left, int top, string targetNodeId = "")
+        public static string Add(ref HtmlButton[] buttons, string nodeId, string caption, int left, int top, string targetNodeId = "")
         {
             HtmlButton newButton = new HtmlButton();
             newButton.Id = Guid.NewGuid().ToString();
@@ -142,7 +142,8 @@ namespace LanitWork.Models
             newButton.targetNodeId = targetNodeId;
             var modifiedButtons = (from HtmlButton B in buttons
                       select B).Union(new HtmlButton[] { newButton });
-            return modifiedButtons.ToArray<HtmlButton>(); 
+            buttons = modifiedButtons.ToArray<HtmlButton>();
+            return newButton.Id;
         }
 
     }

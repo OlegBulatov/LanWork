@@ -153,7 +153,7 @@ return {
 			data: {
 				treeCallback: undefined,
 				editedId: undefined,
-				backgroundImage: "url('/user_resources/lanitadmin/5f7293b9-f9b0-4804-81b9-92a5e9c50507.png')",
+				backgroundImage: "linear- gradient(white, gray)",
 				buttons: [],
 				texts: []
 			},
@@ -174,6 +174,12 @@ return {
 				},
 				SetButtons(btns) {
 					this.buttons = btns;
+				},
+				AddButton(caption, targetNodeID="") {
+					var btnLeft = 100;
+					var btnTop = 200;
+					var btnId = addButton(caption, btnLeft, btnTop, targetNodeID);
+					this.buttons.push({ Id: btnId, Caption: caption, Left: btnLeft, Top: btnTop });
 				},
 				SetButtonsEdited(is_edit) {
 					this.buttons.forEach(function(item){
@@ -253,7 +259,7 @@ return {
 					var noteWidth = 100;
 					var noteHeight = 100;
 					var noteId = addNote(txt, noteLeft, noteTop, noteWidth, noteHeight);
-					this.texts.push({ id: noteId, text: txt, left: 100, top: 100, width: 100, height: 100 });
+					this.texts.push({ id: noteId, text: txt, left: noteLeft, top: noteTop, width: noteWidth, height: noteHeight });
 				},
 				SetText(txt) {
 					var note = this.TextById(this.editedId);

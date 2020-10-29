@@ -161,9 +161,7 @@ namespace LanitWork.Controllers
                 MTreeNode N = MTreeNode.GetNode(treeCopy, nodeId);
                 targetNodeId = N.parent_id;
             }
-            HtmlButton[] res = HtmlButton.Add(htmlButtons, nodeId, caption, left, top, targetNodeId);
-            if (res != null)//добавили узел на верхний уровень
-                htmlButtons = res;
+            HtmlButton.Add(ref htmlButtons, nodeId, caption, left, top, targetNodeId);
         }
 
         public void RenameButton(string buttonId, string caption)

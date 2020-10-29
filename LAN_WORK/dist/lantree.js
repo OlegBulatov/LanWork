@@ -132,9 +132,20 @@ function CreateNodeAtServer(obj) {
     xhr.send(formCreateNode);
 }
 
+function GetNewNodeId() {
+    var instance = $("#modulesTree").jstree(true);
+    return InsertNode(instance, instance.get_node(instance.get_selected()[0]), 'screen');
+}
+
 function GetSelectedNodeId() {
     var instance = $("#modulesTree").jstree(true);
     return instance.get_selected()[0];
+}
+
+function selectNode(nodeId) {
+    var instance = $('#modulesTree').jstree(true);
+    instance.deselect_all();
+    instance.select_node(nodeId);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////non-tree stuff
@@ -180,7 +191,19 @@ function addNote(txt, noteLeft, noteTop, noteWidth, noteHeight) {
     xhr.send(formAddNote);
     return xhr.responseText;
 }
-
+function addButton(caption, btnLeft, btnTop, targetNodeId) {
+    var formAddBtn = new FormData();
+    formAddBtn.append('nodeId', GetSelectedNodeId());
+    formAddBtn.append('caption', caption);
+    formAddBtn.append('left', btnLeft);
+    formAddBtn.append('top', btnTop);
+    formAddBtn.append('targetNodeId', targetNodeId);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/WVIB/AddButton', false);
+    xhr.send(formAddBtn);
+    return xhr.responseText;
+}
 function renameButton(id) {
     alert('rename button ' + id);
 }

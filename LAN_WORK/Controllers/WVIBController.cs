@@ -134,10 +134,10 @@ namespace LanitWork.Controllers
                 WIBControllerAdapter.SaveToFile("saved_notes.json", htmlNotes);
         }
 
-        public void AddButton(string nodeId, string caption, int left, int top, string targetNodeId)
+        public string AddButton(string nodeId, string caption, int left, int top, string targetNodeId = "")
         {
             if (htmlButtons == null)
-                return;
+                return null;
             if (targetNodeId != "")
             {
                 MTreeNode.AddNode(treeCopy, nodeId, targetNodeId, "screen", "State");
@@ -147,9 +147,7 @@ namespace LanitWork.Controllers
                 MTreeNode N = MTreeNode.GetNode(treeCopy, nodeId);
                 targetNodeId = N.parent_id;
             }
-            HtmlButton[] res = HtmlButton.Add(htmlButtons, nodeId, caption, left, top, targetNodeId);
-            if (res != null)//добавили узел на верхний уровень
-                htmlButtons = res;
+            return HtmlButton.Add(ref htmlButtons, nodeId, caption, left, top, targetNodeId);
         }
 
         public string AddNote(string nodeId, string text, int left, int top, int width, int height)

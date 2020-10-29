@@ -50,13 +50,12 @@
                     $("#nodeIdDisplay").val(data.selected[0]);//id текущего узла
                     if (selected.data && (selected.data.src || selected.data.html)) {
                         vueApp.SetPicture(selected.data.src);
-                        var buttonsJson = GetButtons(selected.id);
-                        vueApp.SetButtons(JSON.parse(buttonsJson));
                     }
                     else {
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
-                        vueApp.SetButtons([]);
                     }
+                    var buttonsJson = GetButtons(selected.id);
+                    vueApp.SetButtons(JSON.parse(buttonsJson));
                     var textsJson = GetNotes(selected.id);
                     vueApp.SetTexts(JSON.parse(textsJson));
                 }
@@ -68,11 +67,6 @@
     <script src="~/dist/wib_layout.js"></script>
 
     <script>
-        function selectNode(nodeId) {
-            var instance = $('#modulesTree').jstree(true);
-            instance.deselect_all();
-            instance.select_node(nodeId);
-        }
         function InitModuleTree() {
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
@@ -193,6 +187,15 @@
             </div>
             <div data-container="EditPanel">
                 <div id="editPanel" style="border: none;position:absolute;margin-top:30px;">
+                    <input id="nodeIdDisplay" style="width:60px" />
+                    <br>
+                    <br>
+                    <button onclick="var targetId=GetNewNodeId();vueApp.AddButton(pasteCatcher.innerText, targetId); pasteCatcher.innerHTML = '';">Add F button</button>
+                    <br>
+                    <br>
+                    <button onclick="vueApp.AddButton(pasteCatcher.innerText); pasteCatcher.innerHTML = '';">Add B button</button>
+                    <br>
+                    <br>
                     <button onclick="vueApp.AddText(pasteCatcher.innerText); pasteCatcher.innerHTML = '';">Add text</button>
                     <br>
                     <br>
@@ -226,7 +229,6 @@
                     <img id="pasted_pict" src="" style="margin-top:0px">
                 </div>
                 <div id="tools" style="position:fixed;left:80%;top:0">
-                    <input id="nodeIdDisplay" style="width:60px" />
                     <button onclick="designButtons()">Design</button>
                     <button onclick="editHtml()">Edit</button>
                     <button onclick="addButton()">FB</button>
