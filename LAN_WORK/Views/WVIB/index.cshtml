@@ -52,14 +52,13 @@
                         vueApp.SetPicture(selected.data.src);
                         var buttonsJson = GetButtons(selected.id);
                         vueApp.SetButtons(JSON.parse(buttonsJson));
-                        var textsJson = GetNotes(selected.id);
-                        vueApp.SetTexts(JSON.parse(textsJson));
                     }
                     else {
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
                         vueApp.SetButtons([]);
-                        vueApp.SetTexts([]);
                     }
+                    var textsJson = GetNotes(selected.id);
+                    vueApp.SetTexts(JSON.parse(textsJson));
                 }
             });
 
@@ -112,6 +111,51 @@
                     $('#cmenu').hide();
                 //app.ProcessKey(e.key, e.altKey, e.ctrlKey, e.shiftKey)
             });
+
+        window.addEventListener("paste", function (e) {
+            if (e.clipboardData) {
+                var items = e.clipboardData.items;
+                if (items) {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].type.indexOf("text") !== -1) {
+                            items[i].getAsString(function (s) {
+                                pasteCatcher.innerHTML = s;
+                            });
+                            pasteCatcher.style.display = "block";
+                        }
+                        else if (items[i].type.indexOf("image") !== -1) {
+                            var blob = items[i].getAsFile();
+                            var URLObj = window.URL || window.webkitURL;
+                            var source = URLObj.createObjectURL(blob);
+                            var formDataFile = new FormData();
+                            var longPath = window.location.href;
+                            var shortPath = longPath.replace(new RegExp('/WVIB', 'g'), '');
+                            formDataFile.append('fileUpload', blob, source.replace(new RegExp(shortPath, 'g'), '').substring(6) + '.png');
+                            //formDataFile.append('entityId', 11);
+                            xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/WVIB/UploadFile', false);
+                            xhr.send(formDataFile);
+                            source = xhr.responseText;
+                            vueApp.SetPicture(source);
+
+                            var dataObj = new Object();
+                            dataObj.src = source;
+                            var body = new Object();
+                            body.nodeId = GetSelectedNodeId();
+                            body.nodeData = JSON.stringify(dataObj);
+                            xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/WVIB/SetNodeData', false);
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.send(JSON.stringify(body));
+
+                            pasteCatcher.innerHTML = '';
+                        }
+                    }
+                }
+            }
+        });
+        
+
         }
         function saveAll() {
             var formSaveFile = new FormData();
@@ -149,24 +193,26 @@
             </div>
             <div data-container="EditPanel">
                 <div id="editPanel" style="border: none;position:absolute;margin-top:30px;">
-                    <button onclick="vueApp.Edit();">Move buttons</button>
+                    <button onclick="vueApp.AddText(pasteCatcher.innerText); pasteCatcher.innerHTML = '';">Add text</button>
                     <br>
                     <br>
-                    <button onclick="vueApp.Post();">Fix buttons</button>
+                    <button onclick="vueApp.Edit();">Edit</button>
+                    <br>
+                    <br>
+                    <button onclick="vueApp.Post();">Post</button>
                     <br>
                     <br>
                     <button onclick="saveAll();">Save</button>
                     <br>
                     <br>
-                    <button onclick="var ctchr = document.getElementById('paste_catcher'); vueApp.AddText(ctchr.innerText); ctchr.innerHTML = '';">Add text</button>
+                    <div id="pasteCatcher" contenteditable style="border: 1px dotted black; width:200px;height:100px;overflow-x:hidden;overflow-y:hidden;"></div>
                     <br>
-                    <br>
-                    <div id="paste_catcher" contenteditable style="width:100px;height:100px;"></div>
+                    <button onclick="pasteCatcher.innerHTML='';">Clear</button>
                 </div>
             </div>
 
             <div data-container="ModuleFrame">
-                <div id="presenter" style="position:absolute;left:0px;top:0px;overflow-x:hidden;height:100%;width:100%;">
+                <div id="presenter" style="position:absolute;left:0px;top:0px;height:100%;width:100%;overflow-x:scroll;">
                     <div id="frame-html" style="height:100%;width:100%;">
                         @*<div style="position:relative;left:850px;top:75px;"><button onclick="alert('!!')">Обновить</button></div>*@
                     </div>

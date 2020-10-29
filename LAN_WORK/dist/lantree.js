@@ -91,7 +91,7 @@ function RemoveNode(id, parent) {
     formRemove.append('nodeId', id);
     formRemove.append('parentId', parent);
     xhr = new XMLHttpRequest();
-    xhr.open('POST', '/WIB/RemoveNode', false);
+    xhr.open('POST', '/WVIB/RemoveNode', false);
     xhr.send(formRemove);
 }
 
@@ -101,7 +101,7 @@ function RenameNode(id, text) {
     formRename.append('nodeId', id);
     formRename.append('name', text);
     xhr = new XMLHttpRequest();
-    xhr.open('POST', '/WIB/RenameNode', false);
+    xhr.open('POST', '/WVIB/RenameNode', false);
     xhr.send(formRename);
 }
 
@@ -128,8 +128,13 @@ function CreateNodeAtServer(obj) {
     formCreateNode.append('text', obj.text);
     formCreateNode.append('icon', obj.icon);
     xhr = new XMLHttpRequest();
-    xhr.open('POST', '/WIB/AddNode', false);
+    xhr.open('POST', '/WVIB/AddNode', false);
     xhr.send(formCreateNode);
+}
+
+function GetSelectedNodeId() {
+    var instance = $("#modulesTree").jstree(true);
+    return instance.get_selected()[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////non-tree stuff
@@ -163,10 +168,8 @@ function GetNotes(id) {
 }
 
 function addNote(txt, noteLeft, noteTop, noteWidth, noteHeight) {
-    var instance = $("#modulesTree").jstree(true);
-    sel = instance.get_selected()[0];
     var formAddNote = new FormData();
-    formAddNote.append('nodeId', sel);
+    formAddNote.append('nodeId', GetSelectedNodeId());
     formAddNote.append('text', txt);
     formAddNote.append('left', noteLeft);
     formAddNote.append('top', noteTop);
