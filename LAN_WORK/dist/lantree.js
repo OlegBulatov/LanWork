@@ -204,16 +204,38 @@ function addButton(caption, btnLeft, btnTop, targetNodeId) {
     xhr.send(formAddBtn);
     return xhr.responseText;
 }
-function renameButton(id) {
-    alert('rename button ' + id);
+
+function renameButton(buttonId, exCaption) {
+    var buttonCaption = prompt('Новое название кнопки:', exCaption);
+    if (buttonCaption) {
+        var formRenameButton = new FormData();
+        formRenameButton.append('buttonId', buttonId);
+        formRenameButton.append('caption', buttonCaption);
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '/WVIB/RenameButton', false);
+        xhr.send(formRenameButton);
+        vueApp.ButtonById(buttonId).Caption = buttonCaption;
+    }
+}
+
+function setButtonTargetId(buttonId, exTargetId) {
+    var btn = vueApp.ButtonById(buttonId);
+    if (!exTargetId)
+        exTargetId = btn.targetNodeId;
+    var buttonTargetId = prompt('Переход на узел:', exTargetId);
+    if (buttonTargetId) {
+        var formSetButtonTarget = new FormData();
+        formSetButtonTarget.append('buttonId', buttonId);
+        formSetButtonTarget.append('targetId', buttonTargetId);
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '/WVIB/SetButtonTargetId', false);
+        xhr.send(formSetButtonTarget);
+        btn.targetNodeId = buttonTargetId;
+    }
 }
 
 function dropButton(id) {
     vueApp.DeleteButtonById(id);
-}
-
-function setButtonTargetId(id) {
-    alert('set button ' + id + ' target id');
 }
 
 function dropText(id) {
