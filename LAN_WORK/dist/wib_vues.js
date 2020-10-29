@@ -160,6 +160,7 @@ return {
 			computed: {
 				displayStyle: function () {
 					return {
+						marginTop:  "20px",
 						width: "100%",
 						height: "100%",
 						backgroundImage: this.backgroundImage,
