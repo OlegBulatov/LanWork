@@ -91,28 +91,37 @@ Vue.component('wib_text', {
 		displayStyle: function () {
 return {
       border: '2px dotted black',
-      position: 'absolute',
+	  position: 'absolute',
+	  overflowX: "hidden",
+	  overflowY: "hidden",
 	  zIndex: 200,
       background: '#FFA0FF',
       color: 'black',
-	  width: this.width + 'px',
-	  height: this.height + 'px',
+	  width: (this.collapsed? 60 : this.width) + 'px',
+	  height: (this.collapsed ? 25 : this.height) + 'px',
       left: this.left + 'px',
       top: this.top + 'px'
     }
 		},
+		marker: function () {
+			return this.collapsed? "+" : "-";
+		}
 	},
 	methods: {
-		Edit(event) {
+		Edit(e) {
+			e.preventDefault();
 			this.$root.editedId = this.id;
 			editText(this.text);
+		},
+		ToggleCollapsed(event) {
+			this.collapsed = !this.collapsed;
 		},
 		SetText(txt) {
 			this.text = txt;
 		}
 	},
-	props: ['id','width','height','text','top','left'],
-	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><span v-html="this.text"></span></div>'
+	props: ['id','width','height','text','top','left','collapsed'],
+	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;">{{this.marker}}</div></div></div>'
 });
 
 (function ($) {
