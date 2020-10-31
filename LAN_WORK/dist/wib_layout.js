@@ -1,5 +1,4 @@
-﻿var currentModuleName = 'Help';
-var clickAfterSelect = false;
+﻿    var mxBasePath = '../../';
     var layout =
                 [
                     {
@@ -38,6 +37,14 @@ var clickAfterSelect = false;
                                             type: 'layoutPanel',
                                             title: 'CurrentModule',
                                             contentContainer: 'ModuleFrame'
+                                        },
+                                        {
+                                            type: 'layoutPanel',
+                                            title: 'Diagram',
+                                            contentContainer: 'DiagramPanel',
+                                            initContent: function () {
+                                                createEditor('config/diagrameditor.xml');
+                                            }
                                         },
                                         {
                                             type: 'layoutPanel',
