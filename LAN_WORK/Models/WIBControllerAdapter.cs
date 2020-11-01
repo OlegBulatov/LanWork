@@ -318,11 +318,20 @@ namespace LanitWork.Models
             }
         }
 
-        public static void SetNodeData(MTreeNode[] topNodes, string nodeId, object nodeData)
+        public static void SetNodeData(MTreeNode[] topNodes, string nodeId, dynamic nodeData)
         {
             MTreeNode node = GetNode(topNodes, nodeId);
             if (node != null)
             {
+                string src = nodeData.src;
+                dynamic exData = node.data;
+                if (src == "nochange")
+                {
+                    if (exData == null)
+                        nodeData.src = null;
+                    else
+                        nodeData.src = exData.src;
+                }
                 node.data = nodeData;
             }
         }

@@ -27,7 +27,7 @@
 
 
 </head>
-<body onload="InitModuleTree();">
+<body onload="InitModuleTree(); createEditor('config/diagrameditor.xml');">
 
     <script>
         var vueApp;
@@ -50,12 +50,16 @@
             treeRef.on("changed.jstree", function (e, data) {
                 if (data.selected.length) {
                     selected = data.instance.get_node(data.selected[0]);
+                    console.log(selected.data);
                     $("#nodeIdDisplay").val(data.selected[0]);//id текущего узла
-                    if (selected.data && (selected.data.src || selected.data.html)) {
+                    if (selected.data && (selected.data.src)) {
                         vueApp.SetPicture(selected.data.src);
                     }
                     else {
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
+                    }
+                    if (selected.data) {// && (selected.data.xml)) {
+                        initGraph(selected.data.xml ? selected.data.xml : "<mxGraphModel><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/></root></mxGraphModel>");
                     }
                     var buttonsJson = GetButtons(selected.id);
                     vueApp.SetButtons(JSON.parse(buttonsJson));
@@ -216,6 +220,9 @@
                     <div id="pasteCatcher" contenteditable style="border: 1px dotted black; width:200px;height:100px;overflow-x:hidden;overflow-y:hidden;"></div>
                     <br>
                     <button onclick="pasteCatcher.innerHTML='';">Clear</button>
+                    <br>
+                    <br>
+                    <button onclick="saveDiagram(); alert('OK');">save Diagram</button>
                 </div>
             </div>
 

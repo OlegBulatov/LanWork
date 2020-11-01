@@ -243,10 +243,11 @@ namespace LanitWork.Controllers
             dynamic dataObj = JsonConvert.DeserializeObject(nodeData);
             string hostUrl = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "");//Request.Url.Host + ":" + Request.Url.Port
             string src = dataObj.src;
-            src = src.Replace(hostUrl, "");
+            if(src != null)
+                src = src.Replace(hostUrl, "");
             string style = dataObj.style;
-            string html = dataObj.html;
-            MTreeNode.SetNodeData(treeCopy, nodeId, new { src, style, html  });
+            string xml = dataObj.xml;
+            MTreeNode.SetNodeData(treeCopy, nodeId, new { src, style, xml  });
         }
 
         public string GetHtml(string nodeId, string idPostfix = "")

@@ -242,4 +242,34 @@ function dropText(id) {
     vueApp.DeleteTextById(id);
 }
 
+function saveDiagram() {
+    var codec = new mxCodec();
+    var encXml = codec.encode(Editor.graph.getModel()); 
+    var xml = mxUtils.getXml(encXml);
+    var dataObj = new Object();
+    dataObj.src = null;
+    if (vueApp.backgroundImageIsUrl)
+        dataObj.src = vueApp.backgroundImage;
+    dataObj.xml = xml;
+    var body = new Object();
+    body.nodeId = GetSelectedNodeId();
+    body.nodeData = JSON.stringify(dataObj);
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', '/WVIB/SetNodeData', false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(body));
+}
 
+function initGraph(xml) {
+    if(!Editor)
+        createEditor('config/diagrameditor.xml');
+    Editor.graph.getModel().beginUpdate();
+    try {
+        var doc = mxUtils.parseXml(xml);
+        var codec = new mxCodec(doc);
+        codec.decode(doc.documentElement, Editor.graph.getModel());
+    }
+    finally {
+        Editor.graph.getModel().endUpdate();
+    }
+}

@@ -163,6 +163,7 @@ return {
 				treeCallback: undefined,
 				editedId: undefined,
 				backgroundImage: "linear- gradient(white, gray)",
+				backgroundImageIsUrl: false,
 				buttons: [],
 				texts: []
 			},
@@ -179,7 +180,8 @@ return {
 			},
 			methods: {
 				SetPicture(pict, isNotUrl) {
-					this.backgroundImage = isNotUrl? pict : "url('" + pict + "')";
+					this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
+					this.backgroundImageIsUrl = !isNotUrl;
 				},
 				SetButtons(btns) {
 					this.buttons = btns;

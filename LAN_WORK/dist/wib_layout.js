@@ -41,10 +41,7 @@
                                         {
                                             type: 'layoutPanel',
                                             title: 'Diagram',
-                                            contentContainer: 'DiagramPanel',
-                                            initContent: function () {
-                                                createEditor('config/diagrameditor.xml');
-                                            }
+                                            contentContainer: 'DiagramPanel'
                                         },
                                         {
                                             type: 'layoutPanel',
