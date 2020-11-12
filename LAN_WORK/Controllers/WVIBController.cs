@@ -20,7 +20,12 @@ namespace LanitWork.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Login", "Account");
         }
 
         private bool HasChildren(int parentId, DNode[] sourceData)

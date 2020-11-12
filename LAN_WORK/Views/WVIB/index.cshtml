@@ -58,8 +58,11 @@
                     else {
                         vueApp.SetPicture("linear-gradient(white, gray)", true);
                     }
-                    if (selected.data) {// && (selected.data.xml)) {
-                        initGraph(selected.data.xml ? selected.data.xml : "<mxGraphModel><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/></root></mxGraphModel>");
+                    if (selected.data && selected.data.xml) {
+                        initGraph(selected.data.xml);
+                    }
+                    else {
+                        initGraph("<mxGraphModel><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/></root></mxGraphModel>");
                     }
                     var buttonsJson = GetButtons(selected.id);
                     vueApp.SetButtons(JSON.parse(buttonsJson));
@@ -252,7 +255,7 @@
                         </tr>
                     </table>
                     <span style="float:right;padding-right:36px;">
-                        <input id="source" type="checkbox" />Source
+                        <input id="ckSource" type="checkbox" />Source
                     </span>
                     <div id="diagram_xml">
                         <input id="diag_xml_main" type="hidden" />

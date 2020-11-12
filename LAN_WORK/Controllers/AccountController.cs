@@ -1,8 +1,10 @@
+using System;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using LanitWork.Models;
-
+using System.IO;
+using Newtonsoft.Json;
 
 namespace LanitWork.Controllers
 {
@@ -14,7 +16,7 @@ namespace LanitWork.Controllers
         {
             string authResult = AccountControllerAdapter.AuthorizeUser(login, password);
             if (authResult == "")
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "WVIB");
             else
             {
                 return Login(0, login, authResult);
@@ -24,6 +26,20 @@ namespace LanitWork.Controllers
 
         public ActionResult Login(int userid = 0, string login = "", string result = "")
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "credentials.txt";
+            FileInfo loginFI = new FileInfo(path);
+            if (loginFI.Exists)
+            {
+                using (StreamReader SR = new StreamReader(path))
+                {
+                    string credentials = SR.ReadToEnd();
+                    string decryptedCr = DIOS.Common.Cryptor.Decrypt(credentials, "oyway2020");
+                    dynamic credentialsObject = JsonConvert.DeserializeObject(decryptedCr);
+                    login = credentialsObject.login;
+                    string password = credentialsObject.password;
+                    return Auth(login, password);
+                }
+            }
             if (result != "")
                 ViewBag.AuthResult = result;
             if (login != "")

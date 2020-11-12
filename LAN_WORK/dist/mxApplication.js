@@ -98,6 +98,109 @@
 // last step in the editor constructor.
 function onInit(editor) {
     Editor = editor;
+    console.log('init');
+    // Defines a new action to switch between
+    // XML and graphical display
+    var diagNode = document.getElementById('userpage1');//('diagramPresentation');
+    var diagXmlNode = document.getElementById('userpage0');//('diagramPresentation');
+    var diagTCNode = document.getElementById('diagramPresentation');
+    var textNode = document.getElementById('xml');
+    var graphNode = editor.graph.container;
+    var sourceInput = document.getElementById('ckSource');
+    sourceInput.checked = false;
+
+    var showSaved = function (editor) {
+        //Editor.execute("clearDiagram");
+        dID = document.getElementById("DiagramId");
+        var diagxml = GetText(dID.value, "Diagram");
+        drawGraph(diagxml);
+        var diagText = graphNode.innerHTML;
+        var newText = diagText;//.replace(new RegExp("c3d9ff-1-white", 'g'), "c3d9ff-1-black").replace(new RegExp("cdeb8b-1-white", 'g'), "cdeb8b-1-black")
+        diagXmlNode.innerHTML = newText;
+
+        var diagramExtXml = GetText(dID.value, "DiagramXml");
+        drawGraph(diagramExtXml);
+        diagText = graphNode.innerHTML;
+        newText = diagText.replace(new RegExp("mx-gradient", 'g'), "mx-gradientus");
+        //diagText.replace(new RegExp("c3d9ff-1-white", 'g'), "c3d9ff-1-black").replace(new RegExp("cdeb8b-1-white", 'g'), "cdeb8b-1-black")
+        diagNode.innerHTML = newText;
+
+        diagTCNode.style.display = '';
+        graphNode.style.display = 'none';
+    }
+
+    editor.addAction('showSavedDiagram', showSaved);
+
+    var clearDiag = function (editor) {
+        //console.log('clearDiag');
+        //diagNode.innerHTML = "";
+        diagTCNode.style.display = 'none';
+        graphNode.style.display = '';
+
+        if (textNode.value != textNode.originalValue) {
+            var doc = mxUtils.parseXml("<mxGraphModel><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/></root></mxGraphModel>");
+            var dec = new mxCodec(doc);
+            dec.decode(doc.documentElement, editor.graph.getModel());
+        }
+
+        textNode.originalValue = null;
+
+        // Makes sure nothing is selected in IE
+        if (mxClient.IS_IE) {
+            mxUtils.clearSelection();
+        }
+
+        textNode.style.display = 'none';
+
+        // Moves the focus back to the graph
+        editor.graph.container.focus();
+    }
+
+    editor.addAction('clearDiagram', clearDiag);
+
+    var fSwitchView = function (editor) {
+        if (sourceInput.checked) {
+            graphNode.style.display = 'none';
+            textNode.style.display = 'inline';
+
+            var enc = new mxCodec();
+            var node = enc.encode(editor.graph.getModel());
+
+            textNode.value = mxUtils.getPrettyXml(node);
+            textNode.originalValue = textNode.value;
+            textNode.focus();
+        }
+        else {
+            graphNode.style.display = '';
+
+            if (textNode.value != textNode.originalValue) {
+                var doc = mxUtils.parseXml(textNode.value);
+                var dec = new mxCodec(doc);
+                dec.decode(doc.documentElement, editor.graph.getModel());
+            }
+
+            textNode.originalValue = null;
+
+            // Makes sure nothing is selected in IE
+            if (mxClient.IS_IE) {
+                mxUtils.clearSelection();
+            }
+
+            textNode.style.display = 'none';
+
+            // Moves the focus back to the graph
+            editor.graph.container.focus();
+        }
+    };
+
+    editor.addAction('switchView', fSwitchView);
+
+    // Defines a new action to switch between
+    // XML and graphical display
+    mxEvent.addListener(sourceInput, 'click', function () {
+        console.log('switch view');
+        editor.execute('switchView');
+    });
     return;
 }
 
@@ -223,7 +326,7 @@ function onInitFromDersa(editor) {
     };
 
 
-
+    console.log('init');
     // Defines a new action to switch between
     // XML and graphical display
     var diagNode = document.getElementById('userpage1');//('diagramPresentation');
@@ -231,7 +334,7 @@ function onInitFromDersa(editor) {
     var diagTCNode = document.getElementById('diagramPresentation');
     var textNode = document.getElementById('xml');
     var graphNode = editor.graph.container;
-    var sourceInput = document.getElementById('source');
+    var sourceInput = document.getElementById('ckSource');
     sourceInput.checked = false;
 
     var showSaved = function (editor) {
@@ -323,6 +426,7 @@ function onInitFromDersa(editor) {
     // Defines a new action to switch between
     // XML and graphical display
     mxEvent.addListener(sourceInput, 'click', function () {
+        console.log('switch view');
         editor.execute('switchView');
     });
 
