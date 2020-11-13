@@ -110,8 +110,7 @@ return {
 	methods: {
 		Edit(e) {
 			e.preventDefault();
-			this.$root.editedId = this.id;
-			editText(this.text);
+			this.$root.EditText(this.id, this.text);
 		},
 		ToggleCollapsed(event) {
 			this.collapsed = !this.collapsed;
@@ -153,6 +152,54 @@ return {
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
 
+
+		var editorWindow = $("<div><div>jqxEditor</div></div>");
+		editorWindow.attr("id", "jqx_window");
+		editorWindow.attr("style", "display:none");
+		var editorWithButtons = $("<div>");
+		var textEditor = $("<div>");
+		textEditor.attr("id", "jqx_editor");
+		editorWithButtons.append(textEditor);
+		var editorButtons = $("<div>");
+		editorButtons.append(
+			$('<input type="button" id="ok" value="OK" style="margin-right: 10px" />')
+		);
+		editorButtons.append(
+			$('<input type="button" id="cancel" value="Cancel" />')
+		);
+		editorWithButtons.append(editorButtons);
+		editorWindow.append(editorWithButtons);
+
+		this.append(editorWindow);
+
+		editorWindow.jqxWindow({
+			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+			resizable: true, isModal: true,
+			okButton: $('#ok'), cancelButton: $('#cancel'),
+			initContent: function () {
+				textEditor.jqxEditor({
+					height: "90%",
+					width: '100%'
+				});
+				textEditor.val("");
+				$('#ok').jqxButton({
+					width: '65px',
+					theme: 'energyblue'
+				});
+				$('#cancel').jqxButton({
+					width: '65px',
+					theme: 'energyblue'
+				});
+				$('#ok').focus();
+			}
+		});
+		editorWindow.on('close', function (event) {
+			if (event.args.dialogResult.OK) {
+				var txt = $('#jqx_editor').val();
+				vueApp.SetText(txt);
+			}
+		});
+
 		return new Vue({
 			el: this.selector, 
 			updated: function () {
@@ -164,6 +211,8 @@ return {
 				editedId: undefined,
 				backgroundImage: "linear- gradient(white, gray)",
 				backgroundImageIsUrl: false,
+				textEditor: textEditor,
+				textEditorWindow: editorWindow,
 				buttons: [],
 				texts: []
 			},
@@ -306,6 +355,14 @@ return {
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', '/WVIB/SetNoteGeometry', false);
 					xhr.send(noteForm);
+				},
+				EditText(id, txt) {
+					this.editedId = id;
+					if (!this.textEditor.jqxEditor('val'))
+						this.textEditor.val(txt);
+					else
+						this.textEditor.jqxEditor('val', txt);
+					this.textEditorWindow.jqxWindow('open');
 				}
 
 			}

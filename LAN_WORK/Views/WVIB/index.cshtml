@@ -81,33 +81,33 @@
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
             vueApp.treeCallback = selectNode;
-            $('#window').jqxWindow({
-                autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
-                resizable: true, isModal: true,
-                okButton: $('#ok'), cancelButton: $('#cancel'),
-                initContent: function () {
-                    $('#editor').jqxEditor({
-                        height: "90%",
-                        width: '100%'
-                    });
-                    $('#editor').val("");
-                    $('#ok').jqxButton({
-                        width: '65px',
-                        theme: 'energyblue'
-                    });
-                    $('#cancel').jqxButton({
-                        width: '65px',
-                        theme: 'energyblue'
-                    });
-                    $('#ok').focus();
-                }
-            });
-            $('#window').on('close', function (event) {
-                if (event.args.dialogResult.OK) {
-                    var txt = $('#editor').val();
-                    vueApp.SetText(txt);
-                }
-            });
+            //$('#jqx_window').jqxWindow({
+            //    autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+            //    resizable: true, isModal: true,
+            //    okButton: $('#ok'), cancelButton: $('#cancel'),
+            //    initContent: function () {
+            //        $('#jqx_editor').jqxEditor({
+            //            height: "90%",
+            //            width: '100%'
+            //        });
+            //        $('#jqx_editor').val("");
+            //        $('#ok').jqxButton({
+            //            width: '65px',
+            //            theme: 'energyblue'
+            //        });
+            //        $('#cancel').jqxButton({
+            //            width: '65px',
+            //            theme: 'energyblue'
+            //        });
+            //        $('#ok').focus();
+            //    }
+            //});
+            //$('#jqx_window').on('close', function (event) {
+            //    if (event.args.dialogResult.OK) {
+            //        var txt = $('#jqx_editor').val();
+            //        vueApp.SetText(txt);
+            //    }
+            //});
             $(document).click(function (e) {
                 $('#cmenu').hide();
                 $('#cmenutxt').hide();
@@ -172,13 +172,6 @@
                 xhr.open('POST', '/WVIB/SaveToFile', false);
                 xhr.send(formSaveFile);
             }
-        }
-        function editText(txt) {
-            if (!$('#editor').jqxEditor('val'))
-                $('#editor').val(txt);
-            else
-                $('#editor').jqxEditor('val', txt);
-            $('#window').jqxWindow('open');
         }
     </script>
 
@@ -267,7 +260,7 @@
         <div style="position:absolute;top:5px;right:200px">
             <a href="/Home/Index">Home</a>
         </div>
-        <div id="window" style="display:none">
+        @*<div id="window" style="display:none">
             <div>
                 jqxEditor
             </div>
@@ -278,7 +271,7 @@
                     <input type="button" id="cancel" value="Cancel" />
                 </div>
             </div>
-        </div>
+        </div>*@
         <div id="cmenu" style="position:absolute;display:none">
             <ul>
                 <li><a id="cmitemRename">Переименовать</a></li>
