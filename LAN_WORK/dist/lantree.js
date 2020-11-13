@@ -235,11 +235,23 @@ function setButtonTargetId(buttonId, exTargetId) {
 }
 
 function dropButton(id) {
-    vueApp.DeleteButtonById(id);
+    var btnForm = new FormData();
+    btnForm.append('id', id);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/WVIB/RemoveButton', false);
+    xhr.send(btnForm);
+    var buttonsJson = GetButtons(GetSelectedNodeId());
+    vueApp.SetButtons(JSON.parse(buttonsJson));
 }
 
 function dropText(id) {
-    vueApp.DeleteTextById(id);
+    var noteForm = new FormData();
+    noteForm.append('id', id);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/WVIB/RemoveNote', false);
+    xhr.send(noteForm);
+    var textsJson = GetNotes(GetSelectedNodeId());
+    vueApp.SetTexts(JSON.parse(textsJson));
 }
 
 function saveDiagram() {

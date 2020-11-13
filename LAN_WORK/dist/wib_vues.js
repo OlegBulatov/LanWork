@@ -257,21 +257,6 @@ return {
 					}
 					return undefined;
 				},
-				DeleteButtonById(btnId) {
-					var btnForm = new FormData();
-					btnForm.append('id', btnId);
-					var xhr = new XMLHttpRequest();
-					xhr.open('POST', '/WVIB/RemoveButton', false);
-					xhr.send(btnForm);
-					var buttonsJson = GetButtons(selected.id);
-					vueApp.SetButtons(JSON.parse(buttonsJson));
-					//for (i = 0; i < this.buttons.length; i++) {
-					//	if (this.buttons[i].Id == btnId) {
-					//		this.buttons.splice(i, 1);
-					//		return;
-					//	}
-					//}
-				},
 				SetTexts(texts) {
 					this.texts = texts;
 				},
@@ -281,21 +266,6 @@ return {
 							return this.texts[i];
 					}
 					return undefined;
-				},
-				DeleteTextById(txtId) {
-					var noteForm = new FormData();
-					noteForm.append('id', txtId);
-					var xhr = new XMLHttpRequest();
-					xhr.open('POST', '/WVIB/RemoveNote', false);
-					xhr.send(noteForm);
-					var textsJson = GetNotes(selected.id);
-					vueApp.SetTexts(JSON.parse(textsJson));
-					//for (i = 0; i < this.texts.length; i++) {
-					//	if (this.texts[i].id == txtId) {
-					//		this.texts.splice(i, 1);
-					//		return;
-					//	}
-					//}
 				},
 				Edit() {
 					this.SetButtonsEdited(true);
