@@ -193,18 +193,21 @@ return {
 				$('#ok').focus();
 			}
 		});
-		editorWindow.on('close', function (event) {
-			if (event.args.dialogResult.OK) {
-				var txt = $('#jqx_editor').val();
-				vueApp.SetText(txt);
-			}
-		});
+		//function (event) {
+		//	if (event.args.dialogResult.OK) {
+		//		var txt = $('#jqx_editor').val();
+		//		vueApp.SetText(txt);
+		//	}
+		//});
 
 		return new Vue({
 			el: this.selector, 
 			updated: function () {
 				$('#cmenu').hide();
 				$('#cmenutxt').hide();
+			},
+			mounted: function () {
+				this.textEditorWindow.on('close', this.CloseEditorWindow);
 			},
 			data: {
 				treeCallback: undefined,
@@ -363,8 +366,12 @@ return {
 					else
 						this.textEditor.jqxEditor('val', txt);
 					this.textEditorWindow.jqxWindow('open');
+				},
+				CloseEditorWindow(event) {
+					if (event.args.dialogResult.OK) {
+						this.SetText(this.textEditor.val());
+					}
 				}
-
 			}
 		});
 	}
