@@ -23,17 +23,8 @@ Vue.component('wib_button', {
 			}
 		});
 		this.jqButton.draggable('disable');
-		this.jqButton.contextmenu(function (e) {
-			e.preventDefault();
-			$('#cmenu').css("left", e.pageX);
-			$('#cmenu').css("top", e.pageY);
-			$('#cmenu').attr("btn_id", e.currentTarget.id);
-			$('#cmenu').attr("caption", e.currentTarget.innerText);
-			$('#cmenu').show();
-		});
 
 	},
-
 	computed: {
 		jqButton: function () {
 			return $('#' + this.id);
@@ -46,11 +37,13 @@ Vue.component('wib_button', {
 				zIndex: 150,
 				background: 'cyan',
 				color: 'red',
-				left: (this.left-0) + 'px',
-				top: (this.top-0) + 'px',
+				left: this.left + 'px',
+				top: this.top + 'px',
 			}
 
 		},
+	},
+	methods: {
 	},
 	props: ['id', 'caption', 'draggable', 'top', 'left'],
 	template: '<div v-bind:id="id" v-bind:style="divStyle">{{this.caption}}</div>'
@@ -112,7 +105,7 @@ return {
 			e.preventDefault();
 			this.$root.EditText(this.id, this.text);
 		},
-		ToggleCollapsed(event) {
+		ToggleCollapsed() {
 			this.collapsed = !this.collapsed;
 		},
 		SetText(txt) {
@@ -151,7 +144,6 @@ return {
 		var pictureContainer = $("<div>");
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
-
 
 		var editorWindow = $("<div><div>jqxEditor</div></div>");
 		editorWindow.attr("id", "jqx_window");
@@ -193,84 +185,81 @@ return {
 				$('#ok').focus();
 			}
 		});
-		//function (event) {
-		//	if (event.args.dialogResult.OK) {
-		//		var txt = $('#jqx_editor').val();
-		//		vueApp.SetText(txt);
-		//	}
-		//});
+		editorWindow.on('close', function (event) {
+			if (event.args.dialogResult.OK) {
+				var txt = $('#jqx_editor').val();
+				vueApp.SetText(txt);
+			}
+		});
 
 		return new Vue({
-			el: this.selector, 
+			el: this.selector,
 			updated: function () {
 				$('#cmenu').hide();
 				$('#cmenutxt').hide();
+
 			},
 			mounted: function () {
 				this.textEditorWindow.on('close', this.CloseEditorWindow);
-			},
-			data: {
-				treeCallback: undefined,
-				editedId: undefined,
-				backgroundImage: "linear- gradient(white, gray)",
-				backgroundImageIsUrl: false,
-				textEditor: textEditor,
-				textEditorWindow: editorWindow,
-				buttons: [],
-				texts: []
+
 			},
 			computed: {
 				displayStyle: function () {
 					return {
-						marginTop:  "20px",
+						marginTop: "20px",
 						width: "100%",
 						height: "100%",
 						backgroundImage: this.backgroundImage,
 						backgroundRepeat: "no-repeat"
 					}
-				}
+
+				},
+			},
+			data: {
+				backgroundImage: "linear- gradient(white, gray)",
+				treeCallback: undefined,
+				backgroundImageIsUrl: false,
+				textEditorWindow: editorWindow,
+				editedId: undefined,
+				textEditor: textEditor,
+				texts: [],
+				buttons: [],
 			},
 			methods: {
-				SetPicture(pict, isNotUrl) {
-					this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
-					this.backgroundImageIsUrl = !isNotUrl;
-				},
-				SetButtons(btns) {
-					this.buttons = btns;
-				},
-				AddButton(caption, targetNodeID="") {
-					var btnLeft = 100;
-					var btnTop = 200;
-					var btnId = addButton(caption, btnLeft, btnTop, targetNodeID);
-					this.buttons.push({ Id: btnId, Caption: caption, Left: btnLeft, Top: btnTop });
-				},
-				SetButtonsEdited(is_edit) {
-					this.buttons.forEach(function(item){
+				SetButtonsEdited: function (is_edit) {
+					this.buttons.forEach(function (item) {
 						item.draggable = is_edit;
 					});
 					this.$forceUpdate();
+
 				},
-				ButtonById(btnId) {
+				CloseEditorWindow: function (event) {
+					if (event.args.dialogResult.OK) {
+						this.SetText(this.textEditor.val());
+					}
+
+				},
+				SetButtons: function (btns) {
+					this.buttons = btns;
+				},
+				ButtonById: function (btnId) {
 					for (i = 0; i < this.buttons.length; i++) {
 						if (this.buttons[i].Id == btnId)
 							return this.buttons[i];
 					}
 					return undefined;
+
 				},
-				SetTexts(texts) {
-					this.texts = texts;
+				ButtonClick: function (targetId) {
+					if (this.treeCallback)
+						this.treeCallback(targetId);
+
 				},
-				TextById(txtId) {
-					for (i = 0; i < this.texts.length; i++) {
-						if (this.texts[i].id == txtId)
-							return this.texts[i];
-					}
-					return undefined;
-				},
-				Edit() {
+				Edit: function () {
 					this.SetButtonsEdited(true);
+
 				},
-				Post() {
+				Post: function () {
 					this.SetButtonsEdited(false);
 					this.buttons.forEach(function (item) {
 						var formSetCoords = new FormData();
@@ -281,20 +270,46 @@ return {
 						xhr.open('POST', '/WVIB/SetButtonCoords', false);
 						xhr.send(formSetCoords);
 					});
+
 				},
-				ButtonClick(targetId) {
-					if (this.treeCallback)
-						this.treeCallback(targetId);
+				EditText: function () {
+					this.editedId = id;
+					if (!this.textEditor.jqxEditor('val'))
+						this.textEditor.val(txt);
+					else
+						this.textEditor.jqxEditor('val', txt);
+					this.textEditorWindow.jqxWindow('open');
+
 				},
-				AddText(txt) {
+				TextById: function (txtId) {
+					for (i = 0; i < this.texts.length; i++) {
+						if (this.texts[i].id == txtId)
+							return this.texts[i];
+					}
+					return undefined;
+
+				},
+				AddButton: function (caption, targetNodeID = "") {
+					var btnLeft = 100;
+					var btnTop = 200;
+					var btnId = addButton(caption, btnLeft, btnTop, targetNodeID);
+					this.buttons.push({ Id: btnId, Caption: caption, Left: btnLeft, Top: btnTop });
+
+				},
+				SetTexts: function (texts) {
+					this.texts = texts;
+
+				},
+				AddText: function (txt) {
 					var noteLeft = 100;
 					var noteTop = 100;
 					var noteWidth = 100;
 					var noteHeight = 100;
 					var noteId = addNote(txt, noteLeft, noteTop, noteWidth, noteHeight);
 					this.texts.push({ id: noteId, text: txt, left: noteLeft, top: noteTop, width: noteWidth, height: noteHeight });
+
 				},
-				SetText(txt) {
+				SetText: function (txt) {
 					var note = this.TextById(this.editedId);
 					note.text = txt;
 					var noteForm = new Object();
@@ -304,8 +319,9 @@ return {
 					xhr.open('POST', '/WVIB/SetNoteText', false);
 					xhr.setRequestHeader('Content-Type', 'application/json');
 					xhr.send(JSON.stringify(noteForm));
+
 				},
-				SetTextCoords(noteId, left, top) {
+				SetTextCoords: function (noteId, left, top) {
 					var note = this.TextById(noteId);
 					note.left = left;
 					note.top = top;
@@ -316,8 +332,9 @@ return {
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', '/WVIB/SetNoteCoords', false);
 					xhr.send(noteForm);
+
 				},
-				SetTextGeometry(noteId, width, height) {
+				SetTextGeometry: function (noteId, width, height) {
 					var note = this.TextById(noteId);
 					note.width = width;
 					note.height = height;
@@ -328,21 +345,160 @@ return {
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', '/WVIB/SetNoteGeometry', false);
 					xhr.send(noteForm);
+
 				},
-				EditText(id, txt) {
-					this.editedId = id;
-					if (!this.textEditor.jqxEditor('val'))
-						this.textEditor.val(txt);
-					else
-						this.textEditor.jqxEditor('val', txt);
-					this.textEditorWindow.jqxWindow('open');
+				SetPicture: function (pict, isNotUrl) {
+					this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
+					this.backgroundImageIsUrl = !isNotUrl;
+
 				},
-				CloseEditorWindow(event) {
-					if (event.args.dialogResult.OK) {
-						this.SetText(this.textEditor.val());
-					}
-				}
-			}
+			},
 		});
 	}
 })(jQuery);
+
+
+//return new Vue({
+//	el: this.selector,
+//	updated: function () {
+//		$('#cmenu').hide();
+//		$('#cmenutxt').hide();
+//	},
+//	mounted: function () {
+//		this.textEditorWindow.on('close', this.CloseEditorWindow);
+//	},
+//	data: {
+//		treeCallback: undefined,
+//		editedId: undefined,
+//		backgroundImage: "linear- gradient(white, gray)",
+//		backgroundImageIsUrl: false,
+//		textEditor: textEditor,
+//		textEditorWindow: editorWindow,
+//		buttons: [],
+//		texts: []
+//	},
+//	computed: {
+//		displayStyle: function () {
+//			return {
+//				marginTop: "20px",
+//				width: "100%",
+//				height: "100%",
+//				backgroundImage: this.backgroundImage,
+//				backgroundRepeat: "no-repeat"
+//			}
+//		}
+//	},
+//	methods: {
+//		SetPicture(pict, isNotUrl) {
+//			this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
+//			this.backgroundImageIsUrl = !isNotUrl;
+//		},
+//		SetButtons(btns) {
+//			this.buttons = btns;
+//		},
+//		AddButton(caption, targetNodeID = "") {
+//			var btnLeft = 100;
+//			var btnTop = 200;
+//			var btnId = addButton(caption, btnLeft, btnTop, targetNodeID);
+//			this.buttons.push({ Id: btnId, Caption: caption, Left: btnLeft, Top: btnTop });
+//		},
+//		SetButtonsEdited(is_edit) {
+//			this.buttons.forEach(function (item) {
+//				item.draggable = is_edit;
+//			});
+//			this.$forceUpdate();
+//		},
+//		ButtonById(btnId) {
+//			for (i = 0; i < this.buttons.length; i++) {
+//				if (this.buttons[i].Id == btnId)
+//					return this.buttons[i];
+//			}
+//			return undefined;
+//		},
+//		SetTexts(texts) {
+//			this.texts = texts;
+//		},
+//		TextById(txtId) {
+//			for (i = 0; i < this.texts.length; i++) {
+//				if (this.texts[i].id == txtId)
+//					return this.texts[i];
+//			}
+//			return undefined;
+//		},
+//		Edit() {
+//			this.SetButtonsEdited(true);
+//		},
+//		Post() {
+//			this.SetButtonsEdited(false);
+//			this.buttons.forEach(function (item) {
+//				var formSetCoords = new FormData();
+//				formSetCoords.append('id', item.Id);
+//				formSetCoords.append('left', item.Left);
+//				formSetCoords.append('top', item.Top);
+//				var xhr = new XMLHttpRequest();
+//				xhr.open('POST', '/WVIB/SetButtonCoords', false);
+//				xhr.send(formSetCoords);
+//			});
+//		},
+//		ButtonClick(targetId) {
+//			if (this.treeCallback)
+//				this.treeCallback(targetId);
+//		},
+//		AddText(txt) {
+//			var noteLeft = 100;
+//			var noteTop = 100;
+//			var noteWidth = 100;
+//			var noteHeight = 100;
+//			var noteId = addNote(txt, noteLeft, noteTop, noteWidth, noteHeight);
+//			this.texts.push({ id: noteId, text: txt, left: noteLeft, top: noteTop, width: noteWidth, height: noteHeight });
+//		},
+//		SetText(txt) {
+//			var note = this.TextById(this.editedId);
+//			note.text = txt;
+//			var noteForm = new Object();
+//			noteForm.id = note.id;
+//			noteForm.text = txt;
+//			var xhr = new XMLHttpRequest();
+//			xhr.open('POST', '/WVIB/SetNoteText', false);
+//			xhr.setRequestHeader('Content-Type', 'application/json');
+//			xhr.send(JSON.stringify(noteForm));
+//		},
+//		SetTextCoords(noteId, left, top) {
+//			var note = this.TextById(noteId);
+//			note.left = left;
+//			note.top = top;
+//			var noteForm = new FormData();
+//			noteForm.append('id', noteId);
+//			noteForm.append('left', left);
+//			noteForm.append('top', top);
+//			var xhr = new XMLHttpRequest();
+//			xhr.open('POST', '/WVIB/SetNoteCoords', false);
+//			xhr.send(noteForm);
+//		},
+//		SetTextGeometry(noteId, width, height) {
+//			var note = this.TextById(noteId);
+//			note.width = width;
+//			note.height = height;
+//			var noteForm = new FormData();
+//			noteForm.append('id', noteId);
+//			noteForm.append('width', width);
+//			noteForm.append('height', height);
+//			var xhr = new XMLHttpRequest();
+//			xhr.open('POST', '/WVIB/SetNoteGeometry', false);
+//			xhr.send(noteForm);
+//		},
+//		EditText(id, txt) {
+//			this.editedId = id;
+//			if (!this.textEditor.jqxEditor('val'))
+//				this.textEditor.val(txt);
+//			else
+//				this.textEditor.jqxEditor('val', txt);
+//			this.textEditorWindow.jqxWindow('open');
+//		},
+//		CloseEditorWindow(event) {
+//			if (event.args.dialogResult.OK) {
+//				this.SetText(this.textEditor.val());
+//			}
+//		}
+//	}
+//});
