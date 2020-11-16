@@ -24,46 +24,51 @@ Vue.component('wib_editor', {
 		});
 
 		this.textEditorWindow.on('close', this.CloseEditorWindow);
+
 	},
 	data: function () {
 		return {
-			edited_note: undefined
-		}
+			edited_note: undefined,
+		};
 	},
 	computed: {
-		textEditorWindow: function () {
-			return $('#x_window')
-		},
-		cancelButton: function () {
-			return $('#x_cancel')
-		},
-		okButton: function () {
-			return $('#x_ok')
-		},
-		textEditor: function () {
-			return $('#x_editor')
-		},
 		displayedStyle: function () {
 			return {
 				zIndex: 300,
 				position: 'absolute',
-				display: this.selected_note? 'block' : 'none',
+				display: this.selected_note ? 'block' : 'none',
 				left: this.selected_note ? this.selected_note.left + 'px' : '200px',
 				top: this.selected_note ? (this.selected_note.top + this.selected_note.height) + 'px' : '200px'
 			}
+
+		},
+		cancelButton: function () {
+			return $('#x_cancel');
+		},
+		textEditorWindow: function () {
+			return $('#x_window');
+
+		},
+		textEditor: function () {
+			return $('#x_editor');
+
+		},
+		okButton: function () {
+			return $('#x_ok');
+
 		},
 	},
 	methods: {
-		Edit() {
-			this.edited_note = this.selected_note;
-			this.textEditor.jqxEditor('val', this.selected_note.text);
-			this.textEditorWindow.jqxWindow('show');
-		},
 		CloseEditorWindow: function (event) {
 			if (event.args.dialogResult.OK) {
 				this.edited_note.text = this.textEditor.val();
 			}
 
+		},
+		Edit: function () {
+			this.edited_note = this.selected_note;
+			this.textEditor.jqxEditor('val', this.selected_note.text);
+			this.textEditorWindow.jqxWindow('show');
 		},
 	},
 	props: ['selected_note'],
