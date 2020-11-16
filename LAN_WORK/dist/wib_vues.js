@@ -1,3 +1,75 @@
+Vue.component('wib_editor', {
+	mounted: function () {
+		var vueInstance = this;//потому что внутри initContent this будет показывать уже на другой объект (jqxWindow)
+		this.textEditorWindow.jqxWindow({
+			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
+			resizable: true, isModal: true,
+			okButton: this.okButton, cancelButton: this.cancelButton,
+			initContent: function () {
+				vueInstance.textEditor.jqxEditor({
+					height: "90%",
+					width: '100%'
+				});
+				vueInstance.textEditor.val("");
+				vueInstance.okButton.jqxButton({
+					width: '65px',
+					theme: 'energyblue'
+				});
+				vueInstance.cancelButton.jqxButton({
+					width: '65px',
+					theme: 'energyblue'
+				});
+				vueInstance.okButton.focus();
+			}
+		});
+
+		this.textEditorWindow.on('close', this.CloseEditorWindow);
+	},
+	data: function () {
+		return {
+			edited_note: undefined
+		}
+	},
+	computed: {
+		textEditorWindow: function () {
+			return $('#x_window')
+		},
+		cancelButton: function () {
+			return $('#x_cancel')
+		},
+		okButton: function () {
+			return $('#x_ok')
+		},
+		textEditor: function () {
+			return $('#x_editor')
+		},
+		displayedStyle: function () {
+			return {
+				zIndex: 300,
+				position: 'absolute',
+				display: this.selected_note? 'block' : 'none',
+				left: this.selected_note ? this.selected_note.left + 'px' : '200px',
+				top: this.selected_note ? (this.selected_note.top + this.selected_note.height) + 'px' : '200px'
+			}
+		},
+	},
+	methods: {
+		Edit() {
+			this.edited_note = this.selected_note;
+			this.textEditor.jqxEditor('val', this.selected_note.text);
+			this.textEditorWindow.jqxWindow('show');
+		},
+		CloseEditorWindow: function (event) {
+			if (event.args.dialogResult.OK) {
+				this.edited_note.text = this.textEditor.val();
+			}
+
+		},
+	},
+	props: ['selected_note'],
+	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div><button v-on:click="Edit" v-bind:style="displayedStyle">Edit</button></div>'
+});
+
 Vue.component('wib_button', {
 	updated: function () {
 		if (this.draggable)
@@ -23,7 +95,14 @@ Vue.component('wib_button', {
 			}
 		});
 		this.jqButton.draggable('disable');
-
+		this.jqButton.contextmenu(function (e) {
+			e.preventDefault();
+			$('#cmenu').css("left", e.pageX);
+			$('#cmenu').css("top", e.pageY);
+			$('#cmenu').attr("btn_id", e.currentTarget.id);
+			$('#cmenu').attr("caption", e.currentTarget.innerText);
+			$('#cmenu').show();
+		});
 	},
 	computed: {
 		jqButton: function () {
@@ -72,6 +151,7 @@ Vue.component('wib_text', {
 			}
 		});
 		$('#' + this.id).contextmenu(function (e) {
+			this.__vue__.$root.SetNothingSelected();
 			e.preventDefault();
 			$('#cmenutxt').css("left", e.pageX);
 			$('#cmenutxt').css("top", e.pageY);
@@ -101,9 +181,10 @@ return {
 		}
 	},
 	methods: {
-		Edit(e) {
+		Locate(e) {
 			e.preventDefault();
-			this.$root.EditText(this.id, this.text);
+			e.stopPropagation();
+			this.$root.LocateText(this.id);
 		},
 		ToggleCollapsed() {
 			this.collapsed = !this.collapsed;
@@ -113,7 +194,7 @@ return {
 		}
 	},
 	props: ['id','width','height','text','top','left','collapsed'],
-	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
+	template: '<div v-on:click="Locate" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
 });
 
 (function ($) {
@@ -121,6 +202,9 @@ return {
 //initialization code
 
 		//properties of components:
+		var wib_editorComponent = $("<wib_editor>");
+		wib_editorComponent.attr("v-bind:selected_note", "selectedText");
+		this.append(wib_editorComponent);
 
 		var wib_textComponents = $("<wib_text>");
 		wib_textComponents.attr("v-for", "v_wib_text in texts");
@@ -145,62 +229,11 @@ return {
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
 
-		var editorWindow = $("<div><div>jqxEditor</div></div>");
-		editorWindow.attr("id", "jqx_window");
-		editorWindow.attr("style", "display:none");
-		var editorWithButtons = $("<div>");
-		var textEditor = $("<div>");
-		textEditor.attr("id", "jqx_editor");
-		editorWithButtons.append(textEditor);
-		var editorButtons = $("<div>");
-		editorButtons.append(
-			$('<input type="button" id="ok" value="OK" style="margin-right: 10px" />')
-		);
-		editorButtons.append(
-			$('<input type="button" id="cancel" value="Cancel" />')
-		);
-		editorWithButtons.append(editorButtons);
-		editorWindow.append(editorWithButtons);
-
-		this.append(editorWindow);
-
-		editorWindow.jqxWindow({
-			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
-			resizable: true, isModal: true,
-			okButton: $('#ok'), cancelButton: $('#cancel'),
-			initContent: function () {
-				textEditor.jqxEditor({
-					height: "90%",
-					width: '100%'
-				});
-				textEditor.val("");
-				$('#ok').jqxButton({
-					width: '65px',
-					theme: 'energyblue'
-				});
-				$('#cancel').jqxButton({
-					width: '65px',
-					theme: 'energyblue'
-				});
-				$('#ok').focus();
-			}
-		});
-		editorWindow.on('close', function (event) {
-			if (event.args.dialogResult.OK) {
-				var txt = $('#jqx_editor').val();
-				vueApp.SetText(txt);
-			}
-		});
-
 		return new Vue({
 			el: this.selector,
 			updated: function () {
 				$('#cmenu').hide();
 				$('#cmenutxt').hide();
-
-			},
-			mounted: function () {
-				this.textEditorWindow.on('close', this.CloseEditorWindow);
 
 			},
 			computed: {
@@ -218,10 +251,8 @@ return {
 			data: {
 				backgroundImage: "linear- gradient(white, gray)",
 				treeCallback: undefined,
+				selectedText: undefined,
 				backgroundImageIsUrl: false,
-				textEditorWindow: editorWindow,
-				editedId: undefined,
-				textEditor: textEditor,
 				texts: [],
 				buttons: [],
 			},
@@ -231,12 +262,6 @@ return {
 						item.draggable = is_edit;
 					});
 					this.$forceUpdate();
-
-				},
-				CloseEditorWindow: function (event) {
-					if (event.args.dialogResult.OK) {
-						this.SetText(this.textEditor.val());
-					}
 
 				},
 				SetButtons: function (btns) {
@@ -272,14 +297,8 @@ return {
 					});
 
 				},
-				EditText: function () {
-					this.editedId = id;
-					if (!this.textEditor.jqxEditor('val'))
-						this.textEditor.val(txt);
-					else
-						this.textEditor.jqxEditor('val', txt);
-					this.textEditorWindow.jqxWindow('open');
-
+				LocateText: function (id) {
+					this.selectedText = this.TextById(id);
 				},
 				TextById: function (txtId) {
 					for (i = 0; i < this.texts.length; i++) {
@@ -352,153 +371,10 @@ return {
 					this.backgroundImageIsUrl = !isNotUrl;
 
 				},
+				SetNothingSelected() {
+					this.selectedText = undefined;
+				},
 			},
 		});
 	}
 })(jQuery);
-
-
-//return new Vue({
-//	el: this.selector,
-//	updated: function () {
-//		$('#cmenu').hide();
-//		$('#cmenutxt').hide();
-//	},
-//	mounted: function () {
-//		this.textEditorWindow.on('close', this.CloseEditorWindow);
-//	},
-//	data: {
-//		treeCallback: undefined,
-//		editedId: undefined,
-//		backgroundImage: "linear- gradient(white, gray)",
-//		backgroundImageIsUrl: false,
-//		textEditor: textEditor,
-//		textEditorWindow: editorWindow,
-//		buttons: [],
-//		texts: []
-//	},
-//	computed: {
-//		displayStyle: function () {
-//			return {
-//				marginTop: "20px",
-//				width: "100%",
-//				height: "100%",
-//				backgroundImage: this.backgroundImage,
-//				backgroundRepeat: "no-repeat"
-//			}
-//		}
-//	},
-//	methods: {
-//		SetPicture(pict, isNotUrl) {
-//			this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
-//			this.backgroundImageIsUrl = !isNotUrl;
-//		},
-//		SetButtons(btns) {
-//			this.buttons = btns;
-//		},
-//		AddButton(caption, targetNodeID = "") {
-//			var btnLeft = 100;
-//			var btnTop = 200;
-//			var btnId = addButton(caption, btnLeft, btnTop, targetNodeID);
-//			this.buttons.push({ Id: btnId, Caption: caption, Left: btnLeft, Top: btnTop });
-//		},
-//		SetButtonsEdited(is_edit) {
-//			this.buttons.forEach(function (item) {
-//				item.draggable = is_edit;
-//			});
-//			this.$forceUpdate();
-//		},
-//		ButtonById(btnId) {
-//			for (i = 0; i < this.buttons.length; i++) {
-//				if (this.buttons[i].Id == btnId)
-//					return this.buttons[i];
-//			}
-//			return undefined;
-//		},
-//		SetTexts(texts) {
-//			this.texts = texts;
-//		},
-//		TextById(txtId) {
-//			for (i = 0; i < this.texts.length; i++) {
-//				if (this.texts[i].id == txtId)
-//					return this.texts[i];
-//			}
-//			return undefined;
-//		},
-//		Edit() {
-//			this.SetButtonsEdited(true);
-//		},
-//		Post() {
-//			this.SetButtonsEdited(false);
-//			this.buttons.forEach(function (item) {
-//				var formSetCoords = new FormData();
-//				formSetCoords.append('id', item.Id);
-//				formSetCoords.append('left', item.Left);
-//				formSetCoords.append('top', item.Top);
-//				var xhr = new XMLHttpRequest();
-//				xhr.open('POST', '/WVIB/SetButtonCoords', false);
-//				xhr.send(formSetCoords);
-//			});
-//		},
-//		ButtonClick(targetId) {
-//			if (this.treeCallback)
-//				this.treeCallback(targetId);
-//		},
-//		AddText(txt) {
-//			var noteLeft = 100;
-//			var noteTop = 100;
-//			var noteWidth = 100;
-//			var noteHeight = 100;
-//			var noteId = addNote(txt, noteLeft, noteTop, noteWidth, noteHeight);
-//			this.texts.push({ id: noteId, text: txt, left: noteLeft, top: noteTop, width: noteWidth, height: noteHeight });
-//		},
-//		SetText(txt) {
-//			var note = this.TextById(this.editedId);
-//			note.text = txt;
-//			var noteForm = new Object();
-//			noteForm.id = note.id;
-//			noteForm.text = txt;
-//			var xhr = new XMLHttpRequest();
-//			xhr.open('POST', '/WVIB/SetNoteText', false);
-//			xhr.setRequestHeader('Content-Type', 'application/json');
-//			xhr.send(JSON.stringify(noteForm));
-//		},
-//		SetTextCoords(noteId, left, top) {
-//			var note = this.TextById(noteId);
-//			note.left = left;
-//			note.top = top;
-//			var noteForm = new FormData();
-//			noteForm.append('id', noteId);
-//			noteForm.append('left', left);
-//			noteForm.append('top', top);
-//			var xhr = new XMLHttpRequest();
-//			xhr.open('POST', '/WVIB/SetNoteCoords', false);
-//			xhr.send(noteForm);
-//		},
-//		SetTextGeometry(noteId, width, height) {
-//			var note = this.TextById(noteId);
-//			note.width = width;
-//			note.height = height;
-//			var noteForm = new FormData();
-//			noteForm.append('id', noteId);
-//			noteForm.append('width', width);
-//			noteForm.append('height', height);
-//			var xhr = new XMLHttpRequest();
-//			xhr.open('POST', '/WVIB/SetNoteGeometry', false);
-//			xhr.send(noteForm);
-//		},
-//		EditText(id, txt) {
-//			this.editedId = id;
-//			if (!this.textEditor.jqxEditor('val'))
-//				this.textEditor.val(txt);
-//			else
-//				this.textEditor.jqxEditor('val', txt);
-//			this.textEditorWindow.jqxWindow('open');
-//		},
-//		CloseEditorWindow(event) {
-//			if (event.args.dialogResult.OK) {
-//				this.SetText(this.textEditor.val());
-//			}
-//		}
-//	}
-//});
