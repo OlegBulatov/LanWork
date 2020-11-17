@@ -1,6 +1,6 @@
 Vue.component('wib_editor', {
 	mounted: function () {
-		this.$root.wibEditor = this;
+		this.$root.wib_editor = this;
 		var vueInstance = this;//потому что внутри initContent this будет показывать уже на другой объект (jqxWindow)
 		this.textEditorWindow.jqxWindow({
 			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
@@ -33,16 +33,6 @@ Vue.component('wib_editor', {
 		};
 	},
 	computed: {
-		displayedStyle: function () {
-			return {
-				zIndex: 300,
-				position: 'absolute',
-				display: this.selected_note ? 'block' : 'none',
-				left: this.selected_note ? this.selected_note.left + 'px' : '200px',
-				top: this.selected_note ? (this.selected_note.top + this.selected_note.height) + 'px' : '200px'
-			}
-
-		},
 		cancelButton: function () {
 			return $('#x_cancel');
 		},
@@ -63,20 +53,16 @@ Vue.component('wib_editor', {
 		CloseEditorWindow: function (event) {
 			if (event.args.dialogResult.OK) {
 				this.edited_note.text = this.textEditor.val();
+				this.$root.PostText(this.edited_note);
 			}
 
 		},
-		Edit: function (_selection) {
-			if (this.selected_note)
-				_selection = this.selected_note;
-			if (!_selection)
-				alert('nothing to edit');
-			this.edited_note = _selection;
-			this.textEditor.jqxEditor('val', _selection.text);
+		Edit: function (note) {
+			this.edited_note = note;
+			this.textEditor.jqxEditor('val', note.text);
 			this.textEditorWindow.jqxWindow('show');
 		},
 	},
-	props: ['selected_note'],
 	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div><!--button v-on:click="Edit" v-bind:style="displayedStyle">Edit</button--></div>'
 });
 
@@ -162,7 +148,6 @@ Vue.component('wib_text', {
 		});
 		$('#' + this.id).contextmenu(function (e) {
 			e.preventDefault();
-			this.__vue__.$root.SelectText(e.currentTarget.id);
 			$('#cmenutxt').css("left", e.pageX);
 			$('#cmenutxt').css("top", e.pageY);
 			$('#cmenutxt').attr("txt_id", e.currentTarget.id);
@@ -188,27 +173,22 @@ return {
 		},
 		marker: function () {
 			return this.collapsed? "+" : "-";
-		}
+		},
 	},
 	methods: {
 		Locate(e) {
-			//e.preventDefault();
-			//e.stopPropagation();
 			this.$root.LocateText(this.id);
 		},
 		Edit(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			this.$root.EditText();
+			this.$root.EditText(this.id);
 		},
 		ToggleCollapsed(e) {
 			e.preventDefault();
 			e.stopPropagation();
 			this.collapsed = !this.collapsed;
 		},
-		SetText(txt) {
-			this.text = txt;
-		}
 	},
 	props: ['id','width','height','text','top','left','collapsed'],
 	template: '<div v-on:dblclick="Edit" v-on:click="Locate" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
@@ -239,7 +219,6 @@ return {
 		this.append(wib_buttonComponents);
 
 		var wib_editorComponent = $("<wib_editor>");
-		wib_editorComponent.attr("v-bind:selected_note", "selected_note");
 		this.append(wib_editorComponent);
 
 		var pictureContainer = $("<div>");
@@ -269,8 +248,7 @@ return {
 			data: {
 				backgroundImage: "linear- gradient(white, gray)",
 				treeCallback: undefined,
-				selected_note: undefined,
-				wibEditor: undefined,
+				wib_editor: undefined,
 				backgroundImageIsUrl: false,
 				texts: [],
 				buttons: [],
@@ -316,9 +294,6 @@ return {
 					});
 
 				},
-				LocateText: function (id) {
-					this.selected_note = this.TextById(id);
-				},
 				TextById: function (txtId) {
 					for (i = 0; i < this.texts.length; i++) {
 						if (this.texts[i].id == txtId)
@@ -347,12 +322,10 @@ return {
 					this.texts.push({ id: noteId, text: txt, left: noteLeft, top: noteTop, width: noteWidth, height: noteHeight });
 
 				},
-				SetText: function (txt) {
-					var note = this.TextById(this.editedId);
-					note.text = txt;
+				PostText: function (note) {
 					var noteForm = new Object();
 					noteForm.id = note.id;
-					noteForm.text = txt;
+					noteForm.text = note.text;
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', '/WVIB/SetNoteText', false);
 					xhr.setRequestHeader('Content-Type', 'application/json');
@@ -390,16 +363,12 @@ return {
 					this.backgroundImageIsUrl = !isNotUrl;
 
 				},
-				SelectText(id) {
-					this.selected_note = this.TextById(id);
-				},
 				EditText(id) {
-					if (this.wibEditor) {
-						this.wibEditor.Edit(this.TextById(id));
+					if (this.wib_editor) {
+						this.wib_editor.Edit(this.TextById(id));
 					}
 					else
 						alert('editor is not defined');
-					this.SelectText(undefined);
 				},
 			},
 		});
