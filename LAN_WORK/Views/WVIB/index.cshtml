@@ -77,19 +77,19 @@
 
     <script>
         function InitModuleTree() {
-            function SetNothingSelected() {
+            function HideMenues() {
                 $('#cmenu').hide();
                 $('#cmenutxt').hide();
-                vueApp.SetNothingSelected();
+                //vueApp.SelectText(undefined);
             }
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });
             vueApp = $('#frame-html').wibPage();
             vueApp.treeCallback = selectNode;
             $(document).click(function (e) {
-                SetNothingSelected();
+                HideMenues();
             });
             $(document).keydown(function (e) {
-                SetNothingSelected();
+                HideMenues();
             });
 
         window.addEventListener("paste", function (e) {

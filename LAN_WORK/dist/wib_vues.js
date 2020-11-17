@@ -77,7 +77,7 @@ Vue.component('wib_editor', {
 		},
 	},
 	props: ['selected_note'],
-	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div><button v-on:click="Edit" v-bind:style="displayedStyle">Edit</button></div>'
+	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div><!--button v-on:click="Edit" v-bind:style="displayedStyle">Edit</button--></div>'
 });
 
 Vue.component('wib_button', {
@@ -161,8 +161,8 @@ Vue.component('wib_text', {
 			}
 		});
 		$('#' + this.id).contextmenu(function (e) {
-			this.__vue__.$root.SetNothingSelected();
 			e.preventDefault();
+			this.__vue__.$root.SelectText(e.currentTarget.id);
 			$('#cmenutxt').css("left", e.pageX);
 			$('#cmenutxt').css("top", e.pageY);
 			$('#cmenutxt').attr("txt_id", e.currentTarget.id);
@@ -192,8 +192,8 @@ return {
 	},
 	methods: {
 		Locate(e) {
-			e.preventDefault();
-			e.stopPropagation();
+			//e.preventDefault();
+			//e.stopPropagation();
 			this.$root.LocateText(this.id);
 		},
 		Edit(e) {
@@ -390,11 +390,8 @@ return {
 					this.backgroundImageIsUrl = !isNotUrl;
 
 				},
-				SetSelected(id) {
+				SelectText(id) {
 					this.selected_note = this.TextById(id);
-				},
-				SetNothingSelected() {
-					this.selected_note = undefined;
 				},
 				EditText(id) {
 					if (this.wibEditor) {
@@ -402,7 +399,7 @@ return {
 					}
 					else
 						alert('editor is not defined');
-					this.SetNothingSelected();
+					this.SelectText(undefined);
 				},
 			},
 		});

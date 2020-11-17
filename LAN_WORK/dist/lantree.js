@@ -245,7 +245,7 @@ function dropButton(id) {
 }
 
 function editText(id) {
-    vueApp.SetSelected(id);
+    vueApp.SelectText(id);
     vueApp.EditText(id);
 }
 
