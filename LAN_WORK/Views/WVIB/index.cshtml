@@ -234,18 +234,6 @@
         <div style="position:absolute;top:5px;right:200px">
             <a href="/Home/Index">Home</a>
         </div>
-        @*<div id="window" style="display:none">
-            <div>
-                jqxEditor
-            </div>
-            <div>
-                <div id="editor"></div>
-                <div>
-                    <input type="button" id="ok" value="OK" style="margin-right: 10px" />
-                    <input type="button" id="cancel" value="Cancel" />
-                </div>
-            </div>
-        </div>*@
         <div id="cmenu" style="position:absolute;display:none">
             <ul>
                 <li><a id="cmitemRename">Переименовать</a></li>
@@ -260,10 +248,12 @@
         </script>
         <div id="cmenutxt" style="position:absolute;display:none">
             <ul>
+                <li><a id="cmitemEditText">Редактировать</a></li>
                 <li><a id="cmitemDropText">Удалить</a></li>
             </ul>
         </div>
         <script>
+            cmitemEditText.href = "javascript: {editText($('#cmenutxt').attr('txt_id'));$('#cmenutxt').hide();}";
             cmitemDropText.href = "javascript: {dropText($('#cmenutxt').attr('txt_id'));$('#cmenutxt').hide();}";
         </script>
 

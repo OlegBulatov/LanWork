@@ -1,5 +1,6 @@
 Vue.component('wib_editor', {
 	mounted: function () {
+		this.$root.wibEditor = this;
 		var vueInstance = this;//потому что внутри initContent this будет показывать уже на другой объект (jqxWindow)
 		this.textEditorWindow.jqxWindow({
 			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
@@ -10,7 +11,7 @@ Vue.component('wib_editor', {
 					height: "90%",
 					width: '100%'
 				});
-				vueInstance.textEditor.val("");
+				vueInstance.textEditor.val(vueInstance.edited_note ? vueInstance.edited_note.text : "");
 				vueInstance.okButton.jqxButton({
 					width: '65px',
 					theme: 'energyblue'
@@ -65,9 +66,13 @@ Vue.component('wib_editor', {
 			}
 
 		},
-		Edit: function () {
-			this.edited_note = this.selected_note;
-			this.textEditor.jqxEditor('val', this.selected_note.text);
+		Edit: function (_selection) {
+			if (this.selected_note)
+				_selection = this.selected_note;
+			if (!_selection)
+				alert('nothing to edit');
+			this.edited_note = _selection;
+			this.textEditor.jqxEditor('val', _selection.text);
 			this.textEditorWindow.jqxWindow('show');
 		},
 	},
@@ -191,7 +196,14 @@ return {
 			e.stopPropagation();
 			this.$root.LocateText(this.id);
 		},
-		ToggleCollapsed() {
+		Edit(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			this.$root.EditText();
+		},
+		ToggleCollapsed(e) {
+			e.preventDefault();
+			e.stopPropagation();
 			this.collapsed = !this.collapsed;
 		},
 		SetText(txt) {
@@ -199,7 +211,7 @@ return {
 		}
 	},
 	props: ['id','width','height','text','top','left','collapsed'],
-	template: '<div v-on:click="Locate" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
+	template: '<div v-on:dblclick="Edit" v-on:click="Locate" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
 });
 
 (function ($) {
@@ -207,10 +219,6 @@ return {
 //initialization code
 
 		//properties of components:
-		var wib_editorComponent = $("<wib_editor>");
-		wib_editorComponent.attr("v-bind:selected_note", "selectedText");
-		this.append(wib_editorComponent);
-
 		var wib_textComponents = $("<wib_text>");
 		wib_textComponents.attr("v-for", "v_wib_text in texts");
 		wib_textComponents.attr("v-bind:width", "v_wib_text.width");
@@ -230,9 +238,14 @@ return {
 		wib_buttonComponents.attr("v-bind:Left", "v_wib_button.Left");
 		this.append(wib_buttonComponents);
 
+		var wib_editorComponent = $("<wib_editor>");
+		wib_editorComponent.attr("v-bind:selected_note", "selected_note");
+		this.append(wib_editorComponent);
+
 		var pictureContainer = $("<div>");
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
+
 
 		return new Vue({
 			el: this.selector,
@@ -256,7 +269,8 @@ return {
 			data: {
 				backgroundImage: "linear- gradient(white, gray)",
 				treeCallback: undefined,
-				selectedText: undefined,
+				selected_note: undefined,
+				wibEditor: undefined,
 				backgroundImageIsUrl: false,
 				texts: [],
 				buttons: [],
@@ -303,7 +317,7 @@ return {
 
 				},
 				LocateText: function (id) {
-					this.selectedText = this.TextById(id);
+					this.selected_note = this.TextById(id);
 				},
 				TextById: function (txtId) {
 					for (i = 0; i < this.texts.length; i++) {
@@ -376,8 +390,19 @@ return {
 					this.backgroundImageIsUrl = !isNotUrl;
 
 				},
+				SetSelected(id) {
+					this.selected_note = this.TextById(id);
+				},
 				SetNothingSelected() {
-					this.selectedText = undefined;
+					this.selected_note = undefined;
+				},
+				EditText(id) {
+					if (this.wibEditor) {
+						this.wibEditor.Edit(this.TextById(id));
+					}
+					else
+						alert('editor is not defined');
+					this.SetNothingSelected();
 				},
 			},
 		});
