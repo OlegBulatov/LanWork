@@ -176,9 +176,6 @@ return {
 		},
 	},
 	methods: {
-		Locate(e) {
-			this.$root.LocateText(this.id);
-		},
 		Edit(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -191,14 +188,15 @@ return {
 		},
 	},
 	props: ['id','width','height','text','top','left','collapsed'],
-	template: '<div v-on:dblclick="Edit" v-on:click="Locate" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
+	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
 });
 
 (function ($) {
 	$.fn.wibPage = function () {
-//initialization code
+		//initialization code
 
 		//properties of components:
+
 		var wib_textComponents = $("<wib_text>");
 		wib_textComponents.attr("v-for", "v_wib_text in texts");
 		wib_textComponents.attr("v-bind:width", "v_wib_text.width");
@@ -225,7 +223,6 @@ return {
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
 
-
 		return new Vue({
 			el: this.selector,
 			updated: function () {
@@ -247,11 +244,11 @@ return {
 			},
 			data: {
 				backgroundImage: "linear- gradient(white, gray)",
-				treeCallback: undefined,
-				wib_editor: undefined,
 				backgroundImageIsUrl: false,
+				treeCallback: undefined,
 				texts: [],
 				buttons: [],
+				wib_editor: undefined,
 			},
 			methods: {
 				SetButtonsEdited: function (is_edit) {
@@ -259,6 +256,12 @@ return {
 						item.draggable = is_edit;
 					});
 					this.$forceUpdate();
+
+				},
+				CloseEditorWindow: function (event) {
+					if (event.args.dialogResult.OK) {
+						this.SetText(this.textEditor.val());
+					}
 
 				},
 				SetButtons: function (btns) {
@@ -277,11 +280,11 @@ return {
 						this.treeCallback(targetId);
 
 				},
-				Edit: function () {
+				LoadButtons: function () {
 					this.SetButtonsEdited(true);
 
 				},
-				Post: function () {
+				PostButtons: function () {
 					this.SetButtonsEdited(false);
 					this.buttons.forEach(function (item) {
 						var formSetCoords = new FormData();
@@ -292,6 +295,14 @@ return {
 						xhr.open('POST', '/WVIB/SetButtonCoords', false);
 						xhr.send(formSetCoords);
 					});
+
+				},
+				EditText: function (id) {
+					if (this.wib_editor) {
+						this.wib_editor.Edit(this.TextById(id));
+					}
+					else
+						alert('editor is not defined');
 
 				},
 				TextById: function (txtId) {
@@ -362,13 +373,6 @@ return {
 					this.backgroundImage = isNotUrl ? pict : "url('" + pict + "')";
 					this.backgroundImageIsUrl = !isNotUrl;
 
-				},
-				EditText(id) {
-					if (this.wib_editor) {
-						this.wib_editor.Edit(this.TextById(id));
-					}
-					else
-						alert('editor is not defined');
 				},
 			},
 		});
