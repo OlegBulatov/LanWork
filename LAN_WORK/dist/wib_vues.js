@@ -266,10 +266,17 @@ Vue.component('wib_text', {
 					this.$forceUpdate();
 
 				},
-				CloseEditorWindow: function (event) {
-					if (event.args.dialogResult.OK) {
-						this.SetText(this.textEditor.val());
-					}
+				SetTextGeometry: function (noteId, width, height) {
+					var note = this.TextById(noteId);
+					note.width = width;
+					note.height = height;
+					var noteForm = new FormData();
+					noteForm.append('id', noteId);
+					noteForm.append('width', width);
+					noteForm.append('height', height);
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', '/WVIB/SetNoteGeometry', false);
+					xhr.send(noteForm);
 
 				},
 				SetButtons: function (btns) {
@@ -361,19 +368,6 @@ Vue.component('wib_text', {
 					noteForm.append('top', top);
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', '/WVIB/SetNoteCoords', false);
-					xhr.send(noteForm);
-
-				},
-				SetTextGeometry: function (noteId, width, height) {
-					var note = this.TextById(noteId);
-					note.width = width;
-					note.height = height;
-					var noteForm = new FormData();
-					noteForm.append('id', noteId);
-					noteForm.append('width', width);
-					noteForm.append('height', height);
-					var xhr = new XMLHttpRequest();
-					xhr.open('POST', '/WVIB/SetNoteGeometry', false);
 					xhr.send(noteForm);
 
 				},
