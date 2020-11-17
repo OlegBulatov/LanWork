@@ -155,39 +155,47 @@ Vue.component('wib_text', {
 		});
 
 	},
+	data: function () {
+		return {
+			collapsed: false,
+		};
+	},
 	computed: {
-		displayStyle: function () {
-return {
-      border: '2px dotted black',
-	  position: 'absolute',
-	  overflowX: "hidden",
-	  overflowY: "hidden",
-	  zIndex: 200,
-      background: '#FFA0FF',
-      color: 'black',
-	  width: (this.collapsed? 20 : this.width) + 'px',
-	  height: (this.collapsed ? 20 : this.height) + 'px',
-      left: this.left + 'px',
-      top: this.top + 'px'
-    }
-		},
 		marker: function () {
-			return this.collapsed? "+" : "-";
+			return this.collapsed ? "+" : "-";
+
+		},
+		displayStyle: function () {
+			return {
+				border: '2px dotted black',
+				position: 'absolute',
+				overflowX: "hidden",
+				overflowY: "hidden",
+				zIndex: 200,
+				background: '#FFD0FF',
+				color: 'black',
+				width: (this.collapsed ? 20 : this.width) + 'px',
+				height: (this.collapsed ? 20 : this.height) + 'px',
+				left: this.left + 'px',
+				top: this.top + 'px'
+			}
+
 		},
 	},
 	methods: {
-		Edit(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			this.$root.EditText(this.id);
-		},
-		ToggleCollapsed(e) {
+		ToggleCollapsed: function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			this.collapsed = !this.collapsed;
+
+		},
+		Edit: function (e) {
+			e.preventDefault();
+			this.$root.EditText(this.id, this.text);
+
 		},
 	},
-	props: ['id','width','height','text','top','left','collapsed'],
+	props: ['width', 'height', 'id', 'top', 'text', 'left'],
 	template: '<div v-on:dblclick="Edit" v-bind:id="id" v-bind:style="displayStyle"><div style="position:absolute;left:10px;top:10px;"><span v-html="this.text"></span></div><div style="position:absolute;left:0px;top:0px;width:10px;height:10px;border:1px solid black;"><div v-on:click="ToggleCollapsed" style="position:absolute;top:-4px;" v-bind:title="this.text">{{this.marker}}</div></div></div>'
 });
 
