@@ -1,4 +1,4 @@
-Vue.component('wib_menu_item', {
+п»їVue.component('wib_menu_item', {
 	//data is absent
 
 	//computed is absent
@@ -61,7 +61,7 @@ Vue.component('wib_menu', {
 Vue.component('wib_editor', {
 	mounted: function () {
 		this.$root.wib_editor = this;
-		var vueInstance = this;//потому что внутри initContent this будет показывать уже на другой объект (jqxWindow)
+		var vueInstance = this;//РїРѕС‚РѕРјСѓ С‡С‚Рѕ РІРЅСѓС‚СЂРё initContent this Р±СѓРґРµС‚ РїРѕРєР°Р·С‹РІР°С‚СЊ СѓР¶Рµ РЅР° РґСЂСѓРіРѕР№ РѕР±СЉРµРєС‚ (jqxWindow)
 		this.textEditorWindow.jqxWindow({
 			autoOpen: false, width: 500, position: 'bottom, center', height: 400, maxWidth: 800,
 			resizable: true, isModal: true,
@@ -117,7 +117,7 @@ Vue.component('wib_editor', {
 			}
 		},
 		Edit: function (note) {
-			this.edited_note = note;//запомним, чтобы потом положить сюда отредактированный текст
+			this.edited_note = note;//Р·Р°РїРѕРјРЅРёРј, С‡С‚РѕР±С‹ РїРѕС‚РѕРј РїРѕР»РѕР¶РёС‚СЊ СЃСЋРґР° РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРЅС‹Р№ С‚РµРєСЃС‚
 			this.textEditor.jqxEditor('val', note.text);
 			this.textEditorWindow.jqxWindow('show');
 
@@ -216,9 +216,9 @@ Vue.component('wib_text', {
 			if (this.__vue__ && this.__vue__.$root) {
 				var txtId = e.currentTarget.id;
 				var vueInst = this.__vue__.$root;
-				var items = [{ caption: "Edit", click: function (e) { vueInst.EditText(txtId); vueInst.wib_menu.hide(); } }, {
-					caption: "Drop", click: function (e) { dropText(txtId); vueInst.wib_menu.hide();} }];
-				this.__vue__.$root.wib_menu.show(items, e.pageX, e.pageY, 100, 50);
+				var items = [{ caption: "Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ", click: function (e) { vueInst.EditText(txtId); vueInst.wib_menu.hide(); } }, {
+					caption: "РЈРґР°Р»РёС‚СЊ", click: function (e) { dropText(txtId); vueInst.wib_menu.hide();} }];
+				this.__vue__.$root.wib_menu.show(items, e.pageX, e.pageY, 160, 40);
 			}
 
 		});
