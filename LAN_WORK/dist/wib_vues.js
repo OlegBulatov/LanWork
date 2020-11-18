@@ -1,3 +1,63 @@
+Vue.component('wib_menu_item', {
+	//data is absent
+
+	//computed is absent
+
+	//methods is absent
+
+	props: ['item'],
+	template: '<li><a v-bind:id="item.id" v-bind:href="item.href">{{item.caption}}</a></li>'
+});
+
+Vue.component('wib_menu', {
+	mounted: function () {
+		this.$root.wib_menu = this;
+
+	},
+	data: function () {
+		return {
+			left: undefined,
+			top: undefined,
+			items: [],
+			height: undefined,
+			display: "none",
+			width: undefined,
+		};
+	},
+	computed: {
+		displayStyle: function () {
+			return {
+				position: "fixed",
+				background: "white",
+				left: this.left + "px",
+				top: this.top + "px",
+				width: this.width + "px",
+				height: this.height + "px",
+				zIndex: 400,
+				border: "1px solid black",
+				display: this.display,
+			}
+
+		},
+	},
+	methods: {
+		hide: function () {
+			this.display = "none";
+		},
+		show: function (items, left, top, width, height) {
+			this.items = items;
+			this.left = left;
+			this.top = top;
+			this.width = width;
+			this.height = height;
+			this.display = "block";
+		},
+	},
+	props: [],
+	template: '<div id="wib-menu" v-bind:style="displayStyle"><ul><wib_menu_item v-for="item in items" v-bind:item="item"></wib_menu_item></ul></div>'
+});
+
+
 Vue.component('wib_editor', {
 	mounted: function () {
 		this.$root.wib_editor = this;
@@ -55,15 +115,16 @@ Vue.component('wib_editor', {
 				this.edited_note.text = this.textEditor.val();
 				this.$root.PostText(this.edited_note);
 			}
-
 		},
 		Edit: function (note) {
-			this.edited_note = note;
+			this.edited_note = note;//запомним, чтобы потом положить сюда отредактированный текст
 			this.textEditor.jqxEditor('val', note.text);
 			this.textEditorWindow.jqxWindow('show');
+
 		},
 	},
-	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div><!--button v-on:click="Edit" v-bind:style="displayedStyle">Edit</button--></div>'
+	props: [],
+	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div></div>'
 });
 
 Vue.component('wib_button', {
@@ -148,10 +209,17 @@ Vue.component('wib_text', {
 		});
 		$('#' + this.id).contextmenu(function (e) {
 			e.preventDefault();
-			$('#cmenutxt').css("left", e.pageX);
-			$('#cmenutxt').css("top", e.pageY);
-			$('#cmenutxt').attr("txt_id", e.currentTarget.id);
-			$('#cmenutxt').show();
+			//$('#cmenutxt').css("left", e.pageX);
+			//$('#cmenutxt').css("top", e.pageY);
+			//$('#cmenutxt').attr("txt_id", e.currentTarget.id);
+			//$('#cmenutxt').show();
+
+			var items = [{ id: 1, caption: "Edit", href: "javascript: {vueApp.EditText('" + e.currentTarget.id + "');vueApp.wib_menu.hide();}" }, { id: 2, caption: "item 2", href: "addr 2" }];
+			if (this.__vue__ && this.__vue__.$root) {
+				var root = this.__vue__.$root;
+				root.wib_menu.show(items, e.pageX, e.pageY, 100, 50);
+			}
+
 		});
 
 	},
@@ -172,7 +240,7 @@ Vue.component('wib_text', {
 				overflowX: "hidden",
 				overflowY: "hidden",
 				zIndex: 200,
-				background: '#FFD0FF',
+				background: '#FFC0FF',
 				color: 'black',
 				width: (this.collapsed ? 20 : this.width) + 'px',
 				height: (this.collapsed ? 20 : this.height) + 'px',
@@ -191,7 +259,7 @@ Vue.component('wib_text', {
 		},
 		Edit: function (e) {
 			e.preventDefault();
-			this.$root.EditText(this.id, this.text);
+			this.$root.EditText(this.id);
 
 		},
 	},
@@ -227,6 +295,9 @@ Vue.component('wib_text', {
 		var wib_editorComponent = $("<wib_editor>");
 		this.append(wib_editorComponent);
 
+		var wib_menuComponent = $("<wib_menu>");
+		this.append(wib_menuComponent);
+
 		var pictureContainer = $("<div>");
 		pictureContainer.attr("v-bind:style", "displayStyle");
 		this.append(pictureContainer);
@@ -257,6 +328,7 @@ Vue.component('wib_text', {
 				texts: [],
 				buttons: [],
 				wib_editor: undefined,
+				wib_menu: undefined,
 			},
 			methods: {
 				SetButtonsEdited: function (is_edit) {

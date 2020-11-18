@@ -244,10 +244,6 @@ function dropButton(id) {
     vueApp.SetButtons(JSON.parse(buttonsJson));
 }
 
-function editText(id) {
-    vueApp.EditText(id);
-}
-
 function dropText(id) {
     var noteForm = new FormData();
     noteForm.append('id', id);
