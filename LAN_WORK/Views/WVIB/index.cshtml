@@ -80,6 +80,8 @@
             function HideMenues() {
                 $('#cmenu').hide();
                 $('#cmenutxt').hide();
+                vueApp.HideMenu();
+
                 //vueApp.SelectText(undefined);
             }
             $('#jqxLayout').jqxLayout({ width: $(document).width(), height: $(document).outerHeight(true), layout: layout });

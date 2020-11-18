@@ -6,7 +6,7 @@ Vue.component('wib_menu_item', {
 	//methods is absent
 
 	props: ['item'],
-	template: '<li><a v-bind:id="item.id" v-bind:href="item.href">{{item.caption}}</a></li>'
+	template: '<li><a href="#" v-on:click="item.click">{{item.caption}}</a></li>'
 });
 
 Vue.component('wib_menu', {
@@ -213,11 +213,12 @@ Vue.component('wib_text', {
 			//$('#cmenutxt').css("top", e.pageY);
 			//$('#cmenutxt').attr("txt_id", e.currentTarget.id);
 			//$('#cmenutxt').show();
-
-			var items = [{ id: 1, caption: "Edit", href: "javascript: {vueApp.EditText('" + e.currentTarget.id + "');vueApp.wib_menu.hide();}" }, { id: 2, caption: "item 2", href: "addr 2" }];
 			if (this.__vue__ && this.__vue__.$root) {
-				var root = this.__vue__.$root;
-				root.wib_menu.show(items, e.pageX, e.pageY, 100, 50);
+				var txtId = e.currentTarget.id;
+				var vueInst = this.__vue__.$root;
+				var items = [{ caption: "Edit", click: function (e) { vueInst.EditText(txtId); vueInst.wib_menu.hide(); } }, {
+					caption: "Drop", click: function (e) { dropText(txtId); vueInst.wib_menu.hide();} }];
+				this.__vue__.$root.wib_menu.show(items, e.pageX, e.pageY, 100, 50);
 			}
 
 		});
@@ -307,7 +308,7 @@ Vue.component('wib_text', {
 			updated: function () {
 				$('#cmenu').hide();
 				$('#cmenutxt').hide();
-
+				this.HideMenu();
 			},
 			computed: {
 				displayStyle: function () {
@@ -448,6 +449,10 @@ Vue.component('wib_text', {
 					this.backgroundImageIsUrl = !isNotUrl;
 
 				},
+				HideMenu() {
+					if (this.wib_menu)
+						this.wib_menu.hide();
+				}
 			},
 		});
 	}
