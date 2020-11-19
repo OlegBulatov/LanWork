@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.IO;
-using System.Data;
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -15,9 +14,9 @@ namespace RestWcfService
     public interface IRestService
     {
         //[WebGet]
-        [WebInvoke(Method = "OPTIONS", UriTemplate= "?query={query}")]
+        [WebInvoke(Method = "OPTIONS", UriTemplate= "compare_immediate")]
         [OperationContract]
-        void GetOptions(string query);
+        void GetOptions();
 
         [WebInvoke(Method = "POST", UriTemplate = "{queryId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -34,6 +33,10 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "compare/{attr_name}/{itemArr}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         void CompareItems(string attr_name, string itemArr);
+
+        [WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [OperationContract]
+        void Compare(string item1, string item2);
 
         [WebInvoke(Method = "POST", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -79,9 +82,11 @@ namespace RestWcfService
             return new CryptoStream(ms, ct, CryptoStreamMode.Read);
         }
 
-        public void GetOptions(string query)
+        public void GetOptions()
         {
-            string options = "";
+            var response = WebOperationContext.Current.OutgoingResponse;
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Headers", "*");
         }
 
         public byte[] WordFile(string json_table)
@@ -174,6 +179,21 @@ namespace RestWcfService
             _userName = name;
         }
 
+        //[WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        public void Compare(string item1, string item2)
+        {
+            var response = WebOperationContext.Current.OutgoingResponse;
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            string TempDirPath = Properties_Settings_Default.TempDir;
+            string fileName1 = TempDirPath + "item1.txt";
+            string fileName2 = TempDirPath + "item2.txt";
+            File.WriteAllText(fileName1, item1);
+            File.WriteAllText(fileName2, item2);
+            Process proc = new Process();
+            proc.StartInfo.FileName = Properties_Settings_Default.CompareProgramPath;
+            proc.StartInfo.Arguments = fileName1 + " " + fileName2;
+            proc.Start();
+        }
         public void CompareItems(string attr_name, string itemArrJson)
         {
             string[] itemArr = JsonConvert.DeserializeObject<string[]>(itemArrJson);
