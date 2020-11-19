@@ -124,7 +124,19 @@ Vue.component('wib_editor', {
 		},
 	},
 	props: [],
-	template: '<div><div id="x_window" style="display:none"><div>jqxEditor</div><div><div id="x_editor"></div><div><input type="button" id="x_ok" value="OK" style="margin-right: 10px"/><input type="button" id="x_cancel" value="Cancel"/></div></div></div></div>'
+	template: `
+<div>
+	<div id="x_window" style="display:none">
+		<div>jqxEditor</div>
+		<div>
+			<div id="x_editor"></div>
+			<div>
+				<input type="button" id="x_ok" value="OK" style="margin-right: 10px"/>
+				<input type="button" id="x_cancel" value="Cancel"/>
+			</div>
+		</div>
+	</div>
+</div>`
 });
 
 Vue.component('wib_button', {
@@ -305,6 +317,7 @@ Vue.component('wib_text', {
 
 		return new Vue({
 			el: this.selector,
+			//template: '<div style="width:100%;height: 100%"><wib_editor></wib_editor><wib_menu></wib_menu><div v-bind:style="displayStyle"></div></div>',
 			updated: function () {
 				$('#cmenu').hide();
 				$('#cmenutxt').hide();
