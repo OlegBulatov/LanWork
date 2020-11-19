@@ -129,14 +129,22 @@ namespace LanitWork.Controllers
             return "";
         }
 
-        public void SaveToFile(string fileName)
+        public string SaveToFile(string fileName)
         {
-            if(treeCopy != null && !string.IsNullOrEmpty(fileName))
-                WIBControllerAdapter.SaveToFile(fileName, treeCopy);
-            if (htmlButtons != null)
-                WIBControllerAdapter.SaveToFile("saved_buttons_for_vue.json", htmlButtons);
-            if (htmlNotes != null)
-                WIBControllerAdapter.SaveToFile("saved_notes.json", htmlNotes);
+            try
+            {
+                if (treeCopy != null && !string.IsNullOrEmpty(fileName))
+                    WIBControllerAdapter.SaveToFile(fileName, treeCopy);
+                if (htmlButtons != null)
+                    WIBControllerAdapter.SaveToFile("saved_buttons_for_vue.json", htmlButtons);
+                if (htmlNotes != null)
+                    WIBControllerAdapter.SaveToFile("saved_notes.json", htmlNotes);
+                return "OK";
+            }
+            catch(Exception exc)
+            {
+                return exc.Message;
+            }
         }
 
         public string AddButton(string nodeId, string caption, int left, int top, string targetNodeId = "")
