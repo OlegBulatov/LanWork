@@ -82,8 +82,8 @@ namespace RestWcfService
                 binding.MaxReceivedMessageSize = 2147483647;
                 //ServiceEndpoint SE = new ServiceEndpoint(new ContractDescription("RestWcfService.IRestService"), binding, new EndpointAddress(address + "/rest"));
                 //SE.Name = "WebHttpBinding_IRestService";
-                host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
-                host.Description.Endpoints[0].EndpointBehaviors.Add(new WebHttpBehavior());
+                //host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
+                //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebHttpBehavior());
 
                 //host.Description.Behaviors.Add(new ServiceMetadataBehavior());
                 host.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), address + "/mex");            // Запускаем службу
