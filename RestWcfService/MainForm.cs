@@ -1,14 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 
@@ -84,9 +78,16 @@ namespace RestWcfService
                 //if(debugBhv != null)
                 //    debugBhv.IncludeExceptionDetailInFaults = true;
 
+                var binding = new WebHttpBinding();
+                binding.MaxReceivedMessageSize = 2147483647;
+                //ServiceEndpoint SE = new ServiceEndpoint(new ContractDescription("RestWcfService.IRestService"), binding, new EndpointAddress(address + "/rest"));
+                //SE.Name = "WebHttpBinding_IRestService";
+                host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
+                host.Description.Endpoints[0].EndpointBehaviors.Add(new WebHttpBehavior());
+
+                //host.Description.Behaviors.Add(new ServiceMetadataBehavior());
                 host.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), address + "/mex");            // Запускаем службу
 
-                //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebScriptEnablingBehavior());
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new EnableCorsBehavior());
                 //host.Description.Endpoints[1].EndpointBehaviors.Add(new EnableCorsBehavior());
                 // Запускаем службу

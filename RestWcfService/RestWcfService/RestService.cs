@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Security.Cryptography;
+using System.Reflection;
 using Newtonsoft.Json;
 using DIOS.Common.Interfaces;
 
@@ -16,7 +17,11 @@ namespace RestWcfService
         //[WebGet]
         [WebInvoke(Method = "OPTIONS", UriTemplate= "compare_immediate")]
         [OperationContract]
-        void GetOptions();
+        void GetOptionsForCompareImmediate();
+
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "exec_code")]
+        [OperationContract]
+        void GetOptionsForExecCode();
 
         [WebInvoke(Method = "POST", UriTemplate = "{queryId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -37,6 +42,14 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         void Compare(string item1, string item2);
+
+        [WebInvoke(Method = "POST", UriTemplate = "compare_immediat", RequestFormat = WebMessageFormat.Xml)]
+        [OperationContract]
+        void XCompare();
+
+        [WebInvoke(Method = "POST", UriTemplate = "exec_code", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [OperationContract]
+        string ExecCode(string src, string ref_assemblies_json, string class_name, string method_name, string arg);
 
         [WebInvoke(Method = "POST", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -82,11 +95,21 @@ namespace RestWcfService
             return new CryptoStream(ms, ct, CryptoStreamMode.Read);
         }
 
-        public void GetOptions()
+        public void SetCorsHeaders()
         {
             var response = WebOperationContext.Current.OutgoingResponse;
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             response.Headers.Add("Access-Control-Allow-Headers", "*");
+        }
+
+        public void GetOptionsForCompareImmediate()
+        {
+            SetCorsHeaders();
+        }
+
+        public void GetOptionsForExecCode()
+        {
+            SetCorsHeaders();
         }
 
         public byte[] WordFile(string json_table)
@@ -112,6 +135,40 @@ namespace RestWcfService
 
             byte[] bts = Encoding.Default.GetBytes(json_table);
             return bts;
+        }
+        public string ExecCode(string src, string ref_assemblies_json, string class_name, string method_name, string arg)
+        {
+            var response = WebOperationContext.Current.OutgoingResponse;
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            string[] referencedAssemblies = JsonConvert.DeserializeObject<string[]>(ref_assemblies_json);
+            System.CodeDom.Compiler.CompilerParameters cp = new System.CodeDom.Compiler.CompilerParameters(referencedAssemblies);
+            cp.GenerateInMemory = true;
+
+            cp.OutputAssembly = System.IO.Path.GetTempFileName();
+
+            System.CodeDom.Compiler.ICodeCompiler codeCompiler = new Microsoft.CSharp.CSharpCodeProvider().CreateCompiler();
+            System.CodeDom.Compiler.CompilerResults results = codeCompiler.CompileAssemblyFromSource(cp, src);
+            if ((results != null) && (results.Output.Count > 0))
+            {
+                System.Text.StringBuilder errorSb = new System.Text.StringBuilder();
+                for (int k = 0; k < results.Output.Count; k++)
+                {
+                    errorSb.Append(results.Output[k] + "\r\n");
+                }
+                return errorSb.ToString();
+            }
+            System.Reflection.Assembly assembly = results.CompiledAssembly;
+            try
+            {
+                System.Type newObjectType = assembly.GetType(class_name);
+                MethodInfo mi = newObjectType.GetMethod(method_name);
+                return (string)mi.Invoke(null, new object[] { arg });
+                //return "method " + method_name + " from class " + class_name + " executed";
+            }
+            catch(Exception exc)
+            {
+                return exc.Message;
+            }
         }
 
         public string ExecuteQuery(string queryId)
@@ -179,16 +236,26 @@ namespace RestWcfService
             _userName = name;
         }
 
-        //[WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        public void XCompare()
+        {
+            string x = "";
+        }
+            
         public void Compare(string item1, string item2)
         {
+            dynamic jsonObject1 = JsonConvert.DeserializeObject(item1);
+            dynamic jsonObject2 = JsonConvert.DeserializeObject(item2);
             var response = WebOperationContext.Current.OutgoingResponse;
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             string TempDirPath = Properties_Settings_Default.TempDir;
-            string fileName1 = TempDirPath + "item1.txt";
-            string fileName2 = TempDirPath + "item2.txt";
-            File.WriteAllText(fileName1, item1);
-            File.WriteAllText(fileName2, item2);
+            string fileName1 = jsonObject1.id;
+            fileName1 = TempDirPath + fileName1 + ".txt";
+            string fileName2 = jsonObject2.id;
+            fileName2 = TempDirPath + fileName2 + ".txt";
+            string text1 = jsonObject1.text;
+            File.WriteAllText(fileName1, text1);
+            string text2 = jsonObject2.text;
+            File.WriteAllText(fileName2, text2);
             Process proc = new Process();
             proc.StartInfo.FileName = Properties_Settings_Default.CompareProgramPath;
             proc.StartInfo.Arguments = fileName1 + " " + fileName2;
