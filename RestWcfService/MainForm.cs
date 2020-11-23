@@ -80,8 +80,14 @@ namespace RestWcfService
 
                 var binding = new WebHttpBinding();
                 binding.MaxReceivedMessageSize = 2147483647;
-                //ServiceEndpoint SE = new ServiceEndpoint(new ContractDescription("RestWcfService.IRestService"), binding, new EndpointAddress(address + "/rest"));
-                //SE.Name = "WebHttpBinding_IRestService";
+
+                var CD = ContractDescription.GetContract(RestService.serviceType);
+                ServiceEndpoint SE = new ServiceEndpoint(CD, binding, new EndpointAddress(address + "/rest"));
+                SE.Name = "WebHttpBinding_IRestService";
+                var Bh = new WebHttpBehavior();
+                Bh.DefaultOutgoingResponseFormat = System.ServiceModel.Web.WebMessageFormat.Json;
+                SE.EndpointBehaviors.Add(Bh);
+                host.AddServiceEndpoint(SE);
                 //host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebHttpBehavior());
 
