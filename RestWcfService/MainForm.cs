@@ -83,9 +83,8 @@ namespace RestWcfService
 
                 var CD = ContractDescription.GetContract(RestService.serviceType);
                 ServiceEndpoint SE = new ServiceEndpoint(CD, binding, new EndpointAddress(address + "/rest"));
-                SE.Name = "WebHttpBinding_IRestService";
-                var Bh = new WebHttpBehavior();
-                Bh.DefaultOutgoingResponseFormat = System.ServiceModel.Web.WebMessageFormat.Json;
+                var Bh = new WebHttpBehavior();//так мы определяем, что сервис будет отвечать как вебсайт по http запросу, а не как SOAP вебсервис с ихним xml форматированием запроса
+                Bh.DefaultOutgoingResponseFormat = System.ServiceModel.Web.WebMessageFormat.Json;//так мы определяем, в каком формате придет ответ
                 SE.EndpointBehaviors.Add(Bh);
                 host.AddServiceEndpoint(SE);
                 //host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
