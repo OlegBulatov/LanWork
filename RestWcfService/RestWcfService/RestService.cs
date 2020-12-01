@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
@@ -14,6 +15,10 @@ namespace RestWcfService
     [ServiceContract]
     public interface IRestService
     {
+        [WebInvoke(Method = "GET", UriTemplate = "module/{module_name}", RequestFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        string LaunchModule(string module_name);
+
         //[WebGet]
         [WebInvoke(Method = "OPTIONS", UriTemplate= "compare_immediate")]
         [OperationContract]
@@ -42,10 +47,6 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         void Compare(string item1, string item2);
-
-        [WebInvoke(Method = "POST", UriTemplate = "compare_immediat", RequestFormat = WebMessageFormat.Xml)]
-        [OperationContract]
-        void XCompare();
 
         [WebInvoke(Method = "POST", UriTemplate = "exec_code", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
@@ -236,11 +237,6 @@ namespace RestWcfService
             _userName = name;
         }
 
-        public void XCompare()
-        {
-            string x = "";
-        }
-            
         public void Compare(string item1, string item2)
         {
             dynamic jsonObject1 = JsonConvert.DeserializeObject(item1);
@@ -294,6 +290,31 @@ namespace RestWcfService
             response.Headers.Add("Access-Control-Allow-Headers", "*");
             response.Headers.Add("Access-Control-Allow-Method", "*");
 
+        }
+
+        public string LaunchModule(string moduleName)
+        {
+            try
+            {
+                //Assembly a = AppDomain.CurrentDomain.Load("DIOS.Client.dll");
+                Assembly a = Assembly.Load("DIOS.Client");
+                Type starterType = a.GetType("DIOS.Client.Browsing.ClientFormManager");
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("form_type_name", moduleName);
+                dict.Add("additional_assemblies", "");
+                dict.Add("title", moduleName);
+                string moduleParams = JsonConvert.SerializeObject(dict);
+
+                MethodInfo mi = starterType.GetMethod("ExecModule", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                mi.Invoke(null, new object[] { moduleParams });
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                    ex = ex.InnerException;
+                return ex.Message;
+            }
         }
 
         public string EditText(string textId)
@@ -435,6 +456,13 @@ namespace RestWcfService
             get
             {
                 return typeof(RestService);
+            }
+        }
+        public Type serviceInterfaceType
+        {
+            get
+            {
+                return typeof(IRestService);
             }
         }
     }

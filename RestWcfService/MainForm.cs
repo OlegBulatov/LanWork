@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.ServiceModel.Description;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,7 @@ namespace RestWcfService
         string ConnectionString { get; set; }
         void SetUserNameExt(string userName);
         Type serviceType { get; }
+        Type serviceInterfaceType { get; }
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
@@ -65,7 +67,7 @@ namespace RestWcfService
             try
             {
                 string address = tbUri.Text;
-                ServiceHost host = new MyHost(RestService.serviceType, new Uri(address));
+                ServiceHost host = new ServiceHost(RestService.serviceType, new Uri(address));
                 //host.Description.Behaviors.Add(new HostBehavior());
                 // Добавляем конечную точку службы с заданным интерфейсом, привязкой (создаём новую) и адресом конечной точки
                 //host.Description.Endpoints.Add(new WebScriptEndpoint(ContractDescription.GetContract(typeof(ISqlService))));
@@ -78,20 +80,50 @@ namespace RestWcfService
                 //if(debugBhv != null)
                 //    debugBhv.IncludeExceptionDetailInFaults = true;
 
-                var binding = new WebHttpBinding();
+                var binding = new WebHttpBinding();//webHttpBinding is the REST-style binding, where you basically just hit a URL and get back a truckload of XML or JSON from the web service
+                                                   //так мы определяем, что сервис будет отвечать как вебсайт по http запросу, а не как SOAP вебсервис с ихним xml форматированием запроса
                 binding.MaxReceivedMessageSize = 2147483647;
 
-                var CD = ContractDescription.GetContract(RestService.serviceType);
+                var CD = ContractDescription.GetContract(RestService.serviceInterfaceType);
+                //CD.Name = "REST_contract";
                 ServiceEndpoint SE = new ServiceEndpoint(CD, binding, new EndpointAddress(address + "/rest"));
-                var Bh = new WebHttpBehavior();//так мы определяем, что сервис будет отвечать как вебсайт по http запросу, а не как SOAP вебсервис с ихним xml форматированием запроса
-                Bh.DefaultOutgoingResponseFormat = System.ServiceModel.Web.WebMessageFormat.Json;//так мы определяем, в каком формате придет ответ
+                var Bh = new WebHttpBehavior();
+                Bh.DefaultOutgoingResponseFormat = WebMessageFormat.Json;//так мы определяем, в каком формате придет ответ
                 SE.EndpointBehaviors.Add(Bh);
                 host.AddServiceEndpoint(SE);
+                ServiceEndpoint SE2 = new ServiceEndpoint(CD, new WebHttpBinding(), new EndpointAddress(address + "/xml"));
+                var BhXml = new WebHttpBehavior();
+                BhXml.DefaultOutgoingResponseFormat = WebMessageFormat.Xml;//так мы определяем, в каком формате придет ответ
+                SE2.EndpointBehaviors.Add(BhXml);
+                host.AddServiceEndpoint(SE2);
+
+                BasicHttpBinding basicHttpBinding = new BasicHttpBinding();//SOAP
+                ServiceEndpoint SE3 = new ServiceEndpoint(CD, basicHttpBinding, new EndpointAddress(address + "/soap"));
+                host.AddServiceEndpoint(SE3);
+                //var bindingBasic = new BasicHttpBinding();
+                //bindingBasic.MaxReceivedMessageSize = 2147483647;
+                //host.AddServiceEndpoint(RestService.serviceInterfaceType, bindingBasic, "");
+
+
                 //host.AddServiceEndpoint("RestWcfService.IRestService", binding, "rest");
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebHttpBehavior());
 
-                //host.Description.Behaviors.Add(new ServiceMetadataBehavior());
-                host.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), address + "/mex");            // Запускаем службу
+                //var bindingBasic = new BasicHttpBinding();
+                //bindingBasic.MaxReceivedMessageSize = 2147483647;
+                //host.AddServiceEndpoint(RestService.serviceInterfaceType, bindingBasic, "");
+                //var BhMtd = new ServiceMetadataBehavior();
+                //BhMtd.HttpGetEnabled = true;
+                //host.Description.Behaviors.Add(BhMtd);
+                //host.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), address + "/mex");            // Запускаем службу
+
+                host.Description.Behaviors.Add(new ServiceMetadataBehavior());
+                host.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), address + "/soap/mex");            // Запускаем службу
+
+
+                //ServiceDebugBehavior debugBhv = host.Description.Behaviors[typeof(ServiceDebugBehavior)] as ServiceDebugBehavior;
+                //if (debugBhv != null)
+                //    debugBhv.IncludeExceptionDetailInFaults = true;
+
 
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new EnableCorsBehavior());
                 //host.Description.Endpoints[1].EndpointBehaviors.Add(new EnableCorsBehavior());
@@ -198,15 +230,15 @@ namespace RestWcfService
         }
     }
 
-    public class MyHost: ServiceHost
-    {
-        public MyHost(Type serviceType, params Uri[] baseAddresses):base(serviceType, baseAddresses)
-        { }
-        protected override ServiceDescription CreateDescription(out IDictionary<string, ContractDescription> implementedContracts)
-        {
-            return base.CreateDescription(out implementedContracts);
-        }
-    }
+    //public class MyHost: ServiceHost
+    //{
+    //    public MyHost(Type serviceType, params Uri[] baseAddresses):base(serviceType, baseAddresses)
+    //    { }
+    //    protected override ServiceDescription CreateDescription(out IDictionary<string, ContractDescription> implementedContracts)
+    //    {
+    //        return base.CreateDescription(out implementedContracts);
+    //    }
+    //}
 
     public class Properties_Settings_Default
     {
