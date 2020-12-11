@@ -34,11 +34,10 @@ namespace ColumnsDesignGenerator
             {
                 return;
             }
-            string classNameInFile = XGenerator.GetClassName(sourceFileName.ToString());
+            //string classNameInFile = XGenerator.GetClassName(sourceFileName.ToString());
 
             SourceFilesGenerationService S = new SourceFilesGenerationService();
-            List<GeneratedFieldEntity> generatedFieldEntities = null;
-            generatedFieldEntities = S.GenerateFieldsFromDFM(sourceFileName.ToString());
+            List<GeneratedFieldEntity> generatedFieldEntities = S.GenerateFieldsFromDFM(sourceFileName);
             string fieldsJson = JsonConvert.SerializeObject(generatedFieldEntities);
             
             Dictionary<string, string> widthsDictionary = new Dictionary<string, string>();
