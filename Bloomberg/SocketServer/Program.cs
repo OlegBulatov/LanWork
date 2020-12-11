@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using System.Net;      // потребуется
-using System.Net.Sockets;    // потребуется
+using System.Net;      
+using System.Net.Sockets;
 class Program
 {
     private static string url;
