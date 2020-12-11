@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BEmu_cpp", "BEmu_cpp\BEmu_c
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples_cpp", "Examples_cpp\Examples_cpp.vcxproj", "{148DF2ED-B7A8-4C16-B8C4-3C3F39BC8DE5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Delphi_adapter", "Delphi_adapter\Delphi_adapter.vcxproj", "{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "blpapi3_32", "blpapi3_32\blpapi3_32.vcxproj", "{7624FA8C-BCEB-48E6-B473-55AE5444C08F}"
 EndProject
 Global
@@ -87,24 +85,6 @@ Global
 		{148DF2ED-B7A8-4C16-B8C4-3C3F39BC8DE5}.Release|Win32.Build.0 = Release|Win32
 		{148DF2ED-B7A8-4C16-B8C4-3C3F39BC8DE5}.Release|x64.ActiveCfg = Release|Win32
 		{148DF2ED-B7A8-4C16-B8C4-3C3F39BC8DE5}.Release|x86.ActiveCfg = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|Win32.Build.0 = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|x64.ActiveCfg = Debug|x64
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|x64.Build.0 = Debug|x64
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|x86.ActiveCfg = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Debug|x86.Build.0 = Debug|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|Any CPU.ActiveCfg = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|Win32.ActiveCfg = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|Win32.Build.0 = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|x64.ActiveCfg = Release|x64
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|x64.Build.0 = Release|x64
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|x86.ActiveCfg = Release|Win32
-		{CFE02742-EA3A-4EF0-8A05-3D94AF9DABE5}.Release|x86.Build.0 = Release|Win32
 		{7624FA8C-BCEB-48E6-B473-55AE5444C08F}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{7624FA8C-BCEB-48E6-B473-55AE5444C08F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{7624FA8C-BCEB-48E6-B473-55AE5444C08F}.Debug|Mixed Platforms.Build.0 = Debug|Win32

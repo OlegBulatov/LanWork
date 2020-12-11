@@ -139,10 +139,12 @@
     <ClInclude Include="headers\blpapi_types.h" />
     <ClInclude Include="headers\blpapi_versioninfo.h" />
     <ClInclude Include="headers\examples.h" />
+    <ClInclude Include="headers\stdafx.h" />
     <ClInclude Include="headers\SubscriptionEventHandler.h" />
+    <ClInclude Include="headers\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Delphi_adapter\Delphi_adapter.cpp" />
+    <ClCompile Include="src\Delphi_adapter.cpp" />
     <ClCompile Include="src\HistoricalDataRequest.cpp" />
     <ClCompile Include="src\IntradayBarRequest.cpp" />
     <ClCompile Include="src\IntradayTickRequest.cpp" />
