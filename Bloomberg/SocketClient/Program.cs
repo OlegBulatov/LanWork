@@ -8,13 +8,16 @@ namespace SocketClient
     class Program
     {
         private static string url;
+        private static int port;
         static void Main(string[] args)
         {
             Console.Write("Введите адрес сервера: ");
             url = Console.ReadLine();
+            Console.Write("Введите номер порта: ");
+            port = int.Parse(Console.ReadLine());
             try
             {
-                SendMessageFromSocket(5000);
+                SendMessageFromSocket(port);
             }
             catch (Exception ex)
             {

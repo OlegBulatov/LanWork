@@ -23,8 +23,11 @@ class Program
                 {
                     byte[] msg = new byte[1024];     // готовим место для принятия сообщения
                     int count = ns.Read(msg, 0, msg.Length);   // читаем сообщение от клиента
+                    Console.WriteLine("клиент пишет:");
                     Console.WriteLine(Encoding.Default.GetString(msg, 0, count)); // выводим на экран полученное сообщение в виде строки
-                    answer = Encoding.Default.GetBytes("ACK SERVICE");  // конвертируем строку в массив байт
+                    Console.WriteLine("что отвечаем?");
+                    string answerStr = Console.ReadLine();
+                    answer = Encoding.Default.GetBytes(answerStr);  // конвертируем строку в массив байт
                     ns.Write(answer, 0, answer.Length);     // отправляем сообщение
                 }
             }

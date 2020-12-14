@@ -2,7 +2,10 @@
 //
 
 #include "stdafx.h"
-//#include "delphi_adapter.h"
+#include <iostream>
+#include <time.h>
+
+using namespace std;
 #define BLPAPI_BUILD true
 #include "api_selector.h"
 #include "blpapi_session.h"
@@ -651,7 +654,7 @@ int blpapi_Service_createRequest(Service   *service,
 	Request  **request,
 	const char         *operation){
 	Request* R = new Request(service->createRequest(operation));
-	R->append("securities", "SPY US EQUITY");
+	R->append("securities", "SPY_US_EQUITY");
 	R->append("fields", "PX_LAST");
 	R->append("fields", "BID");
 	R->append("fields", "ASK");
@@ -748,29 +751,121 @@ int blpapi_Service_createResponseEvent(
 	 void *stream,
 	 int level,
 	 int spacesPerLevel) {
-	 //try {
-		// streamWriter("Y*", 2, stream);
-	 //}
-	 //catch (...) {}
 	 try {
-		 std::stringstream oss;
-		 Element* realElement;
+		 stringstream oss;
 		 try
 		 {
 			 Request* req = (Request*)element;
-			 //element->print((std::ostream&)stream, level, spacesPerLevel);
-			 realElement = &req->getElement("securities");
+			 Element realElement = req->getElement("securities");
+			 realElement.print(oss, level, spacesPerLevel);
 		 }
 		 catch (...)
 		 {
-			 realElement = (Element*)element;
+			 const string level1 = "";
+			 const string level2 = "\t";
+			 const string level3 = "\t\t";
+			 const string level4 = "\t\t\t";
+
+			 Element elmSecurityDataArray = *(Element*)element;
+			 for (size_t valueIndex = 0; valueIndex < elmSecurityDataArray.numValues(); valueIndex++)
+			 {
+				 Element elmSecurityData = elmSecurityDataArray.getValueAsElement(valueIndex);
+				 oss << "ReferenceDataResponse = {" << endl;
+				 string security = elmSecurityData.getElementAsString("security");
+				 oss << level2 << security << endl;
+
+				 bool hasFieldErrors = elmSecurityData.hasElement("fieldExceptions", true);
+				 if (hasFieldErrors)
+				 {
+					 Element elmFieldErrors = elmSecurityData.getElement("fieldExceptions");
+					 for (size_t errorIndex = 0; errorIndex < elmFieldErrors.numValues(); errorIndex++)
+					 {
+						 Element fieldError = elmFieldErrors.getValueAsElement(errorIndex);
+						 string fieldId = fieldError.getElementAsString("fieldId");
+
+						 Element errorInfo = fieldError.getElement("errorInfo");
+						 string source = errorInfo.getElementAsString("source");
+						 int code = errorInfo.getElementAsInt32("code");
+						 string category = errorInfo.getElementAsString("category");
+						 string strMessage = errorInfo.getElementAsString("message");
+						 string subCategory = errorInfo.getElementAsString("subcategory");
+
+						 oss << level3 << "field error:" << endl;
+						 oss << level4 << "fieldId = " << fieldId << endl;
+						 oss << level4 << "source = " << source << endl;
+						 oss << level4 << "code = " << code << endl;
+						 oss << level4 << "category = " << category << endl;
+						 oss << level4 << "errorMessage = " << strMessage << endl;
+						 oss << level4 << "subCategory = " << subCategory << endl;
+					 }
+				 }
+
+				 bool isSecurityError = elmSecurityData.hasElement("securityError", true);
+				 if (isSecurityError)
+				 {
+					 Element secError = elmSecurityData.getElement("securityError");
+					 string source = secError.getElementAsString("source");
+					 int code = secError.getElementAsInt32("code");
+					 string category = secError.getElementAsString("category");
+					 string errorMessage = secError.getElementAsString("message");
+					 string subCategory = secError.getElementAsString("subcategory");
+
+					 oss << level3 << "security error:" << endl;
+					 oss << level4 << "source = " << source << endl;
+					 oss << level4 << "code = " << code << endl;
+					 oss << level4 << "category = " << category << endl;
+					 oss << level4 << "errorMessage = " << errorMessage << endl;
+					 oss << level4 << "subCategory = " << subCategory << endl;
+				 }
+				 else
+				 {
+					 Element elmFieldData = elmSecurityData.getElement("fieldData");
+
+					 double pxLast = elmFieldData.getElementAsFloat64("PX_LAST");
+					 double bid = elmFieldData.getElementAsFloat64("BID");
+					 double ask = elmFieldData.getElementAsFloat64("ASK");
+					 string ticker = elmFieldData.getElementAsString("TICKER");
+
+					 oss << level3 << "fields: " << endl;
+					 oss << level4 << "PX_LAST = " << pxLast << endl;
+					 oss << level4 << "BID = " << bid << endl;
+					 oss << level4 << "ASK = " << ask << endl;
+					 oss << level4 << "TICKER = " << ticker << endl;
+
+					 bool excludeNullElements = true;
+					 if (elmFieldData.hasElement("CHAIN_TICKERS", excludeNullElements)) //be careful, the excludeNullElements argument is false by default
+					 {
+						 Element chainTickers = elmFieldData.getElement("CHAIN_TICKERS");
+						 for (size_t chainTickerValueIndex = 0; chainTickerValueIndex < chainTickers.numValues(); chainTickerValueIndex++)
+						 {
+							 Element chainTicker = chainTickers.getValueAsElement(chainTickerValueIndex);
+							 string strChainTicker = chainTicker.getElementAsString("Ticker");
+
+							 oss << level4 << "CHAIN_TICKER = " << strChainTicker << endl;
+						 }
+					 }
+					 else
+					 {
+						 oss << level4 << "No CHAIN_TICKER information" << endl;
+					 }
+				 }
+				 oss << "}" << endl;
+			 }
 		 }
-		 realElement->print(oss, level, spacesPerLevel);
-		 char s[1000];
-		 oss >> s;
-		 streamWriter(s, 2, stream);
-		 //oss << "element info";
-		 //(std::ostream&)stream << "element info";
+		 char s[10000];
+		 oss.get(s, 10000, '~');
+		 //while (true)
+		 //{
+			// try
+			// {
+			//	 oss >> s;
+			// }
+			// catch (...)
+			// {
+			//	 break;
+			// }
+		 //}
+		 streamWriter(s, 0, stream);
 	 }
 	 catch (...) {}
 	 return 0;
