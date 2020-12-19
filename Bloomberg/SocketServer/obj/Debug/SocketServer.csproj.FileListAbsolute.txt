@@ -1,0 +1,14 @@
+D:\VSP\Bloomberg\SocketServer\bin\Debug\SocketServer.exe.config
+D:\VSP\Bloomberg\SocketServer\bin\Debug\SocketServer.exe
+D:\VSP\Bloomberg\SocketServer\bin\Debug\SocketServer.pdb
+D:\VSP\Bloomberg\SocketServer\obj\Debug\SocketServer.csprojAssemblyReference.cache
+D:\VSP\Bloomberg\SocketServer\obj\Debug\SocketServer.csproj.CoreCompileInputs.cache
+D:\VSP\Bloomberg\SocketServer\obj\Debug\SocketServer.exe
+D:\VSP\Bloomberg\SocketServer\obj\Debug\SocketServer.pdb
+D:\gitlan\lanitwork\Bloomberg\SocketServer\bin\Debug\SocketServer.exe.config
+D:\gitlan\lanitwork\Bloomberg\SocketServer\bin\Debug\SocketServer.exe
+D:\gitlan\lanitwork\Bloomberg\SocketServer\bin\Debug\SocketServer.pdb
+D:\gitlan\lanitwork\Bloomberg\SocketServer\obj\Debug\SocketServer.csprojAssemblyReference.cache
+D:\gitlan\lanitwork\Bloomberg\SocketServer\obj\Debug\SocketServer.csproj.CoreCompileInputs.cache
+D:\gitlan\lanitwork\Bloomberg\SocketServer\obj\Debug\SocketServer.exe
+D:\gitlan\lanitwork\Bloomberg\SocketServer\obj\Debug\SocketServer.pdb

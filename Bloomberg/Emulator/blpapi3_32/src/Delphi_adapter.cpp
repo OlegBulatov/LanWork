@@ -20,6 +20,12 @@ class SimpleException : public std::exception
 	}
 } sessionEx;
 
+struct RequestElement
+{
+	Request* request;
+	char elementName[1];
+};
+
 extern "C" {
 	BLPAPI_EXPORT	
 	Request* blpapi_Request_elements(
@@ -28,12 +34,12 @@ extern "C" {
 	BLPAPI_EXPORT
 		int blpapi_Element_getElement(
 			const void *element,
-			Element **result,
+			RequestElement **result,
 			const char* nameString,
 			const Name *name);
 	BLPAPI_EXPORT
 		int blpapi_Element_setValueString(
-			Element *element,
+			RequestElement *element,
 			const char *value,
 			size_t index);
 
@@ -654,28 +660,28 @@ int blpapi_Service_createRequest(Service   *service,
 	Request  **request,
 	const char         *operation){
 	Request* R = new Request(service->createRequest(operation));
-	R->append("securities", "SPY_US_EQUITY");
-	R->append("fields", "PX_LAST");
-	R->append("fields", "BID");
-	R->append("fields", "ASK");
-	R->append("fields", "TICKER");
-	R->append("fields", "OPT_EXPIRE_DT"); //only stock options have this field
-	Element overrides = R->getElement("overrides");
+	//R->append("securities", "SPY_US_EQUITY");
+	//R->append("fields", "PX_LAST");
+	//R->append("fields", "BID");
+	//R->append("fields", "ASK");
+	//R->append("fields", "TICKER");
+	//R->append("fields", "OPT_EXPIRE_DT"); //only stock options have this field
+	//Element overrides = R->getElement("overrides");
 
-	//request only puts
-	Element ovrdPutCall = overrides.appendElement();
-	ovrdPutCall.setElement("fieldId", "CHAIN_PUT_CALL_TYPE_OVRD");
-	ovrdPutCall.setElement("value", "P"); //accepts either "C" for calls or "P" for puts
+	////request only puts
+	//Element ovrdPutCall = overrides.appendElement();
+	//ovrdPutCall.setElement("fieldId", "CHAIN_PUT_CALL_TYPE_OVRD");
+	//ovrdPutCall.setElement("value", "P"); //accepts either "C" for calls or "P" for puts
 
-	//request 5 options in the result
-	Element ovrdNumStrikes = overrides.appendElement();
-	ovrdNumStrikes.setElement("fieldId", "CHAIN_POINTS_OVRD");
-	ovrdNumStrikes.setElement("value", 5); //accepts a positive integer
+	////request 5 options in the result
+	//Element ovrdNumStrikes = overrides.appendElement();
+	//ovrdNumStrikes.setElement("fieldId", "CHAIN_POINTS_OVRD");
+	//ovrdNumStrikes.setElement("value", 5); //accepts a positive integer
 
-	//request options that expire on Dec. 20, 2014
-	Element ovrdDtExps = overrides.appendElement();
-	ovrdDtExps.setElement("fieldId", "CHAIN_EXP_DT_OVRD");
-	ovrdDtExps.setElement("value", "20141220"); //accepts dates in the format yyyyMMdd (this is Dec. 20, 2014)
+	////request options that expire on Dec. 20, 2014
+	//Element ovrdDtExps = overrides.appendElement();
+	//ovrdDtExps.setElement("fieldId", "CHAIN_EXP_DT_OVRD");
+	//ovrdDtExps.setElement("value", "20141220"); //accepts dates in the format yyyyMMdd (this is Dec. 20, 2014)
 
 	*request = R;
 	
@@ -724,12 +730,17 @@ int blpapi_Service_createResponseEvent(
 
  int blpapi_Element_getElement(
 	 const void *element,
-	 Element **result,
+	 RequestElement **result,
 	 const char* nameString,
 	 const Name *name) {
 	 try {
 		 Request* R = (Request*)element;
-		 *result = new Element(R->getElement(nameString));
+		 RequestElement* RE = new RequestElement();
+		 RE->request = R;
+		 //char* name = (char*)malloc(sizeof(char));
+		 //name[0] = nameString[0];
+		 RE->elementName[0] = nameString[0];
+		 *result = RE;//new Element(R->getElement(nameString));
 		 return 0;
 	 }
 	 catch(...){
@@ -738,9 +749,13 @@ int blpapi_Service_createResponseEvent(
  }
 
  int blpapi_Element_setValueString(
-	 Element *element,
+	 RequestElement *element,
 	 const char *value,
 	 size_t index) {
+	 if(element->elementName[0] == 'f')
+		element->request->append("fields", value);
+	 else
+		element->request->append("securities", value);//(element->elementName, value);
 	 //element->setElement(value, index);
 	 return 0;
  }
@@ -751,8 +766,8 @@ int blpapi_Service_createResponseEvent(
 	 void *stream,
 	 int level,
 	 int spacesPerLevel) {
+	 stringstream oss;
 	 try {
-		 stringstream oss;
 		 try
 		 {
 			 Request* req = (Request*)element;
@@ -761,113 +776,115 @@ int blpapi_Service_createResponseEvent(
 		 }
 		 catch (...)
 		 {
-			 const string level1 = "";
-			 const string level2 = "\t";
-			 const string level3 = "\t\t";
-			 const string level4 = "\t\t\t";
+			 oss << "ReferenceDataResponse = {" << endl;
+//			 oss << "securityData[] = {" << endl;
+
 
 			 Element elmSecurityDataArray = *(Element*)element;
-			 for (size_t valueIndex = 0; valueIndex < elmSecurityDataArray.numValues(); valueIndex++)
-			 {
-				 Element elmSecurityData = elmSecurityDataArray.getValueAsElement(valueIndex);
-				 oss << "ReferenceDataResponse = {" << endl;
-				 string security = elmSecurityData.getElementAsString("security");
-				 oss << level2 << security << endl;
+			 elmSecurityDataArray.print(oss, level, spacesPerLevel);   //этот вариант работает, но почему-то не вставляет уровень fieldData[]
 
-				 bool hasFieldErrors = elmSecurityData.hasElement("fieldExceptions", true);
-				 if (hasFieldErrors)
-				 {
-					 Element elmFieldErrors = elmSecurityData.getElement("fieldExceptions");
-					 for (size_t errorIndex = 0; errorIndex < elmFieldErrors.numValues(); errorIndex++)
-					 {
-						 Element fieldError = elmFieldErrors.getValueAsElement(errorIndex);
-						 string fieldId = fieldError.getElementAsString("fieldId");
+			 //for (size_t valueIndex = 0; valueIndex < elmSecurityDataArray.numValues(); valueIndex++)
+			 //{
+				// oss << "securityData = {" << endl << "security = \"";
+				// Element elmSecurityData = elmSecurityDataArray.getValueAsElement(valueIndex);
+				////// elmSecurityData.print(oss, level, spacesPerLevel);
 
-						 Element errorInfo = fieldError.getElement("errorInfo");
-						 string source = errorInfo.getElementAsString("source");
-						 int code = errorInfo.getElementAsInt32("code");
-						 string category = errorInfo.getElementAsString("category");
-						 string strMessage = errorInfo.getElementAsString("message");
-						 string subCategory = errorInfo.getElementAsString("subcategory");
+				// string security = elmSecurityData.getElementAsString("security");
+				// oss << security;
+				// oss << "\" sequenceNumber = ";
+				// oss << valueIndex;
+				// oss << " ";
 
-						 oss << level3 << "field error:" << endl;
-						 oss << level4 << "fieldId = " << fieldId << endl;
-						 oss << level4 << "source = " << source << endl;
-						 oss << level4 << "code = " << code << endl;
-						 oss << level4 << "category = " << category << endl;
-						 oss << level4 << "errorMessage = " << strMessage << endl;
-						 oss << level4 << "subCategory = " << subCategory << endl;
-					 }
-				 }
+				// //bool hasFieldErrors = elmSecurityData.hasElement("fieldExceptions", true);
+				// //if (hasFieldErrors)
+				// //{
+				//	// Element elmFieldErrors = elmSecurityData.getElement("fieldExceptions");
+				//	// for (size_t errorIndex = 0; errorIndex < elmFieldErrors.numValues(); errorIndex++)
+				//	// {
+				//	//	 Element fieldError = elmFieldErrors.getValueAsElement(errorIndex);
+				//	//	 string fieldId = fieldError.getElementAsString("fieldId");
 
-				 bool isSecurityError = elmSecurityData.hasElement("securityError", true);
-				 if (isSecurityError)
-				 {
-					 Element secError = elmSecurityData.getElement("securityError");
-					 string source = secError.getElementAsString("source");
-					 int code = secError.getElementAsInt32("code");
-					 string category = secError.getElementAsString("category");
-					 string errorMessage = secError.getElementAsString("message");
-					 string subCategory = secError.getElementAsString("subcategory");
+				//	//	 Element errorInfo = fieldError.getElement("errorInfo");
+				//	//	 string source = errorInfo.getElementAsString("source");
+				//	//	 int code = errorInfo.getElementAsInt32("code");
+				//	//	 string category = errorInfo.getElementAsString("category");
+				//	//	 string strMessage = errorInfo.getElementAsString("message");
+				//	//	 string subCategory = errorInfo.getElementAsString("subcategory");
 
-					 oss << level3 << "security error:" << endl;
-					 oss << level4 << "source = " << source << endl;
-					 oss << level4 << "code = " << code << endl;
-					 oss << level4 << "category = " << category << endl;
-					 oss << level4 << "errorMessage = " << errorMessage << endl;
-					 oss << level4 << "subCategory = " << subCategory << endl;
-				 }
-				 else
-				 {
-					 Element elmFieldData = elmSecurityData.getElement("fieldData");
+				//	//	 oss << level3 << "field error:" << endl;
+				//	//	 oss << level4 << "fieldId = " << fieldId << endl;
+				//	//	 oss << level4 << "source = " << source << endl;
+				//	//	 oss << level4 << "code = " << code << endl;
+				//	//	 oss << level4 << "category = " << category << endl;
+				//	//	 oss << level4 << "errorMessage = " << strMessage << endl;
+				//	//	 oss << level4 << "subCategory = " << subCategory << endl;
+				//	// }
+				// //}
 
-					 double pxLast = elmFieldData.getElementAsFloat64("PX_LAST");
-					 double bid = elmFieldData.getElementAsFloat64("BID");
-					 double ask = elmFieldData.getElementAsFloat64("ASK");
-					 string ticker = elmFieldData.getElementAsString("TICKER");
+				// //bool isSecurityError = elmSecurityData.hasElement("securityError", true);
+				// //if (isSecurityError)
+				// //{
+				//	// Element secError = elmSecurityData.getElement("securityError");
+				//	// string source = secError.getElementAsString("source");
+				//	// int code = secError.getElementAsInt32("code");
+				//	// string category = secError.getElementAsString("category");
+				//	// string errorMessage = secError.getElementAsString("message");
+				//	// string subCategory = secError.getElementAsString("subcategory");
 
-					 oss << level3 << "fields: " << endl;
-					 oss << level4 << "PX_LAST = " << pxLast << endl;
-					 oss << level4 << "BID = " << bid << endl;
-					 oss << level4 << "ASK = " << ask << endl;
-					 oss << level4 << "TICKER = " << ticker << endl;
+				//	// oss << level3 << "security error:" << endl;
+				//	// oss << level4 << "source = " << source << endl;
+				//	// oss << level4 << "code = " << code << endl;
+				//	// oss << level4 << "category = " << category << endl;
+				//	// oss << level4 << "errorMessage = " << errorMessage << endl;
+				//	// oss << level4 << "subCategory = " << subCategory << endl;
+				// //}
+				// //else
+				// //{
+				//	 //oss << "fieldData[] = {";
+				//	 Element elmFieldData = elmSecurityData.getElement("fieldData");
+				//	 elmFieldData.print(oss, level, spacesPerLevel);
+				//	 //oss << "}";
 
-					 bool excludeNullElements = true;
-					 if (elmFieldData.hasElement("CHAIN_TICKERS", excludeNullElements)) //be careful, the excludeNullElements argument is false by default
-					 {
-						 Element chainTickers = elmFieldData.getElement("CHAIN_TICKERS");
-						 for (size_t chainTickerValueIndex = 0; chainTickerValueIndex < chainTickers.numValues(); chainTickerValueIndex++)
-						 {
-							 Element chainTicker = chainTickers.getValueAsElement(chainTickerValueIndex);
-							 string strChainTicker = chainTicker.getElementAsString("Ticker");
+				//	// double pxLast = elmFieldData.getElementAsFloat64("PX_LAST");
+				//	// double bid = elmFieldData.getElementAsFloat64("BID");
+				//	// double ask = elmFieldData.getElementAsFloat64("ASK");
+				//	// string ticker = elmFieldData.getElementAsString("TICKER");
 
-							 oss << level4 << "CHAIN_TICKER = " << strChainTicker << endl;
-						 }
-					 }
-					 else
-					 {
-						 oss << level4 << "No CHAIN_TICKER information" << endl;
-					 }
-				 }
-				 oss << "}" << endl;
-			 }
+				//	// oss << level3 << "fields: " << endl;
+				//	// oss << level4 << "PX_LAST = " << pxLast << endl;
+				//	// oss << level4 << "BID = " << bid << endl;
+				//	// oss << level4 << "ASK = " << ask << endl;
+				//	// oss << level4 << "TICKER = " << ticker << endl;
+
+				//	 //bool excludeNullElements = true;
+				//	 //if (elmFieldData.hasElement("CHAIN_TICKERS", excludeNullElements)) //be careful, the excludeNullElements argument is false by default
+				//	 //{
+				//		// Element chainTickers = elmFieldData.getElement("CHAIN_TICKERS");
+				//		// for (size_t chainTickerValueIndex = 0; chainTickerValueIndex < chainTickers.numValues(); chainTickerValueIndex++)
+				//		// {
+				//		//	 Element chainTicker = chainTickers.getValueAsElement(chainTickerValueIndex);
+				//		//	 string strChainTicker = chainTicker.getElementAsString("Ticker");
+
+				//		//	 oss << " CHAIN_TICKER = " << strChainTicker;
+				//		// }
+				//	 //}
+				//	 //else
+				//	 //{
+				//		// oss << " No CHAIN_TICKER information ";
+				//	 //}
+				// //}
+				// //oss << "}";
+			 //}
+			 oss << "}" << endl;
 		 }
-		 char s[10000];
-		 oss.get(s, 10000, '~');
-		 //while (true)
-		 //{
-			// try
-			// {
-			//	 oss >> s;
-			// }
-			// catch (...)
-			// {
-			//	 break;
-			// }
-		 //}
-		 streamWriter(s, 0, stream);
 	 }
-	 catch (...) {}
+	 catch (...) 
+	 {
+		 oss << "error happened";
+	 }
+	 char s[10000];
+	 oss.get(s, 10000, '~');
+	 streamWriter(s, 0, stream);
 	 return 0;
  }
 
@@ -878,7 +895,7 @@ int blpapi_Service_createResponseEvent(
 
  int blpapi_Event_eventType(
 	 const Event *event) {
-	 return 5;
+	 return event->eventType();
  }
 
  int blpapi_Event_release(
