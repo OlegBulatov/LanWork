@@ -28,10 +28,10 @@ namespace RestWcfService.QueryExecuteService {
         System.Threading.Tasks.Task<string> GetUserTokenAsync(string name, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/GetAttrValueResponse")]
-        string GetAttrValue(string attrName, string entityId, string userName);
+        string GetAttrValue(string attrName, string entityId, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/GetAttrValueResponse")]
-        System.Threading.Tasks.Task<string> GetAttrValueAsync(string attrName, string entityId, string userName);
+        System.Threading.Tasks.Task<string> GetAttrValueAsync(string attrName, string entityId, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/SetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/SetAttrValueResponse")]
         string SetAttrValue(string attr_name, string entity_id, string attr_value, string token);
@@ -83,12 +83,12 @@ namespace RestWcfService.QueryExecuteService {
             return base.Channel.GetUserTokenAsync(name, password);
         }
         
-        public string GetAttrValue(string attrName, string entityId, string userName) {
-            return base.Channel.GetAttrValue(attrName, entityId, userName);
+        public string GetAttrValue(string attrName, string entityId, string userToken) {
+            return base.Channel.GetAttrValue(attrName, entityId, userToken);
         }
         
-        public System.Threading.Tasks.Task<string> GetAttrValueAsync(string attrName, string entityId, string userName) {
-            return base.Channel.GetAttrValueAsync(attrName, entityId, userName);
+        public System.Threading.Tasks.Task<string> GetAttrValueAsync(string attrName, string entityId, string userToken) {
+            return base.Channel.GetAttrValueAsync(attrName, entityId, userToken);
         }
         
         public string SetAttrValue(string attr_name, string entity_id, string attr_value, string token) {

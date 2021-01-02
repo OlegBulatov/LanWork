@@ -324,9 +324,19 @@ namespace RestWcfService
             string TempDirPath = Properties_Settings_Default.TempDir; //"c:\\Temp\\";
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
+            //sClient.ClientCredentials.UserName.UserName = @"MURZIK\Oleg";
+            //sClient.ClientCredentials.UserName.Password = "bracelettE_1001";
+            //sClient.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
             if (_userToken == null)
             {
-                _userToken = sClient.GetUserToken(_userName, "*************"); 
+                try
+                {
+                    _userToken = sClient.GetUserToken(_userName, "*************");
+                }
+                catch(Exception exc)
+                {
+                    string s = exc.Message;
+                }
             }
             string textToEditJSON = sClient.GetText(textId, _userToken);
             dynamic textToEditObject = JsonConvert.DeserializeObject(textToEditJSON);

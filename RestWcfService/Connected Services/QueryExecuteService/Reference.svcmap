@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bf88183b-ce2c-484a-aded-a922ca1bffbb" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f47ea58a-3336-432c-bbdb-8cdb6a033b54" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:12663/QueryExecuteService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8089/QueryExecuteService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="QueryExecuteService.xsd" MetadataType="Schema" ID="d651d2cd-1313-463b-93e3-cd2572233a63" SourceId="1" SourceUrl="http://localhost:12663/QueryExecuteService.svc?xsd=xsd0" />
-    <MetadataFile FileName="QueryExecuteService1.xsd" MetadataType="Schema" ID="2e17c942-0eca-4854-8fcd-98499ac84a4c" SourceId="1" SourceUrl="http://localhost:12663/QueryExecuteService.svc?xsd=xsd1" />
-    <MetadataFile FileName="QueryExecuteService.disco" MetadataType="Disco" ID="2b038af7-5161-4f81-afd4-9765696df526" SourceId="1" SourceUrl="http://localhost:12663/QueryExecuteService.svc?disco" />
-    <MetadataFile FileName="QueryExecuteService.wsdl" MetadataType="Wsdl" ID="d364fbbb-90b9-4537-9fd5-263cafa46cb3" SourceId="1" SourceUrl="http://localhost:12663/QueryExecuteService.svc?wsdl" />
+    <MetadataFile FileName="QueryExecuteService.xsd" MetadataType="Schema" ID="2c20b854-4f59-4e62-83fd-7d5a50b41fb3" SourceId="1" SourceUrl="http://localhost:8089/QueryExecuteService.svc?xsd=xsd0" />
+    <MetadataFile FileName="QueryExecuteService.wsdl" MetadataType="Wsdl" ID="acb2b858-2b7e-4a47-9740-2b2fa4606e86" SourceId="1" SourceUrl="http://localhost:8089/QueryExecuteService.svc?wsdl" />
+    <MetadataFile FileName="QueryExecuteService1.xsd" MetadataType="Schema" ID="a90c1a5b-24f3-47e1-9a8b-3e14ca6bbc54" SourceId="1" SourceUrl="http://localhost:8089/QueryExecuteService.svc?xsd=xsd1" />
+    <MetadataFile FileName="QueryExecuteService.disco" MetadataType="Disco" ID="97bd3ae1-441f-4b2f-b7fc-08232cf86b65" SourceId="1" SourceUrl="http://localhost:8089/QueryExecuteService.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

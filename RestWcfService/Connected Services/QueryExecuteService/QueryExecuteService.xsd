@@ -35,7 +35,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="attrName" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="entityId" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="userToken" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
