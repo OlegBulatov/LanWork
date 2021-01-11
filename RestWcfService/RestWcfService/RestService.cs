@@ -71,7 +71,7 @@ namespace RestWcfService
         public static string ServerURL;
         private static int QueryNumber = 1;
         public static displayMethod dMethod;
-        private static string _userName;
+        private static string _userName = Environment.UserDomainName + "\\" + Environment.UserName;
         private string _userToken;
         private string Decrypt(string data, string password)
         {
@@ -225,11 +225,11 @@ namespace RestWcfService
             return _userName;
         }
 
-        public static void SetUserNameExt(string name)
-        {
-            //_userToken = null;
-            _userName = name;
-        }
+        //public static void SetUserNameExt(string name)
+        //{
+        //    //_userToken = null;
+        //    _userName = name;
+        //}
 
         public void SetUserName(string name)
         {
@@ -457,10 +457,10 @@ namespace RestWcfService
                 RestService.dMethod = value;
             }
         }
-        public void SetUserNameExt(string userName)
-        {
-            RestService.SetUserNameExt(userName);
-        }
+        //public void SetUserNameExt(string userName)
+        //{
+        //    RestService.SetUserNameExt(userName);
+        //}
         public Type serviceType
         {
             get

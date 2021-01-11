@@ -14,7 +14,7 @@ namespace RestWcfService
         displayMethod dMethod { get; set; }
         string ServerURL { get; set; }
         string ConnectionString { get; set; }
-        void SetUserNameExt(string userName);
+        //void SetUserNameExt(string userName);
         Type serviceType { get; }
         Type serviceInterfaceType { get; }
     }
