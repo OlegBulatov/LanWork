@@ -1,0 +1,203 @@
+inherited frm99_EmissSizeList: Tfrm99_EmissSizeList
+  Caption = 'frm99_EmissSizeList'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited paMain: TPanel
+    inherited xxxDBGrid: TxxxDBGrid
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'T098_START_DATE'
+          Title.Caption = #1044#1072#1090#1072' '#1089
+          Width = 82
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T098_END_DATE'
+          Title.Caption = #1044#1072#1090#1072' '#1087#1086
+          Width = 82
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T098_EMISSION_SIZE'
+          Title.Caption = #1056#1072#1079#1084#1077#1088' '#1101#1084#1080#1089#1089#1080#1080
+          Width = 150
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T098_DATA_SOURCE'
+          Title.Caption = #1048#1089#1090#1086#1095#1085#1080#1082
+          Width = 150
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T098_UPDATE_USER'
+          Title.Caption = #1050#1090#1086
+          Width = 120
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T098_UPDATE_DATE'
+          Title.Caption = #1050#1086#1075#1076#1072
+          Width = 100
+          Visible = True
+        end>
+    end
+  end
+  inherited odsList: TOracleDataSet
+    SQL.Strings = (
+      'SELECT T098_ID,'
+      ' T030_ID,'
+      ' T098_START_DATE,'
+      ' T098_END_DATE,'
+      ' T098_EMISSION_SIZE,'
+      ' T098_DATA_SOURCE,'
+      ' T098_UPDATE_DATE,'
+      ' T098_UPDATE_USER'
+      'FROM V_405_EMISS_SIZE'
+      'WHERE T030_ID = :T030_ID'
+      '')
+    Variables.Data = {
+      0400000001000000100000003A0054003000330030005F004900440004000000
+      0000000000000000}
+    QBEDefinition.QBEFieldDefs = {
+      05000000080000000E00000054003000390038005F0049004400010000000000
+      0E00000054003000330030005F00490044000100000000001E00000054003000
+      390038005F00530054004100520054005F004400410054004500010000000000
+      1A00000054003000390038005F0045004E0044005F0044004100540045000100
+      000000002400000054003000390038005F0045004D0049005300530049004F00
+      4E005F00530049005A0045000100000000002000000054003000390038005F00
+      44004100540041005F0053004F00550052004300450001000000000020000000
+      54003000390038005F005500500044004100540045005F004400410054004500
+      0100000000002000000054003000390038005F00550050004400410054004500
+      5F005500530045005200010000000000}
+    MasterFields = 'T030_ID'
+    object odsListT098_ID: TFloatField
+      FieldName = 'T098_ID'
+      Required = True
+    end
+    object odsListT030_ID: TFloatField
+      FieldName = 'T030_ID'
+      Required = True
+    end
+    object odsListT098_START_DATE: TDateTimeField
+      FieldName = 'T098_START_DATE'
+      Required = True
+    end
+    object odsListT098_END_DATE: TDateTimeField
+      FieldName = 'T098_END_DATE'
+    end
+    object odsListT098_EMISSION_SIZE: TFloatField
+      FieldName = 'T098_EMISSION_SIZE'
+      Required = True
+      DisplayFormat = '### ### ### ##0'
+      EditFormat = '0'
+    end
+    object odsListT098_DATA_SOURCE: TStringField
+      FieldName = 'T098_DATA_SOURCE'
+      Size = 255
+    end
+    object odsListT098_UPDATE_DATE: TDateTimeField
+      FieldName = 'T098_UPDATE_DATE'
+    end
+    object odsListT098_UPDATE_USER: TStringField
+      FieldName = 'T098_UPDATE_USER'
+      Size = 255
+    end
+  end
+  inherited oqAdd: TOracleQuery
+    SQL.Strings = (
+      'DECLARE'
+      '  v_rec PK_Form_405.t_T098_rec;'
+      'BEGIN'
+      '  -- '#1074#1099#1087#1086#1083#1085#1103#1077#1084' '#1087#1088#1086#1094#1077#1076#1091#1088#1091
+      '  v_rec.T030_ID := :T030_ID;'
+      '  v_rec.T098_START_DATE := :T098_START_DATE;'
+      '  v_rec.T098_EMISSION_SIZE := :T098_EMISSION_SIZE;'
+      '  v_rec.T098_DATA_SOURCE := :T098_DATA_SOURCE;'
+      '  v_rec.T098_UPDATE_USER := :USER;'
+      '  PK_Form_405.p_emiss_size_add(v_rec);'
+      '  :T098_ID := v_rec.T098_ID;'
+      'END;'
+      ''
+      '')
+    Variables.Data = {
+      0400000006000000100000003A0054003000330030005F004900440004000000
+      0000000000000000200000003A0054003000390038005F005300540041005200
+      54005F0044004100540045000C0000000000000000000000260000003A005400
+      3000390038005F0045004D0049005300530049004F004E005F00530049005A00
+      4500040000000000000000000000100000003A0054003000390038005F004900
+      4400040000000000000000000000220000003A0054003000390038005F004400
+      4100540041005F0053004F005500520043004500050000000000000000000000
+      0A0000003A005500530045005200050000000000000000000000}
+  end
+  inherited oqUpdate: TOracleQuery
+    SQL.Strings = (
+      'DECLARE'
+      '  v_rec PK_Form_405.t_T098_rec;'
+      'BEGIN'
+      '  -- '#1074#1099#1087#1086#1083#1085#1103#1077#1084' '#1087#1088#1086#1094#1077#1076#1091#1088#1091
+      '  v_rec.T098_ID := :T098_ID;'
+      '  v_rec.T030_ID := :T030_ID;'
+      '  v_rec.T098_START_DATE := :T098_START_DATE;'
+      '  v_rec.T098_EMISSION_SIZE := :T098_EMISSION_SIZE;'
+      '  v_rec.T098_DATA_SOURCE := :T098_DATA_SOURCE;'
+      '  v_rec.T098_UPDATE_USER := :USER;'
+      '  PK_Form_405.p_emiss_size_update(v_rec);'
+      'END;'
+      ''
+      '')
+    Variables.Data = {
+      0400000006000000100000003A0054003000390038005F004900440004000000
+      0000000000000000200000003A0054003000390038005F005300540041005200
+      54005F0044004100540045000C0000000000000000000000260000003A005400
+      3000390038005F0045004D0049005300530049004F004E005F00530049005A00
+      4500040000000000000000000000100000003A0054003000330030005F004900
+      4400040000000000000000000000220000003A0054003000390038005F004400
+      4100540041005F0053004F005500520043004500050000000000000000000000
+      0A0000003A005500530045005200050000000000000000000000}
+  end
+  inherited oqDelete: TOracleQuery
+    SQL.Strings = (
+      'DECLARE'
+      '  v_rec PK_Form_405.t_T098_rec;'
+      'BEGIN'
+      '  -- '#1074#1099#1087#1086#1083#1085#1103#1077#1084' '#1087#1088#1086#1094#1077#1076#1091#1088#1091
+      '  v_rec.T098_ID := :T098_ID;'
+      '  v_rec.T030_ID := :T030_ID;'
+      '  v_rec.T098_START_DATE := :T098_START_DATE;'
+      '  PK_Form_405.p_emiss_size_delete(v_rec);'
+      'END;'
+      '')
+    Variables.Data = {
+      0400000003000000100000003A0054003000390038005F004900440004000000
+      0000000000000000100000003A0054003000330030005F004900440004000000
+      0000000000000000200000003A0054003000390038005F005300540041005200
+      54005F0044004100540045000C0000000000000000000000}
+  end
+  inherited oqDupl: TOracleQuery
+    SQL.Strings = (
+      'DECLARE'
+      '  v_rec PK_Form_405.t_T098_rec;'
+      'BEGIN'
+      '  -- '#1074#1099#1087#1086#1083#1085#1103#1077#1084' '#1087#1088#1086#1094#1077#1076#1091#1088#1091
+      '  v_rec.T098_ID := :T098_ID;'
+      '  v_rec.T030_ID := :T030_ID;'
+      '  v_rec.T098_START_DATE := :T098_START_DATE;'
+      '  :o_result := PK_Form_405.f_emiss_size_check(v_rec);'
+      'END;'
+      '')
+    Variables.Data = {
+      0400000004000000100000003A0054003000390038005F004900440004000000
+      0000000000000000100000003A0054003000330030005F004900440004000000
+      0000000000000000200000003A0054003000390038005F005300540041005200
+      54005F0044004100540045000C0000000000000000000000120000003A004F00
+      5F0052004500530055004C005400040000000800000000000000000000000000
+      0000}
+  end
+end

@@ -1,0 +1,172 @@
+unit USettingsManager;
+
+interface
+uses
+  Messages, SysUtils, Classes, Controls, IniFiles,  StdCtrls, ExtCtrls;
+
+type
+
+  TSparkSetting = class
+  private
+    FChecked: Boolean;
+    FEnabled: Boolean;
+    FDescription: String;
+    FUserName: String;
+    FSystemName: String;
+
+  public
+    property SystemName: String read FSystemName;
+    property UserName: String read FUserName;
+    property Description: String read FDescription;
+    property Checked: Boolean read FChecked;
+    property Enabled: Boolean read FEnabled;
+
+    constructor CreateFromString(StringImage: String);
+    constructor CreateFromData(RowData: TStrings; chBox: TCheckBox);
+
+    function StrToArray(str, r: string; out Temp: TStrings): Boolean;
+
+  end;
+
+  TSettingsManager = class
+  private
+    { Private declarations }
+//    checkboxes: TList;
+//    descriptions: TList;
+
+
+  public
+    { Public declarations }
+    SettingsList: TList;
+    constructor Create;
+    procedure SaveSettings;
+    destructor Destroy; override;
+  end;
+
+
+
+implementation
+
+{ TSettingsManager }
+
+constructor TSettingsManager.Create;
+var
+  IniFile: TIniFile;
+  descrs_complex: TStringList;
+  i: Integer;
+begin
+//        checkboxes := TList.Create;
+//        descriptions := TList.Create;
+        SettingsList := TList.Create;
+        descrs_complex := TStringList.Create;
+        IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'spark.ini');
+        IniFile.ReadSection('descriptions_complex', descrs_complex);
+        for i := 0 to descrs_complex.Count - 1 do
+                SettingsList.Add(TSparkSetting.CreateFromString(IniFile.ReadString('descriptions_complex', descrs_complex.Strings[i], '')));
+        descrs_complex.Free;
+end;
+
+destructor TSettingsManager.Destroy;
+var
+        i: Integer;
+begin
+  inherited;
+//        checkboxes.Free;
+//        descriptions.Free;
+        for i:= 0 to SettingsList.Count - 1 do
+                TObject(SettingsList[i]).Free;
+        SettingsList.Free;
+end;
+
+
+procedure TSettingsManager.SaveSettings;
+var
+  F: TIniFile;
+  i: Integer;
+  chDisabled, resultString: String;
+//  ArrayToSave: TStrings;
+  SparkSetting: TSparkSetting;
+begin
+  F := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'spark.ini');
+
+{  for i := 0 to checkboxes.Count - 1 do begin
+    F.WriteBool('checked_states', 'ch' + IntTostr(i+1), TCheckBox(checkboxes[i]).Checked);
+  end;
+  for i := 0 to descriptions.Count - 1 do begin
+    ArrayToSave := TStringList.Create;
+    for j := 0 to 2 do
+        ArrayToSave.Add(TStrings(descriptions[i])[j]);
+    ArrayToSave.Add(IntTostr(Integer(TCheckBox(checkboxes[i]).Checked)));
+    chDisabled := 'disabled';
+    if TCheckBox(checkboxes[i]).Enabled then
+        chDisabled := 'enabled';
+    ArrayToSave.Add(chDisabled);
+    F.WriteString('descriptions_complex', 'record' + IntTostr(i), ArrayToStr(ArrayToSave, '|'));
+    ArrayToSave.Free;
+  end;}
+
+  for i := 0 to SettingsList.Count - 1 do begin
+    SparkSetting := TSparkSetting(SettingsList[i]);
+    chDisabled := 'disabled';
+    if SparkSetting.Enabled then
+        chDisabled := 'enabled';
+    resultString := SparkSetting.SystemName + '|' + SparkSetting.UserName + '|' + SparkSetting.Description + '|' + IntToStr(Integer(SparkSetting.Checked)) + '|' + chDisabled + '|';
+    F.WriteString('descriptions_complex', 'record' + IntTostr(i), resultString);
+  end;
+
+  F.Free;
+
+end;
+
+function TSparkSetting.StrToArray(str, r: string;
+  out Temp: TStrings): Boolean;
+var
+  j: integer;
+begin
+  if temp <> nil then
+  begin
+    temp.Clear;
+    while str <> '' do
+    begin
+      j := Pos(r,str);
+      if j=0 then
+        j := Length(str) + 1;
+      temp.Add(Copy(Str,1,j-1));
+      Delete(Str,1,j+length(r)-1);
+    end;
+    Result:=True;
+  end
+  else
+    Result:=False;
+end;
+
+
+{ TSparkSetting }
+
+constructor TSparkSetting.CreateFromData(RowData: TStrings;
+  chBox: TCheckBox);
+begin
+        FSystemName := RowData[0];
+        FUserName := RowData[1];
+        FDescription := RowData[2];
+        FChecked := chBox.Checked;
+        FEnabled := chBox.Enabled;
+end;
+
+constructor TSparkSetting.CreateFromString(StringImage: String);
+var
+        rowMembers: TStrings;
+begin
+                rowMembers := TStringList.Create;
+                StrToArray(StringImage, '|',  rowMembers);
+                FSystemName := rowMembers[0];
+                FUserName := rowMembers[1];
+                FDescription := rowMembers[2];
+                FChecked := Boolean(StrToInt(rowMembers[3]));
+                if rowMembers[4] = 'enabled' then
+                        FEnabled := true;
+                rowMembers.Free;
+
+end;
+
+end.

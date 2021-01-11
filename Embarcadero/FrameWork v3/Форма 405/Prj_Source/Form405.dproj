@@ -1,0 +1,2743 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C9B33621-4760-4480-87FD-8E0DBB608CB8}</ProjectGuid>
+        <MainSource>Form405.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>18.8</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_E>false</DCC_E>
+        <DCC_F>false</DCC_F>
+        <DCC_K>false</DCC_K>
+        <DCC_N>true</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_Alignment>1</DCC_Alignment>
+        <DCC_DebugInformation>1</DCC_DebugInformation>
+        <DCC_WriteableConstants>true</DCC_WriteableConstants>
+        <DCC_ExeOutput>..\exe</DCC_ExeOutput>
+        <DCC_DcuOutput>..\Dcu</DCC_DcuOutput>
+        <DCC_UnitSearchPath>..\..\Каркас\Source;..\..\Отчеты\Source;..\..\Общие модули\Source;..\..\BlPipe_S\Source;C:\Borland\Common Components\DBF;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UsePackage>Vcl50;Vclx50;VclSmp50;Vcldb50;vclado50;Qrpt50;Vclbde50;TeeUI50;TeeDB50;Tee50;vcldbx50;Vclmid50;vclie50;Inetdb50;Inet50;NMFast50;webmid50;dclocx50;dclaxserver50;halcyon6;ibevnt50;Dss50;TeeQR50;VCLIB50;Mx_midas;dagStd50;Ecomp;Edsn;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Define>BANK_VERSION;$(DCC_Define)</DCC_Define>
+        <SanitizedProjectName>Form405</SanitizedProjectName>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_Release>1</VerInfo_Release>
+        <VerInfo_Build>1093</VerInfo_Build>
+        <VerInfo_Locale>1049</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.1.1093;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>Form405_Icon.ico</Icon_MainIcon>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="..\..\Каркас\Source\fm000_Parent.pas">
+            <Form>fmParent</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm030_WizardFrame.pas">
+            <Form>fmWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm031_WizardPageFrame.pas">
+            <Form>fmWizardPage</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm020_LookUpFrame.pas">
+            <Form>fmLookUp</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm007_PageFrame.pas">
+            <Form>fm007_Page</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm003_FilterFrame.pas">
+            <Form>fmFilterFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm033_PeriodFilterFrame.pas">
+            <Form>fmPeriodFilter</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm023_TextEditFrame.pas">
+            <Form>fmTextFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm002_EditFrame.pas">
+            <Form>fmEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm010_FilteredGridFrame.pas">
+            <Form>fmFilteredGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\dm006_PictersData.pas">
+            <Form>dmPicters</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm01_MainForm.pas">
+            <Form>frm01_Main</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm01_MainData.pas">
+            <Form>dm01_Main</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm04_ListForm.pas">
+            <Form>frm04_List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm00_ParentForm.pas">
+            <Form>frm00_Parent</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm31_FilterFrame.pas">
+            <Form>fm31_Filter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fmSeach.pas">
+            <Form>fmSeachFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm04_EditForm.pas">
+            <Form>frm04_Edit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm03_DialogForm.pas">
+            <Form>frm03_Dialog</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A00_MatrixConst.pas"/>
+        <DCCReference Include="..\Source\frm04_TabListItemForm.pas">
+            <Form>frm04_TabListItem</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm78_MaturityListForm.pas">
+            <Form>frm78_MaturityList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm99_EmissSizeListForm.pas">
+            <Form>frm99_EmissSizeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm99_EmissSizeEditForm.pas">
+            <Form>frm99_EmissSizeEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm103_NkdListForm.pas">
+            <Form>frm103_NkdList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm103_NkdCalcEdit.pas">
+            <Form>frm103_NkdCalcEditForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm06_RegnFrame.pas">
+            <Form>fm06_Regn</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm07_SelectParentFrame.pas">
+            <Form>fm07_SelectParent</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm35_SecRegnListForm.pas">
+            <Form>frm35_SecRegnList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm35_SecRegnEditForm.pas">
+            <Form>frm35_SecRegnEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm08_SecTypeFrame.pas">
+            <Form>fm08_SecType</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm29_SecTypeListForm.pas">
+            <Form>frm29_SecTypeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm29_SecTypeEditForm.pas">
+            <Form>frm29_SecTypeEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm09_IssuerFrame.pas">
+            <Form>fm09_Issuer</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm32_IssuerListForm.pas">
+            <Form>frm32_IssuerList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm43_SectorsFrame.pas">
+            <Form>fm43_Sectors</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm881_IndustryBySectorListForm.pas">
+            <Form>frm881_IndustryBySectorList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm88_IndustryListForm.pas">
+            <Form>frm88_IndustryList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm34_CouponListForm.pas">
+            <Form>frm34_CouponList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm34_CouponEditForm.pas">
+            <Form>frm34_CouponEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm34_CouponFillForm.pas">
+            <Form>frm34_CouponFillDlg</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm31_CouponsRecalcDlg.pas">
+            <Form>frm31_CouponsRecalc</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\G001_RequestDatesDlg.pas">
+            <Form>G001_RequestDates</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm78_MaturityEditForm.pas">
+            <Form>frm78_MaturityEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm05_SumListForm.pas">
+            <Form>frm05_SumList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm04_PrmKOFrame.pas">
+            <Form>fm04_PrmKO</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm01_PeriodFrame.pas">
+            <Form>fm01_Period</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm60_DividentsItemForm.pas">
+            <Form>frm60_DividentsItem</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm60_DividentsItemEditForm.pas">
+            <Form>frm60_DividentsItemEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm60_DividentsEditForm.pas">
+            <Form>frm60_DividentsEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm05_SumEditForm.pas">
+            <Form>frm05_SumEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm02_PrmParentFrame.pas">
+            <Form>fm02_PrmParent</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm04_LookUpFrame.pas">
+            <Form>fm04_LookUp</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm05_EmissionFrame.pas">
+            <Form>fm05_Emission</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm30_EmissionEditForm.pas">
+            <Form>frm30_EmissionEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm11_NRezidFrame.pas">
+            <Form>fm11_NRezid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm25_NRezidListForm.pas">
+            <Form>frm25_NRezidList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm49_NRezidBottomEditForm.pas">
+            <Form>frm49_NRezidBottomEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm13_CountryFrame.pas">
+            <Form>fm13_Country</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm68_CountryStateListForm.pas">
+            <Form>frm68_CountryStateList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm10_RezidFrame.pas">
+            <Form>fm10_Rezid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm24_RezidListForm.pas">
+            <Form>frm24_RezidList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm28_RezidBottomEditForm.pas">
+            <Form>frm28_RezidBottomEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm12_CurrencyFrame.pas">
+            <Form>fm12_Currency</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm69_CurrencyListForm.pas">
+            <Form>frm69_CurrencyList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm05_SumMultiEditForm.pas">
+            <Form>frm05_SumMultiEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm106_DataSourceForm.pas">
+            <Form>frm106_DataSource</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\C001_OpersByDateForm.pas">
+            <Form>C001_OpersByDate</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm14_LoadConstUnt.pas"/>
+        <DCCReference Include="..\Source\frm14_ProgressForm.pas">
+            <Form>frm14_Progress</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm04_Prm711KOFrame.pas">
+            <Form>fm04_Prm711KO</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm63_711EditForm.pas">
+            <Form>frm63_711Edit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm96_711LinksForm.pas">
+            <Form>frm96_711Links</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm21SepDescriptionFrame.pas">
+            <Form>fm21SepDescription</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm41_SecTypeForLinksFrame.pas">
+            <Form>fm41_SecTypeForLinks</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm27_SecTypeFrame.pas">
+            <Form>fm27_SecType</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm12_ListFrame.pas">
+            <Form>fm12_List</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm14_711CodeFrame.pas">
+            <Form>fm14_711Code</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm73_711CodeListForm.pas">
+            <Form>frm73_711CodeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm94_EmitentLinkListForm.pas">
+            <Form>frm94_EmitentLinkList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm64_711EditForm.pas">
+            <Form>frm64_711Edit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_TypeSecFrame.pas">
+            <Form>C002_TypeSec</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_AccountFilterFrame.pas">
+            <Form>B004_AccountFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_SectorFilterFrame.pas">
+            <Form>B004_SectorFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B002_BankFilterFrame.pas">
+            <Form>B002_BankFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\G001_IssuerGroupFrame.pas">
+            <Form>G001_IssuerGroup</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F003_SecTypeFrame.pas">
+            <Form>F003_SecType</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F003_FileFrame.pas">
+            <Form>F003_File</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F003_TimeFrame.pas">
+            <Form>F003_Time</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_DataPeriodFilterFrame.pas">
+            <Form>F005_DataPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_ReporterFilterFrame.pas">
+            <Form>F005_ReporterFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers12Frame.pas">
+            <Form>F005_Opers12</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm02_AboutFrom.pas">
+            <Form>frm02_About</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\untTask.pas"/>
+        <DCCReference Include="..\Source\frm26_ParamsEditForm.pas">
+            <Form>frm26_ParamsEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm89_WaitForm.pas">
+            <Form>frm89_Wait</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\untPrmRestorer.pas"/>
+        <DCCReference Include="..\Source\untDBTree.pas"/>
+        <DCCReference Include="..\Source\frm98_711OpListForm.pas">
+            <Form>frm98_711OpList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm95_EmissionLinkListForm.pas">
+            <Form>frm95_EmissionLinkList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm92_IssuerListForm.pas">
+            <Form>frm92_IssuerList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm93_OpListForm.pas">
+            <Form>frm93_OpList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm02_PictersData.pas">
+            <Form>dm02_Picters</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm04_WorldReportData.pas">
+            <Form>dm04_WorldReport</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\untWorldReport.pas"/>
+        <DCCReference Include="..\Source\frm38_NewReportsForm.pas">
+            <Form>frm38_NewReports</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm38_NewReportsOpGCIForm.pas">
+            <Form>frm38_NewReportsOpGCI</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm12_ReplLogForm.pas">
+            <Form>frm12_ReplLog</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm42_ClassificationForm.pas">
+            <Form>frm42_Classification</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm65_SelectPeriodForm.pas">
+            <Form>frm65_SelectPeriod</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm43_SettingsForm.pas">
+            <Form>frm43_Settings</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm40_BankStateForm.pas">
+            <Form>frm40_BankState</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm41_ContrStateForm.pas">
+            <Form>frm41_ContrState</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm40_ProgressForm.pas">
+            <Form>frm40_Progress</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm70_BankStateHistoryForm.pas">
+            <Form>frm70_BankStateHistory</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm66_KOStateListForm.pas">
+            <Form>frm66_KOStateList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm41_RezidGrpForm.pas">
+            <Form>frm41_RezidGrp</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm41_RezidStateForm.pas">
+            <Form>frm41_RezidState</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm41_ContrGrpStateForm.pas">
+            <Form>frm41_ContrGrpState</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm67_ContrStateListForm.pas">
+            <Form>frm67_ContrStateList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm90_SumReportsForm.pas">
+            <Form>frm90_SumReports</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm04_ListFrame.pas">
+            <Form>frm04_ListFrm</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A001_0_LoadEmitForm.pas">
+            <Form>A001_0_LoadEmit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A001_1_SelectFileForm.pas">
+            <Form>frm101_1_SelectFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A001_2_SparkEmitForm.pas">
+            <Form>frm101_2_LoadFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A001_3_SparkSaveForm.pas">
+            <Form>frm101_3_SaveData</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm80_CalcRemainsForm.pas">
+            <Form>frm80_CalcRemains</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm81_RemainsSecTypeForm.pas">
+            <Form>frm81_RemainsSecType</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm82_RemainsPeriodListForm.pas">
+            <Form>frm82_RemainsPeriodList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsNotLinkedForm.pas">
+            <Form>frm83_RemainsNotLinked</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\untProgressThreads.pas"/>
+        <DCCReference Include="..\Source\frm52_ProgressForm.pas">
+            <Form>frm52_Progress</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsNotLinkedEditForm.pas">
+            <Form>frm83_RemainsNotLinkedEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_Remains405ListForm.pas">
+            <Form>frm83_Remains405List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsOtherListForm.pas">
+            <Form>frm83_RemainsOtherList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsOthOpsListForm.pas">
+            <Form>frm83_RemainsOthOpsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsEditForm.pas">
+            <Form>frm83_RemainsEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsBreakForm.pas">
+            <Form>frm83_RemainsBreak</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsHisListForm.pas">
+            <Form>frm83_RemainsHisList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsOthOpsEditFrom.pas">
+            <Form>frm83_RemainsOthOpsEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsOtherEditFrom.pas">
+            <Form>frm83_RemainsOtherEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsRatesForm.pas">
+            <Form>frm83_RemainsRates</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm86_RemainsPortDayListForm.pas">
+            <Form>frm86_RemainsPortDayList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm85_RemainsPortListForm.pas">
+            <Form>frm85_RemainsPortList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsSelectedListForm.pas">
+            <Form>frm83_RemainsSelectedList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_DefaultSetListForm.pas">
+            <Form>frm83_DefaultSetList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm831_EmissPaymentsListForm.pas">
+            <Form>frm831_EmissPaymentsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_DefaultRepaymentsListForm.pas">
+            <Form>frm83_DefaultRepaymentsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_DefaultRepaymentEditForm.pas">
+            <Form>frm83_DefaultRepaymentEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_DefaultOperationsListForm.pas">
+            <Form>frm83_DefaultOperationsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_SelectedFieldsFrame.pas">
+            <Form>A006_SelectedFields</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_FieldsListFrame.pas">
+            <Form>A006_FieldsList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_FilterListFrame.pas">
+            <Form>A006_FilterList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_FilterEditForm.pas">
+            <Form>A006_FilterEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_SelectorForm.pas">
+            <Form>A006_Selector</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_1_PTSettingsForm.pas">
+            <Form>A006_1_PTSettings</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm35_EmissGroupFrame.pas">
+            <Form>fm35_EmissGroup</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm100_InvTypesP2ListForm.pas">
+            <Form>frm100_InvTypesP2List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_RemainsFrame.pas">
+            <Form>E001_Remains</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_RemFieldsFrame.pas">
+            <Form>E001_RemFields</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_RemainsEditFrame.pas">
+            <Form>E001_RemainsEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_HistoryListForm.pas">
+            <Form>E001_HistoryList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_TypeSecFrame.pas">
+            <Form>E001_TypeSec</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_TimeFrame.pas">
+            <Form>E001_Time</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_Step02Frame.pas">
+            <Form>E001_Step02</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_PeriodFilterFrame.pas">
+            <Form>E002_PeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_SecTypeFilterFrame.pas">
+            <Form>E002_SecTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_DrLinkGridFrame.pas">
+            <Form>E002_DrLinkGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_PeriodFrame.pas">
+            <Form>C002_Period</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_OpCodeFrame.pas">
+            <Form>C002_OpCode</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_IssuerFrame.pas">
+            <Form>C002_Issuer</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_CheckRatesBottomFrame.pas">
+            <Form>C002_CheckRatesBottom</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_FilesFrame.pas">
+            <Form>F001_Files</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_DataFrame.pas">
+            <Form>F001_Data</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_TimeFrame.pas">
+            <Form>F001_Time</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_Step02Frame.pas">
+            <Form>F001_Step02</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\D000_LinkResidForm.pas">
+            <Form>D000_LinkResid</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\D000_ResidSelectForm.pas">
+            <Form>D000_ResidSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\D001_LinkNresidForm.pas">
+            <Form>D001_LinkNresid</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\D001_NresidSelectForm.pas">
+            <Form>D001_NresidSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm54_MMVBRatesForm.pas">
+            <Form>frm54_MMVBRates</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm54_MMVBRatesLoadForm.pas">
+            <Form>frm54_MMVBRatesLoad</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm107_MMVBRatesLoad2Form.pas">
+            <Form>frm107_MMVBRatesLoad2</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBRightListForm.pas">
+            <Form>frm74_MMVBRightList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm45_DoubleListForm.pas">
+            <Form>frm45_DoubleList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm45_DoubleListTopForm.pas">
+            <Form>frm45_DoubleListTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm45_DoubleListBottomForm.pas">
+            <Form>frm45_DoubleListBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBItemsForm.pas">
+            <Form>frm74_MMVBItems</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm200_GKORatesItemListForm.pas">
+            <Form>frm200_GKORatesItemList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm76_CalcQuotMItemsForm.pas">
+            <Form>frm76_CalcQuotMItems</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm76_CalcQuotMEdit2Form.pas">
+            <Form>frm76_CalcQuotMEdit2</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm76_CalcQuotMEditForm.pas">
+            <Form>frm76_CalcQuotMEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm58_101EditForm.pas">
+            <Form>frm58_101Edit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm58_101ChoiceForm.pas">
+            <Form>frm58_101Choice</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm56_664BankListForm.pas">
+            <Form>frm56_664BankList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm57_664OperListForm.pas">
+            <Form>frm57_664OperList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage1GridFrame.pas">
+            <Form>B000_LoadPage1Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_PeriodFilterFrame.pas">
+            <Form>B000_PeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_ReportTypeFilterFrame.pas">
+            <Form>B000_ReportTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage2ProgressFrame.pas">
+            <Form>B000_LoadPage2Progress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage3GridFrame.pas">
+            <Form>B000_LoadPage3Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_EmissionsFrame.pas">
+            <Form>B004_Emissions</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_PeriodFilterFrame.pas">
+            <Form>B004_PeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_PartFilterFrame.pas">
+            <Form>B004_PartFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_PrizFilterFrame.pas">
+            <Form>B004_PrizFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_Step02Frame.pas">
+            <Form>B004_Step02</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A000_ParserAdoExcelDM.pas">
+            <Form>A000_ParserAdoExcel</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_PeriodFilterFrame.pas">
+            <Form>F005_PeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_FileHeaders.pas"/>
+        <DCCReference Include="..\Source\A000_FileDescUnt.pas"/>
+        <DCCReference Include="..\Source\A000_ParserDM.pas">
+            <Form>A000_Parser</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage1Frame.pas">
+            <Form>F005_LoadPage1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksStep2GridFrame.pas">
+            <Form>F005_LinksStep2Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_PartsFilterFrame.pas">
+            <Form>F005_PartsFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksPeriodFilterFrame.pas">
+            <Form>F005_LinksPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksStep2Frame.pas">
+            <Form>F005_LinksStep2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\I001_LoadWizardForm.pas">
+            <Form>I001_LoadWizard</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\I001_SelectFileForm.pas">
+            <Form>I001_SelectFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\I001_LoadedFileForm.pas">
+            <Form>I001_LoadedFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\I001_SaveDataForm.pas">
+            <Form>I001_SaveData</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm10_ReportsListForm.pas">
+            <Form>frm10_ReportsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm10_ReportsPrmForm.pas">
+            <Form>frm10_ReportsPrm</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm17_DirectionFrame.pas">
+            <Form>fm17_Direction</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm18_SecTypeFilterFrame.pas">
+            <Form>fm18_SecTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm21_QuarterFrame.pas">
+            <Form>fm21_Quarter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm22_OperSHSFrame.pas">
+            <Form>fm22_OperSHS</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm23_OperBONFrame.pas">
+            <Form>fm23_OperBON</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm24_ProcFrame.pas">
+            <Form>fm24_Proc</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm25_711QuarterFrame.pas">
+            <Form>fm25_711Quarter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm26_711CodeFrame.pas">
+            <Form>fm26_711Code</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm27_SecRep31Frame.pas">
+            <Form>fm27_SecRep31</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm28_AllSHSFrame.pas">
+            <Form>fm28_AllSHS</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm28_SHSListFrame.pas">
+            <Form>fm28_SHSList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm29_BONListFrame.pas">
+            <Form>fm29_BONList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm30_MonthFrame.pas">
+            <Form>fm30_Month</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm30_MonthFromFrame.pas">
+            <Form>fm30_MonthFrom</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm30_MonthToFrame.pas">
+            <Form>fm30_MonthTo</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm32_BONEmissListFrame.pas">
+            <Form>fm32_BONEmissList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm33_711BlueEmissFrame.pas">
+            <Form>fm33_711BlueEmiss</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm34_BlueEmissListFrame.pas">
+            <Form>fm34_BlueEmissList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm35_RepoFrame.pas">
+            <Form>fm35_Repo</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm37_DateTreeFrame.pas">
+            <Form>fm37_DateTree</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm38_CurrUsdFrame.pas">
+            <Form>fm38_CurrUsd</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm39_CurrFilterFrame.pas">
+            <Form>fm39_CurrFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm40_RezidTypeFrame.pas">
+            <Form>fm40_RezidType</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm45_FinInterFrame.pas">
+            <Form>fm45_FinInter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm46_FinInterAllFrame.pas">
+            <Form>fm46_FinInterAll</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm04_LookUpExtFrame.pas">
+            <Form>fm04_LookUpExt</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\P002_SectorFrame.pas">
+            <Form>P002_Sector</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\P003_SecTypesFrame.pas">
+            <Form>P003_SecTypes</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\P004_CountCodesFrame.pas">
+            <Form>P004_CountCodes</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm44_SectorsRepListFrame.pas">
+            <Form>Tfm44_SectorsRepList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm03_ReportsData.pas">
+            <Form>dm03_Reports</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm79_711CodeListForm.pas">
+            <Form>frm79_711CodeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm90_SumReports711Form.pas">
+            <Form>frm90_SumReports711</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm07_OperListForm.pas">
+            <Form>frm07_OperList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm07_OperEditForm.pas">
+            <Form>frm07_OperEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm08_PayListForm.pas">
+            <Form>frm08_PayList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm08_PayEditForm.pas">
+            <Form>frm08_PayEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm59_DayListForm.pas">
+            <Form>frm59_DayList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm59_DayEditForm.pas">
+            <Form>frm59_DayEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm27_LinkerForm.pas">
+            <Form>frm27_Linker</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm27_LinkerBottomForm.pas">
+            <Form>frm27_LinkerBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm36_MonthFrame.pas">
+            <Form>fm36_MonthAll</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm50_IssuerTopForm.pas">
+            <Form>frm50_IssuerTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm27_LinkerTopForm.pas">
+            <Form>frm27_LinkerTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupListItemForm.pas">
+            <Form>frm47_IssuerGroupListItem</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupDoubleForm.pas">
+            <Form>frm47_IssuerGroupDouble</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupTopForm.pas">
+            <Form>frm47_IssuerGroupTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupBottomForm.pas">
+            <Form>frm47_IssuerGroupBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupEditForm.pas">
+            <Form>frm47_IssuerGroupEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm33_IssuerTypeListForm.pas">
+            <Form>frm33_IssuerTypeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm33_IssuerTypeEditForm.pas">
+            <Form>frm33_IssuerTypeEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm21_EmitTypeListForm.pas">
+            <Form>frm21_EmitTypeList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm21_EmitTypeEditForm.pas">
+            <Form>frm21_EmitTypeEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A005_0_MCForm.pas">
+            <Form>A005_0_MC</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A005_1_MCFileForm.pas">
+            <Form>A005_1_MCFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A005_2_MCEmitForm.pas">
+            <Form>A005_2_MCEmit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A005_3_MCSaveForm.pas">
+            <Form>A005_3_MCSave</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A004_0_RSNForm.pas">
+            <Form>A004_0_RSN</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A004_1_RSNFileForm.pas">
+            <Form>A004_1_RSNFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A004_2_RSNEmitForm.pas">
+            <Form>A004_2_RSNEmit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A004_3_RSNSaveForm.pas">
+            <Form>A004_3_RSNSave</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A003_0_FSFRForm.pas">
+            <Form>A003_0_FSFR</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A003_1_FSFRFileForm.pas">
+            <Form>A003_1_FSFRFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A003_2_FSFREmitForm.pas">
+            <Form>A003_2_FSFREmit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A003_3_FSFRSaveForm.pas">
+            <Form>A003_3_FSFRSave</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm51_EmisLinkerForm.pas">
+            <Form>frm51_EmisLinker</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm51_EmisBottomForm.pas">
+            <Form>frm51_EmisBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm51_EmisTopForm.pas">
+            <Form>frm51_EmisTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm36_SostVypListForm.pas">
+            <Form>frm36_SostVypList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm36_SostVypEditForm.pas">
+            <Form>frm36_SostVypEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm37_SposobRazmListForm.pas">
+            <Form>frm37_SposobRazmList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm37_SposobRazmEditForm.pas">
+            <Form>frm37_SposobRazmEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\G001_EmissionsFrame.pas">
+            <Form>G001_Emissions</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\G002_RatesFrame.pas">
+            <Form>G002_Rates</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\G003_RequestsFrame.pas">
+            <Form>G003_Requests</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A007_0_CbondsLoad1Form.pas">
+            <Form>A007_0_CbondsLoad1</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A007_1_SelectFileForm.pas">
+            <Form>A007_1_SelectFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A007_2_LoadedFileForm.pas">
+            <Form>A007_2_LoadedFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A007_3_SaveDataForm.pas">
+            <Form>A007_3_SaveData</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A002_3_ScrinSaveForm.pas">
+            <Form>A002_3_ScrinSave</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A008_0_CbondsLoad2Form.pas">
+            <Form>A008_0_CbondsLoad2</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A008_1_SelectFileForm.pas">
+            <Form>A008_1_SelectFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A008_2_LoadedFileForm.pas">
+            <Form>A008_2_LoadedFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A008_3_SaveDataForm.pas">
+            <Form>A008_3_SaveData</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A002_2_ScrinEmitForm.pas">
+            <Form>A002_2_ScrinEmit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A009_0_CbondsLoad3Form.pas">
+            <Form>A009_0_CbondsLoad3</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A009_1_SelectFileForm.pas">
+            <Form>A009_1_SelectFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A009_2_LoadedFileForm.pas">
+            <Form>A009_2_LoadedFile</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A009_3_SaveDataForm.pas">
+            <Form>A009_3_SaveData</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\H001_CBondsStocksListForm.pas">
+            <Form>H001_CBondsStocksList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\H002_CBondsEmissionsListForm.pas">
+            <Form>H002_CBondsEmissionsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\H003_FlowsListForm.pas">
+            <Form>H003_FlowsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm06_BondListForm.pas">
+            <Form>frm06_BondList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm06_BondEditForm.pas">
+            <Form>frm06_BondEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm22_CBListForm.pas">
+            <Form>frm22_CBList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm23_BankListForm.pas">
+            <Form>frm23_BankList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm20_EmitListForm.pas">
+            <Form>frm20_EmitList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm84_BICListForm.pas">
+            <Form>frm84_BICList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage2GridFrame.pas">
+            <Form>F005_LoadPage2Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage2Frame.pas">
+            <Form>F005_LoadPage2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\P001_EmissGroupFrame.pas">
+            <Form>P001_EmissGroup</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm97_711IssuerListForm.pas">
+            <Form>frm97_711IssuerList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm91_405LinksForm.pas">
+            <Form>frm91_405Links</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm04_TabListForm.pas">
+            <Form>frm04_TabList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm881_SectorsListForm.pas">
+            <Form>frm881_SectorsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_2_PTDataForm.pas">
+            <Form>A006_2_PTData</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A006_0_PTForm.pas">
+            <Form>A006_0_PT</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage1Frame.pas">
+            <Form>B000_LoadPage1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage2Frame.pas">
+            <Form>B000_LoadPage2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadPage3Frame.pas">
+            <Form>B000_LoadPage3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_LoadWizardFrame.pas">
+            <Form>B000_LoadWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm14_DBFParentListForm.pas">
+            <Form>frm14_DBFParentList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_IssuersFrame.pas">
+            <Form>B004_Issuers</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_Step01Frame.pas">
+            <Form>B004_Step01</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B004_WizardFrame.pas">
+            <Form>B004_Wizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C002_CheckRatesFrame.pas">
+            <Form>C002_CheckRates</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_Step01Frame.pas">
+            <Form>E001_Step01</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_WizardFrame.pas">
+            <Form>E001_Wizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_DrLinkForm.pas">
+            <Form>E002_DrLink</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_DrListForm.pas">
+            <Form>E002_DrList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_Step01Frame.pas">
+            <Form>F001_Step01</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F001_WizardFrame.pas">
+            <Form>F001_Wizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F003_NDFrame.pas">
+            <Form>F003_ND</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksStep1GridFrame.pas">
+            <Form>F005_LinksStep1Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksStep1Frame.pas">
+            <Form>F005_LinksStep1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LinksWizardFrame.pas">
+            <Form>F005_LinksWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers11Frame.pas">
+            <Form>F005_Opers11</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_OpersFrame.pas">
+            <Form>F005_Opers</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadWizardFrame.pas">
+            <Form>F005_LoadWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm42_IndustryFrame.pas">
+            <Form>fm42_Industry</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm100_InvTypesListForm.pas">
+            <Form>frm100_InvTypesList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm102_BON1ListForm.pas">
+            <Form>frm102_BON1List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm17_664ListForm.pas">
+            <Form>frm17_664List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm200_GKORatesListForm.pas">
+            <Form>frm200_GKORatesList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm28_RezidSelectForm.pas">
+            <Form>frm28_RezidSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm30_EmissionListForm.pas">
+            <Form>frm30_EmissionList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm30_EmissionSelectForm.pas">
+            <Form>frm30_EmissionSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm31_EmisInfEditForm.pas">
+            <Form>frm31_EmisInfEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm31_EmisInfListForm.pas">
+            <Form>frm31_EmisInfList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm32_IssuerEditForm.pas">
+            <Form>frm32_IssuerEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm47_IssuerGroupListForm.pas">
+            <Form>frm47_IssuerGroupList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm32_IssuerSelectForm.pas">
+            <Form>frm32_IssuerSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm49_NRezidSelectForm.pas">
+            <Form>frm49_NRezidSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm50_IssuerBottomForm.pas">
+            <Form>frm50_IssuerBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm50_IssuerBottomEditForm.pas">
+            <Form>frm50_IssuerBottomEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm50_IssuerLinkerForm.pas">
+            <Form>frm50_IssuerLinker</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm53_CountryListForm.pas">
+            <Form>frm53_CountryList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm58_101ListForm.pas">
+            <Form>frm58_101List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm60_DividentsListForm.pas">
+            <Form>frm60_DividentsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm63_711ListForm.pas">
+            <Form>frm63_711List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm64_711ListForm.pas">
+            <Form>frm64_711List</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBDoubleBottomForm.pas">
+            <Form>frm74_MMVBDoubleBottom</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBDoubleTopForm.pas">
+            <Form>frm74_MMVBDoubleTop</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBDoubleForm.pas">
+            <Form>frm74_MMVBDouble</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm74_MMVBListForm.pas">
+            <Form>frm74_MMVBList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm76_CalcQuotListForm.pas">
+            <Form>frm76_CalcQuotList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_DefaultRemainsListForm.pas">
+            <Form>frm83_DefaultRemainsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm83_RemainsListForm.pas">
+            <Form>frm83_RemainsList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm881_SectorForSelectForm.pas">
+            <Form>frm881_SectorForSelect</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage1aGridFrame.pas">
+            <Form>F005_LoadPage1aGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage1aFrame.pas">
+            <Form>F005_LoadPage1a</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage2aFrame.pas">
+            <Form>F005_LoadPage2a</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage3aGridFrame.pas">
+            <Form>F005_LoadPage3aGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage3aFrame.pas">
+            <Form>F005_LoadPage3a</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPage2aProgressFrame.pas">
+            <Form>F005_LoadPage2aProgress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadWizard_aFrame.pas">
+            <Form>F005_LoadWizard_a</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\A000_File2DbDM.pas">
+            <Form>A000_File2Db</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers23Frame.pas">
+            <Form>F005_Opers23</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_OpersFrame.pas">
+            <Form>B000_Opers</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers11Frame.pas">
+            <Form>B000_Opers11</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_RemainsPeriodFilterFrame.pas">
+            <Form>B000_RemainsPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers12Frame.pas">
+            <Form>B000_Opers12</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers13Frame.pas">
+            <Form>B000_Opers13</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers14Frame.pas">
+            <Form>B000_Opers14</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers21Frame.pas">
+            <Form>B000_Opers21</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers22Frame.pas">
+            <Form>B000_Opers22</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers23Frame.pas">
+            <Form>B000_Opers23</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\B000_Opers3Frame.pas">
+            <Form>B000_Opers3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_SourcesDlg.pas">
+            <Form>E002_Sources</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E002_SourcesGridFrame.pas">
+            <Form>E002_SourcesGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_p1.pas">
+            <Form>z001_p1_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_p2.pas">
+            <Form>z001_p2_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_wp1.pas">
+            <Form>z001_wp1frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\SumData_Frame.pas">
+            <Form>SumData</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_wp2.pas">
+            <Form>z001_wp2_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\untInterfaces.pas"/>
+        <DCCReference Include="..\Source\z001_w2.pas">
+            <Form>z001_w2_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z_act_frame.pas">
+            <Form>z_act</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_compare_frame.pas">
+            <Form>z001_compare</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_Vert_frame.pas">
+            <Form>z001_Vert</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_compare_form.pas">
+            <Form>z001_CompareForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_Vert_form.pas">
+            <Form>z001_VertForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_p4.pas">
+            <Form>z001_p4_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_wp3.pas">
+            <Form>z001_wp3_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z001_Tabs.pas">
+            <Form>z001_TABS_frame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z002_fm_hist_grd_frame.pas">
+            <Form>z002_fm_hist_grd</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z002_fm_filter_frame.pas">
+            <Form>z002_fm_filter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z002_type_filter_frame.pas">
+            <Form>z002_type_filter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z002_handler_filter_frame.pas">
+            <Form>z002_handler_filter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\z002_inv_filter_frame.pas">
+            <Form>z002_inv_filter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers3Frame.pas">
+            <Form>F005_Opers3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers13Frame.pas">
+            <Form>F005_Opers13</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers14Frame.pas">
+            <Form>F005_Opers14</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers21Frame.pas">
+            <Form>F005_Opers21</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers22Frame.pas">
+            <Form>F005_Opers22</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers121Frame.pas">
+            <Form>F005_Opers121</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_Opers23EditFrame.pas">
+            <Form>F005_Opers23Edit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm92_IssuerEditForm.pas">
+            <Form>frm92_IssuerEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\F005_LoadPeriodFilterFrame.pas">
+            <Form>F005_LoadPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm028_HDoubleListFrame.pas">
+            <Form>fmHDoubleList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_IssuerTypeFilterFrame.pas">
+            <Form>K001_IssuerTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_IssuerInnFilterFrame.pas">
+            <Form>K001_IssuerInnFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ReestersGridFrame.pas">
+            <Form>K001_ReestersGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ReesterIssuersAllFrame.pas">
+            <Form>K001_ReesterIssuersAll</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_CountryFilterFrame.pas">
+            <Form>K001_CountryFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_IssuersLinksFrame.pas">
+            <Form>K001_IssuersLinks</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_RecTypeFilterFrame.pas">
+            <Form>K001_RecTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K002_EmissionsLinksFrame.pas">
+            <Form>K002_EmissionsLinks</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K002_EmissionSecTypeFilterFrame.pas">
+            <Form>K002_EmissionSecTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ReesterIssuersMainFrame.pas">
+            <Form>K001_ReesterIssuersMain</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ReesterEmissionsAllFrame.pas">
+            <Form>K001_ReesterEmissionsAll</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ReesterEmissionsMainFrame.pas">
+            <Form>K001_ReesterEmissionsMain</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_IssuerEditDlg.pas">
+            <Form>K001_IssuerEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_OpersFrame.pas">
+            <Form>J002_Opers</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_RequestDialog.pas">
+            <Form>E001_RequestDlg</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_DataPeriodFilterFrame.pas">
+            <Form>J002_DataPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_DgTypeFilterFrame.pas">
+            <Form>J002_DgTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_OpSidesFilterFrame.pas">
+            <Form>J002_OpSidesFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_Opers405Frame.pas">
+            <Form>J002_Opers405</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage3GridFrame.pas">
+            <Form>J002_LoadPage3Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage3Frame.pas">
+            <Form>J002_LoadPage3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage2ProgressFrame.pas">
+            <Form>J002_LoadPage2Progress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage2Frame.pas">
+            <Form>J002_LoadPage2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadWizardFrame.pas">
+            <Form>J002_LoadWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage1Frame.pas">
+            <Form>J002_LoadPage1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPage1GridFrame.pas">
+            <Form>J002_LoadPage1Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_LoadPeriodFilterFrame.pas">
+            <Form>J002_LoadPeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_OpTypeFilterFrame.pas">
+            <Form>J002_OpTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\K001_ToolArrowsForm.pas">
+            <Form>K001_ToolArrows</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_RateEditDlg.pas">
+            <Form>E001_RateEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_SiDetailsForm.pas">
+            <Form>E001_SiDetails</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_SiDetailsFrame.pas">
+            <Form>E001_SiDetailsGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm05_SecTypeEditDlg.pas">
+            <Form>frm05_SecTypeEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_InnEditDlg.pas">
+            <Form>J002_InnEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\frm05_DrCountEditDlg.pas">
+            <Form>frm05_DrCountEdit</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_LogMIPFrame.pas">
+            <Form>E001_LogMIP</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\E001_CalcOptionsForm.pas">
+            <Form>E001_CalcOptions</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\J002_KontrTypeFilterFrame.pas">
+            <Form>J002_KontrTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_SumListFrame.pas">
+            <Form>L001_SumList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_PeriodFilterFrame.pas">
+            <Form>L001_PeriodFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_BankFilterFrame.pas">
+            <Form>L001_BankFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_OpCodeFilterFrame.pas">
+            <Form>L001_OpCodeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_SecTypeFilterFrame.pas">
+            <Form>L001_SecTypeFilter</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\L001_SumListEditFrame.pas">
+            <Form>L001_SumListEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadWizardFrame.pas">
+            <Form>M001_LoadWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadPage1Frame.pas">
+            <Form>M001_LoadPage1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadWizardFrame.pas">
+            <Form>M002_IsuLoadWizard</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadPage1Frame.pas">
+            <Form>M002_IsuLoadPage1</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadPage3GridFrame.pas">
+            <Form>M002_IsuLoadPage3Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuEditFrame.pas">
+            <Form>M002_IsuEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuListFrame.pas">
+            <Form>M002_IsuList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuListHistoryForm.pas">
+            <Form>M002_IsuListHistory</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuListHistoryGridFrame.pas">
+            <Form>M002_IsuListHistoryGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_InnKoListFrame.pas">
+            <Form>M001_InnKoList</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_InnKoEditFrame.pas">
+            <Form>M001_InnKoEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_InnKoHistoryForm.pas">
+            <Form>M001_InnKoHistoryList</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_InnKoHistoryListFrame.pas">
+            <Form>M001_InnKoHistoryGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C003_FictiveCriteriaForm.pas">
+            <Form>C003_FictiveCriteria</Form>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm007_Settings.pas">
+            <Form>dmSettings</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C003_FictiveCriteriaInnListFrame.pas">
+            <Form>C003_FictiveCriteriaInnListGrid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\C003_FictiveCriteriaInnListForm.pas">
+            <Form>C003_FictiveCriteriaInnList</Form>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm009_ProgressFrame.pas">
+            <Form>fmProgress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadPage2ProgressFrame.pas">
+            <Form>M001_LoadPage2Progress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadPage2Frame.pas">
+            <Form>M001_LoadPage2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadPage3Frame.pas">
+            <Form>M002_IsuLoadPage3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadPage3Frame.pas">
+            <Form>M001_LoadPage3</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M001_LoadPage3GridFrame.pas">
+            <Form>M001_LoadPage3Grid</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadPage2Frame.pas">
+            <Form>M002_IsuLoadPage2</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_IsuLoadPage2ProgressFrame.pas">
+            <Form>M002_IsuLoadPage2Progress</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\fm47_ShowRatesPrm.pas">
+            <Form>fm47_ShowRates</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\M002_PeriodFilterFrame.pas">
+            <Form>M002_PeriodFilter</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\dm004_ParentData.pas">
+            <Form>dmParent</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Source\dm005_MainData.pas">
+            <Form>dmMain</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm008_DBObjectFrame.pas">
+            <Form>fmDBObject</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm004_ListFrame.pas">
+            <Form>fmList</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm031_FilterFrame.pas">
+            <Form>fm031_Filter</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Каркас\Source\fm005_GridFrame.pas">
+            <Form>fmGrid</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">Form405.dpr</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+            </Platforms>
+            <Deployment Version="3">
+                <DeployFile LocalName="..\exe\Form405.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>Form405.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidClassesDexFile">
+                    <Platform Name="Android">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidFileProvider">
+                    <Platform Name="Android">
+                        <RemoteDir>res\xml</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\xml</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidGDBServer">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiv7aFile">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeMipsFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\mips</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\mips</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidServiceOutput">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\arm64-v8a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidServiceOutput_Android32">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashImageDef">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStyles">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV21">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_Colors">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_DefaultAppIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon144">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon96">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon24">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon96">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xxxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage426">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage470">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-normal</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-normal</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage640">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-large</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-large</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage960">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_Strings">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DebugSymbols">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyFramework">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="DependencyPackage">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.bpl</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="File">
+                    <Platform Name="Android">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1024x768">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536x2048">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1668">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1668x2388">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048x1536">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048x2732">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2224">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2388x1668">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2732x2048">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch768x1024">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1125">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1136x640">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1242">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1242x2688">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1334">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1792">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2208">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2436">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2688x1242">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch750">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch828">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectAndroidManifest">
+                    <Platform Name="Android">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements">
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSInfoPList">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXDebug">
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements">
+                    <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXResource">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="ProjectOutput">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\arm64-v8a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Linux64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOutput_Android32">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectUWPManifest">
+                    <Platform Name="Win32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win64">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="UWP_DelphiLogo150">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="UWP_DelphiLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
+            </Deployment>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+    <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+</Project>

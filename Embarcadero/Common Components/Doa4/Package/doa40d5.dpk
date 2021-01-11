@@ -1,0 +1,62 @@
+package doa40d5;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Direct Oracle Access 4.0.7'}
+{$DESIGNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl50,
+  VCLDB50,
+  vclx50;
+
+contains
+  OracleReg in 'OracleReg.pas',
+  OracleTypes in 'OracleTypes.pas',
+  OracleVarEdit in 'OracleVarEdit.pas',
+  OracleLogon in 'OracleLogon.pas',
+  OracleData in 'OracleData.pas',
+  Oracle in 'Oracle.pas',
+  OracleCI in 'OracleCI.pas',
+  OracleSQLEdit in 'OracleSQLEdit.pas',
+  OracleExplorer in 'OracleExplorer.pas',
+  OracleDesign in 'OracleDesign.pas',
+  OracleSeqFldEdit in 'OracleSeqFldEdit.pas',
+  OracleNavigator in 'OracleNavigator.pas',
+  OracleQBEEdit in 'OracleQBEEdit.pas',
+  OracleConstraintsEdit in 'OracleConstraintsEdit.pas',
+  OracleFilter in 'OracleFilter.pas',
+  OracleTools in 'OracleTools.pas',
+  OraclePreferences in 'OraclePreferences.pas',
+  OracleDPColumnsEdit in 'OracleDPColumnsEdit.pas',
+  OracleQB in 'OracleQB.pas',
+  OracleDefaults in 'OracleDefaults.pas',
+  OracleSelForm in 'OracleSelForm.pas',
+  OracleVisual in 'OracleVisual.pas',
+  OracleCompress in 'OracleCompress.pas';
+
+end.

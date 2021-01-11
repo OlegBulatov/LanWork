@@ -1,0 +1,138 @@
+unit SPARK_settingsForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,  Grids, StdCtrls, ExtCtrls, USettingsManager, Excel2000, z_ExcelExport;
+
+type
+
+  TSparkSettingsForm = class(TForm)
+    Panel1: TPanel;
+    bnSave: TButton;
+    sbMain: TScrollBox;
+    sgSettings: TStringGrid;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    bnExcel: TButton;
+    bnClose: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure bnSaveClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure bnCloseClick(Sender: TObject);
+    procedure bnExcelClick(Sender: TObject);
+  private
+    { Private declarations }
+    sManager: TSettingsManager;
+    checkboxes: TList;
+    FExclReport: TExclReport;
+    procedure InitGrid;
+    procedure RefreshSettings;
+  public
+    { Public declarations }
+    class procedure ManageSettings;
+  end;
+
+implementation
+
+{$R *.DFM}
+
+
+procedure TSparkSettingsForm.FormCreate(Sender: TObject);
+begin
+        FExclReport := TExclReport.Create(nil);
+        sManager := TSettingsManager.Create;
+        checkboxes := TList.Create;
+        //sManager.InitGrid(sgSettings, sbMain);
+        InitGrid;
+end;
+
+
+procedure TSparkSettingsForm.bnSaveClick(Sender: TObject);
+begin
+        RefreshSettings;
+        sManager.SaveSettings;
+        Close;
+end;
+
+class procedure TSparkSettingsForm.ManageSettings;
+var
+  SparkSettingsForm: TSparkSettingsForm;
+begin
+   SparkSettingsForm := TSparkSettingsForm.Create(Application);
+   SparkSettingsForm.ShowModal;
+   SparkSettingsForm.Free;
+end;
+
+procedure TSparkSettingsForm.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+        FExclReport.Free;
+        sManager.Free;
+        checkboxes.Free;
+end;
+
+
+procedure TSparkSettingsForm.InitGrid;
+var i: Integer;
+        chB: TCheckBox;
+        state: String;
+        SparkSetting: TSparkSetting;
+begin
+        sgSettings.RowCount := sManager.SettingsList.Count;
+        sgSettings.RowHeights[0] := 20;
+        for i := 0 to sManager.SettingsList.Count - 1 do begin
+                SparkSetting := TSparkSetting(sManager.SettingsList[i]);
+                sgSettings.RowHeights[i] := 20;
+                sgSettings.Rows[i][0] :=  SparkSetting.SystemName;
+                sgSettings.Rows[i][1] :=  SparkSetting.UserName;
+                sgSettings.Rows[i][2] :=  SparkSetting.Description;
+                chB := TCheckBox.Create(sbMain);
+                chB.Parent := sbMain;
+                chB.Tag := i;
+                chB.Top:= 4+ i*21;
+                chB.Caption := '';
+                chB.Width := 17;
+                chB.Color := $FFFFFF;
+                chB.Left := sgSettings.Width - 40;
+                chB.Checked := SparkSetting.Checked;
+                chB.Enabled := SparkSetting.Enabled;
+                checkboxes.Add(chB);
+        end;
+end;
+
+procedure TSparkSettingsForm.RefreshSettings;
+var
+        i: Integer;
+        SparkSetting: TSparkSetting;
+begin
+        for i := 0 to sManager.SettingsList.Count - 1 do begin
+                SparkSetting := TSparkSetting.CreateFromData(sgSettings.Rows[i], checkboxes[i]);
+                TObject(sManager.SettingsList[i]).Free;
+                sManager.SettingsList[i] := SparkSetting;
+        end;
+end;
+
+procedure TSparkSettingsForm.bnCloseClick(Sender: TObject);
+begin
+        Close;
+end;
+
+procedure TSparkSettingsForm.bnExcelClick(Sender: TObject);
+var
+  f : TextFile;
+begin
+        Rewrite(f, 'spark_settings.csv');
+        Writeln(f, 'Название в файле;Описание;Обяз.');
+        CloseFile(f);
+        FExclReport.Connect;
+        FExclReport.OpenWorkbook(ExtractFilePath(ParamStr(0)) + 'spark_settings.csv');
+        FExclReport.ScreenUpdating := true;
+        FExclReport.Visible := true;
+        FExclReport.Disconnect;
+end;
+
+end.

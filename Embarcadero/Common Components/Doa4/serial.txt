@@ -1,0 +1,29 @@
+Thank you for the order. The registered version of the Direct Oracle Access components can be downloaded from:
+
+http://www.allroundautomations.com/registered/doa.html
+
+To install the software you need a product code. This code includes information about the ordered product, version, licenses, service contract and more. This is a personal code that should NOT be distributed to others than the licensed user(s).
+
+Product code: 2H6F - ZN2G - 3XC9 - G9C2 - DLXB - XAC2
+
+Product: Direct Oracle Access, Object version
+- Serial number: 293.41189
+- Licenses: 1
+- Base version: 4.1
+- Service contract expiration date: No service contract
+- Oracle Monitor: Lite
+
+The serial number is a unique number per customer. The Base version is the version for which you can download patches. If you have a service contract you can download any version, until the contract period has expired.
+
+Contact information:
+- Company: OOO Expovision
+- Name: Sergey Ilyin
+- Email address: 
+
+Please notify us if any information above is incorrect.
+
+If you have any questions or suggestions about Direct Oracle Access, don't hesitate to contact us. We value all feedback from our users.
+
+Greetings,
+Hans Kalter (sales@allroundautomations.com)
+Allround Automations (http://www.allroundautomations.com)

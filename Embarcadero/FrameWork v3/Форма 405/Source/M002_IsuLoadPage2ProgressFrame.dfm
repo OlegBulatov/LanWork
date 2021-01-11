@@ -1,0 +1,2 @@
+inherited M002_IsuLoadPage2Progress: TM002_IsuLoadPage2Progress
+end

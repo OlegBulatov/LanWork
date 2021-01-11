@@ -1,0 +1,18 @@
+; This contents file was created with HelpScribble 5.2.0
+; Registered to: 
+
+:BASE Ekrtf.hlp
+:TITLE Ek RTF report component
+1 Overview
+2 Using TEkRtf component=Scribble10
+1 Component description
+2 Properties=Scribble11
+2 Methods=Scribble12
+2 Events=Scribble15
+1 Creating report template
+2 Creating report in MS Word or other editor=Scribble20
+2 Code example=Scribble13
+2 Format functions=Scribble25
+2 User defined functions=Scribble88
+2 Inserting graphics=Scribble30
+2 Inserting hyperlinks=Scribble52

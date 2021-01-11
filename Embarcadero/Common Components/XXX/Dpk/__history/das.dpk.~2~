@@ -1,0 +1,77 @@
+package das;
+
+{$R *.RES}
+{$R '..\Source\xxxDbLookupCheckCombo.dcr'}
+{$ALIGN ON}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$IMPLICITBUILD ON}
+
+requires
+  vcl50,
+  Vcldb50,
+  dclstd50,
+  Vclmid50,
+  Mx_midas,
+  VclSmp50,
+  RxCtl5,
+  RxDB5,
+  doa40d5;
+
+contains
+  xxxDateEdit in '..\Source\xxxDateEdit.pas',
+  xxxLabelEdit in '..\Source\xxxLabelEdit.pas',
+  xxxRegister in '..\Source\xxxRegister.pas',
+  DBDateTimePicker in '..\Source\DBDateTimePicker.pas',
+  xxxDBGridPopupMenu in '..\Source\xxxDBGridPopupMenu.pas' {DataModule1: TDataModule},
+  xxxDBGridLookUp in '..\Source\xxxDBGridLookUp.pas',
+  frmParent in '..\Source\frmParent.pas' {frmParentForm},
+  frmDialog in '..\Source\frmDialog.pas' {frmDialogForm},
+  frmColumnSelector in '..\Source\frmColumnSelector.pas' {frmColumnSelectorForm},
+  xxxDBGrid in '..\Source\xxxDBGrid.pas',
+  frmMultiSelector in '..\Source\frmMultiSelector.pas' {frmMultiSelectorForm},
+  frmFilterList in '..\Source\frmFilterList.pas' {frmFilterListForm},
+  frmFilterEdit in '..\Source\frmFilterEdit.pas' {frmFilterEditForm},
+  fmFilterValue in '..\Source\fmFilterValue.pas' {fmFilterValueFrame: TFrame},
+  fmFilterValueNumb1 in '..\Source\fmFilterValueNumb1.pas' {fmFilterValueNumbFrame1: TFrame},
+  fmFilterValueEmpty in '..\Source\fmFilterValueEmpty.pas' {fmFilterValueEmptyFrame: TFrame},
+  fmFilterValueNumb2 in '..\Source\fmFilterValueNumb2.pas' {fmFilterValueNumbFrame2: TFrame},
+  fmFilterValueDate1 in '..\Source\fmFilterValueDate1.pas' {fmFilterValueDateFrame1: TFrame},
+  fmFilterValueDate2 in '..\Source\fmFilterValueDate2.pas' {fmFilterValueDateFrame2: TFrame},
+  fmFilterValueDate3 in '..\Source\fmFilterValueDate3.pas' {fmFilterValueDateFrame3: TFrame},
+  fmFilterValueDate4 in '..\Source\fmFilterValueDate4.pas' {fmFilterValueDateFrame4: TFrame},
+  fmFilterValueDate5 in '..\Source\fmFilterValueDate5.pas' {fmFilterValueDateFrame5: TFrame},
+  fmFilterValueDate6 in '..\Source\fmFilterValueDate6.pas' {fmFilterValueDateFrame6: TFrame},
+  fmFilterValueDate7 in '..\Source\fmFilterValueDate7.pas' {fmFilterValueDateFrame7: TFrame},
+  fmFilterValueDate8 in '..\Source\fmFilterValueDate8.pas' {fmFilterValueDateFrame8: TFrame},
+  fmFilterValueDate9 in '..\Source\fmFilterValueDate9.pas' {fmFilterValueDateFrame9: TFrame},
+  fmFilterValueDate10 in '..\Source\fmFilterValueDate10.pas' {fmFilterValueDateFrame10: TFrame},
+  fmFilterValueNumb3 in '..\Source\fmFilterValueNumb3.pas' {fmFilterValueNumbFrame3: TFrame},
+  fmFilterValueNumb4 in '..\Source\fmFilterValueNumb4.pas' {fmFilterValueNumbFrame4: TFrame},
+  fmFilterValueText1 in '..\Source\fmFilterValueText1.pas' {fmFilterValueTextFrame1: TFrame},
+  fmFilterValueText3 in '..\Source\fmFilterValueText3.pas' {fmFilterValueTextFrame3: TFrame},
+  fmFilterValueText2 in '..\Source\fmFilterValueText2.pas' {fmFilterValueTextFrame2: TFrame},
+  unt001_Filter in '..\Source\unt001_Filter.pas',
+  untParams in '..\Source\untParams.pas',
+  xxxFilterLookUp in '..\Source\xxxFilterLookUp.pas',
+  xxxDbLookupCheckCombo in '..\Source\xxxDbLookupCheckCombo.pas';
+
+end.

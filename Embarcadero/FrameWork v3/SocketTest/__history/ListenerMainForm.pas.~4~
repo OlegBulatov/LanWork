@@ -1,0 +1,639 @@
+unit ListenerMainForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Menus, ComCtrls, StdCtrls, ShellApi, BlpData, Bloomberg, BlpListener, ImgList,
+  ActnList, BlpLog, Db, System.Actions, System.ImageList;
+
+const
+  LOG_LEVEL_DEBUG: integer = 6;
+  LOG_DIR:         string = 'Logs';
+  PROG_NAME:       string = 'BlpServer';
+
+  WM_ICONTRAY = WM_USER + 1032;
+
+  SHOW_ON_START:   string = 'Y';
+
+type
+  TIconType  = (iServerOff, iServerOn, iServerRequest, iServerError);
+
+  TFormMain = class(TForm)
+    MainMenu: TMainMenu;
+    N1: TMenuItem;
+    LogMemo: TMemo;
+    StatusBar: TStatusBar;
+    TrayMenu: TPopupMenu;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N10: TMenuItem;
+    pmiQuit: TMenuItem;
+    ImageList32: TImageList;
+
+    ActionList1: TActionList;
+    actStart: TAction;
+    actQuit: TAction;
+    actShow: TAction;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button5: TButton;
+    Button4: TButton;
+    Button6: TButton;
+    Button7: TButton;
+    Button8: TButton;    procedure FormCreate(Sender: TObject);
+    procedure actStartExecute(Sender: TObject);
+    procedure actQuitExecute(Sender: TObject);
+    procedure actShowExecute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
+  private
+    TrayIconData: TNotifyIconData;
+    //
+    IconServerOff: TIcon;
+    IconServerOn: TIcon;
+    IconServerRequest: TIcon;
+    IconServerError: TIcon;
+    //
+    FLog: TBlpLog;
+    //
+    FBloomberg: TBloomberg;
+    FListener: TBlpListener;
+    //
+    FLastOracleErrorCode: integer;
+    FLastBlpErrorCode: integer;
+    //
+    procedure WmIconTray(var Msg: TMessage); message WM_ICONTRAY;
+    procedure WMSysCommand(var Msg: TWMSysCommand) ; message WM_SYSCOMMAND;
+    //
+    procedure SetIcon(AIcon: TIconType);
+    //
+    procedure ConnectBlp(IsRetry: boolean);
+    procedure ConnectDb(IsRetry: boolean);
+  public
+    procedure Log(Sender: TObject; LogLevel: integer; Msg: string; ToFile: boolean);
+    procedure LogResult(ResultText: string; ToFile: boolean);
+    //
+    function  BlpReady: boolean;
+    function  DoRequest(var Buf: string): integer;
+    procedure SendRequest(Request: TServerRequest; var Buf: string);
+  end;
+
+var
+  FormMain: TFormMain;
+
+implementation
+
+uses FileCtrl, BlpDm, BlpConsts, BlpApi, Oracle, BlpClient, OracleData, ProcModule;
+
+{$R *.DFM}
+
+procedure TFormMain.FormCreate(Sender: TObject);
+begin
+
+  BlpDb.FOwner := Self;
+
+  // Log
+  FLog := TBlpLog.Create(Self);
+  FLog.Init(LogMemo);
+
+  CreateMutex(nil, True, PChar(PROG_NAME));
+  if GetLastError = ERROR_ALREADY_EXISTS then
+    begin
+    Log(Self, 0, 'Already running. Terminating...', True);
+    Application.Terminate;
+    Exit;
+    end;
+
+  Log(Self, 6, 'Старт программы.', True);
+
+  // Иконки
+  IconServerOff := TIcon.Create;
+  ImageList32.GetIcon(0, IconServerOff);
+  IconServerOn := TIcon.Create;
+  ImageList32.GetIcon(1, IconServerOn);
+  IconServerRequest := TIcon.Create;
+  ImageList32.GetIcon(2, IconServerRequest);
+  IconServerError := TIcon.Create;
+  ImageList32.GetIcon(3, IconServerError);
+
+  Application.Icon := IconServerOff;
+
+  // Tray
+  with TrayIconData do
+    begin
+    cbSize := SizeOf;
+    Wnd := Handle;
+    uID := 0;
+    uFlags := NIF_MESSAGE + NIF_ICON + NIF_TIP;
+    uCallbackMessage := WM_ICONTRAY;
+    hIcon := IconServerOff.Handle; // Для начала - Server OFF
+    StrPCopy(szTip, Application.Title);
+    end;
+
+  Shell_NotifyIcon(NIM_ADD, @TrayIconData);
+
+  // Bloomberg
+  try
+    InitBlpApi;
+  except
+    on E: Exception do
+      begin
+      Log(Self, 0, E.Message + '. Terminating...', True);
+      Application.Terminate;
+      Exit;
+      end;
+  end;
+
+  FBloomberg := TBloomberg.Create(Self);
+
+  // Oracle - соединение в Start
+
+  // Listener
+  try
+    FListener := TBlpListener.Create(Self);
+    FListener.OnLog := Log;
+  except
+    on E: Exception do
+      begin
+      Log(Self, 0, E.Message + '. Terminating...', True);
+      Application.Terminate;
+      Exit;
+      end;
+  end;
+
+//  if dmMain.ParamList.Values['Show on start'] = 'Y' then
+  if SHOW_ON_START = 'Y' then
+    Self.Visible := True
+  else
+    begin
+   // dmMain.ParamList.Values['Show on start'] := 'N';
+    Self.Visible := False;
+    end;
+
+  Application.ProcessMessages;
+
+  // Стартуем Bloomberg, Oracle и Listener;
+  actStartExecute(Self);
+
+  Application.ProcessMessages;
+
+  if (FBloomberg.Connected = True) or (FListener.Active = True) then
+    SetIcon(iServerOn);
+
+end;
+
+procedure TFormMain.FormDestroy(Sender: TObject);
+begin
+  FLog.Free;
+end;
+
+procedure TFormMain.SetIcon(AIcon: TIconType);
+begin
+  case AIcon of
+    iServerOff:     TrayIconData.hIcon := IconServerOff.Handle;
+    iServerOn:      TrayIconData.hIcon := IconServerOn.Handle;
+    iServerRequest: TrayIconData.hIcon := IconServerRequest.Handle;
+    iServerError:   TrayIconData.hIcon := IconServerError.Handle;
+  end;
+  Shell_NotifyIcon(NIM_Modify, @TrayIconData);
+  Application.ProcessMessages;
+end;
+
+procedure TFormMain.WmIconTray(var Msg: TMessage);
+var
+  CursorPos : TPoint;
+begin
+  case Msg.lParam of
+    WM_LBUTTONDBLCLK:
+      begin
+      WindowState := wsNormal;
+      SetForegroundWindow(handle);
+      Show;
+      end;
+    WM_RBUTTONDOWN:
+      begin
+      GetCursorPos(CursorPos);
+      SetForegroundWindow(Handle);
+      TrayMenu.Popup(CursorPos.x, CursorPos.y);
+      PostMessage(Handle, WM_NULL, 0, 0);
+      end;
+  else
+    inherited;
+  end;
+end;
+
+procedure TFormMain.WMSysCommand(var Msg: TWMSysCommand);
+begin
+  if Msg.CmdType = SC_MINIMIZE then
+    begin
+    Hide;
+    end
+//  else if Msg.CmdType = SC_CLOSE then
+//    begin
+//    Hide;
+//    end
+  else
+    inherited;
+end;
+
+procedure TFormMain.Log(Sender: TObject; LogLevel: integer; Msg: string; ToFile: boolean);
+begin
+  FLog.LogLn(Sender, LogLevel, Msg, ToFile);
+end;
+
+procedure TFormMain.LogResult(ResultText: string; ToFile: boolean);
+begin
+  FLog.LogResult(ResultText, ToFile);
+end;
+
+function TFormMain.BlpReady: boolean;
+begin
+  if FBloomberg.Connected = False then
+    ConnectBlp(True);
+  Result := FBloomberg.Connected;
+//  Result := True; // Для отладки !!!
+end;
+
+procedure TFormMain.SendRequest(Request: TServerRequest; var Buf: string);
+begin
+  FBloomberg.SendRequest(Request, Buf);
+end;
+
+function TFormMain.DoRequest(var Buf: string): integer;
+var
+  vRequest: TServerRequest;
+begin
+  Result := 0;
+  vRequest := nil;
+  try
+    try
+      if Buf = '' then
+        raise Exception.Create('Invalid reqiest: no request data');
+
+      vRequest := TServerRequest.Create;
+      vRequest.Unpack(Buf);
+
+      if (vRequest.RequestType <> REFERENCE) and (vRequest.RequestType <> HISTORICAL) and (vRequest.RequestType <> DATABASE) then
+        raise Exception.CreateFmt('Invalid request type: "%s"', [vRequest.RequestType]);
+
+      if (vRequest.RequestType = DATABASE) then
+        BlpDb.GetDbRequestData(vRequest, 0);
+
+      FBloomberg.SendRequest(vRequest, Buf); // здесь может быть Exception:
+
+      // Если запрос через DB (RequestNo <> 0)
+      if (vRequest.RequestNo <> 0) then
+        begin
+        BlpDb.SaveDbResultData(vRequest, Buf); // здесь может быть Exception:
+        // - надо заполнить ResultCode и ResultInfo в Request
+        // - и записать их в Buf
+        end;
+
+    except
+      on E: Exception do
+        begin
+        Buf := E.Message;
+//        Log(Self, 6, E.Message, True);
+        Result := -1; // А надо Error Code
+        end;
+    end;
+  finally
+    vRequest.Free;
+  end;
+end;
+
+procedure TFormMain.ConnectBlp(IsRetry: boolean);
+begin
+  if not FBloomberg.Connected then
+    begin
+    if IsRetry = False then
+      Log(Self, 1, 'Установление связи с Bloomberg...', True)
+    else
+      Log(Self, 1, 'Восстановление связи с Bloomberg...', True);
+
+    try
+      FBloomberg.InitSession;
+      SetIcon(iServerOn);
+      LogResult('Ок', True);
+      // Восстанавливаем интервал таймера запросов  на 5 сек
+//      RequestTimer.Interval := StrToIntDef(dmMain.ParamList.Values['Request time'], 5) * 1000;
+//      RequestTimer.Enabled := True;
+    except
+      on E: Exception do
+        begin
+        if E is EBlpapiError then
+          begin
+          // пропускаем повторяющиеся ошибки
+          if EBlpapiError(E).ErrorCode <> FLastBlpErrorCode then
+            begin
+            FLastBlpErrorCode := EBlpapiError(E).ErrorCode;
+            LogResult(TrimRight(E.Message), True);
+            end;
+          end
+        else
+          LogResult(TrimRight(E.Message), True);
+        end;
+    end;
+    end;
+end;
+
+procedure TFormMain.ConnectDb(IsRetry: boolean);
+begin
+  if BlpDb.OracleSession.CheckConnection(False) <> ccOk then
+    begin
+    if IsRetry = False then
+      Log(Self, 1, 'Установление сессии Oracle...', True)
+    else
+      Log(Self, 1, 'Восстановление сессии Oracle...', True);
+
+    try
+      BlpDb.OracleSession.LogOn;
+      SetIcon(iServerOn);
+      LogResult('Ок', True);
+      // Восстанавливаем интервал таймера запросов  на 5 сек
+//      RequestTimer.Interval := StrToIntDef(dmMain.ParamList.Values['Request time'], 5) * 1000;
+//      RequestTimer.Enabled := True;
+    except
+      on E: Exception do
+        begin
+        if E is EOracleError then
+          begin
+          // пропускаем повторяющиеся ошибки
+          if EOracleError(E).ErrorCode <> FLastOracleErrorCode then
+            begin
+            FLastOracleErrorCode := EOracleError(E).ErrorCode;
+          // Если текст ошибки из нескольких строк - отсекаем строки детализации ошибки
+            if Pos(#10, TrimRight(E.Message)) <> 0 then
+              LogResult(Copy(TrimRight(E.Message), 0, Pos(#10, TrimRight(E.Message))), True)
+            else
+              LogResult(TrimRight(E.Message), True);
+            end;
+          end
+        else
+          LogResult(TrimRight(E.Message), True);
+        end;
+    end;
+    end;
+end;
+
+procedure TFormMain.actStartExecute(Sender: TObject);
+begin
+  // Стартуем Bloomberg
+  ConnectBlp(False);
+  // Стартуем Oracle
+  ConnectDb(False);
+  // Стартуем Listener
+  FListener.Active := True;
+end;
+
+procedure TFormMain.actQuitExecute(Sender: TObject);
+begin
+  // Выход
+  Shell_NotifyIcon(NIM_DELETE, @TrayIconData);
+  Close;
+end;
+
+procedure TFormMain.actShowExecute(Sender: TObject);
+begin
+  WindowState := wsNormal;
+  SetForegroundWindow(handle);
+  Show;
+end;
+
+procedure TFormMain.Button1Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+  Response: TResponseData;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+  vClient.RequestType := REFERENCE;
+//  vClient.AddSecurity('USXXXXXXXXX', 'LUKOY US Equity');
+//  vClient.AddSecurity('USXXXXXXXXX', 'LUK TH Equity');
+//  vClient.AddSecurity('USXXXXXXXXX', '/ISIN/AT0000A0V4E3');
+//  vClient.AddSecurity('USXXXXXXXXX', '/ISIN/US69343P1057');
+  vClient.AddSecurity('USXXXXXXXXX', 'xs0889401054');
+  vClient.AddSecurity('USXXXXXXXXX', 'AT0000A0V4E3');
+  vClient.AddSecurity('USXXXXXXXXX', 'US69343P1057');
+  vClient.AddField('ID_ISIN');
+  vClient.AddField('ADR_UNDL_TICKER');
+  vClient.AddField('CRNCY');
+  vClient.AddField('QUOTED_CRNCY');
+  vClient.AddField('TRADE_CRNCY');
+  //vClient.AddField('ISIN_TICKER_EXCH_LIST', ['Ticker_and_Exchange_Code']);
+  vClient.AddField('PARSEKYABLE_DES');
+  vClient.AddField('TICKER');
+  vClient.AddField('EXCH_CODE');
+  vClient.AddField('MARKET_SECTOR_DES');
+  vClient.AddField('EQY_PRIM_SECURITY_TICKER');
+  vClient.AddField('EQY_PRIM_SECURITY_PRIM_EXCH');
+
+//  vRequest.StartDate := '01.01.2016';
+//  vRequest.EndDate := '15.01.2016';
+  vClient.User := 'TestUser';
+
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult), True);
+  Response := vClient.Parse(vData);
+
+  vClient.Free;
+end;
+
+// historical
+procedure TFormMain.Button2Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+  Response: TResponseData;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+  vClient.RequestType := HISTORICAL;
+  vClient.AddSecurity('USXXXXXXXXX', 'RE646257 Corp');
+//  vClient.AddSecurity('US69343P1057', '/ISIN/US69343P1057');
+//  vClient.AddSecurity('USXXXXXXXXX', '/ISIN/US83088M1027');
+//  vClient.AddField('ID_ISIN');
+  vClient.AddField('PX_ASK', ['date', 'PX_ASK']);
+  vClient.AddField('PX_LAST', ['date', 'PX_LAST']);
+  vClient.AddField('PX_VOLUME', ['date', 'PX_VOLUME']);
+  vClient.StartDate := StrToDate('15.12.2015');
+  vClient.EndDate := StrToDate('31.12.2015');
+//  vClient.Periodicity := 'MONTHLY';
+//  vClient.Currency := 'GBP';
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult), True);
+
+  Response := vClient.Parse(vData);
+
+  vClient.Free;
+end;
+
+// Цепочка через DB: запрос котировок по ISIN (ISIN->Тикеры->котировки)
+procedure TFormMain.Button3Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+  vClient.RequestType := DATABASE;
+  vClient.RequestNo := 1;
+  vClient.AddSecurity('US69343P1057', '/ISIN/US69343P1057');
+  vClient.StartDate := StrToDate('01.01.2016');
+  vClient.EndDate := StrToDate('15.01.2016');
+  vClient.Currency := 'GBP';
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult), True);
+
+  vClient.Free;
+end;
+
+procedure TFormMain.Button5Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+  vClient.RequestType := DATABASE;
+  vClient.RequestNo := 3;
+  vClient.AddSecurity('US69343P1057', '=/ISIN/US69343P1057');
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult) + '(' + vData + ')', True);
+
+  vClient.Free;
+end;
+
+// Запрос D8 (котировки+объем за год)
+procedure TFormMain.Button4Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+  vClient.RequestType := DATABASE;
+  vClient.RequestNo := 8;
+  vClient.AddSecurity('US69343P1057', 'LKOD EU Equity');
+  vClient.StartDate := StrToDate('01.01.2015');
+  vClient.EndDate := StrToDate('01.02.2016');
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult) + '(' + vData + ')', True);
+
+  vClient.Free;
+
+end;
+// Список бирж
+procedure TFormMain.Button6Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+
+  Response: TResponseData;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+//  vClient.RequestType := DATABASE;
+  vClient.RequestType := REFERENCE;
+  vClient.AddSecurity('US69343P1057', '/ISIN/US69343P1057');
+//  vClient.RequestNo := 7;
+  vClient.AddField('ISIN_TICKER_EXCH_LIST', ['Ticker_and_Exchange_Code']);
+
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+//Log(Self, 1, 'Result = ' + IntToStr(vResult) + '(' + vData + ')', True);
+
+  Response := vClient.Parse(vData);
+
+  vClient.Free;
+end;
+
+procedure TFormMain.Button7Click(Sender: TObject);
+var
+  vIsin: string;
+//  vResult: integer;
+  vData: string;
+  vRateID: double;
+  vDate: TDateTime;
+begin
+//  vIsin := 'US459200AR21'; IBM долговая
+  vIsin := 'GB00BDW0BX87';
+//  vIsin := '';
+
+  vDate := Now;
+  if GetRate(vIsin, 2015, 'TestUser', vRateID, vData, BlpDb.OracleSession) <> 0 then
+    ShowMessage(vData)
+  else
+    begin
+    ShowMessage(DateTimeToStr(Now - vDate));
+    ShowMessage(FloatToStr(vRateID));
+    end;
+
+end;
+
+procedure TFormMain.Button8Click(Sender: TObject);
+var
+  vClient: TBlpClient;
+  vResult: integer;
+  vData: string;
+begin
+  vClient := TBlpClient.Create(Self);
+  vClient.OnLog := Log;
+
+//  vClient.RequestType := BLP_CONTROL;
+  vClient.RequestType := DATABASE;
+  vClient.RequestNo := 9;
+  vClient.AddSecurity('US69343P1057', '/ISIN/US69343P1057');
+  vClient.StartDate := StrToDate('01.01.2015');
+  vClient.EndDate := StrToDate('01.02.2015');
+  vClient.User := 'TestUser';
+
+  vResult := vClient.SendRequest(vData);
+
+Log(Self, 1, 'Result = ' + IntToStr(vResult) + '(' + vData + ')', True);
+
+  vClient.Free;
+
+
+
+end;
+
+end.
+

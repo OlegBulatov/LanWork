@@ -1,0 +1,1484 @@
+inherited A007_2_LoadedFile: TA007_2_LoadedFile
+  Left = 90
+  Top = 180
+  Caption = #1044#1072#1085#1085#1099#1077' '#1074' '#1092#1072#1081#1083#1077
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited spRight: TSplitter
+    Height = 392
+    ExplicitLeft = 817
+    ExplicitHeight = 601
+  end
+  object Label9: TLabel [1]
+    Left = 12
+    Top = 20
+    Width = 33
+    Height = 13
+    Hint = #1042#1089#1077#1075#1086' '#1082#1086#1084#1087#1072#1085#1080#1081
+    Caption = #1042#1089#1077#1075#1086':'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+  end
+  inherited paRight: TPanel
+    Height = 392
+    ExplicitLeft = 820
+    ExplicitHeight = 601
+  end
+  inherited paMain: TPanel
+    Height = 392
+    ExplicitWidth = 817
+    ExplicitHeight = 601
+    inherited ToolBar2: TToolBar
+      Top = 78
+      ExplicitTop = 78
+      ExplicitWidth = 817
+      inherited ToolButton18: TToolButton
+        Hint = #1055#1077#1088#1077#1079#1072#1075#1088#1091#1079#1080#1090#1100' '#1092#1072#1081#1083' (Ctrl+L)'
+        Action = nil
+        Caption = #1055#1077#1088#1077#1079#1072#1075#1088#1091#1079#1080#1090#1100
+        ImageIndex = 12
+        MenuItem = N3
+        OnClick = nil
+      end
+      inherited ToolButton19: TToolButton
+        Left = 189
+        ExplicitLeft = 189
+      end
+      inherited ToolButton4: TToolButton
+        Left = 263
+        ExplicitLeft = 263
+      end
+      inherited ToolBar1: TToolBar
+        Left = 271
+        ExplicitLeft = 271
+      end
+      inherited sp02: TToolButton
+        Left = 340
+        ExplicitLeft = 340
+      end
+      inherited tbSimFilter: TToolButton
+        Left = 348
+        ExplicitLeft = 348
+      end
+      inherited tbSep01: TToolButton
+        Left = 432
+        ExplicitLeft = 432
+      end
+      inherited tlbSearch: TToolBar
+        Left = 440
+        ExplicitLeft = 440
+      end
+      inherited ToolButton13: TToolButton
+        Left = 500
+        ExplicitLeft = 500
+      end
+      inherited tbExcel: TToolButton
+        Left = 508
+        ExplicitLeft = 508
+      end
+      object ToolButton5: TToolButton
+        Left = 615
+        Top = 0
+        Width = 8
+        Caption = 'ToolButton5'
+        ImageIndex = 6
+        Style = tbsSeparator
+      end
+    end
+    inherited xxxDBGrid: TxxxDBGrid
+      Top = 101
+      Height = 262
+      OnColEnter = xxxDBGridColEnter
+      AdvSettings.HeadersLines = <
+        item
+          Headers = <
+            item
+              FirstCol = 2
+              LastCol = 5
+              Caption = #1053#1072#1079#1074#1072#1085#1080#1077' '#1072#1082#1094#1080#1080
+            end>
+        end
+        item
+          Headers = <
+            item
+              FirstCol = 2
+              LastCol = 3
+              Caption = #1050#1088#1072#1090#1082#1086#1077
+            end
+            item
+              FirstCol = 4
+              LastCol = 5
+              Caption = #1055#1086#1083#1085#1086#1077
+            end>
+        end
+        item
+          Headers = <>
+        end>
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'T033_ISSUER_NAME'
+          Title.Alignment = taCenter
+          Title.Caption = #1069#1084#1080#1090#1077#1085#1090
+          Width = 120
+          Visible = True
+        end
+        item
+          Alignment = taRightJustify
+          Expanded = False
+          FieldName = 'T033_ISSUER_INN'
+          Title.Alignment = taCenter
+          Title.Caption = #1048#1053#1053
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_NAME_SHORT_RUS'
+          Title.Alignment = taCenter
+          Title.Caption = #1056#1091#1089#1089#1082'.'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_NAME_SHORT_ENG'
+          Title.Alignment = taCenter
+          Title.Caption = #1040#1085#1075#1083'.'
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_FULL_NAME_RUS'
+          Title.Alignment = taCenter
+          Title.Caption = #1056#1091#1089#1089#1082'.'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_FULL_NAME_ENG'
+          Title.Alignment = taCenter
+          Title.Caption = #1040#1085#1075#1083'.'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_ISSUE_NUMBER'
+          Title.Alignment = taCenter
+          Title.Caption = #1053#1086#1084#1077#1088' '#1074#1099#1087#1091#1089#1082#1072
+          Width = 48
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_EMISSION_TYPE'
+          Title.Alignment = taCenter
+          Title.Caption = #1042#1080#1076' '#1072#1082#1094#1080#1080
+          Width = 38
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_EMISSION_REGN'
+          Title.Alignment = taCenter
+          Title.Caption = #1056#1077#1075'.'#8470
+          Width = 102
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_ISIN'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1076' ISIN'
+          Width = 92
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_NOMINAL'
+          Title.Alignment = taCenter
+          Title.Caption = #1053#1086#1084#1080#1085#1072#1083
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_QUANTITY'
+          Title.Alignment = taCenter
+          Title.Caption = #1054#1073#1097#1077#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1073#1091#1084#1072#1075
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_COMMENT'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1086#1087'. '#1080#1085#1092#1086#1088#1084#1072#1094#1080#1103
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_FREE_PERCENT'
+          Title.Alignment = taCenter
+          Title.Caption = #1055#1088#1086#1094#1077#1085#1090' '#1074' '#1089#1074#1086#1073#1086#1076#1085#1086#1084' '#1086#1073#1088#1072#1097#1077#1085#1080#1080
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_BLUE'
+          Title.Alignment = taCenter
+          Title.Caption = #1043#1086#1083#1091#1073#1072#1103' '#1092#1080#1096#1082#1072
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_IS_JOINED'
+          Title.Caption = #1054#1073#1098#1077#1076#1080#1085#1077#1085' '#1089' '#1076#1088#1091#1075#1080#1084' '#1074#1099#1087#1091#1089#1082#1086#1084
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_JOIN_ID'
+          Title.Alignment = taCenter
+          Title.Caption = #1054#1073#1098#1077#1076#1080#1085#1077#1085#1086' '#1089' '#1074#1099#1087#1091#1089#1082#1086#1084
+          Width = 68
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_JOIN_DATE'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1086#1073#1098#1077#1076#1080#1085#1077#1085#1080#1103
+          Width = 72
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_MMVB_TRADE'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1086#1088#1075#1091#1077#1090#1089#1103' '#1085#1072' '#1052#1052#1042#1041
+          Width = 58
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_MMVB_TICKER'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1080#1082#1077#1088' '#1052#1052#1042#1041
+          Width = 70
+          Visible = True
+        end
+        item
+          ButtonStyle = cbsNone
+          Expanded = False
+          FieldName = 'T033_MMVB_DATE_START'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072' '#1052#1052#1042#1041
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_MMVB_DATE_END'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1086#1082#1086#1085#1095#1072#1085#1080#1103' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072' '#1052#1052#1042#1041
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_MMVB_TRADE_LIST'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1090#1080#1088#1086#1074#1072#1083#1100#1085#1099#1081' '#1083#1080#1089#1090' '#1052#1052#1042#1041
+          Width = 88
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_TRADE'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1086#1088#1075#1091#1077#1090#1089#1103' '#1085#1072' '#1056#1058#1057
+          Width = 58
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_TICKER'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1080#1082#1077#1088' '#1056#1058#1057
+          Width = 40
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_DKK_CODE'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1076' '#1044#1050#1050
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_MAIN'
+          Title.Alignment = taCenter
+          Title.Caption = #1043#1083#1072#1074#1085#1072#1103' '#1101#1084#1080#1089#1089#1080#1103
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_DATE_START'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072' '#1056#1058#1057
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_DATE_END'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1086#1082#1086#1085#1095#1072#1085#1080#1103' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072' '#1056#1058#1057
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_RTS_TRADE_LIST'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1090#1080#1088#1086#1074#1072#1083#1100#1085#1099#1081' '#1083#1080#1089#1090' '#1056#1058#1057
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_TRADE'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1086#1088#1075#1091#1077#1090#1089#1103' '#1085#1072' '#1057#1090#1072#1085#1076#1072#1088#1090
+          Width = 56
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_TICKER'
+          Title.Alignment = taCenter
+          Title.Caption = #1058#1080#1082#1077#1088' '#1057#1090#1072#1085#1076#1072#1088#1090
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_MAIN'
+          Title.Alignment = taCenter
+          Title.Caption = #1043#1083#1072#1074#1085#1072#1103' '#1101#1084#1080#1089#1089#1080#1103
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_DATE_START'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072' '#1057#1090#1072#1085#1076#1072#1088#1090
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_DATE_END'
+          Title.Alignment = taCenter
+          Title.Caption = #1044#1072#1090#1072' '#1086#1082#1086#1085#1095#1072#1085#1080#1103' '#1086#1073#1088#1072#1097#1077#1085#1080#1103' '#1085#1072'  '#1057#1090#1072#1085#1076#1072#1088#1090
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_STANDART_TRADE_LIST'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1090#1080#1088#1086#1074#1072#1083#1100#1085#1099#1081' '#1083#1080#1089#1090' '#1057#1090#1072#1085#1076#1072#1088#1090
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_ISSUER_RATING'
+          Title.Alignment = taCenter
+          Title.Caption = #1056#1077#1081#1090#1080#1085#1075' '#1101#1084#1080#1090#1077#1085#1090#1072
+          Width = 120
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_EMISSION_ID'
+          Title.Alignment = taCenter
+          Title.Caption = 'ID '#1101#1084#1080#1089#1089#1080#1080
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_ISSUER_ID'
+          Title.Caption = 'ID '#1101#1084#1080#1090#1077#1085#1090#1072
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_FILE_NAME'
+          Title.Caption = #1060#1072#1081#1083' '#1079#1072#1075#1088#1091#1079#1082#1080
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_LOAD_DATE'
+          Title.Caption = #1044#1072#1090#1072' '#1079#1072#1075#1088#1091#1079#1082#1080
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_LOADER'
+          Title.Caption = #1050#1077#1084' '#1079#1072#1075#1088#1091#1078#1077#1085#1086
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'T033_FOR_FILTER'
+          Title.Caption = #1044#1083#1103' '#1092#1080#1083#1100#1090#1088#1072
+          Visible = False
+        end>
+    end
+    inherited fmSeach: TfmSeachFrame
+      Top = 36
+      ExplicitTop = 36
+      inherited Panel1: TPanel
+        ExplicitLeft = 790
+      end
+    end
+    inherited fm31_Filter: Tfm31_Filter
+      Top = 57
+      ExplicitTop = 57
+      inherited Panel1: TPanel
+        ExplicitLeft = 790
+      end
+    end
+    object GroupBox1: TPanel
+      Left = 0
+      Top = 363
+      Width = 677
+      Height = 29
+      Align = alBottom
+      BevelOuter = bvNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      ExplicitTop = 572
+      ExplicitWidth = 817
+      object Label1: TLabel
+        Left = 12
+        Top = 7
+        Width = 33
+        Height = 13
+        Hint = #1042#1089#1077#1075#1086' '#1082#1086#1084#1087#1072#1085#1080#1081
+        Caption = #1042#1089#1077#1075#1086':'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label2: TLabel
+        Left = 131
+        Top = 7
+        Width = 36
+        Height = 13
+        Caption = #1053#1086#1074#1099#1093':'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label3: TLabel
+        Left = 259
+        Top = 7
+        Width = 68
+        Height = 13
+        Caption = #1048#1079#1084#1077#1085#1077#1085#1085#1099#1093':'
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object DBText1: TDBText
+        Left = 53
+        Top = 7
+        Width = 46
+        Height = 17
+        DataField = 'R_TOTAL'
+        DataSource = dsTotal
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object DBText2: TDBText
+        Left = 175
+        Top = 7
+        Width = 46
+        Height = 17
+        DataField = 'R_NEW'
+        DataSource = dsTotal
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object DBText4: TDBText
+        Left = 333
+        Top = 7
+        Width = 46
+        Height = 17
+        DataField = 'R_CHANGED'
+        DataSource = dsTotal
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label5: TLabel
+        Left = 501
+        Top = 7
+        Width = 32
+        Height = 13
+        Caption = 'Label5'
+      end
+    end
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 677
+      Height = 36
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 5
+      ExplicitWidth = 817
+      object Label4: TLabel
+        Left = 27
+        Top = 11
+        Width = 105
+        Height = 13
+        Caption = #1055#1086#1082#1072#1079#1099#1074#1072#1090#1100' '#1079#1072#1087#1080#1089#1080':'
+      end
+      object CbShow: TCheckBox
+        Tag = 800
+        Left = 7
+        Top = 10
+        Width = 14
+        Height = 17
+        Caption = #1055#1086#1082#1072#1079#1099#1074#1072#1090#1100' '#1079#1072#1087#1080#1089#1080':'
+        Enabled = False
+        State = cbGrayed
+        TabOrder = 0
+      end
+      object CmbShow: TComboBox
+        Tag = 801
+        Left = 148
+        Top = 8
+        Width = 331
+        Height = 21
+        Style = csDropDownList
+        TabOrder = 1
+        Items.Strings = (
+          #1042#1089#1077
+          #1058#1086#1083#1100#1082#1086' '#1085#1086#1074#1099#1077
+          #1053#1086#1074#1099#1077' '#1080' '#1080#1079#1084#1077#1085#1077#1085#1085#1085#1099#1077
+          #1058#1086#1083#1100#1082#1086' '#1080#1079#1084#1077#1085#1077#1085#1085#1099#1077
+          #1048#1079#1084#1077#1085#1077#1085#1085#1099#1077' '#1085#1086#1074#1099#1084#1080' '#1076#1072#1085#1085#1099#1084#1080
+          #1048#1079#1084#1077#1085#1077#1085#1085#1099#1077' '#1089#1090#1072#1088#1099#1084#1080' '#1076#1072#1085#1085#1099#1084#1080)
+      end
+      object Button1: TButton
+        Left = 487
+        Top = 6
+        Width = 75
+        Height = 25
+        Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+        TabOrder = 2
+        OnClick = Button1Click
+      end
+    end
+  end
+  inherited StatusBar: TStatusBar
+    ExplicitTop = 633
+    ExplicitWidth = 820
+  end
+  inherited pnlButtons: TPanel
+    Top = 392
+    Height = 32
+    ExplicitTop = 601
+    ExplicitWidth = 820
+    ExplicitHeight = 32
+    inherited OKBtn: TButton
+      Left = 798
+      Hint = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1086#1090#1084#1077#1095#1077#1085#1085#1099#1077' '#1079#1072#1087#1080#1089#1080
+      Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100
+      ExplicitLeft = 798
+    end
+    inherited CancelBtn: TButton
+      Left = 878
+      ExplicitLeft = 878
+    end
+  end
+  inherited dsList: TDataSource
+    Top = 267
+  end
+  inherited ActionList: TActionList
+    Left = 104
+    Top = 235
+    inherited actAddAttributes: TAction
+      Enabled = False
+      Visible = False
+    end
+    inherited actDeleteAttributes: TAction
+      Enabled = False
+      Visible = False
+    end
+    inherited actEditAttributes: TAction
+      Caption = #1055#1077#1088#1077#1089#1095#1080#1090#1072#1090#1100
+      Hint = #1055#1077#1088#1077#1089#1095#1080#1090#1072#1090#1100' '#1087#1077#1088#1080#1086#1076
+    end
+  end
+  inherited PopupMenu: TPopupMenu
+    inherited N3: TMenuItem
+      Action = nil
+      Caption = #1055#1077#1088#1077#1079#1072#1075#1088#1091#1079#1080#1090#1100
+      Hint = #1055#1077#1088#1077#1079#1072#1075#1088#1091#1079#1080#1090#1100' '#1092#1072#1081#1083' (Ctrl+L)'
+      ImageIndex = 12
+      ShortCut = 16460
+      OnClick = nil
+    end
+  end
+  inherited odsList: TOracleDataSet
+    SQL.Strings = (
+      'select'
+      '  T033_EMISSION_ID,'
+      '  T033_ISSUER_ID,'
+      '  T033_ISSUER_NAME,'
+      '  T033_ISSUER_INN,'
+      '  T033_NAME_SHORT_RUS,'
+      '  T033_NAME_SHORT_ENG,'
+      '  T033_FULL_NAME_RUS,'
+      '  T033_FULL_NAME_ENG,'
+      '  T033_ISSUE_NUMBER,'
+      '  T033_EMISSION_TYPE,'
+      '  T033_MMVB_TRADE_LIST,'
+      '  T033_RTS_TRADE_LIST,'
+      '  T033_EMISSION_REGN,'
+      '  T033_NOMINAL,'
+      '  T033_QUANTITY,'
+      '  T033_COMMENT,'
+      '  T033_FREE_PERCENT,'
+      '  T033_MMVB_TRADE,'
+      '  T033_MMVB_TICKER,'
+      '  T033_RTS_TRADE,'
+      '  T033_RTS_TICKER,'
+      '  T033_DKK_CODE,'
+      '  T033_RTS_MAIN,'
+      '  T033_STANDART_TRADE,'
+      '  T033_STANDART_TRADE_LIST,'
+      '  T033_STANDART_TICKER,'
+      '  T033_STANDART_MAIN,'
+      '  T033_ISIN,'
+      '  T033_BLUE,'
+      '  T033_MMVB_DATE_START,'
+      '  T033_MMVB_DATE_END,'
+      '  T033_RTS_DATE_START,'
+      '  T033_RTS_DATE_END,'
+      '  T033_STANDART_DATE_START,'
+      '  T033_STANDART_DATE_END,'
+      '  T033_IS_JOINED,'
+      '  T033_JOIN_DATE,'
+      '  T033_JOIN_ID,'
+      '  T033_ISSUER_RATING,'
+      '  T033_FILE_NAME,'
+      '  T033_LOAD_DATE,'
+      '  T033_LOADER,'
+      '  T033_FOR_FILTER,'
+      '  T033_ISSUER_NAME_OLD,'
+      '  T033_ISSUER_INN_OLD,'
+      '  T033_NAME_SHORT_RUS_OLD,'
+      '  T033_NAME_SHORT_ENG_OLD,'
+      '  T033_FULL_NAME_RUS_OLD,'
+      '  T033_FULL_NAME_ENG_OLD,'
+      '  T033_ISSUE_NUMBER_OLD,'
+      '  T033_EMISSION_TYPE_OLD,'
+      '  T033_MMVB_TRADE_LIST_OLD,'
+      '  T033_RTS_TRADE_LIST_OLD,'
+      '  T033_EMISSION_REGN_OLD,'
+      '  T033_NOMINAL_OLD,'
+      '  T033_QUANTITY_OLD,'
+      '  T033_COMMENT_OLD,'
+      '  T033_FREE_PERCENT_OLD,'
+      '  T033_MMVB_TRADE_OLD,'
+      '  T033_MMVB_TICKER_OLD,'
+      '  T033_RTS_TRADE_OLD,'
+      '  T033_RTS_TICKER_OLD,'
+      '  T033_DKK_CODE_OLD,'
+      '  T033_RTS_MAIN_OLD,'
+      '  T033_STANDART_TRADE_OLD,'
+      '  T033_STANDART_TRADE_LIST_OLD,'
+      '  T033_STANDART_TICKER_OLD,'
+      '  T033_STANDART_MAIN_OLD,'
+      '  T033_ISIN_OLD,'
+      '  T033_BLUE_OLD,'
+      '  T033_MMVB_DATE_START_OLD,'
+      '  T033_MMVB_DATE_END_OLD,'
+      '  T033_RTS_DATE_START_OLD,'
+      '  T033_RTS_DATE_END_OLD,'
+      '  T033_STANDART_DATE_START_OLD,'
+      '  T033_STANDART_DATE_END_OLD,'
+      '  T033_IS_JOINED_OLD,'
+      '  T033_JOIN_DATE_OLD,'
+      '  T033_JOIN_ID_OLD,'
+      '  T033_ISSUER_RATING_OLD,'
+      '  T033_ISSUER_NAME_CHD,'
+      '  T033_ISSUER_INN_CHD,'
+      '  T033_NAME_SHORT_RUS_CHD,'
+      '  T033_NAME_SHORT_ENG_CHD,'
+      '  T033_FULL_NAME_RUS_CHD,'
+      '  T033_FULL_NAME_ENG_CHD,'
+      '  T033_ISSUE_NUMBER_CHD,'
+      '  T033_EMISSION_TYPE_CHD,'
+      '  T033_MMVB_TRADE_LIST_CHD,'
+      '  T033_RTS_TRADE_LIST_CHD,'
+      '  T033_EMISSION_REGN_CHD,'
+      '  T033_NOMINAL_CHD,'
+      '  T033_QUANTITY_CHD,'
+      '  T033_COMMENT_CHD,'
+      '  T033_FREE_PERCENT_CHD,'
+      '  T033_MMVB_TRADE_CHD,'
+      '  T033_MMVB_TICKER_CHD,'
+      '  T033_RTS_TRADE_CHD,'
+      '  T033_RTS_TICKER_CHD,'
+      '  T033_DKK_CODE_CHD,'
+      '  T033_RTS_MAIN_CHD,'
+      '  T033_STANDART_TRADE_CHD,'
+      '  T033_STANDART_TRADE_LIST_CHD,'
+      '  T033_STANDART_TICKER_CHD,'
+      '  T033_STANDART_MAIN_CHD,'
+      '  T033_ISIN_CHD,'
+      '  T033_BLUE_CHD,'
+      '  T033_MMVB_DATE_START_CHD,'
+      '  T033_MMVB_DATE_END_CHD,'
+      '  T033_RTS_DATE_START_CHD,'
+      '  T033_RTS_DATE_END_CHD,'
+      '  T033_STANDART_DATE_START_CHD,'
+      '  T033_STANDART_DATE_END_CHD,'
+      '  T033_IS_JOINED_CHD,'
+      '  T033_JOIN_DATE_CHD,'
+      '  T033_JOIN_ID_CHD,'
+      '  T033_ISSUER_RATING_CHD'
+      'from V_DS_STOCKS_LOAD'
+      '')
+    QBEDefinition.QBEFieldDefs = {
+      05000000750000002000000054003000330033005F0045004D00490053005300
+      49004F004E005F00490044000100000000001C00000054003000330033005F00
+      4900530053005500450052005F00490044000100000000002000000054003000
+      330033005F004900530053005500450052005F004E0041004D00450001000000
+      00001E00000054003000330033005F004900530053005500450052005F004900
+      4E004E000100000000002600000054003000330033005F004E0041004D004500
+      5F00530048004F00520054005F00520055005300010000000000260000005400
+      3000330033005F004E0041004D0045005F00530048004F00520054005F004500
+      4E0047000100000000002400000054003000330033005F00460055004C004C00
+      5F004E0041004D0045005F005200550053000100000000002400000054003000
+      330033005F00460055004C004C005F004E0041004D0045005F0045004E004700
+      0100000000002200000054003000330033005F00490053005300550045005F00
+      4E0055004D004200450052000100000000002400000054003000330033005F00
+      45004D0049005300530049004F004E005F005400590050004500010000000000
+      2800000054003000330033005F004D004D00560042005F005400520041004400
+      45005F004C004900530054000100000000002600000054003000330033005F00
+      5200540053005F00540052004100440045005F004C0049005300540001000000
+      00002400000054003000330033005F0045004D0049005300530049004F004E00
+      5F005200450047004E000100000000001800000054003000330033005F004E00
+      4F004D0049004E0041004C000100000000001A00000054003000330033005F00
+      5100550041004E00540049005400590001000000000018000000540030003300
+      33005F0043004F004D004D0045004E0054000100000000002200000054003000
+      330033005F0046005200450045005F00500045005200430045004E0054000100
+      000000001E00000054003000330033005F004D004D00560042005F0054005200
+      4100440045000100000000002000000054003000330033005F004D004D005600
+      42005F005400490043004B00450052000100000000001C000000540030003300
+      33005F005200540053005F00540052004100440045000100000000001E000000
+      54003000330033005F005200540053005F005400490043004B00450052000100
+      000000001A00000054003000330033005F0044004B004B005F0043004F004400
+      45000100000000001A00000054003000330033005F005200540053005F004D00
+      410049004E000100000000002600000054003000330033005F00530054004100
+      4E0044004100520054005F005400520041004400450001000000000030000000
+      54003000330033005F005300540041004E0044004100520054005F0054005200
+      4100440045005F004C0049005300540001000000000028000000540030003300
+      33005F005300540041004E0044004100520054005F005400490043004B004500
+      52000100000000002400000054003000330033005F005300540041004E004400
+      4100520054005F004D00410049004E0001000000000012000000540030003300
+      33005F004900530049004E000100000000001200000054003000330033005F00
+      42004C00550045000100000000002800000054003000330033005F004D004D00
+      560042005F0044004100540045005F0053005400410052005400010000000000
+      2400000054003000330033005F004D004D00560042005F004400410054004500
+      5F0045004E0044000100000000002600000054003000330033005F0052005400
+      53005F0044004100540045005F00530054004100520054000100000000002200
+      000054003000330033005F005200540053005F0044004100540045005F004500
+      4E0044000100000000003000000054003000330033005F005300540041004E00
+      44004100520054005F0044004100540045005F00530054004100520054000100
+      000000002C00000054003000330033005F005300540041004E00440041005200
+      54005F0044004100540045005F0045004E0044000100000000001C0000005400
+      3000330033005F00490053005F004A004F0049004E0045004400010000000000
+      1C00000054003000330033005F004A004F0049004E005F004400410054004500
+      0100000000001800000054003000330033005F004A004F0049004E005F004900
+      44000100000000001C00000054003000330033005F00460049004C0045005F00
+      4E0041004D0045000100000000001C00000054003000330033005F004C004F00
+      410044005F004400410054004500010000000000160000005400300033003300
+      5F004C004F004100440045005200010000000000240000005400300033003300
+      5F004900530053005500450052005F0052004100540049004E00470001000000
+      00001E00000054003000330033005F0046004F0052005F00460049004C005400
+      450052000100000000002800000054003000330033005F004900530053005500
+      450052005F004E0041004D0045005F004F004C00440001000000000026000000
+      54003000330033005F004900530053005500450052005F0049004E004E005F00
+      4F004C0044000100000000002E00000054003000330033005F004E0041004D00
+      45005F00530048004F00520054005F005200550053005F004F004C0044000100
+      000000002E00000054003000330033005F004E0041004D0045005F0053004800
+      4F00520054005F0045004E0047005F004F004C0044000100000000002C000000
+      54003000330033005F00460055004C004C005F004E0041004D0045005F005200
+      550053005F004F004C0044000100000000002C00000054003000330033005F00
+      460055004C004C005F004E0041004D0045005F0045004E0047005F004F004C00
+      44000100000000002A00000054003000330033005F0049005300530055004500
+      5F004E0055004D004200450052005F004F004C0044000100000000002C000000
+      54003000330033005F0045004D0049005300530049004F004E005F0054005900
+      500045005F004F004C0044000100000000003000000054003000330033005F00
+      4D004D00560042005F00540052004100440045005F004C004900530054005F00
+      4F004C0044000100000000002E00000054003000330033005F00520054005300
+      5F00540052004100440045005F004C004900530054005F004F004C0044000100
+      000000002C00000054003000330033005F0045004D0049005300530049004F00
+      4E005F005200450047004E005F004F004C004400010000000000200000005400
+      3000330033005F004E004F004D0049004E0041004C005F004F004C0044000100
+      000000002200000054003000330033005F005100550041004E00540049005400
+      59005F004F004C0044000100000000002000000054003000330033005F004300
+      4F004D004D0045004E0054005F004F004C0044000100000000002A0000005400
+      3000330033005F0046005200450045005F00500045005200430045004E005400
+      5F004F004C0044000100000000002600000054003000330033005F004D004D00
+      560042005F00540052004100440045005F004F004C0044000100000000002800
+      000054003000330033005F004D004D00560042005F005400490043004B004500
+      52005F004F004C0044000100000000002400000054003000330033005F005200
+      540053005F00540052004100440045005F004F004C0044000100000000002600
+      000054003000330033005F005200540053005F005400490043004B0045005200
+      5F004F004C0044000100000000002200000054003000330033005F0044004B00
+      4B005F0043004F00440045005F004F004C004400010000000000220000005400
+      3000330033005F005200540053005F004D00410049004E005F004F004C004400
+      0100000000002E00000054003000330033005F005300540041004E0044004100
+      520054005F00540052004100440045005F004F004C0044000100000000003800
+      000054003000330033005F005300540041004E0044004100520054005F005400
+      52004100440045005F004C004900530054005F004F004C004400010000000000
+      3000000054003000330033005F005300540041004E0044004100520054005F00
+      5400490043004B00450052005F004F004C0044000100000000002C0000005400
+      3000330033005F005300540041004E0044004100520054005F004D0041004900
+      4E005F004F004C0044000100000000001A00000054003000330033005F004900
+      530049004E005F004F004C0044000100000000001A0000005400300033003300
+      5F0042004C00550045005F004F004C0044000100000000003000000054003000
+      330033005F004D004D00560042005F0044004100540045005F00530054004100
+      520054005F004F004C0044000100000000002C00000054003000330033005F00
+      4D004D00560042005F0044004100540045005F0045004E0044005F004F004C00
+      44000100000000002E00000054003000330033005F005200540053005F004400
+      4100540045005F00530054004100520054005F004F004C004400010000000000
+      2A00000054003000330033005F005200540053005F0044004100540045005F00
+      45004E0044005F004F004C004400010000000000380000005400300033003300
+      5F005300540041004E0044004100520054005F0044004100540045005F005300
+      54004100520054005F004F004C00440001000000000034000000540030003300
+      33005F005300540041004E0044004100520054005F0044004100540045005F00
+      45004E0044005F004F004C004400010000000000240000005400300033003300
+      5F00490053005F004A004F0049004E00450044005F004F004C00440001000000
+      00002400000054003000330033005F004A004F0049004E005F00440041005400
+      45005F004F004C0044000100000000002000000054003000330033005F004A00
+      4F0049004E005F00490044005F004F004C004400010000000000280000005400
+      3000330033005F004900530053005500450052005F004E0041004D0045005F00
+      4300480044000100000000002600000054003000330033005F00490053005300
+      5500450052005F0049004E004E005F004300480044000100000000002E000000
+      54003000330033005F004E0041004D0045005F00530048004F00520054005F00
+      5200550053005F004300480044000100000000002E0000005400300033003300
+      5F004E0041004D0045005F00530048004F00520054005F0045004E0047005F00
+      4300480044000100000000002C00000054003000330033005F00460055004C00
+      4C005F004E0041004D0045005F005200550053005F0043004800440001000000
+      00002C00000054003000330033005F00460055004C004C005F004E0041004D00
+      45005F0045004E0047005F004300480044000100000000002A00000054003000
+      330033005F00490053005300550045005F004E0055004D004200450052005F00
+      4300480044000100000000002C00000054003000330033005F0045004D004900
+      5300530049004F004E005F0054005900500045005F0043004800440001000000
+      00003000000054003000330033005F004D004D00560042005F00540052004100
+      440045005F004C004900530054005F004300480044000100000000002E000000
+      54003000330033005F005200540053005F00540052004100440045005F004C00
+      4900530054005F004300480044000100000000002C0000005400300033003300
+      5F0045004D0049005300530049004F004E005F005200450047004E005F004300
+      480044000100000000002000000054003000330033005F004E004F004D004900
+      4E0041004C005F00430048004400010000000000220000005400300033003300
+      5F005100550041004E0054004900540059005F00430048004400010000000000
+      2000000054003000330033005F0043004F004D004D0045004E0054005F004300
+      480044000100000000002A00000054003000330033005F004600520045004500
+      5F00500045005200430045004E0054005F004300480044000100000000002600
+      000054003000330033005F004D004D00560042005F0054005200410044004500
+      5F004300480044000100000000002800000054003000330033005F004D004D00
+      560042005F005400490043004B00450052005F00430048004400010000000000
+      2400000054003000330033005F005200540053005F0054005200410044004500
+      5F004300480044000100000000002600000054003000330033005F0052005400
+      53005F005400490043004B00450052005F004300480044000100000000002200
+      000054003000330033005F0044004B004B005F0043004F00440045005F004300
+      480044000100000000002200000054003000330033005F005200540053005F00
+      4D00410049004E005F004300480044000100000000002E000000540030003300
+      33005F005300540041004E0044004100520054005F0054005200410044004500
+      5F004300480044000100000000003800000054003000330033005F0053005400
+      41004E0044004100520054005F00540052004100440045005F004C0049005300
+      54005F004300480044000100000000003000000054003000330033005F005300
+      540041004E0044004100520054005F005400490043004B00450052005F004300
+      480044000100000000002C00000054003000330033005F005300540041004E00
+      44004100520054005F004D00410049004E005F00430048004400010000000000
+      1A00000054003000330033005F004900530049004E005F004300480044000100
+      000000001A00000054003000330033005F0042004C00550045005F0043004800
+      44000100000000003000000054003000330033005F004D004D00560042005F00
+      44004100540045005F00530054004100520054005F0043004800440001000000
+      00002C00000054003000330033005F004D004D00560042005F00440041005400
+      45005F0045004E0044005F004300480044000100000000002E00000054003000
+      330033005F005200540053005F0044004100540045005F005300540041005200
+      54005F004300480044000100000000002A00000054003000330033005F005200
+      540053005F0044004100540045005F0045004E0044005F004300480044000100
+      000000003800000054003000330033005F005300540041004E00440041005200
+      54005F0044004100540045005F00530054004100520054005F00430048004400
+      0100000000003400000054003000330033005F005300540041004E0044004100
+      520054005F0044004100540045005F0045004E0044005F004300480044000100
+      000000002400000054003000330033005F00490053005F004A004F0049004E00
+      450044005F004300480044000100000000002400000054003000330033005F00
+      4A004F0049004E005F0044004100540045005F00430048004400010000000000
+      2000000054003000330033005F004A004F0049004E005F00490044005F004300
+      480044000100000000002C00000054003000330033005F004900530053005500
+      450052005F0052004100540049004E0047005F00430048004400010000000000
+      2C00000054003000330033005F004900530053005500450052005F0052004100
+      540049004E0047005F004F004C004400010000000000}
+    AfterScroll = odsListAfterScroll
+    Top = 267
+    object odsListT033_EMISSION_ID: TFloatField
+      FieldName = 'T033_EMISSION_ID'
+      Required = True
+    end
+    object odsListT033_ISSUER_ID: TFloatField
+      FieldName = 'T033_ISSUER_ID'
+    end
+    object odsListT033_ISSUER_NAME: TStringField
+      FieldName = 'T033_ISSUER_NAME'
+      Size = 255
+    end
+    object odsListT033_ISSUER_INN: TStringField
+      FieldName = 'T033_ISSUER_INN'
+      Size = 255
+    end
+    object odsListT033_NAME_SHORT_RUS: TStringField
+      FieldName = 'T033_NAME_SHORT_RUS'
+      Size = 255
+    end
+    object odsListT033_NAME_SHORT_ENG: TStringField
+      FieldName = 'T033_NAME_SHORT_ENG'
+      Size = 255
+    end
+    object odsListT033_FULL_NAME_RUS: TStringField
+      FieldName = 'T033_FULL_NAME_RUS'
+      Size = 255
+    end
+    object odsListT033_FULL_NAME_ENG: TStringField
+      FieldName = 'T033_FULL_NAME_ENG'
+      Size = 255
+    end
+    object odsListT033_ISSUE_NUMBER: TStringField
+      FieldName = 'T033_ISSUE_NUMBER'
+      Size = 255
+    end
+    object odsListT033_EMISSION_TYPE: TStringField
+      FieldName = 'T033_EMISSION_TYPE'
+      Size = 255
+    end
+    object odsListT033_MMVB_TRADE_LIST: TStringField
+      FieldName = 'T033_MMVB_TRADE_LIST'
+      Size = 255
+    end
+    object odsListT033_RTS_TRADE_LIST: TStringField
+      FieldName = 'T033_RTS_TRADE_LIST'
+      Size = 255
+    end
+    object odsListT033_EMISSION_REGN: TStringField
+      FieldName = 'T033_EMISSION_REGN'
+      Size = 255
+    end
+    object odsListT033_NOMINAL: TFloatField
+      FieldName = 'T033_NOMINAL'
+    end
+    object odsListT033_QUANTITY: TFloatField
+      FieldName = 'T033_QUANTITY'
+    end
+    object odsListT033_COMMENT: TStringField
+      FieldName = 'T033_COMMENT'
+      Size = 255
+    end
+    object odsListT033_FREE_PERCENT: TFloatField
+      FieldName = 'T033_FREE_PERCENT'
+    end
+    object odsListT033_MMVB_TRADE: TFloatField
+      FieldName = 'T033_MMVB_TRADE'
+    end
+    object odsListT033_MMVB_TICKER: TStringField
+      FieldName = 'T033_MMVB_TICKER'
+      Size = 255
+    end
+    object odsListT033_RTS_TRADE: TFloatField
+      FieldName = 'T033_RTS_TRADE'
+    end
+    object odsListT033_RTS_TICKER: TStringField
+      FieldName = 'T033_RTS_TICKER'
+      Size = 255
+    end
+    object odsListT033_DKK_CODE: TStringField
+      FieldName = 'T033_DKK_CODE'
+      Size = 255
+    end
+    object odsListT033_RTS_MAIN: TFloatField
+      FieldName = 'T033_RTS_MAIN'
+    end
+    object odsListT033_STANDART_TRADE: TFloatField
+      FieldName = 'T033_STANDART_TRADE'
+    end
+    object odsListT033_STANDART_TRADE_LIST: TStringField
+      FieldName = 'T033_STANDART_TRADE_LIST'
+      Size = 255
+    end
+    object odsListT033_STANDART_TICKER: TStringField
+      FieldName = 'T033_STANDART_TICKER'
+      Size = 255
+    end
+    object odsListT033_STANDART_MAIN: TFloatField
+      FieldName = 'T033_STANDART_MAIN'
+    end
+    object odsListT033_ISIN: TStringField
+      FieldName = 'T033_ISIN'
+      Size = 255
+    end
+    object odsListT033_BLUE: TFloatField
+      FieldName = 'T033_BLUE'
+    end
+    object odsListT033_MMVB_DATE_START: TDateTimeField
+      FieldName = 'T033_MMVB_DATE_START'
+    end
+    object odsListT033_MMVB_DATE_END: TDateTimeField
+      FieldName = 'T033_MMVB_DATE_END'
+    end
+    object odsListT033_RTS_DATE_START: TDateTimeField
+      FieldName = 'T033_RTS_DATE_START'
+    end
+    object odsListT033_RTS_DATE_END: TDateTimeField
+      FieldName = 'T033_RTS_DATE_END'
+    end
+    object odsListT033_STANDART_DATE_START: TDateTimeField
+      FieldName = 'T033_STANDART_DATE_START'
+    end
+    object odsListT033_STANDART_DATE_END: TDateTimeField
+      FieldName = 'T033_STANDART_DATE_END'
+    end
+    object odsListT033_IS_JOINED: TFloatField
+      FieldName = 'T033_IS_JOINED'
+    end
+    object odsListT033_JOIN_DATE: TDateTimeField
+      FieldName = 'T033_JOIN_DATE'
+    end
+    object odsListT033_JOIN_ID: TFloatField
+      FieldName = 'T033_JOIN_ID'
+    end
+    object odsListT033_ISSUER_RATING: TStringField
+      FieldName = 'T033_ISSUER_RATING'
+      Size = 255
+    end
+    object odsListT033_FILE_NAME: TStringField
+      FieldName = 'T033_FILE_NAME'
+      Size = 255
+    end
+    object odsListT033_LOAD_DATE: TDateTimeField
+      FieldName = 'T033_LOAD_DATE'
+    end
+    object odsListT033_LOADER: TStringField
+      FieldName = 'T033_LOADER'
+      Size = 255
+    end
+    object odsListT033_FOR_FILTER: TFloatField
+      FieldName = 'T033_FOR_FILTER'
+    end
+    object odsListT033_ISSUER_NAME_OLD: TStringField
+      FieldName = 'T033_ISSUER_NAME_OLD'
+      Size = 271
+    end
+    object odsListT033_ISSUER_INN_OLD: TStringField
+      FieldName = 'T033_ISSUER_INN_OLD'
+      Size = 28
+    end
+    object odsListT033_NAME_SHORT_RUS_OLD: TStringField
+      FieldName = 'T033_NAME_SHORT_RUS_OLD'
+      Size = 143
+    end
+    object odsListT033_NAME_SHORT_ENG_OLD: TStringField
+      FieldName = 'T033_NAME_SHORT_ENG_OLD'
+      Size = 143
+    end
+    object odsListT033_FULL_NAME_RUS_OLD: TStringField
+      FieldName = 'T033_FULL_NAME_RUS_OLD'
+      Size = 271
+    end
+    object odsListT033_FULL_NAME_ENG_OLD: TStringField
+      FieldName = 'T033_FULL_NAME_ENG_OLD'
+      Size = 271
+    end
+    object odsListT033_ISSUE_NUMBER_OLD: TStringField
+      FieldName = 'T033_ISSUE_NUMBER_OLD'
+      Size = 32
+    end
+    object odsListT033_EMISSION_TYPE_OLD: TStringField
+      FieldName = 'T033_EMISSION_TYPE_OLD'
+      Size = 48
+    end
+    object odsListT033_MMVB_TRADE_LIST_OLD: TStringField
+      FieldName = 'T033_MMVB_TRADE_LIST_OLD'
+      Size = 143
+    end
+    object odsListT033_RTS_TRADE_LIST_OLD: TStringField
+      FieldName = 'T033_RTS_TRADE_LIST_OLD'
+      Size = 143
+    end
+    object odsListT033_EMISSION_REGN_OLD: TStringField
+      FieldName = 'T033_EMISSION_REGN_OLD'
+      Size = 143
+    end
+    object odsListT033_NOMINAL_OLD: TStringField
+      FieldName = 'T033_NOMINAL_OLD'
+      Size = 56
+    end
+    object odsListT033_QUANTITY_OLD: TStringField
+      FieldName = 'T033_QUANTITY_OLD'
+      Size = 56
+    end
+    object odsListT033_COMMENT_OLD: TStringField
+      FieldName = 'T033_COMMENT_OLD'
+      Size = 271
+    end
+    object odsListT033_FREE_PERCENT_OLD: TStringField
+      FieldName = 'T033_FREE_PERCENT_OLD'
+      Size = 56
+    end
+    object odsListT033_MMVB_TRADE_OLD: TStringField
+      FieldName = 'T033_MMVB_TRADE_OLD'
+      Size = 56
+    end
+    object odsListT033_MMVB_TICKER_OLD: TStringField
+      FieldName = 'T033_MMVB_TICKER_OLD'
+      Size = 48
+    end
+    object odsListT033_RTS_TRADE_OLD: TStringField
+      FieldName = 'T033_RTS_TRADE_OLD'
+      Size = 56
+    end
+    object odsListT033_RTS_TICKER_OLD: TStringField
+      FieldName = 'T033_RTS_TICKER_OLD'
+      Size = 48
+    end
+    object odsListT033_DKK_CODE_OLD: TStringField
+      FieldName = 'T033_DKK_CODE_OLD'
+      Size = 48
+    end
+    object odsListT033_RTS_MAIN_OLD: TStringField
+      FieldName = 'T033_RTS_MAIN_OLD'
+      Size = 56
+    end
+    object odsListT033_STANDART_TRADE_OLD: TStringField
+      FieldName = 'T033_STANDART_TRADE_OLD'
+      Size = 56
+    end
+    object odsListT033_STANDART_TRADE_LIST_OLD: TStringField
+      FieldName = 'T033_STANDART_TRADE_LIST_OLD'
+      Size = 143
+    end
+    object odsListT033_STANDART_TICKER_OLD: TStringField
+      FieldName = 'T033_STANDART_TICKER_OLD'
+      Size = 48
+    end
+    object odsListT033_STANDART_MAIN_OLD: TStringField
+      FieldName = 'T033_STANDART_MAIN_OLD'
+      Size = 56
+    end
+    object odsListT033_ISIN_OLD: TStringField
+      FieldName = 'T033_ISIN_OLD'
+      Size = 31
+    end
+    object odsListT033_BLUE_OLD: TStringField
+      FieldName = 'T033_BLUE_OLD'
+      Size = 56
+    end
+    object odsListT033_MMVB_DATE_START_OLD: TStringField
+      FieldName = 'T033_MMVB_DATE_START_OLD'
+      Size = 26
+    end
+    object odsListT033_MMVB_DATE_END_OLD: TStringField
+      FieldName = 'T033_MMVB_DATE_END_OLD'
+      Size = 26
+    end
+    object odsListT033_RTS_DATE_START_OLD: TStringField
+      FieldName = 'T033_RTS_DATE_START_OLD'
+      Size = 26
+    end
+    object odsListT033_RTS_DATE_END_OLD: TStringField
+      FieldName = 'T033_RTS_DATE_END_OLD'
+      Size = 26
+    end
+    object odsListT033_STANDART_DATE_START_OLD: TStringField
+      FieldName = 'T033_STANDART_DATE_START_OLD'
+      Size = 26
+    end
+    object odsListT033_STANDART_DATE_END_OLD: TStringField
+      FieldName = 'T033_STANDART_DATE_END_OLD'
+      Size = 26
+    end
+    object odsListT033_IS_JOINED_OLD: TStringField
+      FieldName = 'T033_IS_JOINED_OLD'
+      Size = 56
+    end
+    object odsListT033_JOIN_DATE_OLD: TStringField
+      FieldName = 'T033_JOIN_DATE_OLD'
+      Size = 26
+    end
+    object odsListT033_JOIN_ID_OLD: TStringField
+      FieldName = 'T033_JOIN_ID_OLD'
+      Size = 56
+    end
+    object odsListT033_ISSUER_RATING_OLD: TStringField
+      FieldName = 'T033_ISSUER_RATING_OLD'
+      Size = 80
+    end
+    object odsListT033_ISSUER_NAME_CHD: TStringField
+      FieldName = 'T033_ISSUER_NAME_CHD'
+      Size = 1
+    end
+    object odsListT033_ISSUER_INN_CHD: TStringField
+      FieldName = 'T033_ISSUER_INN_CHD'
+      Size = 1
+    end
+    object odsListT033_NAME_SHORT_RUS_CHD: TStringField
+      FieldName = 'T033_NAME_SHORT_RUS_CHD'
+      Size = 1
+    end
+    object odsListT033_NAME_SHORT_ENG_CHD: TStringField
+      FieldName = 'T033_NAME_SHORT_ENG_CHD'
+      Size = 1
+    end
+    object odsListT033_FULL_NAME_RUS_CHD: TStringField
+      FieldName = 'T033_FULL_NAME_RUS_CHD'
+      Size = 1
+    end
+    object odsListT033_FULL_NAME_ENG_CHD: TStringField
+      FieldName = 'T033_FULL_NAME_ENG_CHD'
+      Size = 1
+    end
+    object odsListT033_ISSUE_NUMBER_CHD: TStringField
+      FieldName = 'T033_ISSUE_NUMBER_CHD'
+      Size = 1
+    end
+    object odsListT033_EMISSION_TYPE_CHD: TStringField
+      FieldName = 'T033_EMISSION_TYPE_CHD'
+      Size = 1
+    end
+    object odsListT033_MMVB_TRADE_LIST_CHD: TStringField
+      FieldName = 'T033_MMVB_TRADE_LIST_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_TRADE_LIST_CHD: TStringField
+      FieldName = 'T033_RTS_TRADE_LIST_CHD'
+      Size = 1
+    end
+    object odsListT033_EMISSION_REGN_CHD: TStringField
+      FieldName = 'T033_EMISSION_REGN_CHD'
+      Size = 1
+    end
+    object odsListT033_NOMINAL_CHD: TStringField
+      FieldName = 'T033_NOMINAL_CHD'
+      Size = 1
+    end
+    object odsListT033_QUANTITY_CHD: TStringField
+      FieldName = 'T033_QUANTITY_CHD'
+      Size = 1
+    end
+    object odsListT033_COMMENT_CHD: TStringField
+      FieldName = 'T033_COMMENT_CHD'
+      Size = 1
+    end
+    object odsListT033_FREE_PERCENT_CHD: TStringField
+      FieldName = 'T033_FREE_PERCENT_CHD'
+      Size = 1
+    end
+    object odsListT033_MMVB_TRADE_CHD: TStringField
+      FieldName = 'T033_MMVB_TRADE_CHD'
+      Size = 1
+    end
+    object odsListT033_MMVB_TICKER_CHD: TStringField
+      FieldName = 'T033_MMVB_TICKER_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_TRADE_CHD: TStringField
+      FieldName = 'T033_RTS_TRADE_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_TICKER_CHD: TStringField
+      FieldName = 'T033_RTS_TICKER_CHD'
+      Size = 1
+    end
+    object odsListT033_DKK_CODE_CHD: TStringField
+      FieldName = 'T033_DKK_CODE_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_MAIN_CHD: TStringField
+      FieldName = 'T033_RTS_MAIN_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_TRADE_CHD: TStringField
+      FieldName = 'T033_STANDART_TRADE_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_TRADE_LIST_CHD: TStringField
+      FieldName = 'T033_STANDART_TRADE_LIST_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_TICKER_CHD: TStringField
+      FieldName = 'T033_STANDART_TICKER_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_MAIN_CHD: TStringField
+      FieldName = 'T033_STANDART_MAIN_CHD'
+      Size = 1
+    end
+    object odsListT033_ISIN_CHD: TStringField
+      FieldName = 'T033_ISIN_CHD'
+      Size = 1
+    end
+    object odsListT033_BLUE_CHD: TStringField
+      FieldName = 'T033_BLUE_CHD'
+      Size = 1
+    end
+    object odsListT033_MMVB_DATE_START_CHD: TStringField
+      FieldName = 'T033_MMVB_DATE_START_CHD'
+      Size = 1
+    end
+    object odsListT033_MMVB_DATE_END_CHD: TStringField
+      FieldName = 'T033_MMVB_DATE_END_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_DATE_START_CHD: TStringField
+      FieldName = 'T033_RTS_DATE_START_CHD'
+      Size = 1
+    end
+    object odsListT033_RTS_DATE_END_CHD: TStringField
+      FieldName = 'T033_RTS_DATE_END_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_DATE_START_CHD: TStringField
+      FieldName = 'T033_STANDART_DATE_START_CHD'
+      Size = 1
+    end
+    object odsListT033_STANDART_DATE_END_CHD: TStringField
+      FieldName = 'T033_STANDART_DATE_END_CHD'
+      Size = 1
+    end
+    object odsListT033_IS_JOINED_CHD: TStringField
+      FieldName = 'T033_IS_JOINED_CHD'
+      Size = 1
+    end
+    object odsListT033_JOIN_DATE_CHD: TStringField
+      FieldName = 'T033_JOIN_DATE_CHD'
+      Size = 1
+    end
+    object odsListT033_JOIN_ID_CHD: TStringField
+      FieldName = 'T033_JOIN_ID_CHD'
+      Size = 1
+    end
+    object odsListT033_ISSUER_RATING_CHD: TStringField
+      FieldName = 'T033_ISSUER_RATING_CHD'
+      Size = 1
+    end
+  end
+  inherited pkList: TOraclePackage
+    Left = 392
+    Top = 347
+  end
+  inherited oqAdd: TOracleQuery
+    StringFieldsOnly = True
+    Left = 216
+    Top = 264
+  end
+  inherited oqUpdate: TOracleQuery
+    Left = 256
+    Top = 264
+  end
+  inherited oqDelete: TOracleQuery
+    Left = 296
+    Top = 264
+  end
+  inherited oqDupl: TOracleQuery
+    Left = 336
+    Top = 264
+  end
+  inherited pmFilter: TPopupMenu
+    Left = 616
+    Top = 24
+  end
+  object odsTotal: TOracleDataSet
+    SQL.Strings = (
+      'SELECT R_TOTAL,'
+      '       R_NEW,'
+      '       R_UPDATED,'
+      '       R_ROLLED,'
+      '       R_CHANGED'
+      'FROM   V_DS_STOCKS_LOAD_TOTAL')
+    Optimize = False
+    QBEDefinition.QBEFieldDefs = {
+      05000000050000000E00000052005F0054004F00540041004C00010000000000
+      0A00000052005F004E00450057000100000000001200000052005F0043004800
+      41004E004700450044000100000000001000000052005F0052004F004C004C00
+      450044000100000000001200000052005F005500500044004100540045004400
+      010000000000}
+    Session = dmMain.OracleSession
+    Left = 104
+    Top = 352
+    object odsTotalR_TOTAL: TFloatField
+      FieldName = 'R_TOTAL'
+    end
+    object odsTotalR_NEW: TFloatField
+      FieldName = 'R_NEW'
+    end
+    object odsTotalR_UPDATED: TFloatField
+      FieldName = 'R_UPDATED'
+    end
+    object odsTotalR_ROLLED: TFloatField
+      FieldName = 'R_ROLLED'
+    end
+    object odsTotalR_CHANGED: TStringField
+      FieldName = 'R_CHANGED'
+      Size = 81
+    end
+  end
+  object dsTotal: TDataSource
+    DataSet = odsTotal
+    Left = 144
+    Top = 352
+  end
+end

@@ -1,0 +1,145 @@
+object SparkSettingsForm: TSparkSettingsForm
+  Left = 508
+  Top = 112
+  Width = 694
+  Height = 892
+  Caption = 'Настройки файла СПАРК'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 829
+    Width = 686
+    Height = 32
+    Align = alBottom
+    TabOrder = 0
+    object bnSave: TButton
+      Left = 16
+      Top = 4
+      Width = 75
+      Height = 25
+      Caption = 'Сохранить'
+      ModalResult = 1
+      TabOrder = 0
+      OnClick = bnSaveClick
+    end
+    object bnExcel: TButton
+      Left = 105
+      Top = 4
+      Width = 75
+      Height = 25
+      Caption = 'Excel'
+      TabOrder = 1
+      OnClick = bnExcelClick
+    end
+    object bnClose: TButton
+      Left = 559
+      Top = 4
+      Width = 75
+      Height = 25
+      Caption = 'Закрыть'
+      TabOrder = 2
+      OnClick = bnCloseClick
+    end
+  end
+  object sbMain: TScrollBox
+    Left = 0
+    Top = 25
+    Width = 686
+    Height = 804
+    Align = alClient
+    TabOrder = 1
+    object sgSettings: TStringGrid
+      Left = 0
+      Top = 0
+      Width = 649
+      Height = 800
+      Align = alLeft
+      ColCount = 4
+      FixedRows = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBackground
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing]
+      ParentFont = False
+      ScrollBars = ssNone
+      TabOrder = 0
+      ColWidths = (
+        124
+        239
+        227
+        47)
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 686
+    Height = 25
+    Align = alTop
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 604
+      Top = 8
+      Width = 35
+      Height = 13
+      Caption = 'Обяз.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 32
+      Top = 8
+      Width = 31
+      Height = 13
+      Caption = 'Поле'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 152
+      Top = 8
+      Width = 111
+      Height = 13
+      Caption = 'Название в файле'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 400
+      Top = 8
+      Width = 59
+      Height = 13
+      Caption = 'Описание'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+end

@@ -1,0 +1,2 @@
+inherited fmFilterValueTextFrame1: TfmFilterValueTextFrame1
+end

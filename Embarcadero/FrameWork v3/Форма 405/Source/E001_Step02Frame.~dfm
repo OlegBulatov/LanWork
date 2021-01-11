@@ -1,0 +1,352 @@
+inherited E001_Step02: TE001_Step02
+  Width = 1008
+  Height = 502
+  inherited Bevel: TBevel
+    Width = 1008
+  end
+  inherited PanelStepCaption: TPanel
+    Width = 1008
+    inherited Label1: TLabel
+      Width = 108
+      Caption = 'Шаг 2 - Расчет IIP'
+    end
+    inherited Label2: TLabel
+      Width = 307
+      Caption = 'Для сохранения результатов нажмите кнопку "Завершить".'
+    end
+    object Label3: TLabel
+      Left = 843
+      Top = 6
+      Width = 140
+      Height = 13
+      Anchors = [akTop, akRight]
+      Caption = 'МИП за 1990 год 1 квартал'
+    end
+    object Label4: TLabel
+      Left = 778
+      Top = 24
+      Width = 93
+      Height = 13
+      Caption = 'Тип ц.б. - SHS3'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited PanelStepBody: TPanel
+    Width = 1008
+    Height = 450
+    inline E001_Remains1: TE001_Remains
+      Height = 450
+      Align = alClient
+      inherited xxxDBGrid: TxxxDBGrid
+        Height = 373
+        AdvSettings.HeadersLines = <
+          item
+            Headers = <
+              item
+                FirstCol = 6
+                LastCol = 63
+                Caption = 'Входящий остаток'
+              end
+              item
+                FirstCol = 64
+                LastCol = 93
+                Caption = 'Операции'
+              end
+              item
+                FirstCol = 94
+                LastCol = 152
+                Caption = 'Исходящий остаток'
+              end>
+          end
+          item
+            Headers = <
+              item
+                FirstCol = 7
+                LastCol = 27
+                Caption = 'Котировки'
+              end
+              item
+                FirstCol = 29
+                LastCol = 35
+                Caption = 'Форма 711'
+              end
+              item
+                FirstCol = 36
+                LastCol = 41
+                Caption = 'Небанк.деп. (форма 415)'
+              end
+              item
+                FirstCol = 47
+                LastCol = 56
+                Caption = 'Резиденты'
+              end
+              item
+                FirstCol = 95
+                LastCol = 115
+                Caption = 'Котировки'
+              end
+              item
+                FirstCol = 118
+                LastCol = 124
+                Caption = 'Форма 711'
+              end
+              item
+                FirstCol = 125
+                LastCol = 130
+                Caption = 'Небанк.деп. (форма 415)'
+              end
+              item
+                FirstCol = 136
+                LastCol = 145
+                Caption = 'Резиденты'
+              end>
+          end
+          item
+            Headers = <
+              item
+                FirstCol = 7
+                LastCol = 8
+                Caption = 'BLOOMBERG'
+              end
+              item
+                FirstCol = 9
+                LastCol = 10
+                Caption = 'ММВБ'
+              end
+              item
+                FirstCol = 11
+                LastCol = 12
+                Caption = 'REUTERS'
+              end
+              item
+                FirstCol = 13
+                LastCol = 15
+                Caption = 'Форма 405'
+              end
+              item
+                FirstCol = 16
+                LastCol = 18
+                Caption = 'Форма 417'
+              end
+              item
+                FirstCol = 19
+                LastCol = 20
+                Caption = 'MOEX Board'
+              end
+              item
+                FirstCol = 21
+                LastCol = 23
+                Caption = 'Форма 711'
+              end
+              item
+                FirstCol = 24
+                LastCol = 26
+                Caption = 'Форма 415'
+              end
+              item
+                FirstCol = 27
+                LastCol = 27
+                Caption = 'Ручн.'
+              end
+              item
+                FirstCol = 32
+                LastCol = 35
+                Caption = 'Дополнительно (к-во ц.б.)'
+              end
+              item
+                FirstCol = 38
+                LastCol = 41
+                Caption = 'Дополнительно (к-во ц.б.)'
+              end
+              item
+                FirstCol = 42
+                LastCol = 43
+                Caption = '711 + НД'
+              end
+              item
+                FirstCol = 44
+                LastCol = 46
+                Caption = 'МИП'
+              end
+              item
+                FirstCol = 47
+                LastCol = 51
+                Caption = '711'
+              end
+              item
+                FirstCol = 52
+                LastCol = 56
+                Caption = '415'
+              end
+              item
+                FirstCol = 58
+                LastCol = 60
+                Caption = 'Доля прямых инвестиций (%)'
+              end
+              item
+                FirstCol = 62
+                LastCol = 63
+                Caption = 'Доля резидентов (%)'
+              end
+              item
+                FirstCol = 66
+                LastCol = 67
+                Caption = 'Форма 711'
+              end
+              item
+                FirstCol = 68
+                LastCol = 69
+                Caption = 'Небанк.деп.'
+              end
+              item
+                FirstCol = 70
+                LastCol = 71
+                Caption = '711 + НД'
+              end
+              item
+                FirstCol = 72
+                LastCol = 82
+                Caption = 'Форма 405'
+              end
+              item
+                FirstCol = 83
+                LastCol = 84
+                Caption = 'Форма 417'
+              end
+              item
+                FirstCol = 85
+                LastCol = 86
+                Caption = 'Расчет'
+              end
+              item
+                FirstCol = 87
+                LastCol = 88
+                Caption = 'Корректировка'
+              end
+              item
+                FirstCol = 89
+                LastCol = 90
+                Caption = 'МИП'
+              end
+              item
+                FirstCol = 91
+                LastCol = 92
+                Caption = 'Прочие'
+              end
+              item
+                FirstCol = 93
+                LastCol = 93
+                Caption = 'Переоценка'
+              end
+              item
+                FirstCol = 95
+                LastCol = 96
+                Caption = 'BLOOMBERG'
+              end
+              item
+                FirstCol = 97
+                LastCol = 98
+                Caption = 'ММВБ'
+              end
+              item
+                FirstCol = 99
+                LastCol = 100
+                Caption = 'REUTERS'
+              end
+              item
+                FirstCol = 101
+                LastCol = 103
+                Caption = 'Форма 405'
+              end
+              item
+                FirstCol = 104
+                LastCol = 106
+                Caption = 'Форма 417'
+              end
+              item
+                FirstCol = 107
+                LastCol = 108
+                Caption = 'MOEX Board'
+              end
+              item
+                FirstCol = 109
+                LastCol = 111
+                Caption = 'Форма 711'
+              end
+              item
+                FirstCol = 112
+                LastCol = 114
+                Caption = 'Форма 415'
+              end
+              item
+                FirstCol = 115
+                LastCol = 115
+                Caption = 'Ручн.'
+              end
+              item
+                FirstCol = 121
+                LastCol = 124
+                Caption = 'Дополнительно (к-во ц.б.)'
+              end
+              item
+                FirstCol = 127
+                LastCol = 130
+                Caption = 'Дополнительно (к-во ц.б.)'
+              end
+              item
+                FirstCol = 131
+                LastCol = 132
+                Caption = '711 + НД'
+              end
+              item
+                FirstCol = 133
+                LastCol = 135
+                Caption = 'МИП'
+              end
+              item
+                FirstCol = 136
+                LastCol = 140
+                Caption = '711'
+              end
+              item
+                FirstCol = 141
+                LastCol = 145
+                Caption = '415'
+              end
+              item
+                FirstCol = 147
+                LastCol = 149
+                Caption = 'Доля прямых инвестиций (%)'
+              end
+              item
+                FirstCol = 151
+                LastCol = 152
+                Caption = 'Доля резидентов (%)'
+              end>
+          end
+          item
+            Headers = <>
+          end>
+      end
+      inherited paToolButton: TPanel
+        inherited tlbSelect: TToolBar
+          Width = 790
+        end
+      end
+      inherited paFilter: TPanel
+        inherited Label1: TLabel
+          Left = 1265
+        end
+      end
+    end
+  end
+  inherited actList: TActionList
+    Left = 88
+    Top = 344
+  end
+end

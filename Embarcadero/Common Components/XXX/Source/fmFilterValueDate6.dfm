@@ -1,0 +1,2 @@
+inherited fmFilterValueDateFrame6: TfmFilterValueDateFrame6
+end

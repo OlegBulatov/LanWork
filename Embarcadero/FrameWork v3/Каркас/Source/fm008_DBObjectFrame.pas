@@ -1,0 +1,193 @@
+unit fm008_DBObjectFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  fm000_Parent, unt001_Filter, ActnList, Db, OracleData, System.Actions;
+
+type
+  TfmDBObject = class(TfmParent)
+    dsList: TDataSource;
+    odsList: TOracleDataSet;
+  private
+    function GetDataSet: TDataSet;
+  protected
+    FVDataSet: TVirtualDataSet;
+    //
+    procedure RefreshAllRecords; virtual;
+    //
+    procedure LinkActions; virtual;
+    procedure LinkDataList; virtual;
+    //
+    procedure SetDisplayFieldName; virtual;
+    //
+    procedure SetConditions; virtual;
+    //
+    procedure RetrieveConditions(const AConditions: TConditions); virtual;
+    //
+    procedure RegisterFilterItem; virtual;
+    //
+    procedure InitFilter; virtual;
+    //
+    procedure InitLinks; virtual;
+  public
+    constructor Create(AOwner: TComponent); override;
+    property  DataSet: TDataSet read GetDataSet;
+    property  VDataSet: TVirtualDataSet read FVDataSet;
+    procedure SetMaster(ADataSet: TOracleDataSet; AField: string);
+    procedure InitFrame(Sender: TObject);  override;
+    procedure RefreshData; virtual;
+  end;
+
+var
+  fmDBObject: TfmDBObject;
+
+implementation
+uses dm006_PictersData, untMessages, untGrid, unt006_MatrixConst,
+  dm005_MainData, dm000_ObjectsFactory;
+
+{$R *.DFM}
+
+{ TfrmListForm }
+
+procedure TfmDBObject.InitFrame(Sender: TObject);
+begin
+  // Фрэйм не инициализирован
+  FInitialized := False;
+
+  // инициализируем контролы фрэйма
+  InitFilter;
+
+  // инициализируем связки с другими элементами
+  InitLinks;
+
+  // говорим Модели загрузи данные
+  RefreshData;
+
+  // Ставим флаг что инициализация была
+  inherited;
+end;
+
+procedure TfmDBObject.SetConditions;
+begin
+  // метод может быть переопределен в наследника
+  ObjectsFactory.Links.SetDataSetVariables(DataSet);
+end;
+
+// Инициализируем фильтр
+// по идее в наследниках должны сделать inherited
+// и добавить описание
+procedure TfmDBObject.InitFilter;
+begin
+//  fmFilter.InitFilterItems;
+//  fmFilter.AutoRegisterFilterItems;
+end;
+
+
+// Инициализируем элементы фильтра
+//   fm003_Filter.RegisterFilterItem(...);
+//   fm003_Filter.RegisterFilterItem(...);
+procedure TfmDBObject.RegisterFilterItem;
+begin
+  // необходимо переопределить в наследниках
+end;
+
+procedure TfmDBObject.SetDisplayFieldName;
+begin
+  // для каждого поля FDataList.DataSet.Field должны
+  // указать свойство DisplayLable, имя поля видимое пользователю
+  // и установить св-во Visible в True или False
+end;
+
+procedure TfmDBObject.RetrieveConditions(const AConditions: TConditions);
+begin
+  // устанавливаем фильтры, например
+  //
+  // DataList.DataSet.SetVariable('M027_ID', odsVersion['M027_ID']);
+  //
+  // или
+  //
+  // FVDataSet.Conditions.ClearFor('P_ID');
+  // FVDataSet.SetNumbFilter('P_ID', 6);
+end;
+
+procedure TfmDBObject.LinkActions;
+begin
+end;
+
+constructor TfmDBObject.Create(AOwner: TComponent);
+begin
+  inherited;
+  // На всякий случай, если где-то в наследниках в дизайнере стоит Active=True
+  odsList.Active := False;
+
+  // инициализируем виртуальный DataSet
+  // теперь на BeforeOpen класс FVDataSet бедет сам формировать запрос SQL
+  // и подставлять его в odsList
+  FVDataSet := TVirtualDataSet.Create(Self);
+  FVDataSet.DataSet := odsList;
+  FVDataSet.Enabled := True;
+
+  {
+  // определяем как редактируем и где
+  if Assigned(FDataList) and
+     Assigned(FActions) and
+     (FActions.GetEditClass = nil) then
+  begin
+    // если нет формы редактирование то включаем автоматическое
+    // отслеживание изменений
+    FDataList.DataSource.AutoEdit := True;
+  end;
+  }
+end;
+
+procedure TfmDBObject.LinkDataList;
+begin
+  // регистрируем событие
+
+end;
+
+procedure TfmDBObject.InitLinks;
+begin
+  // задаются внутренние связи фрэйма
+end;
+
+procedure TfmDBObject.RefreshData;
+begin
+  // обновляем все строки
+  RefreshAllRecords;
+end;
+
+procedure TfmDBObject.RefreshAllRecords;
+begin
+  // закрываем DataSet
+  odsList.Close;
+
+  {
+  // запрашиваем уловие фильтра у Представления, если есть
+  if Assigned(FOnFilterRecord) then
+  begin
+    FOnFilterRecord(FVDataSet.Conditions);
+  end;
+  }
+
+  // добавляем локальные условия фильтра
+  SetConditions;
+
+  // получаем данные
+  odsList.Open;
+end;
+
+procedure TfmDBObject.SetMaster(ADataSet: TOracleDataSet; AField: string);
+begin
+  odsList.Master := ADataSet;
+  odsList.MasterFields := AField;
+end;
+
+function TfmDBObject.GetDataSet: TDataSet;
+begin
+  Result := odsList;
+end;
+
+end.

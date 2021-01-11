@@ -1,0 +1,56 @@
+package doa34d5;
+
+{$R *.RES}
+{$ALIGN ON}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'Direct Oracle Access 3.4.5'}
+{$DESIGNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl50,
+  VCLDB50,
+  Vclx50;
+
+contains
+  OracleReg in 'OracleReg.pas',
+  OracleTypes in 'OracleTypes.pas',
+  OracleVarEdit in 'OracleVarEdit.pas',
+  OracleLogon in 'OracleLogon.pas',
+  OracleData in 'OracleData.pas',
+  Oracle in 'Oracle.pas',
+  OracleCI in 'OracleCI.pas',
+  OracleSQLEdit in 'OracleSQLEdit.pas',
+  OracleExplorer in 'OracleExplorer.pas',
+  OracleDesign in 'OracleDesign.pas',
+  OracleSeqFldEdit in 'OracleSeqFldEdit.pas',
+  OracleNavigator in 'OracleNavigator.pas',
+  OracleQBEEdit in 'OracleQBEEdit.pas',
+  OracleConstraintsEdit in 'OracleConstraintsEdit.pas',
+  OracleFilter in 'OracleFilter.pas',
+  OraclePreferences in 'OraclePreferences.pas' {PreferenceForm},
+  OracleMonitorIntf in 'OracleMonitorIntf.pas',
+  OracleTools in 'OracleTools.pas' {WizardForm},
+  OracleDPColumnsEdit in 'OracleDPColumnsEdit.pas' {DirectPathColumnsForm},
+  OracleQB in 'OracleQB.pas';
+
+end.

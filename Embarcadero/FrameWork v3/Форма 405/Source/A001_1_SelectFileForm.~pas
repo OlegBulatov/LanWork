@@ -1,0 +1,154 @@
+unit A001_1_SelectFileForm;
+
+interface
+
+uses
+  frm00_ParentForm, A001_0_LoadEmitForm, Db, OracleData, Oracle, Dialogs,
+  StdCtrls, Controls, Buttons, Classes, Forms, SPARK_settingsForm;
+
+
+type
+  Tfrm101_1_SelectFile = class(Tfrm00_Parent, TLoadStepPage)
+    Label1: TLabel;
+    OpenDialog: TOpenDialog;
+    Edit1: TEdit;
+    SpeedButton1: TSpeedButton;
+    CheckBox1: TCheckBox;
+    odsSparkSettings: TOracleDataSet;
+    btnSettings: TButton;
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnSettingsClick(Sender: TObject);
+  private
+    FInitialDir: String;
+    //function GetParentForm: TA001_0_LoadEmit;
+    //
+    procedure LoadFile;
+  protected
+    //
+    class function GetSelfClass(): Tfrm00_Parents; override;
+    class function GetSelfForm(): Tfrm00_Parent; override;
+    class procedure SetSelfForm(const AForm: Tfrm00_Parent); override;
+  public
+    procedure DoOnShowPage(const AMainForm: TForm);
+    procedure DoOnClosePage(const AMainForm: TForm; var Applied: boolean);
+  end;
+
+var
+  frm101_1_SelectFile: Tfrm101_1_SelectFile;
+
+implementation
+
+uses
+  SysUtils, Windows, A000_File2DbDM, A000_FileDescUnt, A000_ParserExcelDM,
+  dm007_Settings;
+
+{$R *.DFM}
+
+{ Tfrm101_1_SelectFile }
+
+class function Tfrm101_1_SelectFile.GetSelfClass(): Tfrm00_Parents;
+begin
+  Result := Tfrm101_1_SelectFile;
+end;
+
+class function Tfrm101_1_SelectFile.GetSelfForm(): Tfrm00_Parent;
+begin
+  Result := frm101_1_SelectFile;
+end;
+
+class procedure Tfrm101_1_SelectFile.SetSelfForm(const AForm: Tfrm00_Parent);
+begin
+  TForm(frm101_1_SelectFile) := AForm;
+end;
+
+procedure Tfrm101_1_SelectFile.DoOnShowPage(const AMainForm: TForm);
+begin
+end;
+
+procedure Tfrm101_1_SelectFile.DoOnClosePage(const AMainForm: TForm; var Applied: boolean);
+begin
+  if not CheckBox1.Checked then
+        Applied := True
+  else if FileExists(Edit1.Text) then
+  begin
+    // загружаем данные из файла
+
+    // пока грузим блокируем форму
+    Self.Enabled := False;
+    try
+      LoadFile;
+    finally
+      Self.Enabled := True;
+    end;
+    // сохраняем путь
+    dmSettings.SaveRegSetting('LoadPath', FInitialDir);
+    Applied := True;
+  end else
+  begin
+    Application.MessageBox(PChar('Файл ' + Edit1.Text + ' не найден.'), 'Ошибка', MB_ICONERROR + MB_OK);
+    Applied := False;
+  end;
+end;
+
+procedure Tfrm101_1_SelectFile.SpeedButton1Click(Sender: TObject);
+begin
+  FInitialDir := dmSettings.GetRegSetting('LoadPath');
+  OpenDialog.InitialDir := FInitialDir;
+  if OpenDialog.Execute then
+  begin
+    Edit1.Text := OpenDialog.FileName;
+    FInitialDir := ExtractFilePath(Edit1.Text);
+    //GetParentForm.FileLoaded := False;
+  end;
+end;
+
+procedure Tfrm101_1_SelectFile.LoadFile; 
+var
+  VLoader: TA000_File2Db;
+  VField: TFileField;
+  MustBe, DoAsk: String;
+begin
+  // загружаем?
+  if not CheckBox1.Checked then Exit;
+
+  // загружаем данные из файла
+  VLoader := TA000_File2Db.Create(nil);
+  try
+    VLoader.FileName := Edit1.Text;
+    VLoader.BeforeProcName := 'Pk_405_Load_Issuers.p_do_before_load_spark';
+    VLoader.ProcName := 'Pk_405_Load_Issuers.p_add_spark_issuer_a';
+    VLoader.AfterProcName := 'Pk_405_Load_Issuers.p_do_after_load_spark_a';
+    VLoader.ParserClass := TA000_ParserExcel;
+
+    odsSparkSettings.Open;
+
+    while not (odsSparkSettings.Eof) do
+    begin
+        VField := VLoader.Fields.Add;
+        VField.ParamName := String(odsSparkSettings['T247_SYSTEM_NAME']);
+        MustBe := 'N';
+        if String(odsSparkSettings['T247_REQUIRED_CHANGEABLE']) = '0' then
+                MustBe := 'Y';
+        VField.MustBe := MustBe;
+        DoAsk := 'N';
+        if String(odsSparkSettings['T247_REQUIRED']) = '1' then
+                DoAsk := 'Y';
+        VField.DoAsk := DoAsk;
+        VField.FieldName := String(odsSparkSettings['T247_USER_NAME']);
+        odsSparkSettings.Next;
+    end;
+    VLoader.LoadFile;
+  finally
+    VLoader.Free;
+    odsSparkSettings.Close;
+    //SM.Free;  //спойлер для демо-версии
+  end;
+end;
+
+procedure Tfrm101_1_SelectFile.btnSettingsClick(Sender: TObject);
+begin
+  inherited;
+        TSparkSettingsForm.ManageSettings;
+end;
+
+end.

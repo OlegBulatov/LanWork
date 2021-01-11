@@ -1,0 +1,33 @@
+{ 
+	securityData[] = 
+	{
+ 
+		securityData = 
+		{
+  
+			security = "AT0000A0V4E3"
+			sequenceNumber = 0
+  			fieldData = 
+  			{
+   				ADR_UNDL_TICKER = "AT0000A0V4E3"
+   				CRNCY = 37.5265
+   				EQY_PRIM_SECURITY_TICKER = "AT0000A0V4E3"
+   				ID_ISIN = 34.0322
+   				PARSEKYABLE_DES = 38.6312
+  			}
+ 		}
+ 		securityData = 
+ 		{
+  			security = "US69343P1057"
+  			sequenceNumber = 1
+  			fieldData = 
+  			{
+   				ADR_UNDL_TICKER = "US69343P1057"
+   				CRNCY = 60.1217
+   				EQY_PRIM_SECURITY_TICKER = "US69343P1057"
+   				ID_ISIN = 14.1714
+   				PARSEKYABLE_DES = 27.178
+  			}
+ 		}
+	}
+}

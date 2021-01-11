@@ -1,0 +1,157 @@
+#
+#  You can run the schema comparison from a command line
+#  using this file with a few modifications.
+#
+#  Lines that start with a # are comments.
+#
+#  Calling TOAD like this will perform a comparison from command line :
+#
+#  c:\toad\toad.exe Connect=system/manager@mydb COMP=c:\thisfile.txt
+#
+#  (obviously, your path to TOAD may differ, along with your connect
+#   info.  'c:\thisfile.txt' represents...you guessed it... THIS FILE!)
+#
+# Uncomment and edit the following line to load a saved object set
+# from a text file.
+# LoadObjectSet('c:\MyObjectSet.txt')
+#
+#  To disable the Team Coding login prompt:
+#  Add "TC=NO" (without the quotes) in the command line string.
+#
+#  Uncomment any or all of the following lines for actions to perform
+#  after the comparison.  The file names are of course editable.  Do
+#  not put more than one command per line.  Do not leave spaces before
+#  the commands.   Email settings are taken from 'View' ->
+#  'Options' -> 'Email Settings'.
+#
+#  Note : Some mail servers do not handle rtf formatted mail.
+#         Use the text option if it is not formatted correctly.
+#         As a workaround, RTF files are included as an attachment.
+#
+#SaveInteractiveResultsAsText('c:\InteractiveResultsFile.txt')
+#SaveRTFResultsAsRTF('c:\RTFResultsFile.rtf')
+#SaveRTFResultsAsText('c:\RTFResultsFile.txt')
+#SaveSummaryAsRTF('c:\SummaryResultsFile.rtf')
+#SaveSummaryAsText('c:\SummaryResultsFile.txt')
+#SaveSyncScript('c:\SyncScript.sql')
+#EmailInteractiveResultsAsText
+#EmailRTFResultsAsRTF
+#EmailRTFResultsAsText
+#EmailSummaryAsRTF
+#EmailSummaryAsText
+#EmailSyncScript
+#CloseComparison
+#CloseTOAD
+#
+#
+# Passwords are encrypted.  You can remove the comment at the end of
+# the line if you wish.  You can also replace the encypted with its
+# unencrypted form:
+# CONNECTREF=user/password@db
+# CONNECTCOMP=user/password@db
+#
+CONNECTREF=(ENCRYPTED)25614659486146475057485946934959458549634845464749774747470950074985313950215047472148755093476750334755462146954913479548535039469747074925307931533083346148314937477149415079 # DPB_RESERVE_BOSS@405.WORLD
+CONNECTCOMP=(ENCRYPTED)27844754508448064832463449164606493646104620487047524906499646544760342647324822507246504740499048084978478047265008354630923278332033303100496649124842477233263176339431163254 # DPB_RESERVE_BOSS@405.WORLD
+cboReferenceLoadedSchema|DPB_RESERVE_BOSS@405.WORLD
+cboRefSchema|DPB_RESERVE_BOSS
+cboReferenceExportFile|
+cboTargetLoadedSchema|DPB_RESERVE_BOSS@405.WORLD
+cboTargetSchema|DPB_RESERVE_BANK
+cboTargetExportFile|
+btnCommentsTab|1
+btnCommentsTabCols|1
+btnCommentsView|0
+btnCommentsViewCols|0
+btnViewColPrec|0
+btnCommentsSnap|0
+btnCommentsSnapCols|0
+btnDatabaseLinks|0
+btnContext|0
+btnSpecifyObjectSet|0
+seDiffLimit|1000
+btnDirectories|0
+btnFunctions|1
+btnDimensions|0
+btnGrants|0
+btnIndexes|1
+btnJavaSource|1
+btnLibraries|0
+btnOutlines|0
+btnPolicies|0
+btnPolicyGroups|0
+btnPackages|1
+btnPartitions|0
+btnProcedures|1
+btnSynonyms|0
+btnPubSyn|0
+btnSequences|1
+btnSnapshots|1
+btnSnapshotLogs|0
+btnTriggers|1
+btnTables|1
+btnRefreshGroups|0
+btnQueues|0
+btnQueueTables|0
+btnClusters|0
+btnConstraints|1
+btnNoRecycle|0
+btnFKConstraints|1
+btnPKConstraints|1
+btnUKConstraints|1
+btnCheckConstraints|1
+btnDatatypes|0
+btnViews|1
+btnStorage|0
+btnTablespace|1
+btnLobs|1
+btnLogging|1
+btnCache|1
+btnCompress|1
+btnMonitoring|1
+btnDegree|1
+btnInstances|1
+btnPctFree|1
+btnPctUsed|1
+btnIniTrans|1
+btnMaxTrans|1
+btnInitial|1
+btnNext|1
+btnMinExtents|1
+btnMaxExtents|1
+btnPctIncrease|1
+btnFreelists|1
+btnFreelistGroups|1
+btnBufferPool|1
+btnRowCount|0
+btnCurrVal|0
+btnDropCreateSeq|0
+btnObjNamesLike|0
+btnAnalyzed|0
+btnSelStar|0
+cbSlash|0
+cbSetDefineOff|0
+cbSQLPlusPrompt|0
+btnSpecifyObjectSet|0
+btnNoWhiteSpace|1
+btnNoCodeComments|0
+btnIgnoreCase|1
+btnStats|0
+btnFormat|1
+btnSchemaName|0
+btnNoParseTriggers|0
+btnNoCompDesc|0
+btnNullBlank|0
+btnNoByteChar|0
+btnNoPrec|0
+btnNoCompSeqMinVal|1
+btnNoCompStatus|1
+btnIncludeComments|0
+btnLikeCaseSens|0
+btnLikeNotLike|0
+btnShowDependencies|0
+EditObjNamesLike|A%
+txtExportFile|
+btnReferenceLoadedSchema|1
+btnReferenceExportFile|0
+btnTargetLoadedSchema|1
+btnTargetExportFile|0

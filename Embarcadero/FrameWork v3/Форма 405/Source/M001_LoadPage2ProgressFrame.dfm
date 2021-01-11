@@ -1,0 +1,2 @@
+inherited M001_LoadPage2Progress: TM001_LoadPage2Progress
+end

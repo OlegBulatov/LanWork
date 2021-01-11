@@ -1,0 +1,33 @@
+18.06.2001  ƒобавлен метод в TClientSql:
+            procedure ExecSql(sqltext:string); overload;
+            ƒл€ немедленного выполнени€ запроса (Insert, update, delete и т.п.)
+            измен€ет свойство TClientSql.SQL .
+27.06.2001  ƒобавлен стандартный тип callback-сообщени€ (MessageCode) MESSAGE_CODE_SOFTDISCONNECT 
+            дл€ TSocketConBDE.SendMessageTo(...).
+            по этому сообщению сесси€ на клиенте закрываетс€ и срабатывает event 
+            TSocketConBDE.OnSoftDiscon .
+03.07.2001  ƒобавлен стандартный тип callback-сообщени€ (MessageCode) MESSAGE_CODE_EMERGENCY_MESSAGE
+            (аварийное сообщение) дл€ TSocketConBDE.SendMessageTo.
+            по этому сообщению на клиенте принудительно и немаскируемо показываетс€ окно с сообщением.
+04.07.2001  можно на сервере загружать и использовать COM компоненты через вызов на клиенте:
+            var v:variant;  
+            . . . 
+            v:=SocketConBDE1.AppServer.loadPluginByname('coClassName');
+            v.SomeMethod;
+04.07.2001  ƒобавлен стандартный тип callback-сообщени€ (MessageCode) MESSAGE_CODE_HARDDISCONNECT
+            дл€ TSocketConBDE.SendMessageTo(...).
+            по этому сообщению сесси€ закрываетс€ на сервере, без сообщени€ об этом клиенту.
+            ћожет быть использовано дл€ отключени€ повисших клиентов. 
+            –аботает только c EXE-версии MidSqlServer.
+21.08.2001  ƒобавлен стандартный ServerParam - 'LAST_ROWSAFFECTED'. ≈го можно получить функцией       
+            TSocketConBDE.GetServerParam('LAST_ROWSAFFECTED'). ¬ этом параметре хранитс€ количество
+            строк в таблице затронутых последней командой TClientSql.ExecSql. —оответствует
+            свойству TQuery.RowsAffected.
+19.02.2002  ƒобавлено игнорирование Callback-вызова €вл€ющегос€ с MessageCode = MESSAGE_CODE_PING
+            Ёто специальный вызов дл€ определени€ и отключени€ умерших клиентов.
+06.08.2002  ¬ методах TClientSql.Open, TClientSql.ExecSql TClientSP.ExecProc 
+            курсор становитс€ в песочные часы на врем€ их выполнени€.
+            
+
+
+
