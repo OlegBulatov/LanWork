@@ -158,7 +158,7 @@ implementation
 
 uses
   SysUtils, Graphics, dm005_MainData, frm01_MainForm,
-  BlpClient, BlpConsts, untMessages, E002_DrLinkForm,
+  BlpClient, BlpWSClient, BlpConsts, untMessages, E002_DrLinkForm,
   E002_SourcesDlg;
 
 {$R *.DFM}
@@ -623,8 +623,13 @@ var
   vResult: integer;
   vData: string;
 begin
-
-  vClient := TBlpClient.Create(Self, dmMain.ParamList.Values['Bloomberg IP'], dmMain.ParamList.Values['Bloomberg Port']);
+  if dmMain.ParamList.Values['Bloomberg Host'] <> '' then
+    vClient := TBlpWSClient.Create(Self,
+          dmMain.ParamList.Values['Bloomberg Port'],
+          dmMain.ParamList.Values['Bloomberg Host'],
+          dmMain.ParamList.Values['Bloomberg Resource'])
+  else
+    vClient := TBlpClient.Create(Self, dmMain.ParamList.Values['Bloomberg IP'], dmMain.ParamList.Values['Bloomberg Port']);
 //  vClient.OnLog := frm01_Main.Log;
 
   // Создаем запрос по DR

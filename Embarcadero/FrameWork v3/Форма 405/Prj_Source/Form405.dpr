@@ -599,7 +599,8 @@ uses
   fm008_DBObjectFrame in '..\..\Каркас\Source\fm008_DBObjectFrame.pas' {fmDBObject: TFrame},
   fm004_ListFrame in '..\..\Каркас\Source\fm004_ListFrame.pas' {fmList: TFrame},
   fm031_FilterFrame in '..\..\Каркас\Source\fm031_FilterFrame.pas' {fm031_Filter: TFrame},
-  fm005_GridFrame in '..\..\Каркас\Source\fm005_GridFrame.pas' {fmGrid: TFrame};
+  fm005_GridFrame in '..\..\Каркас\Source\fm005_GridFrame.pas' {fmGrid: TFrame},
+  BlpWSDm in '..\..\BlPipe_S\Source\BlpWSDm.pas' {BlpDb: TDataModule};
 
 {R *.RES}
 
@@ -613,6 +614,7 @@ begin
   Application.CreateForm(TdmPicters, dmPicters);
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TdmSettings, dmSettings);
+  Application.CreateForm(TBlpDb, BlpDb);
   if not dmMain.Login then
   begin
     Application.ShowMainForm := False;
