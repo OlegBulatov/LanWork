@@ -2,7 +2,8 @@ unit BlpWSDm;
 
 interface
 
-uses Classes, Forms, Oracle, Db, OracleData, BlpData, Variants;
+uses Classes, Forms, Oracle, Db, OracleData, BlpData, Variants,
+  Soap.InvokeRegistry, System.Net.URLClient, Soap.Rio, Soap.SOAPHTTPClient;
 
 
 type
@@ -38,6 +39,7 @@ type
     odsRequestL025_NEXT: TFloatField;
     odsRequestL025_ID: TFloatField;
     odsRequestL020_ISIN: TStringField;
+    rioBemu: THTTPRIO;
   private
     procedure PrepareSaveQuery(Request: TServerRequest);
     function  FinalizeRequest(RequestID, ResultCode: integer; ResultInfo: string; L025_NEXT: Double): Double;

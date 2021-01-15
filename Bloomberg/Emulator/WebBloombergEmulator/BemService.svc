@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WebBloombergEmulator.BemService" CodeBehind="BemService.svc.cs" %>
