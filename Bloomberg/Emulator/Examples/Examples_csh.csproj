@@ -37,8 +37,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bloomberglp.Blpapi">
-      <HintPath>..\..\..\..\blpapi_dotnet_3.15.1.1\bin\Bloomberglp.Blpapi.dll</HintPath>
+    <Reference Include="BEmu_csh">
+      <HintPath>..\BEmu\bin\Debug\BEmu_csh.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

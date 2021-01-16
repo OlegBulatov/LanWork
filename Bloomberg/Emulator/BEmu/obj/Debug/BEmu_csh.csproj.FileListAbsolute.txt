@@ -4,3 +4,9 @@ D:\VSP\Bloomberg\Emulator\sourceCode\bemu-master\BEmu\obj\Debug\BEmu_csh.csprojA
 D:\VSP\Bloomberg\Emulator\sourceCode\bemu-master\BEmu\obj\Debug\BEmu_csh.csproj.CoreCompileInputs.cache
 D:\VSP\Bloomberg\Emulator\sourceCode\bemu-master\BEmu\obj\Debug\BEmu_csh.dll
 D:\VSP\Bloomberg\Emulator\sourceCode\bemu-master\BEmu\obj\Debug\BEmu_csh.pdb
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\bin\Debug\BEmu_csh.dll
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\bin\Debug\BEmu_csh.pdb
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\obj\Debug\BEmu_csh.csprojAssemblyReference.cache
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\obj\Debug\BEmu_csh.csproj.CoreCompileInputs.cache
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\obj\Debug\BEmu_csh.dll
+D:\gitlan\lanitwork\Bloomberg\Emulator\BEmu\obj\Debug\BEmu_csh.pdb

@@ -369,8 +369,6 @@ object BlpDb: TBlpDb
     Top = 56
   end
   object rioBemu: THTTPRIO
-    URL = 'http://localhost:26574/BemService.svc'
-    HTTPWebNode.URL = 'http://localhost:26574/BemService.svc'
     Converter.Options = [soSendMultiRefObj, soTryAllSchema, soRootRefNodesToBody, soCacheMimeResponse, soUTF8EncodeXML]
     Left = 360
     Top = 24

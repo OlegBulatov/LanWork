@@ -1,7 +1,8 @@
 unit BlpWSClient;
 
 interface
-uses BlpClient, Classes, SysUtils, Dialogs, IdHTTPWebsocketClient, BlpConsts, BlpData, BlpWSDm, superobject, Vcl.Forms, bemservice;
+uses BlpClient, Classes, SysUtils, Dialogs, IdHTTPWebsocketClient, BlpConsts, BlpData, BlpWSDm, superobject, Vcl.Forms,
+      bemservice, Soap.SOAPHTTPClient;
 
 type
   TWSClientRequest = class(TServerRequest)
@@ -70,13 +71,13 @@ begin
 //    while FResultData = '' do
 //      Application.ProcessMessages;
 //    Data := FResultData;//'Эта функциональность еще не реализована';
-  X := BlpDb.rioBemu as IBemService;
-  Data := X.ProcessRequest('');
+  BlpDb.rioBemu.URL := FWebClient.Host;
+  Data := (BlpDb.rioBemu as IBemService).ProcessRequest('');
   Parser := TBlpParser.Create;
   Response := Parser.Parse(FRequest, Data);
   Parser.Free;  //переменная Response после вызова метода Parse указывает на поле парсера FResponse, поэтому как только мы вызываем Parser.Free - все добытые данные превращаются в тыкву
 //  Response := Parse(Data);      поэтому не имеет смысла делать вызов как в этой строке (результат аннигилируется)
-    Result := -1;
+  Result := -1;
 end;
 
 end.

@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BEmu_csh">
+      <HintPath>..\..\..\..\..\VSP\Bloomberg\blpapi_dotnet_3.15.1.1\bin\BEmu_csh.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
