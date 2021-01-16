@@ -72,7 +72,7 @@ begin
 //      Application.ProcessMessages;
 //    Data := FResultData;//'Эта функциональность еще не реализована';
   BlpDb.rioBemu.URL := FWebClient.Host;
-  Data := (BlpDb.rioBemu as IBemService).ProcessRequest('');
+  Data := (BlpDb.rioBemu as IBemService).ProcessRequest(SO([ 'securities', Request.Securities.Text]).AsJSon());
   Parser := TBlpParser.Create;
   Response := Parser.Parse(FRequest, Data);
   Parser.Free;  //переменная Response после вызова метода Parse указывает на поле парсера FResponse, поэтому как только мы вызываем Parser.Free - все добытые данные превращаются в тыкву
