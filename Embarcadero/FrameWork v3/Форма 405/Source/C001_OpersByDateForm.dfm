@@ -14,28 +14,25 @@ inherited C001_OpersByDate: TC001_OpersByDate
   inherited paRight: TPanel
     Top = 123
     Height = 268
-    ExplicitLeft = 1008
     ExplicitTop = 123
-    ExplicitHeight = 463
+    ExplicitHeight = 268
   end
   inherited paMain: TPanel
     Top = 123
     Height = 268
     ExplicitTop = 123
-    ExplicitWidth = 1005
-    ExplicitHeight = 463
+    ExplicitHeight = 268
     inherited ToolBar2: TToolBar
-      ButtonWidth = 108
-      ExplicitWidth = 1005
+      ButtonWidth = 114
       inherited tbExcel: TToolButton
         AutoSize = True
       end
       inherited tbExcelZ: TToolButton
-        Left = 518
-        ExplicitLeft = 518
+        Left = 524
+        ExplicitLeft = 524
       end
       object ToolButton5: TToolButton
-        Left = 612
+        Left = 638
         Top = 0
         Width = 8
         Caption = 'ToolButton5'
@@ -45,7 +42,7 @@ inherited C001_OpersByDate: TC001_OpersByDate
         Visible = False
       end
       object ToolButton6: TToolButton
-        Left = 620
+        Left = 646
         Top = 0
         Width = 8
         Caption = 'ToolButton6'
@@ -55,25 +52,25 @@ inherited C001_OpersByDate: TC001_OpersByDate
         Visible = False
       end
       object ToolButton8: TToolButton
-        Left = 628
+        Left = 654
         Top = 0
         Action = actSetInvStraight
         AutoSize = True
       end
       object ToolButton9: TToolButton
-        Left = 701
+        Left = 727
         Top = 0
         Action = actSetInvCase
         AutoSize = True
       end
       object ToolButton10: TToolButton
-        Left = 803
+        Left = 829
         Top = 0
         Action = actSetInvNoCount
         AutoSize = True
       end
       object ToolButton21: TToolButton
-        Left = 903
+        Left = 929
         Top = 0
         AutoSize = True
         Caption = #1060#1080#1082#1090#1080#1074'.'
@@ -81,7 +78,7 @@ inherited C001_OpersByDate: TC001_OpersByDate
         ImageIndex = 1
       end
       object ToolButton11: TToolButton
-        Left = 977
+        Left = 1003
         Top = 0
         Width = 8
         Caption = 'ToolButton11'
@@ -91,12 +88,12 @@ inherited C001_OpersByDate: TC001_OpersByDate
         Visible = False
       end
       object tbInfo: TToolButton
-        Left = 985
+        Left = 1011
         Top = 0
         Action = actInfo
       end
       object ToolButton7: TToolButton
-        Left = 1093
+        Left = 1125
         Top = 0
         Width = 8
         Caption = 'ToolButton7'
@@ -104,7 +101,7 @@ inherited C001_OpersByDate: TC001_OpersByDate
         Style = tbsSeparator
       end
       object ToolButton14: TToolButton
-        Left = 1101
+        Left = 1133
         Top = 0
         Action = actGoTo417
       end
@@ -886,17 +883,11 @@ inherited C001_OpersByDate: TC001_OpersByDate
     inherited fmSeach: TfmSeachFrame
       Top = 46
       ExplicitTop = 46
-      inherited Panel1: TPanel
-        ExplicitLeft = 978
-      end
     end
     inherited fm31_Filter: Tfm31_Filter
       Top = 67
       TabOrder = 4
       ExplicitTop = 67
-      inherited Panel1: TPanel
-        ExplicitLeft = 978
-      end
     end
     object Panel2: TPanel
       Left = 0
@@ -906,8 +897,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitTop = 376
-      ExplicitWidth = 1005
       object Label2: TLabel
         Left = 6
         Top = 24
@@ -1312,7 +1301,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
       TabOrder = 5
       Visible = False
       Wrapable = False
-      ExplicitWidth = 1005
       object ToolButton15: TToolButton
         Left = 0
         Top = 0
@@ -1343,10 +1331,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
       end
     end
   end
-  inherited StatusBar: TStatusBar
-    ExplicitTop = 619
-    ExplicitWidth = 1008
-  end
   object Panel1: TPanel [4]
     Left = 0
     Top = 0
@@ -1355,7 +1339,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 4
-    ExplicitWidth = 1008
     object Label1: TLabel
       Left = 320
       Top = 7
@@ -1558,8 +1541,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
     end
   end
   inherited pnlButtons: TPanel
-    ExplicitTop = 586
-    ExplicitWidth = 1008
     inherited OKBtn: TButton
       Left = 815
       ExplicitLeft = 815
@@ -1587,9 +1568,6 @@ inherited C001_OpersByDate: TC001_OpersByDate
       Visible = False
     end
     inherited actExcel: TAction
-      Caption = ''
-    end
-    inherited actExcel_Za: TAction
       Caption = ''
     end
     object actApplayFilter: TAction

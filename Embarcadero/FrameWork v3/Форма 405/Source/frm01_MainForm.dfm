@@ -32,9 +32,7 @@ object frm01_Main: Tfrm01_Main
     Height = 30
     Align = alTop
     BevelOuter = bvNone
-    Caption = 'Panel1'
     TabOrder = 0
-    ExplicitWidth = 116
     object Panel2: TPanel
       Left = 2
       Top = 2
@@ -69,7 +67,6 @@ object frm01_Main: Tfrm01_Main
     Items.NodeData = {
       0301000000300000000000000000000000FFFFFFFFFFFFFFFF00000000000000
       0000000000010924043E0440043C0430042000340030003500}
-    ExplicitHeight = 358
   end
   object paFrameParent: TPanel
     Left = 119
@@ -79,8 +76,6 @@ object frm01_Main: Tfrm01_Main
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 555
-    ExplicitHeight = 358
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -89,8 +84,6 @@ object frm01_Main: Tfrm01_Main
     Height = 19
     Panels = <>
     SimplePanel = True
-    ExplicitTop = -19
-    ExplicitWidth = 116
   end
   object MainMenu1: TMainMenu
     Left = 24

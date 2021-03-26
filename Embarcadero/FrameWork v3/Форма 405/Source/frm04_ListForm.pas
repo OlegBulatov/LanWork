@@ -24,6 +24,11 @@ const
 type
   TDefPosition = (dpFirst, dpLast);
 
+  TLanitDataSet = class(TOracleDataset)
+    protected
+        function GetRecordCount: Integer; override;
+  end;
+
   TSelectEvent = function: Boolean of object;
 
   Tfrm04_List = class(Tfrm00_Parent)
@@ -1436,6 +1441,13 @@ procedure Tfrm04_List.actExcelMode1Execute(Sender: TObject);
 begin
   z_ReportStruct.SetExcelMode(1);
   z_ReportStruct.ExportToExcel(xxxDBGrid);
+end;
+
+{ TLanitDataSet }
+
+function TLanitDataSet.GetRecordCount: Integer;
+begin
+    Result := 1000;
 end;
 
 end.
