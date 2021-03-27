@@ -7,17 +7,24 @@ using System.ServiceModel;
 
 namespace DuplexClient
 {
-    public class CallbackHandler : CalculatorService.ICalculatorServiceCallback
+    public class CallbackHandler : CalculatorService.IObjectWcfServiceCallback//.ICalculatorDuplexCallback
     {
-        public void Result(double result)
+        public void InitiateCallWithBytes(string fileName)
         {
-            Console.WriteLine("Result({0})", result);
+            Console.WriteLine("Sending of file [{0}] requested", fileName);
+            InstanceContext instanceContext = new InstanceContext(new CallbackHandler());
+            var client = new CalculatorService.ObjectWcfServiceClient(instanceContext);//.CalculatorDuplexClient(instanceContext);
+            client.GenerateWordFileFromBytes("", fileName, null);
         }
+        //public void Result(double result)
+        //{
+        //    Console.WriteLine("Result({0})", result);
+        //}
 
-        public void Equation(string equation)
-        {
-            Console.WriteLine("Equation: {0}", equation);
-        }
+        //public void Equation(string equation)
+        //{
+        //    Console.WriteLine("Equation: {0}", equation);
+        //}
     }
 
     class Program
@@ -28,29 +35,30 @@ namespace DuplexClient
             InstanceContext instanceContext = new InstanceContext(new CallbackHandler());
 
             // Create a client.
-            var client = new CalculatorService.CalculatorServiceClient(instanceContext);
+            var client = new CalculatorService.ObjectWcfServiceClient(instanceContext);//.CalculatorDuplexClient(instanceContext);
 
             Console.WriteLine("Press <ENTER> to terminate client once the output is displayed.");
             Console.WriteLine();
 
-            // Call the AddTo service operation.
-            double value = 100.00D;
-            client.AddTo(value);
+            client.GenerateWordFile("", "test word file");
+            //// Call the AddTo service operation.
+            //double value = 100.00D;
+            //client..AddTo(value);
 
-            // Call the SubtractFrom service operation.
-            value = 50.00D;
-            client.SubtractFrom(value);
+            //// Call the SubtractFrom service operation.
+            //value = 50.00D;
+            //client.SubtractFrom(value);
 
-            // Call the MultiplyBy service operation.
-            value = 17.65D;
-            client.MultiplyBy(value);
+            //// Call the MultiplyBy service operation.
+            //value = 17.65D;
+            //client.MultiplyBy(value);
 
-            // Call the DivideBy service operation.
-            value = 2.00D;
-            client.DivideBy(value);
+            //// Call the DivideBy service operation.
+            //value = 2.00D;
+            //client.DivideBy(value);
 
-            // Complete equation.
-            client.Clear();
+            //// Complete equation.
+            //client.Clear();
 
             Console.ReadLine();
 
