@@ -36,7 +36,7 @@ namespace RestWcfService
         [OperationContract]
         string GetUserName();
 
-        [WebInvoke(Method = "POST", UriTemplate = "username/{name}", RequestFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "setusername/{name}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         void SetUserName(string name);
 
