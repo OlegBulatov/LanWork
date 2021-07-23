@@ -94,49 +94,49 @@
                 HideMenues();
             });
 
-        window.addEventListener("paste", function (e) {
-            if (e.clipboardData) {
-                var items = e.clipboardData.items;
-                if (items) {
-                    for (var i = 0; i < items.length; i++) {
-                        if (items[i].type.indexOf("text") !== -1) {
-                            items[i].getAsString(function (s) {
-                                pasteCatcher.innerHTML = s;
-                            });
-                            pasteCatcher.style.display = "block";
-                        }
-                        else if (items[i].type.indexOf("image") !== -1) {
-                            var blob = items[i].getAsFile();
-                            var URLObj = window.URL || window.webkitURL;
-                            var source = URLObj.createObjectURL(blob);
-                            var formDataFile = new FormData();
-                            var longPath = window.location.href;
-                            var shortPath = longPath.replace(new RegExp('/WVIB', 'g'), '');
-                            formDataFile.append('fileUpload', blob, source.replace(new RegExp(shortPath, 'g'), '').substring(6) + '.png');
-                            //formDataFile.append('entityId', 11);
-                            xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/WVIB/UploadFile', false);
-                            xhr.send(formDataFile);
-                            source = xhr.responseText;
-                            vueApp.SetPicture(source);
+            window.addEventListener("paste", function (e) {
+                if (e.clipboardData) {
+                    var items = e.clipboardData.items;
+                    if (items) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].type.indexOf("text") !== -1) {
+                                items[i].getAsString(function (s) {
+                                    pasteCatcher.innerHTML = s;
+                                });
+                                pasteCatcher.style.display = "block";
+                            }
+                            else if (items[i].type.indexOf("image") !== -1) {
+                                var blob = items[i].getAsFile();
+                                var URLObj = window.URL || window.webkitURL;
+                                var source = URLObj.createObjectURL(blob);
+                                var formDataFile = new FormData();
+                                var longPath = window.location.href;
+                                var shortPath = longPath.replace(new RegExp('/WVIB', 'g'), '');
+                                formDataFile.append('fileUpload', blob, source.replace(new RegExp(shortPath, 'g'), '').substring(6) + '.png');
+                                //formDataFile.append('entityId', 11);
+                                xhr = new XMLHttpRequest();
+                                xhr.open('POST', '/WVIB/UploadFile', false);
+                                xhr.send(formDataFile);
+                                source = xhr.responseText;
+                                vueApp.SetPicture(source);
 
-                            var dataObj = new Object();
-                            dataObj.src = source;
-                            var body = new Object();
-                            body.nodeId = GetSelectedNodeId();
-                            body.nodeData = JSON.stringify(dataObj);
-                            xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/WVIB/SetNodeData', false);
-                            xhr.setRequestHeader('Content-Type', 'application/json');
-                            xhr.send(JSON.stringify(body));
+                                var dataObj = new Object();
+                                dataObj.src = source;
+                                var body = new Object();
+                                body.nodeId = GetSelectedNodeId();
+                                body.nodeData = JSON.stringify(dataObj);
+                                xhr = new XMLHttpRequest();
+                                xhr.open('POST', '/WVIB/SetNodeData', false);
+                                xhr.setRequestHeader('Content-Type', 'application/json');
+                                xhr.send(JSON.stringify(body));
 
-                            pasteCatcher.innerHTML = '';
+                                pasteCatcher.innerHTML = '';
+                            }
                         }
                     }
                 }
-            }
-        });
-        
+            });
+
 
         }
         function saveAll() {
@@ -161,7 +161,6 @@
             height: 100%;
         }
     </style>
-
     <div style="position:absolute;top:0px;left:0px">
         <div id="jqxLayout">
             <div data-container="ModulesTree">
@@ -197,6 +196,12 @@
                     <br>
                     <br>
                     <button onclick="saveDiagram(); alert('OK');">save Diagram</button>
+                    <br>
+                    <br>
+                    <br>
+                    user
+                    <br>
+                    <strong><span style="color: green;">@HttpContext.Current.User.Identity.Name</span></strong>
                 </div>
             </div>
 
@@ -269,8 +274,8 @@
             @Scripts.Render("~/dist/lantree.js")
             @Scripts.Render("~/dist/wib_vues.js")
             @*@Scripts.Render("~/dist/vue_filter.js")
-            @Scripts.Render("~/dist/vue_edit.js")
-            @Scripts.Render("~/dist/vue_obj.js")*@
+                @Scripts.Render("~/dist/vue_edit.js")
+                @Scripts.Render("~/dist/vue_obj.js")*@
             @Scripts.Render("~/jqwidgets/jqxcore.js")
             @Scripts.Render("~/jqwidgets/jqxribbon.js")
             @Scripts.Render("~/jqwidgets/jqxLayout.js")
@@ -280,16 +285,16 @@
             @Scripts.Render("~/jqwidgets/jqxlistbox.js")
             @Scripts.Render("~/jqwidgets/jqxdropdownlist.js")
             @*@Scripts.Render("~/jqwidgets/jqxgrid.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.pager.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.edit.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.selection.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.columnsresize.js")*@
             @Scripts.Render("~/jqwidgets/jqxmenu.js")
             @*@Scripts.Render("~/scripts/demos.js")*@
             @*@Scripts.Render("~/jqwidgets/jqxgrid.sort.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.filter.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.storage.js")
+                @Scripts.Render("~/jqwidgets/jqxgrid.columnsreorder.js")*@
             @Scripts.Render("~/jqwidgets/jqxpanel.js")
             @Scripts.Render("~/jqwidgets/jqxcheckbox.js")
             @Scripts.Render("~/jqwidgets/jqxwindow.js")
@@ -304,8 +309,8 @@
             @Scripts.Render("~/jqwidgets/jqxdragdrop.js")
             @Scripts.Render("~/jqwidgets/jqxtooltip.js")
             @*@Scripts.Render("~/jqwidgets/jqxdata.export.js")
-            @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
-            @Scripts.Render("~/jqwidgets/jqxexport.js")*@
+                @Scripts.Render("~/jqwidgets/jqxgrid.export.js")
+                @Scripts.Render("~/jqwidgets/jqxexport.js")*@
 
         }
 

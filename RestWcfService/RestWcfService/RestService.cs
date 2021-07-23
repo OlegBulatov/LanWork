@@ -234,7 +234,7 @@ namespace RestWcfService
         public void SetUserName(string name)
         {
             _userToken = null;
-            _userName = name;
+            _userName = name.Replace("$$", "\\");
         }
 
         public void Compare(string item1, string item2)
