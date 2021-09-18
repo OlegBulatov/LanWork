@@ -17,3 +17,4 @@ RestWcfService/.vs/RestWcfService/v15/Server/sqlite3/storage.ide-wal
 RestWcfService/.vs/RestWcfService/v15/Server/sqlite3/storage.ide-shm
 *.dll
 LAN_WORK/LOG/application_log.txt
+RestWcfService/obj/
