@@ -35,5 +35,8 @@
     <Setting Name="QueryExecuteProcedure" Type="System.String" Scope="User">
       <Value Profile="(Default)">QUERY_AUDIT$OnQuery</Value>
     </Setting>
+    <Setting Name="UserToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

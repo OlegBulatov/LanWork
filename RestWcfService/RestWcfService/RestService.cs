@@ -15,18 +15,14 @@ namespace RestWcfService
     [ServiceContract]
     public interface IRestService
     {
+        //[WebGet]
         [WebInvoke(Method = "GET", UriTemplate = "module/{module_name}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         string LaunchModule(string module_name);
 
-        //[WebGet]
-        [WebInvoke(Method = "OPTIONS", UriTemplate= "compare_immediate")]
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "{queryId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
-        void GetOptionsForCompareImmediate();
-
-        [WebInvoke(Method = "OPTIONS", UriTemplate = "exec_code")]
-        [OperationContract]
-        void GetOptionsForExecCode();
+        void AllowExecuteQuery(string queryId);
 
         [WebInvoke(Method = "POST", UriTemplate = "{queryId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -40,17 +36,45 @@ namespace RestWcfService
         [OperationContract]
         void SetUserName(string name);
 
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "setusertoken")]
+        [OperationContract]
+        void AllowSetToken();
+
+        [WebInvoke(Method = "POST", UriTemplate = "setusertoken", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [OperationContract]
+        string SetUserToken(string name, string token);
+
         [WebInvoke(Method = "POST", UriTemplate = "compare/{attr_name}/{itemArr}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         void CompareItems(string attr_name, string itemArr);
+
+        [WebInvoke(Method = "OPTIONS", UriTemplate= "compare_immediate")]
+        [OperationContract]
+        void AllowCompare();
 
         [WebInvoke(Method = "POST", UriTemplate = "compare_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         void Compare(string item1, string item2);
 
+        [WebInvoke(Method = "OPTIONS", UriTemplate= "sql_immediate")]
+        [OperationContract]
+        void AllowSqlImmediate();
+
+        [WebInvoke(Method = "POST", UriTemplate = "sql_immediate", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [OperationContract]
+        string SqlImmediate(string sqlStruct);
+
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "exec_code")]
+        [OperationContract]
+        void AllowExecCode();
+
         [WebInvoke(Method = "POST", UriTemplate = "exec_code", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         string ExecCode(string src, string ref_assemblies_json, string class_name, string method_name, string arg);
+
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        void AllowEditText(string textId);
 
         [WebInvoke(Method = "POST", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
@@ -59,10 +83,6 @@ namespace RestWcfService
         [WebInvoke(Method = "POST", UriTemplate = "wordfile?json_table={json_table}", RequestFormat = WebMessageFormat.Json)]
         [OperationContract]
         byte[] WordFile(string json_table);
-
-        [WebInvoke(Method = "OPTIONS", UriTemplate = "edit/{textId}", RequestFormat = WebMessageFormat.Json)]
-        [OperationContract]
-        void AllowEditText(string textId);
     }
 
     public class RestService : IRestService
@@ -72,7 +92,21 @@ namespace RestWcfService
         private static int QueryNumber = 1;
         public static displayMethod dMethod;
         private static string _userName = Environment.UserDomainName + "\\" + Environment.UserName;
-        private string _userToken;
+        private static string _userToken;
+        public static string UserToken
+        {
+            get
+            {
+                return _userToken;
+            }
+            set
+            {
+                _userToken = value;
+                if(dMethod != null)
+                    dMethod("user token:", _userToken);
+
+            }
+        }
         private string Decrypt(string data, string password)
         {
             CryptoStream cs = InternalDecrypt(Convert.FromBase64String(data), password);
@@ -101,16 +135,37 @@ namespace RestWcfService
             var response = WebOperationContext.Current.OutgoingResponse;
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             response.Headers.Add("Access-Control-Allow-Headers", "*");
+            response.Headers.Add("Access-Control-Allow-Method", "*");
         }
 
-        public void GetOptionsForCompareImmediate()
+        public void AllowSetToken()
         {
             SetCorsHeaders();
         }
 
-        public void GetOptionsForExecCode()
+        public void AllowCompare()
         {
             SetCorsHeaders();
+        }
+
+        public void AllowSqlImmediate()
+        {
+            SetCorsHeaders();
+        }
+
+        public void AllowExecCode()
+        {
+            SetCorsHeaders();
+        }
+
+        public void AllowEditText(string textId)
+        {
+			SetCorsHeaders();        
+		}
+
+        public void AllowExecuteQuery(string queryId)
+        {
+			SetCorsHeaders();       
         }
 
         public byte[] WordFile(string json_table)
@@ -191,7 +246,13 @@ namespace RestWcfService
                 
             try
             {
-                dynamic queryStructDecoded = JsonConvert.DeserializeObject(Decrypt(queryStruct, _userToken));
+                string decodedStruct = Decrypt(queryStruct, _userToken);
+                //if(dMethod != null)
+                //    dMethod("received data", decodedStruct);
+                //Dios.Common.Logger L = new Dios.Common.Logger();
+                //L.LogError(ex.Message); 
+
+                dynamic queryStructDecoded = JsonConvert.DeserializeObject(decodedStruct);
                 string query = queryStructDecoded.query_text;
                 int dersaEntity = Convert.ToInt32(queryStructDecoded.dersa_entity);
                 string objectName = queryStructDecoded.object_name;
@@ -200,7 +261,7 @@ namespace RestWcfService
                     DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.MSSqlServer;
                 DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
                 if(dMethod != null)
-                    dMethod("execute query #" + QueryNumber++.ToString(), query);
+                    dMethod("execute query#" + QueryNumber++.ToString(), query);
                 if (Properties_Settings_Default.QueryExecuteProcedure != "")
                 {
                     IParameterCollection Params = new DIOS.Common.ParameterCollection();
@@ -233,8 +294,18 @@ namespace RestWcfService
 
         public void SetUserName(string name)
         {
-            _userToken = null;
+            //_userToken = null;
             _userName = name.Replace("$$", "\\");
+        }
+
+        public string SetUserToken(string name, string token)
+        {
+            _userToken = token;
+            _userName = name.Replace("$$", "\\");
+            if(dMethod != null)
+                dMethod("set token for name " + name, token);
+
+            return name;
         }
 
         public void Compare(string item1, string item2)
@@ -257,6 +328,56 @@ namespace RestWcfService
             proc.StartInfo.Arguments = fileName1 + " " + fileName2;
             proc.Start();
         }
+
+        public string SqlImmediate(string sqlStruct)
+        {
+				if (_userToken == null)
+				{
+					QueryNumber = 100;
+				}
+	            var response = WebOperationContext.Current.OutgoingResponse;
+	            response.Headers.Add("Access-Control-Allow-Origin", "*");
+	            response.Headers.Add("Access-Control-Allow-Headers", "*");
+	            response.Headers.Add("Access-Control-Allow-Method", "*");
+	            
+                dynamic queryStruct = JsonConvert.DeserializeObject(sqlStruct);
+	             
+                string queryStructEncoded = queryStruct.message;
+				
+                string queryStructDecoded = "{\"query_text\":\"no text\"}";
+                string queryDecoded = "*";
+				string objectType = "";
+                try
+                {
+                	queryStructDecoded = Decrypt(queryStructEncoded, _userToken);
+	                dynamic queryStructFinal = JsonConvert.DeserializeObject(queryStructDecoded);
+	                queryDecoded = queryStructFinal.query_text;
+					objectType = queryStructFinal.object_type;
+                }
+                catch(Exception exc)
+                {
+                	queryDecoded = exc.Message;
+                }
+                bool returnResponse = (objectType == "r"); 
+                DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.MSSqlServer;
+                DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
+                if(dMethod != null)
+                    dMethod("execute direct query#" + QueryNumber++.ToString(), queryDecoded);
+	                    //dMethod("user token:", _userToken);
+                    //dMethod("object type = " + objectType, queryDecoded);
+                    //dMethod("token = ", _userToken);
+                try
+                {
+                	return M.ExecMultiPartSql(queryDecoded, returnResponse); // "ExecuteQuery " + query;
+                	//return queryStructDecoded;
+                }
+                catch(Exception exc)
+                {
+                	return "received: " + sqlStruct + ", error: " + exc.Message;    
+                }
+
+        }
+
         public void CompareItems(string attr_name, string itemArrJson)
         {
             string[] itemArr = JsonConvert.DeserializeObject<string[]>(itemArrJson);
@@ -281,15 +402,6 @@ namespace RestWcfService
             proc.StartInfo.FileName = Properties_Settings_Default.CompareProgramPath;
             proc.StartInfo.Arguments = fileName1 + " " + fileName2;
             proc.Start();
-        }
-
-        public void AllowEditText(string textId)
-        {
-            var response = WebOperationContext.Current.OutgoingResponse;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-            response.Headers.Add("Access-Control-Allow-Headers", "*");
-            response.Headers.Add("Access-Control-Allow-Method", "*");
-
         }
 
         public string LaunchModule(string moduleName)
@@ -324,8 +436,6 @@ namespace RestWcfService
             string TempDirPath = Properties_Settings_Default.TempDir; //"c:\\Temp\\";
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
-            //sClient.ClientCredentials.UserName.UserName = @"MURZIK\Oleg";
-            //sClient.ClientCredentials.UserName.Password = "bracelettE_1001";
             //sClient.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
             if (_userToken == null)
             {
@@ -417,13 +527,28 @@ namespace RestWcfService
 
             if (needDelFile)
                 File.Delete(fileName);
-            return result;
+            //return result;
+            return JsonConvert.SerializeObject(new{
+            		userName = _userName,
+            		result = result
+            	});
         }
 
     }
 
     public class DCServiceClass : IRestServiceClass
     {
+        public string UserToken
+        {
+            get
+            {
+                return RestService.UserToken;
+            }
+            set
+            {
+                RestService.UserToken = value;
+            }
+        }
         public string ServerURL
         {
             get

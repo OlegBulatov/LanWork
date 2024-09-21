@@ -17,8 +17,8 @@ namespace RestWcfService
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MainForm MF = new MainForm();
-            //if (Args != null && Args.Length > 0)
-            //    MF.RestService.SetUserNameExt(Args[0]);
+            if (Args != null && Args.Length > 0 && Args[0].ToLower() == "autostart")
+                MF.AutoStart = true;                     //.RestService.SetUserNameExt(Args[0]);
             Application.Run(MF);
         }
     }

@@ -13,6 +13,7 @@ namespace RestWcfService
     {
         displayMethod dMethod { get; set; }
         string ServerURL { get; set; }
+        string UserToken { get; set; }
         string ConnectionString { get; set; }
         //void SetUserNameExt(string userName);
         Type serviceType { get; }
@@ -22,6 +23,7 @@ namespace RestWcfService
     public delegate void displayMethod(string shortStatus, string longStatus);
     public partial class MainForm : Form
     {
+        public bool AutoStart = false;
         private void DisplayStatus(string shortStatus, string longStatus)
         {
             stLabel.Text = shortStatus;
@@ -60,12 +62,17 @@ namespace RestWcfService
             chUniqueNames.Checked = Properties.Settings.Default.UseUniqueFileNames;
             chDeleteAfterEdit.Checked = Properties.Settings.Default.DeleteFileAfterSaveOnServer;
             RestService.ServerURL = tbServerURL.Text = Properties.Settings.Default.ServerWebServiceUrl;
+            tbToken.Text = Properties.Settings.Default.UserToken;
         }
 
         private void bnStart_Click(object sender, EventArgs e)
         {
             try
             {
+                if (tbToken.Text == "")
+                {
+                    tbToken.Text = RestService.UserToken;
+                }
                 string address = tbUri.Text;
                 ServiceHost host = new ServiceHost(RestService.serviceType, new Uri(address));
                 //host.Description.Behaviors.Add(new HostBehavior());
@@ -132,6 +139,7 @@ namespace RestWcfService
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new EnableCorsBehavior());
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebScriptEnablingBehavior());
                 DisplayStatus("OK", "WCF server started");
+                RestService.UserToken = tbToken.Text;
             }
             catch (Exception exc)
             {
@@ -160,6 +168,7 @@ namespace RestWcfService
                 Properties.Settings.Default.QueryExecuteProcedure = tbQueryExecProc.Text;
                 Properties.Settings.Default.UseUniqueFileNames = chUniqueNames.Checked;
                 Properties.Settings.Default.DeleteFileAfterSaveOnServer = chDeleteAfterEdit.Checked;
+                Properties.Settings.Default.UserToken = tbToken.Text;
                 Properties.Settings.Default.Save();
                 MessageBox.Show("Настройки сохранены"); 
             }
@@ -227,6 +236,17 @@ namespace RestWcfService
                 tbError.Text = exc.Message;
                 return null;
             }
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (AutoStart)
+                bnStart_Click(null, null);
+        }
+
+        private void bnWsConnect_Click(object sender, EventArgs e)
+        {
+            var L = new WSListener(tbWsUri.Text);
         }
     }
 
