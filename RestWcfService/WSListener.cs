@@ -6,21 +6,24 @@ using System.Threading.Tasks;
 using System.Net.WebSockets;
 using System.Threading;
 using Newtonsoft.Json;
+using System.Runtime.Remoting.Messaging;
 
 namespace RestWcfService
 {
     class WSListener
     {
         private string _wsUri;
-        public WSListener(string ws_uri)
+        private displayMethod _displayMethod; 
+        public WSListener(string ws_uri, displayMethod dMethod)
         {
             _wsUri = ws_uri;
+            _displayMethod = dMethod;
             Task T = new Task(ProcessMessages);
             T.Start();
         }
         private async void ProcessMessages()
         {
-            int messageLength = -1;
+            long messageLength = -1;
             using (var ws = new ClientWebSocket())
             {
 
@@ -44,7 +47,7 @@ namespace RestWcfService
                             try
                             {
                                 var keys = JsonConvert.DeserializeObject<Dictionary<string, object>>(maybeHeader);
-                                messageLength = (int)keys["length"];
+                                messageLength = (long)keys["length"];
                             }
                             catch(Exception exc)
                             {
@@ -63,10 +66,11 @@ namespace RestWcfService
                             }
                             else
                             {
-                                string messageBody = Encoding.UTF8.GetString(buf.ToArray<byte>(), 0, result.Count);
+                                string messageBody = Encoding.UTF8.GetString(messageBuf.ToArray<byte>(), 0, messageResult.Count);
                                 try
                                 {
-                                    MethodCallDecoder.CallServiceMethod(messageBody);
+                                    string callResult = MethodCallDecoder.CallServiceMethod(messageBody);
+                                    _displayMethod(callResult, $"handled request {messageBody}");
                                 }
                                 catch (Exception exc)
                                 {

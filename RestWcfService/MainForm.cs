@@ -246,7 +246,7 @@ namespace RestWcfService
 
         private void bnWsConnect_Click(object sender, EventArgs e)
         {
-            var L = new WSListener(tbWsUri.Text);
+            var L = new WSListener(tbWsUri.Text, DisplayStatus);
         }
     }
 

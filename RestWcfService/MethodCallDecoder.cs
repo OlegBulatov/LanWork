@@ -8,9 +8,9 @@ namespace RestWcfService
 {
     class MethodCallDecoder
     {
-        public static void CallServiceMethod(string description)
+        public static string CallServiceMethod(string description)
         {
-
+            return "success!";
         }
     }
 }

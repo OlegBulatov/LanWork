@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RestWcfService</RootNamespace>
     <AssemblyName>RestWcfService</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,16 +36,16 @@
       <HintPath>..\bin\Debug\DersaClientService.exe</HintPath>
     </Reference>
     <Reference Include="Dios.Common">
-      <HintPath>..\..\..\..\gitd\DIOS\DIOS\DIOS.Server\common\Dios.Common.dll</HintPath>
+      <HintPath>..\bin\Dios.Common.dll</HintPath>
     </Reference>
     <Reference Include="Dios.Interfaces">
-      <HintPath>..\..\..\..\gitd\DIOS\DIOS\DIOS.Server\common\Dios.Interfaces.dll</HintPath>
+      <HintPath>..\bin\Dios.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Dios.SqlManager">
-      <HintPath>..\..\..\..\gitd\DIOS\DIOS\DIOS.Server\common\Dios.SqlManager.dll</HintPath>
+      <HintPath>..\bin\Dios.SqlManager.dll</HintPath>
     </Reference>
     <Reference Include="DIOS.WordAdapter">
-      <HintPath>..\..\..\..\gitd\DIOS\DIOS\DIOS.Server\common\DIOS.WordAdapter.dll</HintPath>
+      <HintPath>..\bin\DIOS.WordAdapter.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

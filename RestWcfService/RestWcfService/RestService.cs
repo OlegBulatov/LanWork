@@ -368,10 +368,11 @@ namespace RestWcfService
                     //dMethod("token = ", _userToken);
                 try
                 {
-                	return M.ExecMultiPartSql(queryDecoded, returnResponse); // "ExecuteQuery " + query;
-                	//return queryStructDecoded;
-                }
-                catch(Exception exc)
+                    return M.ExecMultiPartSql(queryDecoded); // "ExecuteQuery " + query;
+                //return M.ExecMultiPartSql(queryDecoded, returnResponse); // "ExecuteQuery " + query;
+                                                                         //return queryStructDecoded;
+            }
+            catch (Exception exc)
                 {
                 	return "received: " + sqlStruct + ", error: " + exc.Message;    
                 }
