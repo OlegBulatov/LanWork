@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RestWcfService
 {
@@ -21,14 +22,29 @@ namespace RestWcfService
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
+    public delegate void SafeCallDelegate(string text);
     public partial class MainForm : Form
     {
         public bool AutoStart = false;
+
+        private void WriteErrorTextSafe(string text)
+        {
+            if (tbError.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(WriteErrorTextSafe);
+                tbError.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                tbError.Text = text;
+                stLabel.BackColor = stLabel.BackColor == System.Drawing.Color.LightBlue ? System.Drawing.Color.LightCoral : System.Drawing.Color.LightBlue;
+            }
+        }
         private void DisplayStatus(string shortStatus, string longStatus)
         {
             stLabel.Text = shortStatus;
             stLabel.ToolTipText = longStatus;
-            tbError.Text = longStatus;
+            WriteErrorTextSafe(longStatus);
         }
 
         public IRestServiceClass RestService = null;
@@ -47,7 +63,7 @@ namespace RestWcfService
             if (dType == null)
                 throw new Exception("type DCServiceClass not found");
             RestService = Activator.CreateInstance(dType) as IRestServiceClass;
-            if(RestService == null)
+            if (RestService == null)
                 throw new Exception("service does not implement IRestServiceClass");
             RestService.dMethod = new displayMethod(DisplayStatus);
             DisplayStatus("please start", "press Start button");
@@ -143,7 +159,7 @@ namespace RestWcfService
             }
             catch (Exception exc)
             {
-                DisplayStatus("error", exc.Message); 
+                DisplayStatus("error", exc.Message);
             }
         }
 
@@ -157,7 +173,7 @@ namespace RestWcfService
             DialogResult result = MessageBox.Show("Сохранить настройки?", "Подтвердите действие", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Properties.Settings.Default.DatabaseConnectionString = tbConnectionString.Text; 
+                Properties.Settings.Default.DatabaseConnectionString = tbConnectionString.Text;
                 Properties.Settings.Default.ClientWebServiceUrl = tbUri.Text;
                 RestService.ServerURL = Properties.Settings.Default.ServerWebServiceUrl = tbServerURL.Text;
                 Properties.Settings.Default.TempDir = tbTempDir.Text;
@@ -170,7 +186,7 @@ namespace RestWcfService
                 Properties.Settings.Default.DeleteFileAfterSaveOnServer = chDeleteAfterEdit.Checked;
                 Properties.Settings.Default.UserToken = tbToken.Text;
                 Properties.Settings.Default.Save();
-                MessageBox.Show("Настройки сохранены"); 
+                MessageBox.Show("Настройки сохранены");
             }
         }
 
@@ -231,7 +247,7 @@ namespace RestWcfService
                 System.Type newObjectType = assembly.GetType("RestWcfService.DCServiceClass");
                 return newObjectType;
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 tbError.Text = exc.Message;
                 return null;
@@ -246,10 +262,20 @@ namespace RestWcfService
 
         private void bnWsConnect_Click(object sender, EventArgs e)
         {
-            var L = new WSListener(tbWsUri.Text, DisplayStatus);
+            var L = new WSListener(tbWsUri.Text, DisplayStatus, OnWSConnected);
+        }
+
+        private void OnWSConnected()
+        {
+            bnWsConnect.BackColor = System.Drawing.Color.PaleGreen;
+            //bnWsConnect.Enabled = false;
+        }
+
+        private void stStatus_BackColorChanged(object sender, EventArgs e)
+        {
+            tbError.Text = stLabel.ToolTipText;
         }
     }
-
     //public class MyHost: ServiceHost
     //{
     //    public MyHost(Type serviceType, params Uri[] baseAddresses):base(serviceType, baseAddresses)

@@ -90,6 +90,7 @@
             this.stStatus.Size = new System.Drawing.Size(560, 22);
             this.stStatus.TabIndex = 2;
             this.stStatus.Text = "status";
+            this.stStatus.BackColorChanged += new System.EventHandler(this.stStatus_BackColorChanged);
             // 
             // stLabel
             // 
@@ -316,12 +317,13 @@
             // 
             // bnWsConnect
             // 
-            this.bnWsConnect.Location = new System.Drawing.Point(495, 63);
+            this.bnWsConnect.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.bnWsConnect.Location = new System.Drawing.Point(495, 61);
             this.bnWsConnect.Name = "bnWsConnect";
             this.bnWsConnect.Size = new System.Drawing.Size(49, 23);
             this.bnWsConnect.TabIndex = 26;
             this.bnWsConnect.Text = "WS";
-            this.bnWsConnect.UseVisualStyleBackColor = true;
+            this.bnWsConnect.UseVisualStyleBackColor = false;
             this.bnWsConnect.Click += new System.EventHandler(this.bnWsConnect_Click);
             // 
             // tbWsUri

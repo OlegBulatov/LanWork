@@ -13,11 +13,14 @@ namespace RestWcfService
     class WSListener
     {
         private string _wsUri;
-        private displayMethod _displayMethod; 
-        public WSListener(string ws_uri, displayMethod dMethod)
+        public delegate void ConnectHanler();
+        public event ConnectHanler  OnConnect;
+        public event displayMethod OnReceiveMessage;
+        public WSListener(string ws_uri, displayMethod dMethod, ConnectHanler connectHanler)
         {
             _wsUri = ws_uri;
-            _displayMethod = dMethod;
+            OnConnect += connectHanler;
+            OnReceiveMessage += dMethod;
             Task T = new Task(ProcessMessages);
             T.Start();
         }
@@ -28,6 +31,7 @@ namespace RestWcfService
             {
 
                 await ws.ConnectAsync(new Uri(_wsUri), CancellationToken.None);
+                OnConnect?.Invoke();
 
                 while (ws.State == WebSocketState.Open)
                 {
@@ -70,7 +74,7 @@ namespace RestWcfService
                                 try
                                 {
                                     string callResult = MethodCallDecoder.CallServiceMethod(messageBody);
-                                    _displayMethod(callResult, $"handled request {messageBody}");
+                                    OnReceiveMessage?.Invoke(callResult, $"get message {messageBody}");
                                 }
                                 catch (Exception exc)
                                 {
