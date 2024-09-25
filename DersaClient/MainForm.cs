@@ -11,18 +11,21 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MethodCallService
 {
-    public interface IRestServiceClass
+    public interface IMethodCallServiceClass
     {
         displayMethod dMethod { get; set; }
-        string ServerURL { get; set; }
-        string UserToken { get; set; }
         string ConnectionString { get; set; }
-        //void SetUserNameExt(string userName);
         Type serviceType { get; }
         Type serviceInterfaceType { get; }
+        string UserToken { get; set; }
+    }
+    public interface IRestServiceClass : IMethodCallServiceClass
+    {
+        string ServerURL { get; set; }
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
+    delegate void onWSConnected();
     public partial class MainForm : Form
     {
         public bool AutoStart = false;
@@ -43,7 +46,8 @@ namespace MethodCallService
             }
         }
 
-        public IRestServiceClass RestService = null;
+        private IRestServiceClass RestService = null;
+        private IMethodCallServiceClass MethodCallService = null;
 
         public MainForm()
         {
@@ -186,11 +190,6 @@ namespace MethodCallService
             }
         }
 
-        private void tbError_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private Type GetServiceClassType()
         {
             try
@@ -263,8 +262,16 @@ namespace MethodCallService
 
         private void OnWSConnected()
         {
-            bnWsConnect.BackColor = System.Drawing.Color.PaleGreen;
-            //bnWsConnect.Enabled = false;
+            if (bnWsConnect.InvokeRequired)
+            {
+                var d = new onWSConnected(OnWSConnected);
+                bnWsConnect.Invoke(d);
+            }
+            else
+            {
+                bnWsConnect.BackColor = System.Drawing.Color.PaleGreen;
+                bnWsConnect.Enabled = false;
+            }
         }
 
         private void stStatus_BackColorChanged(object sender, EventArgs e)

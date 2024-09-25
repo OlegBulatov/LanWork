@@ -119,7 +119,6 @@
             this.tbError.Name = "tbError";
             this.tbError.Size = new System.Drawing.Size(532, 126);
             this.tbError.TabIndex = 4;
-            this.tbError.TextChanged += new System.EventHandler(this.tbError_TextChanged);
             // 
             // label2
             // 
