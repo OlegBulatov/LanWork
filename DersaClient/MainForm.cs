@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 
-namespace MethodCallService
+namespace DersaClientService
 {
     public interface IMethodCallServiceClass
     {
@@ -43,7 +43,6 @@ namespace MethodCallService
         }
 
         private IRestServiceClass RestService = null;
-        private IMethodCallServiceClass MethodCallService = null;
 
         public MainForm()
         {
@@ -281,10 +280,6 @@ namespace MethodCallService
             }
         }
 
-        private void stStatus_BackColorChanged(object sender, EventArgs e)
-        {
-            tbFullStatus.Text = stLabel.ToolTipText;
-        }
     }
     //public class MyHost: ServiceHost
     //{

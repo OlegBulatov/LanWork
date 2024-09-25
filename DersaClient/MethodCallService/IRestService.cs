@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MethodCallService
+namespace DersaClientService
 {
     [ServiceContract]
     public interface IRestService

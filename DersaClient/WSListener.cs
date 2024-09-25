@@ -7,11 +7,14 @@ using System.Net.WebSockets;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Runtime.Remoting.Messaging;
+using System.Reflection;
 
-namespace MethodCallService
+namespace DersaClientService
 {
     class WSListener
     {
+        private object methodCallService = null;
+        private MethodCallDecoder decoder = null;
         private string _wsUri;
         public delegate void ConnectHanler();
         public event ConnectHanler  OnConnect;
@@ -19,6 +22,16 @@ namespace MethodCallService
         public event displayMethod OnConnectError;
         public WSListener(string ws_uri, displayMethod dMethod, ConnectHanler connectHanler)
         {
+            Assembly svcAssembly = Assembly.Load("MethodCallService");
+            if (svcAssembly == null)
+                throw new Exception("assembly MethodCallService not found");
+            Type dType = svcAssembly.GetType("DersaClientService.DCServiceClass");
+            if (dType == null)
+                throw new Exception("type DCServiceClass not found");
+            var methodCallServiceClass = Activator.CreateInstance(dType) as IMethodCallServiceClass;
+            var DType = Activator.CreateInstance(dType) as IMethodCallServiceClass;
+            methodCallService = Activator.CreateInstance(DType.serviceType);
+
             _wsUri = ws_uri;
             OnConnect += connectHanler;
             OnReceiveMessage += dMethod;
@@ -76,7 +89,9 @@ namespace MethodCallService
                                     string messageBody = Encoding.UTF8.GetString(messageBuf.ToArray<byte>(), 0, messageResult.Count);
                                     try
                                     {
-                                        string callResult = MethodCallDecoder.CallServiceMethod(messageBody);
+                                        if (decoder == null)
+                                            decoder = new MethodCallDecoder(methodCallService);
+                                        string callResult = decoder.CallServiceMethod(messageBody);
                                         OnReceiveMessage?.Invoke(callResult, $"get message {messageBody}");
                                     }
                                     catch (Exception exc)

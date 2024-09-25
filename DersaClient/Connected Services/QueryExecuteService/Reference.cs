@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MethodCallService.QueryExecuteService {
+namespace DersaClientService.QueryExecuteService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -41,12 +41,12 @@ namespace MethodCallService.QueryExecuteService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IQueryExecuteServiceChannel : MethodCallService.QueryExecuteService.IQueryExecuteService, System.ServiceModel.IClientChannel {
+    public interface IQueryExecuteServiceChannel : DersaClientService.QueryExecuteService.IQueryExecuteService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class QueryExecuteServiceClient : System.ServiceModel.ClientBase<MethodCallService.QueryExecuteService.IQueryExecuteService>, MethodCallService.QueryExecuteService.IQueryExecuteService {
+    public partial class QueryExecuteServiceClient : System.ServiceModel.ClientBase<DersaClientService.QueryExecuteService.IQueryExecuteService>, DersaClientService.QueryExecuteService.IQueryExecuteService {
         
         public QueryExecuteServiceClient() {
         }

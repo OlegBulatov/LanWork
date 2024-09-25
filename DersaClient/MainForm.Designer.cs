@@ -1,4 +1,4 @@
-﻿namespace MethodCallService
+﻿namespace DersaClientService
 {
     partial class MainForm
     {
@@ -89,7 +89,6 @@
             this.stStatus.Size = new System.Drawing.Size(560, 22);
             this.stStatus.TabIndex = 2;
             this.stStatus.Text = "status";
-            this.stStatus.BackColorChanged += new System.EventHandler(this.stStatus_BackColorChanged);
             // 
             // stLabel
             // 

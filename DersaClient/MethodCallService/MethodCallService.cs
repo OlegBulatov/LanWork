@@ -10,7 +10,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using DIOS.Common.Interfaces;
 
-namespace MethodCallService
+namespace DersaClientService
 {
 
     public class MethodCallService : IRestService
