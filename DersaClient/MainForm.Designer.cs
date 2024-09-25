@@ -33,7 +33,7 @@
             this.stStatus = new System.Windows.Forms.StatusStrip();
             this.stLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.bnStart = new System.Windows.Forms.Button();
-            this.tbError = new System.Windows.Forms.TextBox();
+            this.tbFullStatus = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbConnectionString = new System.Windows.Forms.TextBox();
             this.bnSaveSettings = new System.Windows.Forms.Button();
@@ -68,7 +68,6 @@
             this.tbUri.Name = "tbUri";
             this.tbUri.Size = new System.Drawing.Size(477, 20);
             this.tbUri.TabIndex = 0;
-            this.tbUri.Text = "http://localhost:11433";
             // 
             // label1
             // 
@@ -109,16 +108,16 @@
             this.bnStart.UseVisualStyleBackColor = true;
             this.bnStart.Click += new System.EventHandler(this.bnStart_Click);
             // 
-            // tbError
+            // tbFullStatus
             // 
-            this.tbError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tbFullStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbError.Location = new System.Drawing.Point(12, 362);
-            this.tbError.Multiline = true;
-            this.tbError.Name = "tbError";
-            this.tbError.Size = new System.Drawing.Size(532, 126);
-            this.tbError.TabIndex = 4;
+            this.tbFullStatus.Location = new System.Drawing.Point(12, 362);
+            this.tbFullStatus.Multiline = true;
+            this.tbFullStatus.Name = "tbFullStatus";
+            this.tbFullStatus.Size = new System.Drawing.Size(532, 126);
+            this.tbFullStatus.TabIndex = 4;
             // 
             // label2
             // 
@@ -333,7 +332,6 @@
             this.tbWsUri.Name = "tbWsUri";
             this.tbWsUri.Size = new System.Drawing.Size(477, 20);
             this.tbWsUri.TabIndex = 27;
-            this.tbWsUri.Text = "ws://localhost:12663/Socket/Connect";
             // 
             // MainForm
             // 
@@ -363,7 +361,7 @@
             this.Controls.Add(this.tbServerURL);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbConnectionString);
-            this.Controls.Add(this.tbError);
+            this.Controls.Add(this.tbFullStatus);
             this.Controls.Add(this.bnStart);
             this.Controls.Add(this.stStatus);
             this.Controls.Add(this.label1);
@@ -385,7 +383,7 @@
         private System.Windows.Forms.ToolStripStatusLabel stLabel;
         private System.Windows.Forms.StatusStrip stStatus;
         private System.Windows.Forms.Button bnStart;
-        private System.Windows.Forms.TextBox tbError;
+        private System.Windows.Forms.TextBox tbFullStatus;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbConnectionString;
         private System.Windows.Forms.Button bnSaveSettings;

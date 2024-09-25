@@ -166,5 +166,17 @@ namespace MethodCallService.Properties {
                 this["UserToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ws://localhost:12663/Socket/Connect")]
+        public string WebSocketUrl {
+            get {
+                return ((string)(this["WebSocketUrl"]));
+            }
+            set {
+                this["WebSocketUrl"] = value;
+            }
+        }
     }
 }

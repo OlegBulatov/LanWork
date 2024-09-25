@@ -2,12 +2,9 @@
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.ServiceModel.Description;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MethodCallService
 {
@@ -25,7 +22,6 @@ namespace MethodCallService
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
-    delegate void onWSConnected();
     public partial class MainForm : Form
     {
         public bool AutoStart = false;
@@ -33,13 +29,13 @@ namespace MethodCallService
         private void DisplayStatus(string shortStatus, string longStatus)
         {
             var d = new displayMethod(DisplayStatus);
-            if (tbError.InvokeRequired)
+            if (tbFullStatus.InvokeRequired)
             {
-                tbError.Invoke(d, new object[] { shortStatus, longStatus });
+                tbFullStatus.Invoke(d, new object[] { shortStatus, longStatus });
             }
             else
             {
-                tbError.Text = longStatus;
+                tbFullStatus.Text = longStatus;
                 stLabel.Text = shortStatus;
                 stLabel.ToolTipText = longStatus;
                 stLabel.BackColor = stLabel.BackColor == System.Drawing.Color.LightBlue ? System.Drawing.Color.LightCoral : System.Drawing.Color.LightBlue;
@@ -52,7 +48,27 @@ namespace MethodCallService
         public MainForm()
         {
             InitializeComponent();
-            Type dType = GetServiceClassType();
+
+            DisplayStatus("please start", "press Start button");
+
+            tbConnectionString.Text = Properties.Settings.Default.DatabaseConnectionString;
+            tbUri.Text = Properties.Settings.Default.ClientWebServiceUrl;
+            tbTempDir.Text = Properties.Settings.Default.TempDir;
+            tbCompareFilesPath.Text = Properties.Settings.Default.CompareProgramPath;
+            tbAfterSaveCommand.Text = Properties.Settings.Default.AfterSaveCommand;
+            tbEditCommand.Text = Properties.Settings.Default.EditTextCommand;
+            tbWordDir.Text = Properties.Settings.Default.WordDir;
+            tbQueryExecProc.Text = Properties.Settings.Default.QueryExecuteProcedure;
+            chUniqueNames.Checked = Properties.Settings.Default.UseUniqueFileNames;
+            chDeleteAfterEdit.Checked = Properties.Settings.Default.DeleteFileAfterSaveOnServer;
+            tbServerURL.Text = Properties.Settings.Default.ServerWebServiceUrl;
+            tbToken.Text = Properties.Settings.Default.UserToken;
+            tbWsUri.Text = Properties.Settings.Default.WebSocketUrl;
+        }
+
+        private void bnStart_Click(object sender, EventArgs e)
+        {
+            Type dType = GetRestServiceClassType();
             if (dType == null)
             {
                 Assembly svcAssembly = Assembly.Load("MethodCallService");
@@ -65,30 +81,19 @@ namespace MethodCallService
             RestService = Activator.CreateInstance(dType) as IRestServiceClass;
             if (RestService == null)
                 throw new Exception("service does not implement IRestServiceClass");
-            RestService.dMethod = new displayMethod(DisplayStatus);
-            DisplayStatus("please start", "press Start button");
-            tbConnectionString.Text = Properties.Settings.Default.DatabaseConnectionString;
-            tbUri.Text = Properties.Settings.Default.ClientWebServiceUrl;
-            tbTempDir.Text = Properties.Settings.Default.TempDir;
-            tbCompareFilesPath.Text = Properties.Settings.Default.CompareProgramPath;
-            tbAfterSaveCommand.Text = Properties.Settings.Default.AfterSaveCommand;
-            tbEditCommand.Text = Properties.Settings.Default.EditTextCommand;
-            tbWordDir.Text = Properties.Settings.Default.WordDir;
-            tbQueryExecProc.Text = Properties.Settings.Default.QueryExecuteProcedure;
-            chUniqueNames.Checked = Properties.Settings.Default.UseUniqueFileNames;
-            chDeleteAfterEdit.Checked = Properties.Settings.Default.DeleteFileAfterSaveOnServer;
-            RestService.ServerURL = tbServerURL.Text = Properties.Settings.Default.ServerWebServiceUrl;
-            tbToken.Text = Properties.Settings.Default.UserToken;
-        }
 
-        private void bnStart_Click(object sender, EventArgs e)
-        {
+            RestService.dMethod = new displayMethod(DisplayStatus);
+
             try
             {
                 if (tbToken.Text == "")
                 {
                     tbToken.Text = RestService.UserToken;
                 }
+                RestService.UserToken = tbToken.Text;
+                RestService.ConnectionString = tbConnectionString.Text;
+                RestService.ServerURL = tbServerURL.Text;
+
                 string address = tbUri.Text;
                 ServiceHost host = new ServiceHost(RestService.serviceType, new Uri(address));
                 //host.Description.Behaviors.Add(new HostBehavior());
@@ -155,7 +160,7 @@ namespace MethodCallService
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new EnableCorsBehavior());
                 //host.Description.Endpoints[0].EndpointBehaviors.Add(new WebScriptEnablingBehavior());
                 DisplayStatus("OK", "WCF server started");
-                RestService.UserToken = tbToken.Text;
+                bnStart.Enabled = false;
             }
             catch (Exception exc)
             {
@@ -165,7 +170,8 @@ namespace MethodCallService
 
         private void tbConnectionString_TextChanged(object sender, EventArgs e)
         {
-            RestService.ConnectionString = tbConnectionString.Text;
+            if(RestService != null)
+                RestService.ConnectionString = tbConnectionString.Text;
         }
 
         private void bnSaveSettings_Click(object sender, EventArgs e)
@@ -185,12 +191,13 @@ namespace MethodCallService
                 Properties.Settings.Default.UseUniqueFileNames = chUniqueNames.Checked;
                 Properties.Settings.Default.DeleteFileAfterSaveOnServer = chDeleteAfterEdit.Checked;
                 Properties.Settings.Default.UserToken = tbToken.Text;
+                Properties.Settings.Default.WebSocketUrl = tbWsUri.Text;
                 Properties.Settings.Default.Save();
                 MessageBox.Show("Настройки сохранены");
             }
         }
 
-        private Type GetServiceClassType()
+        private Type GetRestServiceClassType()
         {
             try
             {
@@ -236,7 +243,7 @@ namespace MethodCallService
                         errorSb.Append(results.Output[k] + "\r\n");
                     }
                     //Console.WriteLine(source);
-                    tbError.Text = errorSb.ToString();
+                    tbFullStatus.Text = errorSb.ToString();
                 }
                 System.Reflection.Assembly assembly = results.CompiledAssembly;
                 System.Type newObjectType = assembly.GetType("RestWcfService.DCServiceClass");
@@ -244,7 +251,7 @@ namespace MethodCallService
             }
             catch (Exception exc)
             {
-                tbError.Text = exc.Message;
+                tbFullStatus.Text = exc.Message;
                 return null;
             }
         }
@@ -264,7 +271,7 @@ namespace MethodCallService
         {
             if (bnWsConnect.InvokeRequired)
             {
-                var d = new onWSConnected(OnWSConnected);
+                var d = new Action(OnWSConnected);
                 bnWsConnect.Invoke(d);
             }
             else
@@ -276,7 +283,7 @@ namespace MethodCallService
 
         private void stStatus_BackColorChanged(object sender, EventArgs e)
         {
-            tbError.Text = stLabel.ToolTipText;
+            tbFullStatus.Text = stLabel.ToolTipText;
         }
     }
     //public class MyHost: ServiceHost
