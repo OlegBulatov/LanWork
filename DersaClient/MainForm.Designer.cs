@@ -1,4 +1,4 @@
-﻿namespace RestWcfService
+﻿namespace MethodCallService
 {
     partial class MainForm
     {
@@ -370,7 +370,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbUri);
             this.Name = "MainForm";
-            this.Text = "REST service";
+            this.Text = "DERSA client";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.stStatus.ResumeLayout(false);
             this.stStatus.PerformLayout();

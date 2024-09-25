@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RestWcfService.QueryExecuteService {
+namespace MethodCallService.QueryExecuteService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -41,12 +41,12 @@ namespace RestWcfService.QueryExecuteService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IQueryExecuteServiceChannel : RestWcfService.QueryExecuteService.IQueryExecuteService, System.ServiceModel.IClientChannel {
+    public interface IQueryExecuteServiceChannel : MethodCallService.QueryExecuteService.IQueryExecuteService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class QueryExecuteServiceClient : System.ServiceModel.ClientBase<RestWcfService.QueryExecuteService.IQueryExecuteService>, RestWcfService.QueryExecuteService.IQueryExecuteService {
+    public partial class QueryExecuteServiceClient : System.ServiceModel.ClientBase<MethodCallService.QueryExecuteService.IQueryExecuteService>, MethodCallService.QueryExecuteService.IQueryExecuteService {
         
         public QueryExecuteServiceClient() {
         }

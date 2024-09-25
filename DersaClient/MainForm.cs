@@ -7,8 +7,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace RestWcfService
+namespace MethodCallService
 {
     public interface IRestServiceClass
     {
@@ -22,29 +23,24 @@ namespace RestWcfService
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
-    public delegate void SafeCallDelegate(string text);
     public partial class MainForm : Form
     {
         public bool AutoStart = false;
 
-        private void WriteErrorTextSafe(string text)
+        private void DisplayStatus(string shortStatus, string longStatus)
         {
+            var d = new displayMethod(DisplayStatus);
             if (tbError.InvokeRequired)
             {
-                var d = new SafeCallDelegate(WriteErrorTextSafe);
-                tbError.Invoke(d, new object[] { text });
+                tbError.Invoke(d, new object[] { shortStatus, longStatus });
             }
             else
             {
-                tbError.Text = text;
+                tbError.Text = longStatus;
+                stLabel.Text = shortStatus;
+                stLabel.ToolTipText = longStatus;
                 stLabel.BackColor = stLabel.BackColor == System.Drawing.Color.LightBlue ? System.Drawing.Color.LightCoral : System.Drawing.Color.LightBlue;
             }
-        }
-        private void DisplayStatus(string shortStatus, string longStatus)
-        {
-            stLabel.Text = shortStatus;
-            stLabel.ToolTipText = longStatus;
-            WriteErrorTextSafe(longStatus);
         }
 
         public IRestServiceClass RestService = null;
@@ -55,10 +51,10 @@ namespace RestWcfService
             Type dType = GetServiceClassType();
             if (dType == null)
             {
-                Assembly svcAssembly = Assembly.Load("RestWcfService");
+                Assembly svcAssembly = Assembly.Load("MethodCallService");
                 if (svcAssembly == null)
-                    throw new Exception("assembly RestWcfService not found");
-                dType = svcAssembly.GetType("RestWcfService.DCServiceClass");
+                    throw new Exception("assembly MethodCallService not found");
+                dType = svcAssembly.GetType("MethodCallService.DCServiceClass");
             }
             if (dType == null)
                 throw new Exception("type DCServiceClass not found");

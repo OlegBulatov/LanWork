@@ -8,7 +8,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Runtime.Remoting.Messaging;
 
-namespace RestWcfService
+namespace MethodCallService
 {
     class WSListener
     {
