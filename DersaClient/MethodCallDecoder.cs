@@ -3,27 +3,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DersaClientService
 {
-    class MethodArgDescription
-    {
-        public string ArgName;
-        public string ArgValue;
-    }
     class MethodDescription
     {
         public string MethodName;
-        public MethodArgDescription[] MethodArgs;
+        public Dictionary<string, string> MethodArgs;
     }
 
     class MethodCallInfo
     {
-        public string FullDescriprtion;
-        public string MethodName;
+        public MethodInfo mInfo;
         public object[] Args;
     }
     class MethodCallDecoder
@@ -38,7 +33,13 @@ namespace DersaClientService
         {
             var methodDescription = JsonConvert.DeserializeObject<MethodDescription>(description);
             var mi = methodCallService.GetType().GetMethod(methodDescription.MethodName);
-            return null;
+            var parms = mi.GetParameters();
+            object[] args = new object[parms.Length];
+            for(int p= 0; p < parms.Length; p++)
+            {
+                args[p] = methodDescription.MethodArgs[ parms[p].Name];
+            }
+            return new MethodCallInfo { mInfo = mi, Args = args};
         }
         public string CallServiceMethod(string description)
         {
@@ -46,10 +47,11 @@ namespace DersaClientService
             {
                 var methodDescription = JsonConvert.DeserializeObject<MethodDescription>(description);
 
-                var mi = DecodeMethodInfo(description);
-                if (mi != null)
+                var decodedInfo = DecodeMethodInfo(description);
+                if (decodedInfo != null)
                 {
-                    return "";
+                    decodedInfo.mInfo.Invoke(methodCallService, decodedInfo.Args);
+                    return null;
                 }
                 else
                 {

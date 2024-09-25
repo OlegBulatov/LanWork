@@ -30,6 +30,7 @@ namespace DersaClientService
                 throw new Exception("type DCServiceClass not found");
             var methodCallServiceClass = Activator.CreateInstance(dType) as IMethodCallServiceClass;
             var DType = Activator.CreateInstance(dType) as IMethodCallServiceClass;
+            DType.dMethod = dMethod;
             methodCallService = Activator.CreateInstance(DType.serviceType);
 
             _wsUri = ws_uri;
@@ -92,7 +93,8 @@ namespace DersaClientService
                                         if (decoder == null)
                                             decoder = new MethodCallDecoder(methodCallService);
                                         string callResult = decoder.CallServiceMethod(messageBody);
-                                        OnReceiveMessage?.Invoke(callResult, $"get message {messageBody}");
+                                        if (callResult != null)
+                                            OnReceiveMessage?.Invoke(callResult, $"get message {messageBody}");
                                     }
                                     catch (Exception exc)
                                     {
