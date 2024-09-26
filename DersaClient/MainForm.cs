@@ -15,9 +15,6 @@ namespace DersaClientService
         Type serviceType { get; }
         Type serviceInterfaceType { get; }
         string UserToken { get; set; }
-    }
-    public interface IRestServiceClass : IMethodCallServiceClass
-    {
         string ServerURL { get; set; }
     }
 
@@ -42,7 +39,7 @@ namespace DersaClientService
             }
         }
 
-        private IRestServiceClass RestService = null;
+        private IMethodCallServiceClass RestService = null;
 
         public MainForm()
         {
@@ -77,7 +74,7 @@ namespace DersaClientService
             }
             if (dType == null)
                 throw new Exception("type DCServiceClass not found");
-            RestService = Activator.CreateInstance(dType) as IRestServiceClass;
+            RestService = Activator.CreateInstance(dType) as IMethodCallServiceClass;
             if (RestService == null)
                 throw new Exception("service does not implement IRestServiceClass");
 
@@ -263,7 +260,19 @@ namespace DersaClientService
 
         private void bnWsConnect_Click(object sender, EventArgs e)
         {
-            var L = new WSListener(tbWsUri.Text, DisplayStatus, OnWSConnected);
+            Assembly svcAssembly = Assembly.Load("MethodCallService");
+            if (svcAssembly == null)
+                throw new Exception("assembly MethodCallService not found");
+            Type dType = svcAssembly.GetType("DersaClientService.DCServiceClass");
+            if (dType == null)
+                throw new Exception("type DCServiceClass not found");
+            var serviceEnvelope = Activator.CreateInstance(dType) as IMethodCallServiceClass;
+            serviceEnvelope.dMethod = DisplayStatus;
+            serviceEnvelope.ConnectionString = tbConnectionString.Text;
+            serviceEnvelope.UserToken = tbToken.Text;
+            serviceEnvelope.ServerURL = tbServerURL.Text;
+
+            var L = new WSListener(tbWsUri.Text, serviceEnvelope, OnWSConnected);
         }
 
         private void OnWSConnected()

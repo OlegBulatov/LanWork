@@ -9,6 +9,8 @@ using System.Security.Cryptography;
 using System.Reflection;
 using Newtonsoft.Json;
 using DIOS.Common.Interfaces;
+using Newtonsoft.Json.Linq;
+using System.Xml.Linq;
 
 namespace DersaClientService
 {
@@ -157,8 +159,9 @@ namespace DersaClientService
 
         public string ExecuteQuery(string queryId)
         {
-            var response = WebOperationContext.Current.OutgoingResponse;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            //uncomment for Rest Service!!
+            //var response = WebOperationContext.Current.OutgoingResponse;
+            //response.Headers.Add("Access-Control-Allow-Origin", "*");
 
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
@@ -211,6 +214,8 @@ namespace DersaClientService
 
         public string GetUserName()
         {
+            if (dMethod != null)
+                dMethod("get user name ", _userName);
             return _userName;
         }
 
@@ -224,6 +229,8 @@ namespace DersaClientService
         {
             //_userToken = null;
             _userName = name.Replace("$$", "\\");
+            if (dMethod != null)
+                dMethod("set user name ", name);
         }
 
         public string SetUserToken(string name, string token)
@@ -465,7 +472,7 @@ namespace DersaClientService
 
     }
 
-    public class DCServiceClass : IRestServiceClass
+    public class DCServiceClass : IMethodCallServiceClass
     {
         public string UserToken
         {

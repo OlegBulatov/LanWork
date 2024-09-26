@@ -20,23 +20,14 @@ namespace DersaClientService
         public event ConnectHanler  OnConnect;
         public event displayMethod OnReceiveMessage;
         public event displayMethod OnConnectError;
-        public WSListener(string ws_uri, displayMethod dMethod, ConnectHanler connectHanler)
+        public WSListener(string ws_uri, IMethodCallServiceClass serviceEnvelope, ConnectHanler connectHanler)
         {
-            Assembly svcAssembly = Assembly.Load("MethodCallService");
-            if (svcAssembly == null)
-                throw new Exception("assembly MethodCallService not found");
-            Type dType = svcAssembly.GetType("DersaClientService.DCServiceClass");
-            if (dType == null)
-                throw new Exception("type DCServiceClass not found");
-            var methodCallServiceClass = Activator.CreateInstance(dType) as IMethodCallServiceClass;
-            var DType = Activator.CreateInstance(dType) as IMethodCallServiceClass;
-            DType.dMethod = dMethod;
-            methodCallService = Activator.CreateInstance(DType.serviceType);
+            methodCallService = Activator.CreateInstance(serviceEnvelope.serviceType);
 
             _wsUri = ws_uri;
             OnConnect += connectHanler;
-            OnReceiveMessage += dMethod;
-            OnConnectError += dMethod;
+            OnReceiveMessage += serviceEnvelope.dMethod;
+            OnConnectError += serviceEnvelope.dMethod;
             Task T = new Task(ProcessMessages);
             T.Start();
         }

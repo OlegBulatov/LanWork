@@ -13,7 +13,7 @@ namespace DersaClientService
     class MethodDescription
     {
         public string MethodName;
-        public Dictionary<string, string> MethodArgs;
+        public Dictionary<string, object> MethodArgs;
     }
 
     class MethodCallInfo
@@ -60,7 +60,14 @@ namespace DersaClientService
             }
             catch(Exception exc)
             {
-                return exc.Message.Substring(0, 32);
+                string message = exc.Message;
+                Exception inner = exc.InnerException;
+                while (inner != null)
+                {
+                    message = inner.Message;
+                    inner = inner.InnerException;
+                }
+                return message;
             }
         }
     }
