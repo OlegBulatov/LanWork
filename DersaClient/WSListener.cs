@@ -85,7 +85,7 @@ namespace DersaClientService
                                             decoder = new MethodCallDecoder(methodCallService);
                                         string callResult = decoder.CallServiceMethod(messageBody);
                                         if (callResult != null)
-                                            OnReceiveMessage?.Invoke(callResult, $"get message {messageBody}");
+                                            OnReceiveMessage?.Invoke($"get message {messageBody}", callResult);
                                     }
                                     catch (Exception exc)
                                     {

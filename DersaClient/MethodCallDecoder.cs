@@ -50,7 +50,9 @@ namespace DersaClientService
                 var decodedInfo = DecodeMethodInfo(description);
                 if (decodedInfo != null)
                 {
-                    decodedInfo.mInfo.Invoke(methodCallService, decodedInfo.Args);
+                    object result = decodedInfo.mInfo.Invoke(methodCallService, decodedInfo.Args);
+                    if(result != null)
+                        return result.ToString();
                     return null;
                 }
                 else

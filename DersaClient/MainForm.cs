@@ -177,7 +177,7 @@ namespace DersaClientService
             {
                 Properties.Settings.Default.DatabaseConnectionString = tbConnectionString.Text;
                 Properties.Settings.Default.ClientWebServiceUrl = tbUri.Text;
-                RestService.ServerURL = Properties.Settings.Default.ServerWebServiceUrl = tbServerURL.Text;
+                Properties.Settings.Default.ServerWebServiceUrl = tbServerURL.Text;
                 Properties.Settings.Default.TempDir = tbTempDir.Text;
                 Properties.Settings.Default.CompareProgramPath = tbCompareFilesPath.Text;
                 Properties.Settings.Default.AfterSaveCommand = tbAfterSaveCommand.Text;

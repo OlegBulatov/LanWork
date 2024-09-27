@@ -48,15 +48,16 @@
     <Reference Include="Dios.Interfaces">
       <HintPath>..\bin\Dios.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Dios.SqlManager">
-      <HintPath>..\bin\Dios.SqlManager.dll</HintPath>
+    <Reference Include="Dios.SqlManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Dios.SqlManager.dll</HintPath>
     </Reference>
     <Reference Include="DIOS.WordAdapter">
       <HintPath>..\bin\DIOS.WordAdapter.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

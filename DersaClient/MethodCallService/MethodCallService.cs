@@ -159,15 +159,15 @@ namespace DersaClientService
 
         public string ExecuteQuery(string queryId)
         {
-            //uncomment for Rest Service!!
-            //var response = WebOperationContext.Current.OutgoingResponse;
-            //response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var response = WebOperationContext.Current?.OutgoingResponse;
+            if(response != null)
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
 
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             if (_userName == null)
                 return "Имя пользователя не определено. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri;
-            if (_userToken == null)
+            if (string.IsNullOrEmpty(_userToken))
             {
                 _userToken = sClient.GetUserToken(_userName, "*************");
             }
@@ -190,6 +190,8 @@ namespace DersaClientService
                 string objectType = queryStructDecoded.object_type;
                 if (ConnectionString.Contains("Initial Catalog"))
                     DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.MSSqlServer;
+                else
+                    DIOS.Common.SqlManager.SqlBrand = DIOS.Common.SqlBrand.PostgreSQL;
                 DIOS.Common.SqlManager M = new DIOS.Common.SqlManager(ConnectionString);
                 if(dMethod != null)
                     dMethod("execute query#" + QueryNumber++.ToString(), query);
@@ -204,7 +206,7 @@ namespace DersaClientService
                     string[] QueryExecuteProcedureParams = Properties_Settings_Default.QueryExecuteProcedure.Split('.');
                     M.ExecuteIntMethod(QueryExecuteProcedureParams[0], QueryExecuteProcedureParams[1], Params);
                 }
-                return M.ExecMultiPartSql(query); // "ExecuteQuery " + query;
+                return M.ExecMultiPartSql(query, true); // "ExecuteQuery " + query;
             }
             catch(Exception exc)
             {
