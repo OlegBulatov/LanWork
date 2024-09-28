@@ -16,16 +16,16 @@ namespace DersaClientService.QueryExecuteService {
     public interface IQueryExecuteService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetText", ReplyAction="http://tempuri.org/IQueryExecuteService/GetTextResponse")]
-        string GetText(string TextId, string token);
+        string GetText(string textId, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetText", ReplyAction="http://tempuri.org/IQueryExecuteService/GetTextResponse")]
-        System.Threading.Tasks.Task<string> GetTextAsync(string TextId, string token);
+        System.Threading.Tasks.Task<string> GetTextAsync(string textId, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserToken", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserTokenResponse")]
-        string GetUserToken(string name, string password);
+        string GetUserToken(string userLogin, string userPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserToken", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserTokenResponse")]
-        System.Threading.Tasks.Task<string> GetUserTokenAsync(string name, string password);
+        System.Threading.Tasks.Task<string> GetUserTokenAsync(string userLogin, string userPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/GetAttrValueResponse")]
         string GetAttrValue(string attrName, string entityId, string userToken);
@@ -34,10 +34,16 @@ namespace DersaClientService.QueryExecuteService {
         System.Threading.Tasks.Task<string> GetAttrValueAsync(string attrName, string entityId, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/SetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/SetAttrValueResponse")]
-        string SetAttrValue(string attr_name, string entity_id, string attr_value, string token);
+        string SetAttrValue(string attrName, string entityId, string attrValue, string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/SetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/SetAttrValueResponse")]
-        System.Threading.Tasks.Task<string> SetAttrValueAsync(string attr_name, string entity_id, string attr_value, string token);
+        System.Threading.Tasks.Task<string> SetAttrValueAsync(string attrName, string entityId, string attrValue, string userToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/SendResponse", ReplyAction="http://tempuri.org/IQueryExecuteService/SendResponseResponse")]
+        void SendResponse(string userLogin, string responseText);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/SendResponse", ReplyAction="http://tempuri.org/IQueryExecuteService/SendResponseResponse")]
+        System.Threading.Tasks.Task SendResponseAsync(string userLogin, string responseText);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -67,20 +73,20 @@ namespace DersaClientService.QueryExecuteService {
                 base(binding, remoteAddress) {
         }
         
-        public string GetText(string TextId, string token) {
-            return base.Channel.GetText(TextId, token);
+        public string GetText(string textId, string userToken) {
+            return base.Channel.GetText(textId, userToken);
         }
         
-        public System.Threading.Tasks.Task<string> GetTextAsync(string TextId, string token) {
-            return base.Channel.GetTextAsync(TextId, token);
+        public System.Threading.Tasks.Task<string> GetTextAsync(string textId, string userToken) {
+            return base.Channel.GetTextAsync(textId, userToken);
         }
         
-        public string GetUserToken(string name, string password) {
-            return base.Channel.GetUserToken(name, password);
+        public string GetUserToken(string userLogin, string userPassword) {
+            return base.Channel.GetUserToken(userLogin, userPassword);
         }
         
-        public System.Threading.Tasks.Task<string> GetUserTokenAsync(string name, string password) {
-            return base.Channel.GetUserTokenAsync(name, password);
+        public System.Threading.Tasks.Task<string> GetUserTokenAsync(string userLogin, string userPassword) {
+            return base.Channel.GetUserTokenAsync(userLogin, userPassword);
         }
         
         public string GetAttrValue(string attrName, string entityId, string userToken) {
@@ -91,12 +97,20 @@ namespace DersaClientService.QueryExecuteService {
             return base.Channel.GetAttrValueAsync(attrName, entityId, userToken);
         }
         
-        public string SetAttrValue(string attr_name, string entity_id, string attr_value, string token) {
-            return base.Channel.SetAttrValue(attr_name, entity_id, attr_value, token);
+        public string SetAttrValue(string attrName, string entityId, string attrValue, string userToken) {
+            return base.Channel.SetAttrValue(attrName, entityId, attrValue, userToken);
         }
         
-        public System.Threading.Tasks.Task<string> SetAttrValueAsync(string attr_name, string entity_id, string attr_value, string token) {
-            return base.Channel.SetAttrValueAsync(attr_name, entity_id, attr_value, token);
+        public System.Threading.Tasks.Task<string> SetAttrValueAsync(string attrName, string entityId, string attrValue, string userToken) {
+            return base.Channel.SetAttrValueAsync(attrName, entityId, attrValue, userToken);
+        }
+        
+        public void SendResponse(string userLogin, string responseText) {
+            base.Channel.SendResponse(userLogin, responseText);
+        }
+        
+        public System.Threading.Tasks.Task SendResponseAsync(string userLogin, string responseText) {
+            return base.Channel.SendResponseAsync(userLogin, responseText);
         }
     }
 }

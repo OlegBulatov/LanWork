@@ -206,7 +206,9 @@ namespace DersaClientService
                     string[] QueryExecuteProcedureParams = Properties_Settings_Default.QueryExecuteProcedure.Split('.');
                     M.ExecuteIntMethod(QueryExecuteProcedureParams[0], QueryExecuteProcedureParams[1], Params);
                 }
-                return M.ExecMultiPartSql(query, true); // "ExecuteQuery " + query;
+                string result = M.ExecMultiPartSql(query, true); // "ExecuteQuery " + query;
+                sClient.SendResponse(_userName, result);
+                return result;
             }
             catch(Exception exc)
             {
