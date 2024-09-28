@@ -21,11 +21,11 @@ namespace DersaClientService.QueryExecuteService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetText", ReplyAction="http://tempuri.org/IQueryExecuteService/GetTextResponse")]
         System.Threading.Tasks.Task<string> GetTextAsync(string textId, string userToken);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserToken", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserTokenResponse")]
-        string GetUserToken(string userLogin, string userPassword);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserName", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserNameResponse")]
+        string GetUserName(string userToken);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserToken", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserTokenResponse")]
-        System.Threading.Tasks.Task<string> GetUserTokenAsync(string userLogin, string userPassword);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetUserName", ReplyAction="http://tempuri.org/IQueryExecuteService/GetUserNameResponse")]
+        System.Threading.Tasks.Task<string> GetUserNameAsync(string userToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IQueryExecuteService/GetAttrValue", ReplyAction="http://tempuri.org/IQueryExecuteService/GetAttrValueResponse")]
         string GetAttrValue(string attrName, string entityId, string userToken);
@@ -81,12 +81,12 @@ namespace DersaClientService.QueryExecuteService {
             return base.Channel.GetTextAsync(textId, userToken);
         }
         
-        public string GetUserToken(string userLogin, string userPassword) {
-            return base.Channel.GetUserToken(userLogin, userPassword);
+        public string GetUserName(string userToken) {
+            return base.Channel.GetUserName(userToken);
         }
         
-        public System.Threading.Tasks.Task<string> GetUserTokenAsync(string userLogin, string userPassword) {
-            return base.Channel.GetUserTokenAsync(userLogin, userPassword);
+        public System.Threading.Tasks.Task<string> GetUserNameAsync(string userToken) {
+            return base.Channel.GetUserNameAsync(userToken);
         }
         
         public string GetAttrValue(string attrName, string entityId, string userToken) {

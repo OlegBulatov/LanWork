@@ -15,6 +15,7 @@ namespace DersaClientService
         Type serviceType { get; }
         Type serviceInterfaceType { get; }
         string UserToken { get; set; }
+        string UserLogin { get; }
         string ServerURL { get; set; }
     }
 
@@ -82,10 +83,10 @@ namespace DersaClientService
 
             try
             {
-                if (tbToken.Text == "")
-                {
-                    tbToken.Text = RestService.UserToken;
-                }
+                //if (tbToken.Text == "")
+                //{
+                //    tbToken.Text = RestService.UserToken;
+                //}
                 RestService.UserToken = tbToken.Text;
                 RestService.ConnectionString = tbConnectionString.Text;
                 RestService.ServerURL = tbServerURL.Text;
@@ -260,19 +261,25 @@ namespace DersaClientService
 
         private void bnWsConnect_Click(object sender, EventArgs e)
         {
-            Assembly svcAssembly = Assembly.Load("MethodCallService");
-            if (svcAssembly == null)
-                throw new Exception("assembly MethodCallService not found");
-            Type dType = svcAssembly.GetType("DersaClientService.DCServiceClass");
-            if (dType == null)
-                throw new Exception("type DCServiceClass not found");
-            var serviceEnvelope = Activator.CreateInstance(dType) as IMethodCallServiceClass;
-            serviceEnvelope.dMethod = DisplayStatus;
-            serviceEnvelope.ConnectionString = tbConnectionString.Text;
-            serviceEnvelope.UserToken = tbToken.Text;
-            serviceEnvelope.ServerURL = tbServerURL.Text;
+            if (tbToken.Text.Length > 0)
+            {
+                Assembly svcAssembly = Assembly.Load("MethodCallService");
+                if (svcAssembly == null)
+                    throw new Exception("assembly MethodCallService not found");
+                Type dType = svcAssembly.GetType("DersaClientService.DCServiceClass");
+                if (dType == null)
+                    throw new Exception("type DCServiceClass not found");
+                var serviceEnvelope = Activator.CreateInstance(dType) as IMethodCallServiceClass;
+                serviceEnvelope.dMethod = DisplayStatus;
+                serviceEnvelope.ConnectionString = tbConnectionString.Text;
+                serviceEnvelope.UserToken = tbToken.Text;
+                laLogin.Text = serviceEnvelope.UserLogin;
+                serviceEnvelope.ServerURL = tbServerURL.Text;
 
-            var L = new WSListener(tbWsUri.Text, serviceEnvelope, OnWSConnected);
+                var L = new WSListener(tbWsUri.Text, serviceEnvelope, OnWSConnected);
+            }
+            else
+                MessageBox.Show("нужно заполнить поле токена");
         }
 
         private void OnWSConnected()

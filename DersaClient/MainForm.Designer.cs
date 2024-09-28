@@ -57,6 +57,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.bnWsConnect = new System.Windows.Forms.Button();
             this.tbWsUri = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.laLogin = new System.Windows.Forms.Label();
             this.stStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -332,11 +334,32 @@
             this.tbWsUri.Size = new System.Drawing.Size(477, 20);
             this.tbWsUri.TabIndex = 27;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(410, 288);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(55, 13);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "user login:";
+            // 
+            // laLogin
+            // 
+            this.laLogin.AutoSize = true;
+            this.laLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laLogin.Location = new System.Drawing.Point(460, 288);
+            this.laLogin.Name = "laLogin";
+            this.laLogin.Size = new System.Drawing.Size(33, 13);
+            this.laLogin.TabIndex = 29;
+            this.laLogin.Text = "User";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(560, 513);
+            this.Controls.Add(this.laLogin);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.tbWsUri);
             this.Controls.Add(this.bnWsConnect);
             this.Controls.Add(this.label10);
@@ -406,6 +429,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button bnWsConnect;
         private System.Windows.Forms.TextBox tbWsUri;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label laLogin;
     }
 }
 

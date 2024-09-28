@@ -23,6 +23,13 @@ namespace DersaClientService
         public static displayMethod dMethod;
         private static string _userName = Environment.UserDomainName + "\\" + Environment.UserName;
         private static string _userToken;
+        public static string UserLogin
+        {
+            get
+            {
+                return _userName; 
+            }
+        }
         public static string UserToken
         {
             get
@@ -32,8 +39,10 @@ namespace DersaClientService
             set
             {
                 _userToken = value;
+                QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
+                _userName = sClient.GetUserName(_userToken);
                 if(dMethod != null)
-                    dMethod("user token:", _userToken);
+                    dMethod("user name:", _userName);
 
             }
         }
@@ -167,10 +176,7 @@ namespace DersaClientService
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             if (_userName == null)
                 return "Имя пользователя не определено. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri;
-            if (string.IsNullOrEmpty(_userToken))
-            {
-                _userToken = sClient.GetUserToken(_userName, "*************");
-            }
+
             string queryStruct = sClient.GetText(queryId, _userToken);
             if (queryStruct == null)
                 return "Запрос не получен. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri;
@@ -320,17 +326,15 @@ namespace DersaClientService
 
         public void CompareItems(string attr_name, string itemArrJson)
         {
+            var response = WebOperationContext.Current?.OutgoingResponse;
+            if (response != null)
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+
             string[] itemArr = JsonConvert.DeserializeObject<string[]>(itemArrJson);
             string item1 = itemArr[0];
             string item2 = itemArr[1];
-            var response = WebOperationContext.Current.OutgoingResponse;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
-            if (_userToken == null)
-            {
-                _userToken = sClient.GetUserToken(_userName, "*************");
-            }
             string attr1 = sClient.GetAttrValue(attr_name, item1, _userToken);
             string attr2 = sClient.GetAttrValue(attr_name, item2, _userToken);
             string TempDirPath = Properties_Settings_Default.TempDir;
@@ -371,23 +375,13 @@ namespace DersaClientService
 
         public string EditText(string textId)
         {
-            var response = WebOperationContext.Current.OutgoingResponse;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var response = WebOperationContext.Current?.OutgoingResponse;
+            if(response != null)
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
             string TempDirPath = Properties_Settings_Default.TempDir; //"c:\\Temp\\";
             QueryExecuteService.QueryExecuteServiceClient sClient = new QueryExecuteService.QueryExecuteServiceClient();
             sClient.Endpoint.Address = new EndpointAddress(ServerURL);
             //sClient.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
-            if (_userToken == null)
-            {
-                try
-                {
-                    _userToken = sClient.GetUserToken(_userName, "*************");
-                }
-                catch(Exception exc)
-                {
-                    string s = exc.Message;
-                }
-            }
             string textToEditJSON = sClient.GetText(textId, _userToken);
             dynamic textToEditObject = JsonConvert.DeserializeObject(textToEditJSON);
             string textToEdit = textToEditObject.attrValue;
@@ -478,6 +472,13 @@ namespace DersaClientService
 
     public class DCServiceClass : IMethodCallServiceClass
     {
+        public string UserLogin
+        {
+            get
+            {
+                return MethodCallService.UserLogin;
+            }
+        }
         public string UserToken
         {
             get
