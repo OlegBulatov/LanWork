@@ -8,6 +8,8 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Runtime.Remoting.Messaging;
 using System.Reflection;
+using static DersaClientService.WSListener;
+using System.Net;
 
 namespace DersaClientService
 {
@@ -16,16 +18,21 @@ namespace DersaClientService
         private object methodCallService = null;
         private MethodCallDecoder decoder = null;
         private string _wsUri;
-        public delegate void ConnectHanler();
-        public event ConnectHanler  OnConnect;
+        private string _login;
+        public delegate void ConnectHandler();
+        public delegate void DisconnectHandler(bool normalDisconnect, string disconnectReason);
+        public event ConnectHandler OnConnect;
+        public event DisconnectHandler OnDisconnect;
         public event displayMethod OnReceiveMessage;
         public event displayMethod OnConnectError;
-        public WSListener(string ws_uri, IMethodCallServiceClass serviceEnvelope, ConnectHanler connectHanler)
+        public WSListener(string ws_uri, IMethodCallServiceClass serviceEnvelope, ConnectHandler connectHandler, DisconnectHandler disconnectHandler)
         {
             methodCallService = Activator.CreateInstance(serviceEnvelope.serviceType);
 
             _wsUri = ws_uri;
-            OnConnect += connectHanler;
+            _login = serviceEnvelope.UserLogin;
+            OnConnect += connectHandler;
+            OnDisconnect += disconnectHandler;
             OnReceiveMessage += serviceEnvelope.dMethod;
             OnConnectError += serviceEnvelope.dMethod;
             Task T = new Task(ProcessMessages);
@@ -38,7 +45,15 @@ namespace DersaClientService
             {
                 try
                 {
-                    await ws.ConnectAsync(new Uri(_wsUri), CancellationToken.None);
+                    //CookieContainer wsCookies = ws.Options.Cookies;
+                    //if(wsCookies == null)
+                    //{
+                    //    wsCookies = new CookieContainer();
+                    //    ws.Options.Cookies = wsCookies;
+                    //}
+                    //System.Net.Cookie clientLoginCookie = new System.Net.Cookie("client_login", _login, "/", "dersa.ru");
+                    //wsCookies.Add(clientLoginCookie);
+                    await ws.ConnectAsync(new Uri(_wsUri + "?clientLogin=" + _login), CancellationToken.None);
                     OnConnect?.Invoke();
 
                     while (ws.State == WebSocketState.Open)
@@ -51,6 +66,7 @@ namespace DersaClientService
                             if (result.MessageType == WebSocketMessageType.Close)
                             {
                                 await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+                                OnDisconnect?.Invoke(true, "normal disconnect");
                                 //Console.WriteLine(result.CloseStatusDescription);
                             }
                             else
@@ -96,6 +112,8 @@ namespace DersaClientService
                         }
                         catch (Exception ex)
                         {
+                            await ws.CloseAsync(WebSocketCloseStatus.ProtocolError, null, CancellationToken.None);
+                            OnDisconnect?.Invoke(false, ex.Message);
                             //Console.WriteLine(ex.Message);
                         }
                     }

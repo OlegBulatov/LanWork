@@ -218,7 +218,7 @@ namespace DersaClientService
             }
             catch(Exception exc)
             {
-                return "Запрос не сформировался. Проверьте, что вы авторизованы на " + sClient.Endpoint.ListenUri + "\n Ошибка: " + exc.Message;
+                return "Запрос не сформировался. Проверьте актуальность токена. Ошибка: " + exc.Message;
             }
         }
 

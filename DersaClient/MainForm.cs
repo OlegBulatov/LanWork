@@ -20,6 +20,7 @@ namespace DersaClientService
     }
 
     public delegate void displayMethod(string shortStatus, string longStatus);
+    delegate void onWSDisconnected(bool normalDisconnect, string disconnectReason);
     public partial class MainForm : Form
     {
         public bool AutoStart = false;
@@ -276,7 +277,7 @@ namespace DersaClientService
                 laLogin.Text = serviceEnvelope.UserLogin;
                 serviceEnvelope.ServerURL = tbServerURL.Text;
 
-                var L = new WSListener(tbWsUri.Text, serviceEnvelope, OnWSConnected);
+                var L = new WSListener(tbWsUri.Text, serviceEnvelope, OnWSConnected, OnWSDisconnected);
             }
             else
                 MessageBox.Show("нужно заполнить поле токена");
@@ -293,6 +294,20 @@ namespace DersaClientService
             {
                 bnWsConnect.BackColor = System.Drawing.Color.PaleGreen;
                 bnWsConnect.Enabled = false;
+            }
+        }
+
+        private void OnWSDisconnected(bool normalDisconnect, string disconnectReason)
+        {
+            if (bnWsConnect.InvokeRequired)
+            {
+                var d = new onWSDisconnected(OnWSDisconnected);
+                bnWsConnect.Invoke(d ,new object[] { normalDisconnect, disconnectReason });
+            }
+            else
+            {
+                bnWsConnect.BackColor = normalDisconnect? System.Drawing.Color.Bisque : System.Drawing.Color.LightPink; 
+                bnWsConnect.Enabled = true;
             }
         }
 
